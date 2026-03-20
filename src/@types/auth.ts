@@ -32,6 +32,10 @@ export type ForgotPassword = {
     email: string
 }
 
+export type VerifyOtp = {
+    code : number
+}
+
 export type ResetPassword = {
     password: string
 }

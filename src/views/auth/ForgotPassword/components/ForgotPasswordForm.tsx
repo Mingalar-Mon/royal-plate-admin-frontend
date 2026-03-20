@@ -12,6 +12,7 @@ interface ForgotPasswordFormProps extends CommonProps {
     emailSent: boolean
     setEmailSent?: (compplete: boolean) => void
     setMessage?: (message: string) => void
+    setToken?: (token: string) => void
 }
 
 type ForgotPasswordFormSchema = {
@@ -25,7 +26,7 @@ const validationSchema = z.object({
 const ForgotPasswordForm = (props: ForgotPasswordFormProps) => {
     const [isSubmitting, setSubmitting] = useState<boolean>(false)
 
-    const { className, setMessage, setEmailSent, emailSent, children } = props
+    const { className, setMessage, setEmailSent, emailSent, children ,setToken} = props
 
     const {
         handleSubmit,
@@ -39,10 +40,16 @@ const ForgotPasswordForm = (props: ForgotPasswordFormProps) => {
         const { email } = values
 
         try {
-            const resp = await apiForgotPassword<boolean>({ email })
+            const resp : any = await apiForgotPassword({ email })
+            console.log(resp)
+            console.log(resp)
+
+            const token = resp?.data?.[0]?.token
+
             if (resp) {
                 setSubmitting(false)
                 setEmailSent?.(true)
+                setToken?.(token)
             }
         } catch (errors) {
             setMessage?.(
@@ -62,6 +69,7 @@ const ForgotPasswordForm = (props: ForgotPasswordFormProps) => {
                         label="Email"
                         invalid={Boolean(errors.email)}
                         errorMessage={errors.email?.message}
+
                     >
                         <Controller
                             name="email"

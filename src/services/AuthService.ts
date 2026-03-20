@@ -5,6 +5,7 @@ import type {
     SignUpCredential,
     ForgotPassword,
     ResetPassword,
+    VerifyOtp,
     SignInResponse,
     SignUpResponse,
 } from '@/@types/auth'
@@ -37,6 +38,17 @@ export async function apiForgotPassword<T>(data: ForgotPassword) {
         url: endpointConfig.forgotPassword,
         method: 'post',
         data,
+    })
+}
+
+export async function apiVerifyOtp<T>(data: VerifyOtp) {
+    return ApiService.fetchDataWithAxios<T>({
+        url: endpointConfig.verifyOtp,
+        method: 'post',
+        data,
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
     })
 }
 
