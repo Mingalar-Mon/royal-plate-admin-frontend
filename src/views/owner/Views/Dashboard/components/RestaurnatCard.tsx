@@ -1,0 +1,133 @@
+import Card from '@/components/ui/Card'
+import Button from '@/components/ui/Button'
+import {
+    TbEye,
+    TbEdit,
+    TbTrash,
+    TbMapPin,
+    TbCurrencyTaka,
+} from 'react-icons/tb'
+import { useRestaurantStore } from '../../../store/restaurantStore'
+import type { Restaurant } from '../../../ScrumBoard/types'
+import { useNavigate } from 'react-router'
+import { restaurantAPI } from '@/views/owner/api/restaurant'
+import DialogModal from './DialogModel'
+import { useDialogStore } from '@/views/owner/store/dialogStore'
+
+interface RestaurantCardProps {
+    restaurant: Restaurant
+}
+
+const RestaurantCard = ({ restaurant }: RestaurantCardProps) => {
+    const navigate = useNavigate()
+    const { deleteRestaurant } = useRestaurantStore()
+    const openDialog = useDialogStore((state) => state.openDialog)
+
+    // console.log('Restaurant in card: ', restaurant)
+
+    const handleViewDetails = () => {
+        if (restaurant.profile !== null) {
+            return navigate(`/restaurant/profile/${restaurant.profile.id}`, {
+                replace: true,
+            })
+        }
+        console.log('Opening the dialog')
+        openDialog({
+            restaurantName: restaurant.name,
+            restaurantId: restaurant.id,
+        })
+
+        // openDialog('RESTAURANT_DETAILS', restaurant)
+    }
+
+    const handleEdit = () => {
+        // openDialog('EDIT_RESTAURANT', restaurant)
+        console.log('Editing restaurant:', restaurant)
+        return navigate(`/restaurant/update-restaurant/${restaurant.id}`, {
+            replace: true,
+        })
+    }
+
+    const handleDelete = async () => {
+        if (window.confirm(`Delete "${restaurant.name}"?`)) {
+            // Optimistic update
+            deleteRestaurant(restaurant.id)
+
+            // TODO: Call API delete
+            await restaurantAPI.deleteRestaurant(restaurant.id)
+            // console.log('delete response', response)
+        }
+    }
+
+    const mainImage = restaurant.imageUrls?.[0] || '/placeholder-image.jpg'
+    const priceRange = `${restaurant.startingPrice.toLocaleString()} - ${restaurant.endingPrice.toLocaleString()} MMK`
+
+    return (
+        <Card
+            className="hover:shadow-lg transition-shadow duration-200 w-fit cursor-pointer"
+            bodyClass="p-0"
+            // onClick={handleViewDetails}
+        >
+            {/* Image */}
+            <div className="relative h-48 overflow-hidden rounded-t-lg">
+                <img
+                    src={mainImage}
+                    alt={restaurant.name}
+                    className="w-full h-full object-cover"
+                />
+                {/* Price badge */}
+                <div className="absolute bottom-2 right-2 bg-black bg-opacity-70 text-white px-2 py-1 rounded text-sm">
+                    {priceRange}
+                </div>
+            </div>
+
+            {/* Content */}
+            <div className="p-4">
+                <h4 className="font-semibold text-lg mb-2">
+                    {restaurant.name}
+                </h4>
+
+                {/* Address */}
+                <div className="flex items-start gap-2 text-gray-600 mb-3">
+                    <TbMapPin className="mt-0.5 flex-shrink-0" />
+                    <span className="text-sm">{restaurant.address}</span>
+                </div>
+
+                {/* Owner info */}
+                <div className="text-sm text-gray-500 mb-4">
+                    Owner: {restaurant.owner.name}
+                </div>
+
+                {/* Action buttons */}
+                <div className="flex gap-2  overflow-scroll">
+                    <Button
+                        size="sm"
+                        icon={<TbEye />}
+                        onClick={handleViewDetails}
+                    >
+                        View
+                    </Button>
+                    <Button
+                        size="sm"
+                        icon={<TbEdit />}
+                        variant="default"
+                        onClick={handleEdit}
+                    >
+                        Edit
+                    </Button>
+                    <Button
+                        size="sm"
+                        icon={<TbTrash />}
+                        variant="default"
+                        className="text-red-500 hover:text-red-600"
+                        onClick={handleDelete}
+                    >
+                        Delete
+                    </Button>
+                </div>
+            </div>
+        </Card>
+    )
+}
+
+export default RestaurantCard
