@@ -2,7 +2,7 @@ import { useUserTableStore } from '@/store/userStore'
 import { useUserListQuery } from '@/utils/custom-hooks/useUser'
 import Container from '@/components/shared/Container'
 import AdaptiveCard from '@/components/shared/AdaptiveCard'
-import UserListActionTools from './components/USerlistActionTools'
+import UserListActionTools from './components/UserlistActionTools'
 import UserListTableTools from './components/UserListTableTools'
 import UserListTable from './components/UserListTable'
 
