@@ -2,7 +2,8 @@ import { useUserTableStore } from '@/store/userStore'
 import { useUserListQuery } from '@/utils/custom-hooks/useUser'
 import Container from '@/components/shared/Container'
 import AdaptiveCard from '@/components/shared/AdaptiveCard'
-import UserListActionTools from './components/UserlistActionTools'
+// import UserListActionTools from './components/UserListActionTools'
+// import UserListActionTools from '@/views/users/UserList/components/UserListActionTools'
 import UserListTableTools from './components/UserListTableTools'
 import UserListTable from './components/UserListTable'
 
@@ -21,7 +22,7 @@ const UserList = () => {
                 <div className="flex flex-col gap-4">
                     <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-2">
                         <h3>Registered App Users</h3>
-                        <UserListActionTools data={usersList} />
+                        {/* <UserListActionTools data={usersList} /> */}
                     </div>
                     <UserListTableTools />
                     <UserListTable
