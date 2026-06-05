@@ -8,13 +8,13 @@ import { getMessaging, getToken } from 'firebase/messaging'
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-    apiKey: 'AIzaSyAuJT8TNJYyVQo0BFfbhClnn1K_rseAReI',
-    authDomain: 'royal-plate-dev.firebaseapp.com',
-    projectId: 'royal-plate-dev',
-    storageBucket: 'royal-plate-dev.firebasestorage.app',
-    messagingSenderId: '174890249754',
-    appId: '1:174890249754:web:347802bf3876049d20eba3',
-    measurementId: 'G-PE7GLJCSX5',
+    apiKey: import.meta.env.VITE_API_KEY,
+    authDomain: import.meta.env.VITE_AUTH_DOMAIN,
+    projectId: import.meta.env.VITE_PROJECT_ID,
+    storageBucket: import.meta.env.VITE_STORAGE_BUCKET,
+    messagingSenderId: import.meta.env.VITE_MESSAGING_SENDER_ID,
+    appId: import.meta.env.VITE_APP_ID,
+    measurementId: import.meta.env.VITE_MEASUREMENT_ID,
 }
 
 // Initialize Firebase
@@ -27,8 +27,7 @@ export const generateToken = async () => {
     console.log(permission)
     if (permission === 'granted') {
         const token = await getToken(messaging, {
-            vapidKey:
-                'BI4mkIQxxuwfdpeKZwpjev8vy7jRGxD3h35GeFoEeTVeiHsRoCAnCVwMLqiTWqGoTg8Tinjxc3XTax5q9i53eWw',
+            vapidKey: import.meta.env.VITE_VAPID_KEY,
         })
 
         console.log(token)
@@ -42,8 +41,7 @@ export const getDeviceToken = async (): Promise<string | null> => {
         if (permission !== 'granted') return null
 
         const token = await getToken(messaging, {
-            vapidKey:
-                'BI4mkIQxxuwfdpeKZwpjev8vy7jRGxD3h35GeFoEeTVeiHsRoCAnCVwMLqiTWqGoTg8Tinjxc3XTax5q9i53eWw',
+            vapidKey: import.meta.env.VITE_VAPID_KEY,
         })
 
         if (token) {
