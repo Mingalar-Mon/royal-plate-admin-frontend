@@ -1,5 +1,5 @@
 import { useMemo, lazy } from 'react'
-import type { CommonProps } from '@/@types/common'
+import type { CommonProps } from '@/@types/common_type'
 import type { LazyExoticComponent, JSX } from 'react'
 
 type LayoutType = 'simple' | 'split' | 'side'

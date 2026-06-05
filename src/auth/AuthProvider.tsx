@@ -2,7 +2,7 @@ import { useRef, useImperativeHandle, useState } from 'react'
 import AuthContext from './AuthContext'
 import appConfig from '@/configs/app.config'
 import { useSessionUser, useToken } from '@/store/authStore'
-import { apiSignIn, apiSignOut } from '@/services/AuthService'
+import { apiSignIn, apiSignOut, apiSignUp } from '@/services/AuthService'
 import { REDIRECT_URL_KEY } from '@/constants/app.constant'
 import { useNavigate } from 'react-router'
 import type {
@@ -11,9 +11,13 @@ import type {
     OauthSignInCallbackPayload,
     User,
     Token,
+    SignUpCredential,
 } from '@/@types/auth'
 import type { ReactNode, Ref } from 'react'
 import type { NavigateFunction } from 'react-router'
+
+import { STAFF } from '@/constants/roles.constant'
+import { useRestaurantStore } from '@/store/restaurantStore'
 
 type AuthProviderProps = { children: ReactNode }
 
@@ -47,14 +51,47 @@ function AuthProvider({ children }: AuthProviderProps) {
 
     const navigatorRef = useRef<IsolatedNavigatorRef>(null)
 
-    const redirect = () => {
+    // bmk changes
+    const { activeRestaurant } = useRestaurantStore()
+
+    const redirect = (currentUser?: User) => {
         const search = window.location.search
         const params = new URLSearchParams(search)
         const redirectUrl = params.get(REDIRECT_URL_KEY)
 
-        navigatorRef.current?.navigate(
-            redirectUrl ? redirectUrl : appConfig.authenticatedEntryPath,
-        )
+        console.log('Redirect Url: ', redirectUrl)
+
+        if (redirectUrl) {
+            navigatorRef.current?.navigate(redirectUrl)
+            return
+        }
+
+        console.log('user in redirect fn=', user)
+        // Logic for role-based landing pages
+        const activeUser = currentUser || user
+        const role = (activeUser.authority as string[])[0]
+        console.log('ROlE: ', role)
+
+        switch (role) {
+            case 'ADMIN': // can change this to SUPER_ADMIN later
+                navigatorRef.current?.navigate('/owners')
+                break
+            case 'OWNER':
+                navigatorRef.current?.navigate('/owner/dashboard')
+                break
+            case 'STAFF':
+                navigatorRef.current?.navigate(
+                    `/restaurants/${activeRestaurant?.id}/dashboard`,
+                )
+                // navigatorRef.current?.navigate('/staff/dashboard')
+                break
+            default:
+                navigatorRef.current?.navigate(appConfig.authenticatedEntryPath)
+        }
+
+        // navigatorRef.current?.navigate(
+        //     redirectUrl ? redirectUrl : appConfig.authenticatedEntryPath,
+        // )
     }
     const handleSignIn = (tokens: Token, user?: User) => {
         setToken(tokens.accessToken)
@@ -62,9 +99,10 @@ function AuthProvider({ children }: AuthProviderProps) {
         setSessionSignedIn(true)
 
         console.log('TOKEN:', tokens.accessToken)
-        console.log('USER:', user)
+        // console.log('USER:', user)
 
         if (user) {
+            console.log('Setting the user with the following data', user)
             setUser(user)
         }
     }
@@ -75,35 +113,79 @@ function AuthProvider({ children }: AuthProviderProps) {
         setSessionSignedIn(false)
     }
 
-    const signIn = async (values: SignInCredential): AuthResult => {
+    const signIn = async (
+        values: SignInCredential & { role: string },
+    ): AuthResult => {
         try {
-            const resp = await apiSignIn(values)
+            const { role, ...credentials } = values
+            const resp = await apiSignIn(credentials, role)
 
             console.log('resp:', resp)
 
             if (resp?.data) {
-                const { token, admin } = resp.data
+                const { token, user } = resp.data
 
                 // ✅ normalize user
                 const normalizedUser = {
-                    userId: admin.id,
-                    userName: admin.name,
-                    email: admin.email,
+                    userId: user.id,
+                    userName: user.name,
+                    email: user.email,
                     avatar: '', // backend doesn't provide → default
-                    authority: admin.role ? [admin.role.name] : [],
+                    authority: user.role ? [user.role.name] : [],
                 }
 
-                handleSignIn(
-                    { accessToken: token },
-                    normalizedUser
-                )
+                // if (user.role?.name === STAFF && user.restaurant) {
+                //     setActiveRestaurant({
+                //         id: user.restaurant.id,
+                //         name: user.restaurant.name,
+                //     })
+                // }
 
-                redirect()
+                console.log(normalizedUser)
+
+                // ======= One Signal Staffs =======
+                /*
+                if (typeof window !== 'undefined' && window.OneSignal) {
+                    // Wait for the internal SDK state to settle
+                    await window.OneSignal.initialized
+
+                    console.log(
+                        'Syncing External ID to OneSignal:',
+                        normalizedUser.userId,
+                    )
+                    await window.OneSignal.login(normalizedUser.userId)
+                }
+                // await OneSignal.login(normalizedUser.userId)
+                */
+
+                handleSignIn({ accessToken: token }, normalizedUser)
+
+                redirect(normalizedUser)
 
                 return {
                     status: 'success',
                     message: '',
+
+                    ...(user.role &&
+                        user.role.name === STAFF &&
+                        user.restaurant && {
+                            isStaff: {
+                                restaurantId: user.restaurant.id,
+                                restaurantName: user.restaurant.name,
+                            },
+                        }),
                 }
+
+                /*
+                if(user.role?.name === STAFF && user.restaurant) {
+                    response.isStaff = {
+                        restaurantId: user.restaurant.id,
+                        restaurantName: user.restaurant.name
+                    }
+                }
+                    */
+
+                // return response
             }
 
             return {
@@ -120,29 +202,29 @@ function AuthProvider({ children }: AuthProviderProps) {
         }
     }
 
-    // const signUp = async (values: SignUpCredential): AuthResult => {
-    //     try {
-    //         const resp = await apiSignUp(values)
-    //         if (resp) {
-    //             handleSignIn({ accessToken: resp.token }, resp.user)
-    //             redirect()
-    //             return {
-    //                 status: 'success',
-    //                 message: '',
-    //             }
-    //         }
-    //         return {
-    //             status: 'failed',
-    //             message: 'Unable to sign up',
-    //         }
-    //         // eslint-disable-next-line  @typescript-eslint/no-explicit-any
-    //     } catch (errors: any) {
-    //         return {
-    //             status: 'failed',
-    //             message: errors?.response?.data?.message || errors.toString(),
-    //         }
-    //     }
-    // }
+    const signUp = async (values: SignUpCredential): AuthResult => {
+        try {
+            const resp = await apiSignUp(values)
+            if (resp) {
+                handleSignIn({ accessToken: resp.data.token }, resp.data.user)
+                redirect()
+                return {
+                    status: 'success',
+                    message: '',
+                }
+            }
+            return {
+                status: 'failed',
+                message: 'Unable to sign up',
+            }
+            // eslint-disable-next-line  @typescript-eslint/no-explicit-any
+        } catch (errors: any) {
+            return {
+                status: 'failed',
+                message: errors?.response?.data?.message || errors.toString(),
+            }
+        }
+    }
 
     const signOut = async () => {
         try {
@@ -167,6 +249,7 @@ function AuthProvider({ children }: AuthProviderProps) {
                 authenticated,
                 user,
                 signIn,
+                signUp,
                 signOut,
                 oAuthSignIn,
             }}

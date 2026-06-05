@@ -1,7 +1,7 @@
-import { useEffect } from 'react'
-import { Form } from '@/components/ui/Form'
+import React, { useEffect, useState } from 'react'
+import { Form, FormItem } from '@/components/ui/Form'
 import Container from '@/components/shared/Container'
-import { useForm } from 'react-hook-form'
+import { Controller, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import isEmpty from 'lodash/isEmpty'
 import BasicInfoSection from './BasicInfoSection'
@@ -10,9 +10,16 @@ import LocationSection from './LocationSection'
 import ImageSection from './ImageSection'
 import StaffSection from './StaffSection'
 import {
+    RestaurantFormInput,
+    RestaurantFormOutput,
     restaurantValidationSchema,
     type RestaurantFormSchema,
 } from '../types/restaurantForm.types'
+import { Card } from '@/components/ui'
+import CropModal from '@/components/shared/ImageCrop/CropModel'
+import { removeItem } from 'framer-motion'
+import { remove } from 'lodash'
+import { TbTrash } from 'react-icons/tb'
 
 interface RestaurantFormProps {
     onFormSubmit: (values: RestaurantFormSchema) => void
@@ -25,31 +32,70 @@ interface RestaurantFormProps {
 const RestaurantForm = (props: RestaurantFormProps) => {
     const {
         onFormSubmit,
-        defaultValues = { imageUrls: [], staffIds: [] },
+        defaultValues,
         children,
         isNew = false,
         useMockStaff = true,
     } = props
 
+    type RestaurantFormValues = {
+        name: string
+        address: string
+        startingPrice: number | string
+        endingPrice: number | string
+        images: (File | { key: string; url: string })[]
+        staffIds: string[] // Strict type
+        latitude?: number | null | string
+        longitude?: number | null | string
+    }
+
+    // console.log('Default values: ', defaultValues)
+
     const {
         handleSubmit,
         reset,
-        formState: { errors, isSubmitting },
+        formState: { errors },
         control,
-    } = useForm<RestaurantFormSchema>({
-        defaultValues: defaultValues,
+        getValues,
+        setValue,
+    } = useForm<RestaurantFormInput, any, RestaurantFormOutput>({
+        defaultValues: defaultValues || {
+            name: '',
+            address: '',
+            startingPrice: 0,
+            endingPrice: 0,
+            images: [],
+            staffIds: [],
+            deletedImageKeys: [],
+        },
         resolver: zodResolver(restaurantValidationSchema),
     })
 
     // Reset form when defaultValues changes
+    // const dependencyArray = [JSON.stringify(defaultValues)]
     useEffect(() => {
-        if (!isEmpty(defaultValues)) {
-            reset(defaultValues)
-        }
-    }, [JSON.stringify(defaultValues), reset])
+        if (defaultValues && isNew === false) reset(defaultValues)
+        // if (!isEmpty(defaultValues)) {
+        //     reset(defaultValues)
+        // }
+    }, [isNew, reset, defaultValues])
 
     const onSubmit = (values: RestaurantFormSchema) => {
         onFormSubmit(values)
+    }
+
+    // image preview helper for the ImageSection component
+    const [detailQueue, setDetailQueue] = useState<
+        { file: File; src: string }[]
+    >([])
+
+    const getImagePreview = (
+        value: File | { key: string; url: string } | string,
+    ) => {
+        if (!value) return ''
+        if (value instanceof File) return URL.createObjectURL(value)
+        if (typeof value === 'string') return value
+        return value.url // since it's an object with key and url
     }
 
     return (
@@ -78,13 +124,288 @@ const RestaurantForm = (props: RestaurantFormProps) => {
                     </div>
 
                     {/* Right Column */}
-                    <div className="lg:w-[440px] flex flex-col gap-6">
-                        <ImageSection control={control} errors={errors} />
-                        <StaffSection
+                    <div className="lg:w-110 flex flex-col gap-6">
+                        <Card>
+                            <h4 className="mb-4">Logo Image</h4>
+                            <Controller
+                                name="logoImage"
+                                control={control}
+                                render={({ field, fieldState: { error } }) => {
+                                    const [modalState, setModalState] =
+                                        useState<{
+                                            isOpen: boolean
+                                            src: string | null
+                                        }>({
+                                            isOpen: false,
+                                            src: null,
+                                        })
+                                    const previewUrl = getImagePreview(
+                                        field.value || '',
+                                    )
+                                    const handleFileSelect = (
+                                        e: React.ChangeEvent<HTMLInputElement>,
+                                    ) => {
+                                        const file = e.target.files?.[0]
+                                        if (file) {
+                                            const reader = new FileReader()
+                                            reader.addEventListener(
+                                                'load',
+                                                () =>
+                                                    setModalState({
+                                                        isOpen: true,
+                                                        src: reader.result as
+                                                            | string
+                                                            | null,
+                                                    }),
+                                            )
+                                            reader.readAsDataURL(file)
+                                        }
+                                    }
+
+                                    return (
+                                        <FormItem
+                                            label="Logo Image Url"
+                                            invalid={!!errors.logoImage}
+                                            errorMessage={
+                                                errors.logoImage?.message
+                                            }
+                                        >
+                                            <div
+                                                className="border-2 border-dashed p-4 rounded-lg text-center cursor-pointer"
+                                                onClick={() =>
+                                                    document
+                                                        .getElementById(
+                                                            'logoInput',
+                                                        )
+                                                        ?.click()
+                                                }
+                                            >
+                                                <input
+                                                    id="logoInput"
+                                                    type="file"
+                                                    className="hidden"
+                                                    onChange={handleFileSelect}
+                                                />
+                                                {previewUrl ? (
+                                                    <img
+                                                        src={previewUrl}
+                                                        alt="logo image"
+                                                        className="h-40 w-full object-cover md:object-contain rounded"
+                                                    />
+                                                ) : (
+                                                    <p>
+                                                        Click to upload logo
+                                                        image
+                                                    </p>
+                                                )}
+                                            </div>
+                                            {error && (
+                                                <p className="text-red-500 text-xs mt-1">
+                                                    {error.message}
+                                                </p>
+                                            )}
+
+                                            <CropModal
+                                                isOpen={modalState.isOpen}
+                                                imageSrc={modalState.src || ''}
+                                                aspect={1 / 1}
+                                                onClose={() =>
+                                                    setModalState({
+                                                        isOpen: false,
+                                                        src: null,
+                                                    })
+                                                }
+                                                onCropComplete={(
+                                                    croppedFile: File,
+                                                ) => {
+                                                    if (
+                                                        field.value instanceof
+                                                        File
+                                                    ) {
+                                                        URL.revokeObjectURL(
+                                                            previewUrl,
+                                                        )
+                                                    }
+                                                    field.onChange(croppedFile)
+                                                }}
+                                            />
+                                        </FormItem>
+                                    )
+                                }}
+                            />
+                        </Card>
+
+                        <Card>
+                            <h4 className="mb-4">Restaurant Images (Max 5)</h4>
+                            <Controller
+                                name="images"
+                                control={control}
+                                render={({ field }) => {
+                                    const currentImages = field.value || []
+
+                                    const activeQueueItem =
+                                        detailQueue[0] || null
+
+                                    const handleFileChange = (
+                                        e: React.ChangeEvent<HTMLInputElement>,
+                                    ) => {
+                                        const selectedFiles: File[] =
+                                            Array.from(e.target.files || [])
+
+                                        if (selectedFiles.length === 0) return
+
+                                        const incomingQueue: {
+                                            file: File
+                                            src: string
+                                        }[] = []
+                                        let loadedCount = 0
+
+                                        selectedFiles.forEach((file: File) => {
+                                            const reader = new FileReader()
+                                            reader.addEventListener(
+                                                'load',
+                                                () => {
+                                                    incomingQueue.push({
+                                                        file,
+                                                        src: reader.result as string,
+                                                    })
+                                                    loadedCount++
+
+                                                    if (
+                                                        loadedCount ===
+                                                        selectedFiles.length
+                                                    ) {
+                                                        setDetailQueue(
+                                                            (prev) => [
+                                                                ...prev,
+                                                                ...incomingQueue,
+                                                            ],
+                                                        )
+                                                    }
+                                                },
+                                            )
+                                            reader.readAsDataURL(file)
+                                        })
+                                        // clear native input event target history path to allow re-uploading the same file twice
+                                        e.target.value = ''
+                                    }
+
+                                    // {
+                                    //     /*
+
+                                    const handleRemoveImage = (
+                                        indexToRemove: number,
+                                    ) => {
+                                        const removedItem =
+                                            currentImages[indexToRemove]
+                                        const nextImages = currentImages.filter(
+                                            (_, idx) => idx !== indexToRemove,
+                                        )
+                                        field.onChange(nextImages)
+
+                                        if (removedItem instanceof File) {
+                                            URL.revokeObjectURL(
+                                                getImagePreview(removedItem),
+                                            )
+                                        }
+
+                                        if (
+                                            !(removeItem instanceof File) &&
+                                            'key' in removedItem &&
+                                            removedItem.key
+                                        ) {
+                                            const currentDeleted =
+                                                getValues('deletedImageKeys') ||
+                                                []
+                                            setValue('deletedImageKeys', [
+                                                ...currentDeleted,
+                                                removedItem.key,
+                                            ])
+                                        }
+                                    }
+                                    //       */
+                                    // }
+
+                                    const handleCropComplete = (
+                                        croppedFile: File,
+                                    ) => {
+                                        const updatedImages = [
+                                            ...currentImages,
+                                            croppedFile,
+                                        ].slice(0, 5)
+                                        field.onChange(updatedImages)
+
+                                        setDetailQueue((prev) => prev.slice(1))
+                                    }
+
+                                    return (
+                                        <FormItem>
+                                            <input
+                                                multiple
+                                                type="file"
+                                                onChange={handleFileChange}
+                                            />
+                                            <div className="grid grid-cols-3 gap-2 mt-2">
+                                                {currentImages.map((img, i) => {
+                                                    const previewUrl =
+                                                        getImagePreview(img)
+
+                                                    return (
+                                                        <div
+                                                            key={i}
+                                                            className="relative group"
+                                                        >
+                                                            <img
+                                                                src={previewUrl}
+                                                                className="h-20 w-full object-cover rounded"
+                                                            />
+                                                            <button
+                                                                type="button"
+                                                                className="absolute top-1 right-1 bg-red-500 text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity"
+                                                                onClick={() =>
+                                                                    handleRemoveImage(
+                                                                        i,
+                                                                    )
+                                                                }
+                                                            >
+                                                                <TbTrash
+                                                                    size={14}
+                                                                />
+                                                            </button>
+                                                        </div>
+                                                    )
+                                                })}
+                                            </div>
+                                            <CropModal
+                                                isOpen={!!activeQueueItem}
+                                                imageSrc={activeQueueItem?.src}
+                                                aspect={1 / 1}
+                                                onClose={() =>
+                                                    setDetailQueue((prev) =>
+                                                        prev.slice(1),
+                                                    )
+                                                }
+                                                onCropComplete={
+                                                    handleCropComplete
+                                                }
+                                            />
+                                        </FormItem>
+                                    )
+                                }}
+                            />
+                        </Card>
+                        {/* <ImageSection
+                            control={control}
+                            errors={errors}
+                            hideSearch={true}
+                            getValues={getValues}
+                            setValue={setValue}
+                        /> */}
+                        {/* <StaffSection
                             control={control}
                             errors={errors}
                             useMockData={useMockStaff}
-                        />
+                        /> */}
                     </div>
                 </div>
             </Container>

@@ -9,20 +9,36 @@ import type {
     SignInResponse,
     SignUpResponse,
 } from '@/@types/auth'
+import {
+    PASSWORD,
+    TOKEN_NAME_IN_STORAGE,
+    USER_NAME,
+} from '@/constants/api.constant'
 
-export async function apiSignIn(data: SignInCredential) {
+export async function apiSignIn(data: SignInCredential, role: string) {
+    let url = `/${role}${endpointConfig.signIn}`
+    switch (role) {
+        case 'staff':
+            url = 'restaurant/staff/login'
+    }
+
     return ApiService.fetchDataWithAxios<SignInResponse>({
-        url: endpointConfig.signIn,
+        url: url,
         method: 'post',
+        auth: {
+            username: USER_NAME,
+            password: PASSWORD,
+        },
         data,
     })
 }
 
 export async function apiSignUp(data: SignUpCredential) {
+    const { role, ...credentialData } = data
     return ApiService.fetchDataWithAxios<SignUpResponse>({
-        url: endpointConfig.signUp,
+        url: `/${role}${endpointConfig.signUp}`,
         method: 'post',
-        data,
+        data: credentialData,
     })
 }
 
@@ -42,6 +58,7 @@ export async function apiForgotPassword<T>(data: ForgotPassword) {
 }
 
 export async function apiVerifyOtp<T>(data: VerifyOtp) {
+    const token = localStorage.getItem(TOKEN_NAME_IN_STORAGE) || ''
     return ApiService.fetchDataWithAxios<T>({
         url: endpointConfig.verifyOtp,
         method: 'post',

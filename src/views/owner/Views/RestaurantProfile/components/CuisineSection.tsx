@@ -18,7 +18,7 @@ interface CuisineSectionProps {
 const CuisineSection = ({
     control,
     errors,
-    cuisines = MOCK_CUISINES,
+    cuisines = [],
 }: CuisineSectionProps) => {
     return (
         <Card>

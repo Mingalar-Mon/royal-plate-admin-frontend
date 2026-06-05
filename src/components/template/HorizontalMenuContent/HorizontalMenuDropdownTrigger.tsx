@@ -1,6 +1,6 @@
 import classNames from '@/utils/classNames'
 import HorizontalMenuNavLink from './HorizontalMenuNavLink'
-import type { CommonProps } from '@/@types/common'
+import type { CommonProps } from '@/@types/common_type'
 import type { HorizontalMenuNavLinkProps } from './HorizontalMenuNavLink'
 import type { ButtonHTMLAttributes, Ref } from 'react'
 

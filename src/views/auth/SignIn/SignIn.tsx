@@ -12,6 +12,7 @@ type SignInProps = {
 }
 
 export const SignInBase = ({
+    signUpUrl = '/sign-up',
     forgetPasswordUrl = '/forgot-password',
     disableSubmit,
 }: SignInProps) => {
@@ -55,7 +56,18 @@ export const SignInBase = ({
                     </div>
                 }
             />
-
+            <div>
+                <div className="mt-6 text-center">
+                    <span>{`Don't have an account yet?`} </span>
+                    <ActionLink
+                        to={signUpUrl}
+                        className="heading-text font-bold"
+                        themeColor={false}
+                    >
+                        Sign up
+                    </ActionLink>
+                </div>
+            </div>
         </>
     )
 }

@@ -1,6 +1,6 @@
 import { cloneElement } from 'react'
 import type { ReactNode } from 'react'
-import type { CommonProps } from '@/@types/common'
+import type { CommonProps } from '@/@types/common_type'
 
 interface SplitProps extends CommonProps {
     content?: ReactNode

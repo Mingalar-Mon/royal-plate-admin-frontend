@@ -6,7 +6,7 @@ import { apiForgotPassword } from '@/services/AuthService'
 import { useForm, Controller } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
-import type { CommonProps } from '@/@types/common'
+import type { CommonProps } from '@/@types/common_type'
 
 interface ForgotPasswordFormProps extends CommonProps {
     emailSent: boolean
@@ -26,7 +26,14 @@ const validationSchema = z.object({
 const ForgotPasswordForm = (props: ForgotPasswordFormProps) => {
     const [isSubmitting, setSubmitting] = useState<boolean>(false)
 
-    const { className, setMessage, setEmailSent, emailSent, children ,setToken} = props
+    const {
+        className,
+        setMessage,
+        setEmailSent,
+        emailSent,
+        children,
+        setToken,
+    } = props
 
     const {
         handleSubmit,
@@ -40,7 +47,7 @@ const ForgotPasswordForm = (props: ForgotPasswordFormProps) => {
         const { email } = values
 
         try {
-            const resp : any = await apiForgotPassword({ email })
+            const resp: any = await apiForgotPassword({ email })
             console.log(resp)
             console.log(resp)
 
@@ -69,7 +76,6 @@ const ForgotPasswordForm = (props: ForgotPasswordFormProps) => {
                         label="Email"
                         invalid={Boolean(errors.email)}
                         errorMessage={errors.email?.message}
-
                     >
                         <Controller
                             name="email"

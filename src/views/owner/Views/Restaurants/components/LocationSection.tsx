@@ -6,7 +6,10 @@ import { Controller } from 'react-hook-form'
 import { TbMapPin, TbCurrentLocation } from 'react-icons/tb'
 import Button from '@/components/ui/Button'
 import type { Control, FieldErrors } from 'react-hook-form'
-import type { RestaurantFormSchema } from '../types/restaurantForm.types'
+import type {
+    RestaurantFormInput,
+    RestaurantFormSchema,
+} from '../types/restaurantForm.types'
 
 // Dynamically import Leaflet to avoid SSR issues
 import { MapContainer, TileLayer, Marker, useMapEvents } from 'react-leaflet'
@@ -25,8 +28,8 @@ L.Icon.Default.mergeOptions({
 })
 
 interface LocationSectionProps {
-    control: Control<RestaurantFormSchema>
-    errors: FieldErrors<RestaurantFormSchema>
+    control: Control<RestaurantFormInput>
+    errors: FieldErrors<RestaurantFormInput>
     isNew?: boolean
 }
 

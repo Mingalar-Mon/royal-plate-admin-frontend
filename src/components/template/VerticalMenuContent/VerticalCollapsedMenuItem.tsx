@@ -5,6 +5,10 @@ import AuthorityCheck from '@/components/shared/AuthorityCheck'
 import type { CommonProps, TraslationFn } from '@/@types/common'
 import type { Direction } from '@/@types/theme'
 import type { NavigationTree } from '@/@types/navigation'
+import { useRestaurantStore } from '@/store/restaurantStore'
+import { useParams } from 'react-router'
+import { useMemo } from 'react'
+import navigationConfig from '@/configs/navigation.config'
 
 interface DefaultItemProps extends CommonProps {
     nav: NavigationTree
@@ -12,6 +16,7 @@ interface DefaultItemProps extends CommonProps {
     t: TraslationFn
     indent?: boolean
     dotIndent?: boolean
+    children?: React.ReactNode
     userAuthority: string[]
 }
 
@@ -20,6 +25,7 @@ interface CollapsedItemProps extends DefaultItemProps {
     renderAsIcon?: boolean
     currentKey?: string
     parentKeys?: string[]
+    children?: React.ReactNode
 }
 
 interface VerticalCollapsedMenuItemProps extends CollapsedItemProps {
@@ -36,6 +42,21 @@ const DefaultItem = ({
     userAuthority,
     t,
 }: DefaultItemProps) => {
+    // 1. Get the current selection context
+    const activeRestaurantId = useRestaurantStore(
+        (state) => state.activeRestaurant?.id,
+    )
+
+    const { restaurantId } = useParams()
+
+    const currentId = activeRestaurantId || restaurantId
+
+    // 2. Build the live dynamic navigation tree
+    const dynamicNavigationTree = useMemo(() => {
+        if (!currentId) {
+            return navigationConfig.filter((node) => node.key === 'dashboard')
+        }
+    }, [currentId])
     return (
         <AuthorityCheck userAuthority={userAuthority} authority={nav.authority}>
             <MenuCollapse
@@ -50,6 +71,7 @@ const DefaultItem = ({
                 expanded={false}
                 dotIndent={dotIndent}
                 indent={indent}
+                // className="bg-amber-300"
             >
                 {children}
             </MenuCollapse>

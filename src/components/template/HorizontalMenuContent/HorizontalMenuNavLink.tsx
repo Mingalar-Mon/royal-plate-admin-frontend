@@ -1,6 +1,6 @@
 import { Link } from 'react-router'
 import classNames from 'classnames'
-import type { CommonProps } from '@/@types/common'
+import type { CommonProps } from '@/@types/common_type'
 import type { AnchorHTMLAttributes } from 'react'
 
 export interface HorizontalMenuNavLinkProps

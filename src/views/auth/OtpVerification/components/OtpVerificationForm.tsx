@@ -5,7 +5,7 @@ import OtpInput from '@/components/shared/OtpInput'
 import { useForm, Controller } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
-import type { CommonProps } from '@/@types/common'
+import type { CommonProps } from '@/@types/common_type'
 import { apiVerifyOtp } from '@/services/AuthService'
 
 interface OtpVerificationFormProps extends CommonProps {
@@ -26,7 +26,7 @@ const validationSchema = z.object({
 const OtpVerificationForm = (props: OtpVerificationFormProps) => {
     const [isSubmitting, setSubmitting] = useState<boolean>(false)
 
-    const { className, setMessage, setOtpVerified ,token } = props
+    const { className, setMessage, setOtpVerified, token } = props
 
     const {
         handleSubmit,
@@ -41,17 +41,18 @@ const OtpVerificationForm = (props: OtpVerificationFormProps) => {
         setSubmitting(true)
 
         try {
-            const resp = await apiVerifyOtp<boolean>({
-                otp: Number(otp),
-            },token)
+            const resp = await apiVerifyOtp<boolean>(
+                {
+                    otp: Number(otp),
+                },
+                token,
+            )
 
             if (resp) {
                 setOtpVerified?.('OTP verified!')
             }
         } catch (errors) {
-            setMessage?.(
-                typeof errors === 'string' ? errors : 'Invalid OTP!'
-            )
+            setMessage?.(typeof errors === 'string' ? errors : 'Invalid OTP!')
         }
 
         setSubmitting(false)

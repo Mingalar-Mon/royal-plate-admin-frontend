@@ -9,6 +9,19 @@ import type { InternalAxiosRequestConfig } from 'axios'
 const AxiosRequestIntrceptorConfigCallback = (
     config: InternalAxiosRequestConfig,
 ) => {
+    // 1. Check if this specific request is asking for Basic Auth
+    // We use config.auth because Axios looks for this object to create Basic headers
+    if (config.auth) {
+        // If 'auth' is present, we skip adding the JWT header
+        // to avoid sending two different Authorization headers.
+        return config
+    }
+
+    // ADD THIS: Detect FormData and let the browser handle the header
+    if (config.data instanceof FormData) {
+        // Remove Content-Type so Axios/Browser doesn't force it to JSON
+        delete config.headers['Content-Type']
+    }
     const storage = appConfig.accessTokenPersistStrategy
 
     if (storage === 'localStorage' || storage === 'sessionStorage') {

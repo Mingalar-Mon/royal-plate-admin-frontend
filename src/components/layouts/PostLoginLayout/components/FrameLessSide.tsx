@@ -9,7 +9,7 @@ import classNames from '@/utils/classNames'
 import useScrollTop from '@/utils/hooks/useScrollTop'
 import useResponsive from '@/utils/hooks/useResponsive'
 import { LAYOUT_FRAMELESS_SIDE } from '@/constants/theme.constant'
-import type { CommonProps } from '@/@types/common'
+import type { CommonProps } from '@/@types/common_type'
 import type { FooterPageContainerType } from '@/components/template/Footer'
 
 const FrameLessSide = ({ children }: CommonProps) => {

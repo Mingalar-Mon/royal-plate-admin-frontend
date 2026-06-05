@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import {
     SPLITTED_SIDE_NAV_MINI_WIDTH,
     STACKED_SIDE_NAV_SECONDARY_WIDTH,
@@ -16,6 +16,9 @@ import appConfig from '@/configs/app.config'
 import isEmpty from 'lodash/isEmpty'
 import useTranslation from '@/utils/hooks/useTranslation'
 import type { TraslationFn } from '@/@types/common'
+import { useRestaurantStore } from '@/store/restaurantStore'
+import { useParams } from 'react-router'
+import cloneDeep from 'lodash/cloneDeep'
 
 const stackedSideNavDefaultStyle = {
     width: SPLITTED_SIDE_NAV_MINI_WIDTH,
@@ -39,6 +42,39 @@ const StackedSideNav = ({
     const userAuthority = useSessionUser((state) => state.user.authority)
 
     const { larger } = useResponsive()
+
+    // 1. Get the current selection context
+    const activeRestaurantId = useRestaurantStore(
+        (state) => state.activeRestaurant?.id,
+    )
+    const { restaurantId } = useParams()
+
+    const currentId = activeRestaurantId || restaurantId
+
+    // 2. Build dynamic navigation tree
+    const dynamicNavigationTree = useMemo(() => {
+        if (!currentId) {
+            return navigationConfig.filter((node) => node.key === 'dashboard')
+        }
+
+        const treeCopy = cloneDeep(navigationConfig)
+
+        const substituteTokens = (nodes: any[]) => {
+            nodes.forEach((node) => {
+                if (node.path && node.path.includes(':restaurantId')) {
+                    node.path = node.path.replace(':restaurantId', currentId)
+                }
+
+                if (node.subMenu && node.subMenu.length > 0) {
+                    substituteTokens(node.subMenu)
+                }
+            })
+        }
+
+        substituteTokens(treeCopy)
+
+        return treeCopy
+    }, [currentId])
 
     const navColor = (navType: string, mode: string) => {
         return `${navType}-${mode}`
@@ -76,7 +112,7 @@ const StackedSideNav = ({
             {larger.md && (
                 <div className={`stacked-side-nav`}>
                     <StackedSideNavMini
-                        className={`stacked-side-nav-mini ${navColor(
+                        className={`stacked-side-nav-mini  ${navColor(
                             'stacked-side-nav-mini',
                             mode,
                         )}`}
@@ -85,7 +121,8 @@ const StackedSideNav = ({
                         activeKeys={activeKeys}
                         mode={mode}
                         direction={direction}
-                        navigationTree={navigationConfig}
+                        // navigationTree={navigationConfig}
+                        navigationTree={dynamicNavigationTree}
                         userAuthority={userAuthority || []}
                         selectedMenu={selectedMenu}
                         t={t as TraslationFn}
@@ -110,7 +147,8 @@ const StackedSideNav = ({
                                     selectedMenu.translateKey as string,
                                     selectedMenu.title as string,
                                 )}
-                                menu={selectedMenu.menu}
+                                // menu={selectedMenu.menu}
+                                menu={dynamicNavigationTree}
                                 routeKey={currentRouteKey}
                                 direction={direction}
                                 translationSetup={translationSetup}

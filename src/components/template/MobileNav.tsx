@@ -1,4 +1,4 @@
-import { useState, Suspense, lazy } from 'react'
+import { useState, Suspense, lazy, useMemo } from 'react'
 import classNames from 'classnames'
 import Drawer from '@/components/ui/Drawer'
 import NavToggle from '@/components/shared/NavToggle'
@@ -9,6 +9,10 @@ import appConfig from '@/configs/app.config'
 import { useThemeStore } from '@/store/themeStore'
 import { useRouteKeyStore } from '@/store/routeKeyStore'
 import { useSessionUser } from '@/store/authStore'
+import { useRestaurantStore } from '@/store/restaurantStore'
+import { useParams } from 'react-router'
+import cloneDeep from 'lodash/cloneDeep'
+import { ADMIN } from '@/constants/roles.constant'
 
 const VerticalMenuContent = lazy(
     () => import('@/components/template/VerticalMenuContent'),
@@ -44,6 +48,47 @@ const MobileNav = ({
 
     const userAuthority = useSessionUser((state) => state.user.authority)
 
+    // 1. GET THE CURRENT SELECTION CONTEXT
+    const activeRestaurantId = useRestaurantStore(
+        (state) => state.activeRestaurant?.id,
+    )
+
+    // console.log('active id: ', activeRestaurantId)
+
+    const { restaurantId, orderId, reservationId, dishId } = useParams()
+    const currentId = activeRestaurantId || restaurantId
+    console.log('Current id: ', currentId)
+    const otherIds = orderId || reservationId || dishId
+    // console.log('useParams: ', useParams())
+    // console.log('Other id: ', otherIds)
+
+    // 2. Build the live dynamic navigation tree
+    const dynamicNavigationTree = useMemo(() => {
+        if (!currentId && !otherIds) {
+            return navigationConfig.filter((node) => node.key === 'dashboard')
+        }
+
+        // Deep clone the static source so configuration reference properties remain immutable
+        const treeCopy = cloneDeep(navigationConfig)
+
+        // Recursion helper block to walk down subMenu nodes and replace tokens
+        const substituteTokens = (nodes: any[]) => {
+            nodes.forEach((node) => {
+                if (node.path && node.path.includes(':restaurantId')) {
+                    node.path = node.path.replace(':restaurantId', currentId)
+                }
+
+                if (node.subMenu && node.subMenu.length > 0) {
+                    substituteTokens(node.subMenu)
+                }
+            })
+        }
+
+        substituteTokens(treeCopy)
+
+        return treeCopy
+    }, [currentId])
+
     return (
         <>
             <div className="text-2xl" onClick={handleOpenDrawer}>
@@ -62,7 +107,11 @@ const MobileNav = ({
                     {isOpen && (
                         <VerticalMenuContent
                             collapsed={false}
-                            navigationTree={navigationConfig}
+                            navigationTree={
+                                userAuthority && userAuthority[0] === ADMIN
+                                    ? navigationConfig
+                                    : dynamicNavigationTree
+                            }
                             routeKey={currentRouteKey}
                             userAuthority={userAuthority as string[]}
                             direction={direction}

@@ -1,4 +1,4 @@
-import { CommonProps } from '@/@types/common'
+import { CommonProps } from '@/@types/common_type'
 import LayoutBase from '@/components//template/LayoutBase'
 import { LAYOUT_BLANK } from '@/constants/theme.constant'
 

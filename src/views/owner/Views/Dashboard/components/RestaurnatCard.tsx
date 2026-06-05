@@ -1,18 +1,12 @@
 import Card from '@/components/ui/Card'
 import Button from '@/components/ui/Button'
-import {
-    TbEye,
-    TbEdit,
-    TbTrash,
-    TbMapPin,
-    TbCurrencyTaka,
-} from 'react-icons/tb'
-import { useRestaurantStore } from '../../../store/restaurantStore'
-import type { Restaurant } from '../../../ScrumBoard/types'
+import { TbEye, TbEdit, TbTrash, TbMapPin } from 'react-icons/tb'
+// import { useRestaurantStore } from '../../../store/restaurantStore'
+
 import { useNavigate } from 'react-router'
-import { restaurantAPI } from '@/views/owner/api/restaurant'
-import DialogModal from './DialogModel'
-import { useDialogStore } from '@/views/owner/store/dialogStore'
+
+import { useRestaurantStore } from '@/store/restaurantStore'
+import { Restaurant } from '@/@types/restaurant'
 
 interface RestaurantCardProps {
     restaurant: Restaurant
@@ -20,46 +14,50 @@ interface RestaurantCardProps {
 
 const RestaurantCard = ({ restaurant }: RestaurantCardProps) => {
     const navigate = useNavigate()
-    const { deleteRestaurant } = useRestaurantStore()
-    const openDialog = useDialogStore((state) => state.openDialog)
+    // const { deleteRestaurant } = useRestaurantStore()
+    const { openProfileDialog } = useRestaurantStore()
+    // const openDialog = useDialogStore((state) => state.openDialog)
 
     // console.log('Restaurant in card: ', restaurant)
 
-    const handleViewDetails = () => {
+    const handleViewDetails = (e: React.MouseEvent) => {
+        e.stopPropagation() // Prevent triggering card-level clicks if you add them later
         if (restaurant.profile !== null) {
-            return navigate(`/restaurant/profile/${restaurant.profile.id}`, {
-                replace: true,
+            return navigate(
+                `/restaurant/restaurant-profile/${restaurant.profile.id}`,
+            )
+        } else {
+            console.log('Opening the dialog')
+            openProfileDialog('CREATE_PROFILE', {
+                id: restaurant.id,
+                name: restaurant.name,
             })
         }
-        console.log('Opening the dialog')
-        openDialog({
-            restaurantName: restaurant.name,
-            restaurantId: restaurant.id,
-        })
-
-        // openDialog('RESTAURANT_DETAILS', restaurant)
     }
 
-    const handleEdit = () => {
+    const handleEdit = (e: React.MouseEvent) => {
+        e.stopPropagation()
         // openDialog('EDIT_RESTAURANT', restaurant)
         console.log('Editing restaurant:', restaurant)
-        return navigate(`/restaurant/update-restaurant/${restaurant.id}`, {
-            replace: true,
-        })
+        return navigate(`/restaurant/update-restaurant/${restaurant.id}`)
     }
 
     const handleDelete = async () => {
-        if (window.confirm(`Delete "${restaurant.name}"?`)) {
-            // Optimistic update
-            deleteRestaurant(restaurant.id)
+        /**
+         * ====================================
+         * Ask this with a standard dialog box
+         * ====================================
+         */
 
-            // TODO: Call API delete
-            await restaurantAPI.deleteRestaurant(restaurant.id)
-            // console.log('delete response', response)
-        }
+        openProfileDialog('DELETE_CONFIRM', {
+            id: restaurant.id,
+            name: restaurant.name,
+        })
+        // TODO: add soft delete
     }
 
-    const mainImage = restaurant.imageUrls?.[0] || '/placeholder-image.jpg'
+    const mainImage = restaurant.images[0] || '/placeholder-image.jpg'
+
     const priceRange = `${restaurant.startingPrice.toLocaleString()} - ${restaurant.endingPrice.toLocaleString()} MMK`
 
     return (
@@ -71,7 +69,7 @@ const RestaurantCard = ({ restaurant }: RestaurantCardProps) => {
             {/* Image */}
             <div className="relative h-48 overflow-hidden rounded-t-lg">
                 <img
-                    src={mainImage}
+                    src={mainImage.url}
                     alt={restaurant.name}
                     className="w-full h-full object-cover"
                 />
@@ -89,7 +87,7 @@ const RestaurantCard = ({ restaurant }: RestaurantCardProps) => {
 
                 {/* Address */}
                 <div className="flex items-start gap-2 text-gray-600 mb-3">
-                    <TbMapPin className="mt-0.5 flex-shrink-0" />
+                    <TbMapPin className="mt-0.5 shrink-0" />
                     <span className="text-sm">{restaurant.address}</span>
                 </div>
 
@@ -101,6 +99,7 @@ const RestaurantCard = ({ restaurant }: RestaurantCardProps) => {
                 {/* Action buttons */}
                 <div className="flex gap-2  overflow-scroll">
                     <Button
+                        variant="solid"
                         size="sm"
                         icon={<TbEye />}
                         onClick={handleViewDetails}
@@ -110,7 +109,8 @@ const RestaurantCard = ({ restaurant }: RestaurantCardProps) => {
                     <Button
                         size="sm"
                         icon={<TbEdit />}
-                        variant="default"
+                        // variant="plain"
+                        className=" hover:ring-0"
                         onClick={handleEdit}
                     >
                         Edit
@@ -118,8 +118,8 @@ const RestaurantCard = ({ restaurant }: RestaurantCardProps) => {
                     <Button
                         size="sm"
                         icon={<TbTrash />}
-                        variant="default"
-                        className="text-red-500 hover:text-red-600"
+                        variant="plain"
+                        className="text-red-500 hover:text-red-600 border"
                         onClick={handleDelete}
                     >
                         Delete

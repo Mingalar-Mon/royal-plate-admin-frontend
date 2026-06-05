@@ -1,14 +1,14 @@
 import RestaurantCard from './RestaurnatCard'
-import type { Restaurant } from '../../../ScrumBoard/types'
-import { useRestaurantStore } from '@/views/owner/store/restaurantStore'
-import DialogModal from './DialogModel'
+
+import { Restaurant } from '@/@types/restaurant'
 
 interface RestaurantGridProps {
-    restaurants: Restaurant[]
+    // restaurants: Restaurant[]
+    restaurants?: Restaurant[]
 }
 
 const RestaurantGrid = ({ restaurants }: RestaurantGridProps) => {
-    if (restaurants.length === 0) {
+    if (!restaurants || restaurants.length === 0) {
         return (
             <div className="flex justify-center items-center h-96">
                 <div className="text-center">
@@ -20,18 +20,25 @@ const RestaurantGrid = ({ restaurants }: RestaurantGridProps) => {
             </div>
         )
     }
-    const { dialogOpen } = useRestaurantStore()
+
+    const spacing =
+        restaurants.length > 2 ? 'justify-items-center' : 'justify-items-start'
 
     return (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mt-4">
-            {restaurants.map((restaurant) => {
-                return (
-                    <RestaurantCard
-                        key={restaurant.id}
-                        restaurant={restaurant}
-                    />
-                )
-            })}
+        // @md:grid-cols-2 @lg:grid-cols-3  @xl:grid-cols-4
+        <div className="@container w-full ">
+            <div
+                className={`grid grid-cols-1 @[40rem]:grid-cols-2 @[60rem]:grid-cols-3 @[85rem]:grid-cols-4 ${spacing} gap-6 mt-4 `}
+            >
+                {restaurants.map((restaurant) => {
+                    return (
+                        <RestaurantCard
+                            key={restaurant.id}
+                            restaurant={restaurant}
+                        />
+                    )
+                })}
+            </div>
         </div>
     )
 }

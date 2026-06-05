@@ -72,13 +72,14 @@ export const useUpdateRestaurant = () => {
         id: string | undefined
         data: Partial<Restaurant>
     }
+    console.log('IN the useUPdate restaurant')
 
     return useMutation({
         mutationFn: ({ id, data }: updateRequest) => {
             console.log(data)
-            const { owner, staff, ownerId, staffIds, ...refinedData } = data
+            // const { owner, staff, ownerId, staffIds, ...refinedData } = data
             // TODO: change this to DTO
-            return restaurantAPI.updateRestaurant(id, refinedData)
+            return restaurantAPI.updateRestaurant(id, data)
         },
 
         onSuccess: () => {

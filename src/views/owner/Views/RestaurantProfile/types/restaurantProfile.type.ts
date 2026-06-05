@@ -72,8 +72,14 @@ export const restaurantProfileValidationSchema = z
             .string()
             .min(20, 'Description must be at least 20 characters')
             .max(1000, 'Description cannot exceed 1000 characters'),
-        openingHour: z.number().min(0, 'Invalid hour').max(23, 'Invalid hour'),
-        closingHour: z.number().min(0, 'Invalid hour').max(23, 'Invalid hour'),
+        openingHour: z
+            .number()
+            .min(0, 'Invalid hour')
+            .max(1439, 'Invalid hour'),
+        closingHour: z
+            .number()
+            .min(0, 'Invalid hour')
+            .max(1439, 'Invalid hour'),
         contactNumber: z
             .string()
             .min(8, 'Contact number is required')

@@ -1,20 +1,28 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router'
 import Button from '@/components/ui/Button'
-// import Notification from '@/components/ui/Notification'
+import Notification from '@/components/ui/Notification'
 // import toast from '@/components/ui/toast'
 import { TbArrowNarrowLeft } from 'react-icons/tb'
 import RestaurantForm from './components/RestaurantForm'
 import type { RestaurantFormSchema } from './types/restaurantForm.types'
-import PostLoginLayout from '@/components/layouts/PostLoginLayout'
-import { useThemeStore } from '@/store/themeStore'
-import { useCreateRestaurant } from '../../hooks/useRestaurant'
+
+import { useCreateRestaurant } from '@/utils/custom-hooks/useRestaurant'
+import { toast } from '@/components/ui'
+// import { useCreateRestaurant } from '../../hooks/useRestaurant'
 
 const CreateRestaurant = () => {
     const navigate = useNavigate()
     const [isSubmitting, setIsSubmitting] = useState(false)
-    const layoutType = useThemeStore((state) => state.layout.type)
-    const createMutation = useCreateRestaurant()
+    const toastNotification = (
+        <Notification title="Message">
+            Restaurant created successfully
+        </Notification>
+    )
+
+    // const createMutation = useCreateRestaurant()
+
+    const { mutate: createRestaurant, isPending } = useCreateRestaurant()
 
     const defaultValues: Partial<RestaurantFormSchema> = {
         name: '',
@@ -23,47 +31,86 @@ const CreateRestaurant = () => {
         endingPrice: 0,
         latitude: 16.878639794964585,
         longitude: 96.19036674499512,
-        imageUrls: [],
+        images: [],
         staffIds: [],
     }
 
     const handleFormSubmit = async (formData: RestaurantFormSchema) => {
-        setIsSubmitting(true)
         try {
-            createMutation.mutate(formData)
-            // console.log('Success:', response)
-            alert('Restaurant created successfully!') // Temporary alert
-            // navigate('/owner/dashboard')
-        } catch (error) {
-            console.error('Error:', error)
-            alert('Failed to create restaurant. Check console for details.')
-        } finally {
-            setIsSubmitting(false)
+            // 1. create a FormData instance
+            const body = new FormData()
+            // 2. Append simple fields
+            body.append('name', formData.name)
+            body.append('address', formData.address)
+            body.append('startingPrice', String(formData.startingPrice))
+            body.append('endingPrice', String(formData.endingPrice))
+            body.append('latitude', String(formData.latitude))
+            body.append('longitude', String(formData.longitude))
+
+            // 3. handle images
+            formData.images.forEach((img) => {
+                if (img instanceof File) body.append('images', img)
+            })
+            if (formData.logoImage && formData.logoImage instanceof File) {
+                body.append('logo', formData.logoImage)
+            }
+
+            // 4.send to mutation
+            createRestaurant(body, {
+                onSuccess: (response) =>
+                    navigate(
+                        `/restaurant/create-restaurant-profile/${response.data[0].id}`,
+                    ),
+                onError: (error) => {
+                    console.error('Error:', error)
+                    alert(
+                        'Failed to create restaurant. Check console for details.',
+                    )
+                },
+                onSettled: () => setIsSubmitting(false),
+            }) // go to create profile page instead of dashboard
+        } catch (error: any) {
+            toast.push(
+                <Notification type="danger">
+                    Error creating restaurant{error.message}
+                </Notification>,
+            )
         }
+        // console.log('Submitting with these data: ', formData)
+        // const { staffIds, ...cleanedData } = formData
+        // createRestaurant(cleanedData, {
+        //     onSuccess: () => {
+        //         toast.push(toastNotification)
+
+        //         navigate('/owner/dashboard')
+        //     },
+        //     onError: (error) => {
+        //         console.error('Error:', error)
+        //         alert('Failed to create restaurant. Check console for details.')
+        //     },
+        // })
     }
 
     const handleBack = () => navigate('/owner/dashboard')
 
     return (
-        <PostLoginLayout layoutType={layoutType}>
-            <RestaurantForm
-                defaultValues={defaultValues as RestaurantFormSchema}
-                isNew={true}
-                onFormSubmit={handleFormSubmit}
+        <RestaurantForm
+            defaultValues={defaultValues as RestaurantFormSchema}
+            isNew={true}
+            onFormSubmit={handleFormSubmit}
+        >
+            <Button
+                type="button"
+                variant="plain"
+                icon={<TbArrowNarrowLeft />}
+                onClick={handleBack}
             >
-                <Button
-                    type="button"
-                    variant="plain"
-                    icon={<TbArrowNarrowLeft />}
-                    onClick={handleBack}
-                >
-                    Back to Dashboard
-                </Button>
-                <Button type="submit" variant="solid" loading={isSubmitting}>
-                    Create Restaurant
-                </Button>
-            </RestaurantForm>
-        </PostLoginLayout>
+                Back to Dashboard
+            </Button>
+            <Button type="submit" variant="solid" loading={isSubmitting}>
+                Create Restaurant
+            </Button>
+        </RestaurantForm>
     )
 }
 
