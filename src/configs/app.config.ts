@@ -9,7 +9,7 @@ export type AppConfig = {
 }
 
 const appConfig: AppConfig = {
-    apiPrefix: '/api/proxy', //'http://152.42.244.67/api', //'http://localhost:3000/api',
+    apiPrefix: '/api/proxy/api', //'http://152.42.244.67/api', //'http://localhost:3000/api',
     authenticatedEntryPath: '/home',
     unAuthenticatedEntryPath: '/sign-in',
     locale: 'en',
