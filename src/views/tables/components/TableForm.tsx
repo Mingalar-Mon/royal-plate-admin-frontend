@@ -16,7 +16,7 @@ export const tableSchema = z.object({
         .min(1, 'Capacity must be at least 1')
         .max(20, 'Capacity max 20'),
     durationMinutes: z.coerce.number().optional().nullable(),
-    tableFee: z.coerce.number().optional().nullable(),
+    tableFee: z.coerce.number().min(1, 'Table Fee must be greater than 0.'), //.optional().nullable(),
     status: z.enum(['active', 'inactive', 'maintenance']),
     services: z.array(z.string()).default([]),
 })

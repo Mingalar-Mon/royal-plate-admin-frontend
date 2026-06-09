@@ -28,6 +28,16 @@ const navigationConfig: NavigationTree[] = [
         authority: [OWNER],
         subMenu: [],
     },
+    {
+        key: 'sign-up',
+        path: '/sign-up',
+        title: 'SignUp',
+        translateKey: 'sign-up.form',
+        icon: 'home',
+        type: NAV_ITEM_TYPE_ITEM,
+        authority: [ADMIN],
+        subMenu: [],
+    },
 
     {
         key: 'dishManagement',
@@ -215,7 +225,7 @@ const navigationConfig: NavigationTree[] = [
             },
             {
                 key: 'banner.item2',
-                path: '/banners/:id',
+                path: '/banners/create',
                 title: 'Banner Create',
                 translateKey: 'bannerManagement.collapse.item2',
                 icon: 'create',

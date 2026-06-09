@@ -195,7 +195,7 @@ const BannerForm = ({
                                             >
                                                 <Input
                                                     {...field}
-                                                    placeholder="Restaurant UUID string token..."
+                                                    placeholder="External Website Url: https://www.google.com/"
                                                 />
                                             </FormItem>
                                         )

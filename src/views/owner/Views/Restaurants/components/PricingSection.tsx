@@ -5,12 +5,13 @@ import { Controller } from 'react-hook-form'
 import type { Control, FieldErrors } from 'react-hook-form'
 import type {
     RestaurantFormInput,
+    RestaurantFormOutput,
     RestaurantFormSchema,
 } from '../types/restaurantForm.types'
 
 interface PricingSectionProps {
-    control: Control<RestaurantFormInput>
-    errors: FieldErrors<RestaurantFormInput>
+    control: Control<RestaurantFormOutput>
+    errors: FieldErrors<RestaurantFormOutput>
 }
 
 const PricingSection = ({ control, errors }: PricingSectionProps) => {
@@ -60,6 +61,29 @@ const PricingSection = ({ control, errors }: PricingSectionProps) => {
                             />
                         </FormItem>
                     )}
+                />
+            </div>
+            <div>
+                <Controller
+                    name="tax"
+                    control={control}
+                    render={({ field }) => {
+                        console.log('Field: ', field)
+                        return (
+                            <FormItem
+                                label="Tax (%)"
+                                invalid={!!errors.tax}
+                                errorMessage={errors.tax?.message}
+                            >
+                                <Input
+                                    {...field}
+                                    type="number"
+                                    placeholder="0%"
+                                    // value={field.value as string | null}
+                                />
+                            </FormItem>
+                        )
+                    }}
                 />
             </div>
         </Card>

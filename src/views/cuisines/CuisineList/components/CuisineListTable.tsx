@@ -3,11 +3,10 @@ import { useNavigate } from 'react-router'
 import { ColumnDef } from '@tanstack/react-table'
 import DataTable from '@/components/shared/DataTable'
 import dayjs from 'dayjs'
-import cloneDeep from 'lodash/cloneDeep'
-import { useGetCuisines } from '@/utils/custom-hooks/useCuisine'
+
 import ActionColumn from '@/views/order/components/ActionColumn'
 import CuisineImage from '../components/CuisineImage'
-import type { Cuisine, TableQueries } from '../types/cuisine.types'
+import type { Cuisine } from '@/views/cuisines/types/cuisine.type'
 import { useCuisineStore } from '@/store/cuisineStore'
 
 interface CuisineListTableProps {
@@ -56,7 +55,7 @@ const CuisineListTable = ({ data, total, loading }: CuisineListTableProps) => {
                 header: 'Created',
                 accessorKey: 'created_at',
                 cell: (props) =>
-                    dayjs(props.row.original.createdAt).format('DD/MM/YYYY'),
+                    dayjs(props.row.original.created_at).format('DD/MM/YYYY'),
             },
             {
                 header: '',
@@ -69,7 +68,7 @@ const CuisineListTable = ({ data, total, loading }: CuisineListTableProps) => {
                         onEdit={() =>
                             navigate(`/cuisines/edit/${props.row.original.id}`)
                         }
-                        onDelete={() => {}}
+                        // onDelete={() => {}}
                     />
                 ),
             },

@@ -70,7 +70,7 @@ const ReservationListTable = ({
         return [
             {
                 header: 'Customer',
-                accessorKey: 'name',
+                id: 'name',
                 cell: (props) => (
                     <div>
                         <div className="font-semibold">

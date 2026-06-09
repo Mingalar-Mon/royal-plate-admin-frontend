@@ -6,8 +6,8 @@ export interface RestaurantStaff {
     email: string
     role: StaffRole
     restaurantId: string
-    createdAt: string
-    updatedAt: string
+    created_at: string
+    updated_at: string
 }
 
 export interface StaffFormData {

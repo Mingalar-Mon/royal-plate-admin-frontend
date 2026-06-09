@@ -49,7 +49,7 @@ const statusConfig = {
         color: 'bg-gray-100 text-gray-700',
         icon: TbX,
     },
-    complete: {
+    completed: {
         label: 'Complete',
         color: 'bg-emerald-100 text-blue-700',
         icon: TbCircleCheck,
@@ -60,40 +60,53 @@ const OrderStatusBadge = ({ status, onChange, isLoading }: any) => {
     console.log('Status: ', status)
     const [isOpen, setIsOpen] = useState(false)
     const current = statusConfig[status]
+    const terminalStatuses = ['rejected', 'canceled', 'completed']
 
     const handleSelect = (newStatus: string) => {
         onChange(newStatus)
         setIsOpen(false)
     }
+    const isTerminal = terminalStatuses.includes(status)
+
+    if (!isTerminal) {
+        return (
+            <Dropdown
+                renderTitle={
+                    <div
+                        className={`px-2 py-1 rounded-full text-xs font-semibold inline-flex items-center gap-1 cursor-pointer ${current.color}`}
+                    >
+                        <current.icon size={14} />
+                        {current.label}
+                    </div>
+                }
+                placement="bottom-start"
+            >
+                {Object.entries(statusConfig).map(([key, config]) => (
+                    <Dropdown.Item
+                        key={key}
+                        disabled={key === status}
+                        onClick={() => handleSelect(key)}
+                    >
+                        <div className="flex items-center gap-2">
+                            <config.icon size={14} />
+                            <span>{config.label}</span>
+                            {key === status && (
+                                <TbCheck className="ml-auto text-green-500" />
+                            )}
+                        </div>
+                    </Dropdown.Item>
+                ))}
+            </Dropdown>
+        )
+    }
 
     return (
-        <Dropdown
-            renderTitle={
-                <div
-                    className={`px-2 py-1 rounded-full text-xs font-semibold inline-flex items-center gap-1 cursor-pointer ${current.color}`}
-                >
-                    <current.icon size={14} />
-                    {current.label}
-                </div>
-            }
-            placement="bottom-start"
+        <div
+            className={`px-2 py-1 rounded-full text-xs font-semibold inline-flex items-center gap-1 cursor-pointer ${current.color}`}
         >
-            {Object.entries(statusConfig).map(([key, config]) => (
-                <Dropdown.Item
-                    key={key}
-                    disabled={key === status}
-                    onClick={() => handleSelect(key)}
-                >
-                    <div className="flex items-center gap-2">
-                        <config.icon size={14} />
-                        <span>{config.label}</span>
-                        {key === status && (
-                            <TbCheck className="ml-auto text-green-500" />
-                        )}
-                    </div>
-                </Dropdown.Item>
-            ))}
-        </Dropdown>
+            <current.icon size={14} />
+            {current.label}
+        </div>
     )
 }
 

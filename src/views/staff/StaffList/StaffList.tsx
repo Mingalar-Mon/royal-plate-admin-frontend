@@ -6,7 +6,6 @@ import StaffListTable from './components/StaffListTable'
 import { useParams } from 'react-router'
 import { useStaffList } from '@/utils/custom-hooks/useStaff'
 import { useStaffStore } from '@/store/staffStore'
-import { useEffect } from 'react'
 
 const StaffList = () => {
     const { restaurantId } = useParams()

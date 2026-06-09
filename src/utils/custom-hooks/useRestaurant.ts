@@ -22,7 +22,7 @@ export const useGetRestaurants = () => {
 
 export const useGetRestaurantList = () => {
     return useQuery({
-        queryKey: ['restaurant'],
+        queryKey: ['restaurants'],
         queryFn: () => apiGetRestaurantList(),
     })
 }
@@ -51,13 +51,14 @@ export const useCreateRestaurant = () => {
 
 export const useUpdateRestaurant = () => {
     interface updateRequest {
-        restaurantId: string
+        id: string // restaurant id
         data: Partial<Restaurant>
     }
 
     const queryClient = useQueryClient()
+    const userId = useSessionUser((state) => state.user.userId)
     return useMutation({
-        mutationFn: ({ id, data }: any) => {
+        mutationFn: ({ id, data }: updateRequest) => {
             console.log(
                 'Updating the restaurant with the following data\n',
                 data,
@@ -74,7 +75,7 @@ export const useUpdateRestaurant = () => {
             return apiUpdateRestaurant({ id, data })
         },
         onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ['restaurants'] })
+            queryClient.invalidateQueries({ queryKey: ['restaurants', userId] })
         },
         onError: (error: unknown) => {
             console.log('Error updating restaurant: ', error)
@@ -84,19 +85,15 @@ export const useUpdateRestaurant = () => {
 
 export const useDeleteRestaurant = () => {
     const queryClient = useQueryClient()
+    const userId = useSessionUser((state) => state.user.userId)
     return useMutation({
         mutationFn: (id: string) => apiDeleteRestaurant(id),
         onSuccess: (response) => {
             queryClient.invalidateQueries({
                 queryKey: ['restaurants', 'restaurant', response.data.id],
             })
-            toast.push(
-                Notification({
-                    title: 'Success',
-                    type: 'success',
-                    children: 'Updated successfully',
-                }),
-            )
+            queryClient.invalidateQueries({ queryKey: ['restaurants', userId] })
+            // TODO: add this in the component
         },
         onError: (error: unknown) => {
             console.log('Error creating restaurant: ', error)

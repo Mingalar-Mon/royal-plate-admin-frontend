@@ -55,16 +55,16 @@ const MobileNav = ({
 
     // console.log('active id: ', activeRestaurantId)
 
-    const { restaurantId, orderId, reservationId, dishId } = useParams()
+    const { restaurantId } = useParams()
     const currentId = activeRestaurantId || restaurantId
     console.log('Current id: ', currentId)
-    const otherIds = orderId || reservationId || dishId
+    // const otherIds = orderId || reservationId || dishId
     // console.log('useParams: ', useParams())
     // console.log('Other id: ', otherIds)
 
     // 2. Build the live dynamic navigation tree
     const dynamicNavigationTree = useMemo(() => {
-        if (!currentId && !otherIds) {
+        if (!currentId) {
             return navigationConfig.filter((node) => node.key === 'dashboard')
         }
 

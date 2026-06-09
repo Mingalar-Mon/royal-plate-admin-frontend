@@ -35,8 +35,11 @@ export async function apiSignIn(data: SignInCredential, role: string) {
 
 export async function apiSignUp(data: SignUpCredential) {
     const { role, ...credentialData } = data
+
+    const endpoint =
+        role === 'auth' ? '/auth/super-admin/sign-up' : '/owner/create-owner'
     return ApiService.fetchDataWithAxios<SignUpResponse>({
-        url: `/${role}${endpointConfig.signUp}`,
+        url: endpoint, //`/${role}${endpointConfig.signUp}`,
         method: 'post',
         data: credentialData,
     })

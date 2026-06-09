@@ -18,9 +18,9 @@ const StaffListActionTools = ({
 
     return (
         <div className="flex gap-3">
-            <CSVLink filename="staff.csv" data={staffList}>
+            {/* <CSVLink filename="staff.csv" data={staffList}>
                 <Button icon={<TbCloudDownload />}>Export</Button>
-            </CSVLink>
+            </CSVLink> */}
             <Button
                 variant="solid"
                 icon={<TbPlus />}

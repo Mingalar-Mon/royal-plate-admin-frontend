@@ -50,7 +50,7 @@ const DishCreate = () => {
 
         // Handle Detail Images (Assuming data.detailImages is File[])
         if (data.detailImages && data.detailImages.length > 0) {
-            data.detailImages.forEach((file) => {
+            data.detailImages.forEach((file: File) => {
                 body.append('detailImages', file as File)
             })
         }

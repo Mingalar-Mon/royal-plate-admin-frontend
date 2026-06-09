@@ -3,26 +3,25 @@ import { useNavigate } from 'react-router'
 import { ColumnDef } from '@tanstack/react-table'
 import DataTable from '@/components/shared/DataTable'
 import ConfirmDialog from '@/components/shared/ConfirmDialog'
-import { NumericFormat } from 'react-number-format'
+// import { NumericFormat } from 'react-number-format'
 import dayjs from 'dayjs'
-import Tag from '@/components/ui/Tag'
-import cloneDeep from 'lodash/cloneDeep'
+
 import {
-    OrderTableData,
-    useOrderList,
+    // OrderTableData,
+    // useOrderList,
     useUpdateOrderStatus,
 } from '@/utils/custom-hooks/useOrder'
 import OrderColumn from './OrderColumn'
 import ActionColumn from './ActionColumn'
-import type { TableQueries } from '@/views/order/types/order.type'
-import { orderStatusColor } from '@/utils/Status/orderStatus'
+
+// import { orderStatusColor } from '@/utils/Status/orderStatus'
 import { Order, OrderStatus } from '@/@types/order'
 import { Select } from '@/components/ui'
-import { useReservation } from '@/utils/custom-hooks/useReservation'
-import { useReservationStore } from '@/store/reservationStore'
+
 import OrderStatusBadge from './OrderStatusBadge'
 import { useOrderStore } from '@/store/orderStore'
 
+/*
 const PaymentMethodImage = ({ method }: { method: string }) => {
     const icons: Record<string, string> = {
         cash: '💰',
@@ -50,6 +49,7 @@ const baseAllowedOptions = [
     { value: 'rejected', label: 'Rejected' },
     { value: 'no_show', label: 'No Show' },
 ]
+*/
 interface Props {
     orderList: Order[]
     orderListTotal: number

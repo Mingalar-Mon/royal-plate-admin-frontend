@@ -35,10 +35,7 @@ const StaffListTableTools = () => {
     return (
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-2">
             <StaffListSearch onSearch={handleSearch} />
-            <StaffTableFilter
-            // tableData={tableData}
-            // setTableData={setTableData}
-            />
+            {/* <StaffTableFilter /> */}
         </div>
     )
 }

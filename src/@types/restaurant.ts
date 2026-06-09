@@ -51,8 +51,13 @@ export type Restaurant = {
         key: string
         url: string
     }[]
+    logoImage: {
+        key: string
+        url: string
+    }
     startingPrice: number
     endingPrice: number
+    tax: number
     latitude: number | null
     longitude: number | null
     // owner and staff aren't needed for fetching restaurant or restaurants

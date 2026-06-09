@@ -46,6 +46,7 @@ const CreateRestaurant = () => {
             body.append('endingPrice', String(formData.endingPrice))
             body.append('latitude', String(formData.latitude))
             body.append('longitude', String(formData.longitude))
+            body.append('tax', String(formData.tax))
 
             // 3. handle images
             formData.images.forEach((img) => {

@@ -60,10 +60,13 @@ const RestaurantForm = (props: RestaurantFormProps) => {
         setValue,
     } = useForm<RestaurantFormInput, any, RestaurantFormOutput>({
         defaultValues: defaultValues || {
+            //RestaurantFormInput, any, RestaurantFormOutput
             name: '',
             address: '',
+            tax: 0,
             startingPrice: 0,
             endingPrice: 0,
+            logoImage: '',
             images: [],
             staffIds: [],
             deletedImageKeys: [],
@@ -139,6 +142,7 @@ const RestaurantForm = (props: RestaurantFormProps) => {
                                             isOpen: false,
                                             src: null,
                                         })
+                                    console.log('Field.value: ', field.value)
                                     const previewUrl = getImagePreview(
                                         field.value || '',
                                     )

@@ -9,8 +9,7 @@ import {
     TbCalendar,
     TbId,
 } from 'react-icons/tb'
-import PostLoginLayout from '@/components/layouts/PostLoginLayout'
-import { useThemeStore } from '@/store/themeStore'
+
 import { useStaff } from '@/utils/custom-hooks/useStaff'
 import StaffRoleBadge from '../StaffList/components/StaffRoleBadge'
 import dayjs from 'dayjs'
@@ -33,7 +32,7 @@ const StaffDetail = () => {
                         variant="plain"
                         icon={<TbArrowNarrowLeft />}
                         onClick={() =>
-                            navigate(`/restaurants/${restaurantId}/staff`)
+                            navigate(`/restaurants/${restaurantId}/staffs`)
                         }
                     >
                         Back to Staff
@@ -81,7 +80,7 @@ const StaffDetail = () => {
                                     <TbCalendar className="text-gray-500" />
                                     <span>
                                         Joined:{' '}
-                                        {dayjs(staff.createdAt).format(
+                                        {dayjs(staff.created_at).format(
                                             'DD/MM/YYYY',
                                         )}
                                     </span>

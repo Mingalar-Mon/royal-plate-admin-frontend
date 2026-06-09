@@ -72,6 +72,10 @@ export const restaurantProfileValidationSchema = z
             .string()
             .min(20, 'Description must be at least 20 characters')
             .max(1000, 'Description cannot exceed 1000 characters'),
+        // tax: z.coerce
+        //     .number()
+        //     .min(0, 'percentage cannot be over 0')
+        //     .max(100, 'percentage cannot be over 100.'),
         openingHour: z
             .number()
             .min(0, 'Invalid hour')

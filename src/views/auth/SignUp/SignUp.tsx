@@ -4,6 +4,8 @@ import SignUpForm from './components/SignUpForm'
 import ActionLink from '@/components/shared/ActionLink'
 import useTimeOutMessage from '@/utils/hooks/useTimeOutMessage'
 import { useThemeStore } from '@/store/themeStore'
+import PreLoginLayout from '@/components/layouts/PreLoginLayout'
+import { Card } from '@/components/ui'
 
 type SignUpProps = {
     disableSubmit?: boolean
@@ -19,7 +21,9 @@ export const SignUpBase = ({
     const mode = useThemeStore((state) => state.mode)
 
     return (
-        <>
+        <Card>
+            {' '}
+            {/* not card but <> initially */}
             <div className="mb-8">
                 <Logo
                     type="streamline"
@@ -29,10 +33,10 @@ export const SignUpBase = ({
                 />
             </div>
             <div className="mb-8">
-                <h3 className="mb-1">Sign Up</h3>
-                <p className="font-semibold heading-text">
+                <h3 className="mb-1">Create Admin Or Owner{/*Sign Up*/}</h3>
+                {/* <p className="font-semibold heading-text">
                     And lets get started with your free trial
-                </p>
+                </p> */}
             </div>
             {message && (
                 <Alert showIcon className="mb-4" type="danger">
@@ -40,7 +44,7 @@ export const SignUpBase = ({
                 </Alert>
             )}
             <SignUpForm disableSubmit={disableSubmit} setMessage={setMessage} />
-            <div>
+            {/* <div>
                 <div className="mt-6 text-center">
                     <span>Already have an account? </span>
                     <ActionLink
@@ -51,8 +55,8 @@ export const SignUpBase = ({
                         Sign in
                     </ActionLink>
                 </div>
-            </div>
-        </>
+            </div> */}
+        </Card>
     )
 }
 

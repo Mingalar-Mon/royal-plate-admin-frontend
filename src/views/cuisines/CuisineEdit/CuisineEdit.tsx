@@ -10,9 +10,9 @@ import type { CuisineFormData } from '../types/cuisine.type'
 import PostLoginLayout from '@/components/layouts/PostLoginLayout'
 import { useThemeStore } from '@/store/themeStore'
 import {
-    useCuisine,
-    useUpdateCuisine,
-    useDeleteCuisine,
+    // useCuisine,
+    // useUpdateCuisine,
+    // useDeleteCuisine,
     useCuisineDetailQuery,
     useUpdateCuisineMutation,
     useDeleteCuisineMutation,
@@ -75,56 +75,54 @@ const CuisineEdit = () => {
     }
 
     return (
-        <PostLoginLayout layoutType={layoutType}>
-            <AdaptiveCard>
-                <CuisineForm
-                    defaultValues={defaultValues}
-                    isNew={false}
-                    onFormSubmit={handleSubmit}
-                >
-                    <div className="flex items-center justify-between">
+        <AdaptiveCard>
+            <CuisineForm
+                defaultValues={defaultValues}
+                isNew={false}
+                onFormSubmit={handleSubmit}
+            >
+                <div className="flex items-center justify-between">
+                    <Button
+                        type="button"
+                        variant="plain"
+                        icon={<TbArrowNarrowLeft />}
+                        onClick={() => navigate('/cuisines')}
+                    >
+                        Back to Cuisines
+                    </Button>
+                    <div className="flex gap-2">
                         <Button
                             type="button"
-                            variant="plain"
-                            icon={<TbArrowNarrowLeft />}
-                            onClick={() => navigate('/cuisines')}
+                            variant="default"
+                            icon={<TbTrash />}
+                            className="text-red-500"
+                            onClick={() => setDeleteConfirmationOpen(true)}
                         >
-                            Back to Cuisines
+                            Delete
                         </Button>
-                        <div className="flex gap-2">
-                            <Button
-                                type="button"
-                                variant="default"
-                                icon={<TbTrash />}
-                                className="text-red-500"
-                                onClick={() => setDeleteConfirmationOpen(true)}
-                            >
-                                Delete
-                            </Button>
-                            <Button
-                                type="submit"
-                                variant="solid"
-                                loading={isUpdating}
-                            >
-                                Save Changes
-                            </Button>
-                        </div>
+                        <Button
+                            type="submit"
+                            variant="solid"
+                            loading={isUpdating}
+                        >
+                            Save Changes
+                        </Button>
                     </div>
-                </CuisineForm>
-                <ConfirmDialog
-                    isOpen={deleteConfirmationOpen}
-                    type="danger"
-                    title="Delete Cuisine"
-                    onClose={() => setDeleteConfirmationOpen(false)}
-                    onConfirm={handleDelete}
-                >
-                    <p>
-                        Are you sure you want to delete this cuisine? This
-                        action cannot be undone.
-                    </p>
-                </ConfirmDialog>
-            </AdaptiveCard>
-        </PostLoginLayout>
+                </div>
+            </CuisineForm>
+            <ConfirmDialog
+                isOpen={deleteConfirmationOpen}
+                type="danger"
+                title="Delete Cuisine"
+                onClose={() => setDeleteConfirmationOpen(false)}
+                onConfirm={handleDelete}
+            >
+                <p>
+                    Are you sure you want to delete this cuisine? This action
+                    cannot be undone.
+                </p>
+            </ConfirmDialog>
+        </AdaptiveCard>
     )
 }
 

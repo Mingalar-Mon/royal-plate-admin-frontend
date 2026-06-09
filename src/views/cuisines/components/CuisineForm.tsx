@@ -149,7 +149,8 @@ const CuisineForm = ({
                                                 />
                                                 <TbUpload className="mx-auto text-3xl text-gray-400 mb-2" />
                                                 <p className="text-sm font-medium text-gray-600 dark:text-gray-400">
-                                                    Click to select banner image
+                                                    Click to select cuisine
+                                                    image
                                                 </p>
                                             </div>
 

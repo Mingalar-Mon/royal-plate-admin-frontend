@@ -1,3 +1,4 @@
+import { Variables } from './../../configs/preset-theme-schema.config'
 import { mockReservations } from '../mock/reservationData'
 import { useState } from 'react'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
@@ -75,8 +76,11 @@ export const useUpdateReservationStatus = () => {
     const queryClient = useQueryClient()
     return useMutation({
         mutationFn: apiUpdateReservationStatus,
-        onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ['reservations'] })
+        onSuccess: (_, variables) => {
+            ;(queryClient.invalidateQueries({ queryKey: ['reservations'] }),
+                queryClient.invalidateQueries({
+                    queryKey: ['reservation', variables.reservationId],
+                }))
         },
     })
     // 🔁 PATCH /reservations/${id}/status

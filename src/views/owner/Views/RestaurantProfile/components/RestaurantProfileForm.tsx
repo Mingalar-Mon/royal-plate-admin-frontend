@@ -76,13 +76,15 @@ const RestaurantProfileForm = ({ isEditMode }: RestaurantProfileFormProps) => {
         resolver: zodResolver(restaurantProfileValidationSchema),
         defaultValues: {
             description: '',
-            openingHour: 9,
-            closingHour: 22,
+
+            openingHour: 540,
+            closingHour: 1200,
             contactNumber: '',
             websiteUrl: '',
             parking: false,
             dressCode: '',
             accessibility: '',
+
             cuisineIds: [],
             paymentMethodIds: [],
         },
@@ -201,6 +203,7 @@ const RestaurantProfileForm = ({ isEditMode }: RestaurantProfileFormProps) => {
     }
 
     const minutesToTime = (totalMinutes: number) => {
+        console.log('TotalMinutes: ', totalMinutes)
         const hrs = Math.floor(totalMinutes / 60)
             .toString()
             .padStart(2, '0')
@@ -229,16 +232,13 @@ const RestaurantProfileForm = ({ isEditMode }: RestaurantProfileFormProps) => {
                             type="button"
                             variant="plain"
                             icon={<TbArrowNarrowLeft />}
-                            onClick={
-                                () => navigate(-1)
-                                /*
-                                    navigate(
-                                        profileId
-                                            ? `/restaurant/profile/${restaurantId}`
-                                            : `/owner/dashboard`,
-                                        // `/restaurant/profile/${restaurantId ?? profileId}`,
-                                    )
-                                        */
+                            onClick={() =>
+                                navigate(
+                                    profileId
+                                        ? `/restaurant/profile/${restaurantId}`
+                                        : `/owner/dashboard`,
+                                    // `/restaurant/profile/${restaurantId ?? profileId}`,
+                                )
                             }
                         >
                             Back to Restaurant

@@ -74,9 +74,11 @@ function AuthProvider({ children }: AuthProviderProps) {
 
         switch (role) {
             case 'ADMIN': // can change this to SUPER_ADMIN later
+                console.log('Navigating to admin dashboard showing owner list')
                 navigatorRef.current?.navigate('/owners')
                 break
             case 'OWNER':
+                console.log('Navigating to owner dashboard...')
                 navigatorRef.current?.navigate('/owner/dashboard')
                 break
             case 'STAFF':
@@ -86,6 +88,7 @@ function AuthProvider({ children }: AuthProviderProps) {
                 // navigatorRef.current?.navigate('/staff/dashboard')
                 break
             default:
+                console.log(`Navigating to home since Role: ${role}`)
                 navigatorRef.current?.navigate(appConfig.authenticatedEntryPath)
         }
 

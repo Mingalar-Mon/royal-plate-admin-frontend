@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useParams, useNavigate } from 'react-router'
 import Button from '@/components/ui/Button'
 import Notification from '@/components/ui/Notification'
@@ -8,8 +8,7 @@ import NoProductFound from '@/assets/svg/NoProductFound'
 import { TbTrash, TbArrowNarrowLeft } from 'react-icons/tb'
 import RestaurantForm from './components/RestaurantForm'
 import type { RestaurantFormSchema } from './types/restaurantForm.types'
-import PostLoginLayout from '@/components/layouts/PostLoginLayout'
-import { useThemeStore } from '@/store/themeStore'
+
 // import {
 //     useDeleteRestaurant,
 //     useGetRestaurant,
@@ -21,7 +20,7 @@ import {
     useUpdateRestaurant,
     useDeleteRestaurant,
 } from '@/utils/custom-hooks/useRestaurant'
-import { useUpdateRestaurantProfile } from '@/utils/custom-hooks/useRestaurantProfile'
+
 // import { useSessionUser } from '@/store/authStore'
 
 const EditRestaurant = () => {
@@ -75,10 +74,13 @@ const EditRestaurant = () => {
         address: restaurantJson.data.address,
         startingPrice: restaurantJson.data.startingPrice,
         endingPrice: restaurantJson.data.endingPrice,
+        tax: restaurantJson.data.tax,
         latitude: restaurantJson.data.latitude,
         longitude: restaurantJson.data.longitude,
+        logoImage: restaurantJson.data.logoImage,
         images: restaurantJson.data.images || [],
         staffIds: restaurantJson.data.staff?.map((s: Staff) => s.id) || [],
+        deletedImageKeys: [],
     }
 
     const handleFormSubmit = async (formData: RestaurantFormSchema) => {
@@ -109,6 +111,10 @@ const EditRestaurant = () => {
             })
             // ====== Send existing images as a JSON string
             body.append('existingImages', JSON.stringify(existingImages))
+
+            if (formData.logoImage instanceof File) {
+                body.append('logo', formData.logoImage)
+            }
 
             // const jsonData = {
             //     name: formData.name,

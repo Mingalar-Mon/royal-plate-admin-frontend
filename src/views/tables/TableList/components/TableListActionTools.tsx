@@ -11,9 +11,9 @@ const TableListActionTools = ({ data }: { data: any[] }) => {
 
     return (
         <div className="flex gap-3">
-            <CSVLink filename="tables.csv" data={data}>
+            {/* <CSVLink filename="tables.csv" data={data}>
                 <Button icon={<TbCloudDownload />}>Export</Button>
-            </CSVLink>
+            </CSVLink> */}
             <Button
                 variant="solid"
                 icon={<TbPlus />}

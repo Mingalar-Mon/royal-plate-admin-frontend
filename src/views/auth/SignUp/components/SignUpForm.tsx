@@ -6,7 +6,7 @@ import { useAuth } from '@/auth'
 import { useForm, Controller } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
-import type { CommonProps } from '@/@types/common_type'
+import type { CommonProps } from '@/@types/common'
 import { Segment } from '@/components/ui'
 
 interface SignUpFormProps extends CommonProps {
@@ -39,7 +39,7 @@ const validationSchema = z
 
 const SignUpForm = (props: SignUpFormProps) => {
     // 1. add state for the selected role
-    const [userRole, setUserRole] = useState<string>('admin')
+    const [userRole, setUserRole] = useState<string>('auth')
 
     const { disableSubmit = false, className, setMessage } = props
 
@@ -82,15 +82,16 @@ const SignUpForm = (props: SignUpFormProps) => {
     return (
         <div className={className}>
             {/* 3. add ui for role selection */}
+
             <Segment
                 value={userRole}
-                className="w-full justify-between"
+                className=" justify-around"
                 size="md"
                 onChange={(value) => setUserRole(value as string)}
             >
                 <Segment.Item value="auth">Admin</Segment.Item>
                 <Segment.Item value="owner">Owner</Segment.Item>
-                <Segment.Item value="staff">Staff</Segment.Item>
+                {/* <Segment.Item value="staff">Staff</Segment.Item> */}
             </Segment>
             <Form onSubmit={handleSubmit(onSignUp)}>
                 <FormItem

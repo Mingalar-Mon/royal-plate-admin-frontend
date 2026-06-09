@@ -10,8 +10,8 @@ export interface Table {
     status: TableStatus
     services?: string[]
     restaurantId: string
-    createdAt: string
-    updatedAt: string
+    created_at: string
+    updated_at: string
 }
 
 export interface TableFormData {

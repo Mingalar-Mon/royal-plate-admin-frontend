@@ -10,7 +10,10 @@ import {
     TbArmchair,
     TbUserOff,
 } from 'react-icons/tb'
-import { ReservationStatusColor } from '@/utils/Status/reservationStatus'
+import {
+    ReservationStatus,
+    ReservationStatusColor,
+} from '@/utils/Status/reservationStatus'
 
 const statusConfig = {
     pending: {
@@ -47,13 +50,32 @@ const statusConfig = {
 
 const ReservationStatusBadge = ({ status, onChange, isLoading }: any) => {
     const [isOpen, setIsOpen] = useState(false)
-    const current = statusConfig[status]
+    const current = ReservationStatusColor[status]
+    // const current = statusConfig[status]
+
+    const terminalStatuses = [
+        ReservationStatus.NO_SHOW,
+        ReservationStatus.CANCELED,
+        ReservationStatus.COMPLETED,
+    ]
 
     const handleSelect = (newStatus: string) => {
         onChange(newStatus)
         setIsOpen(false)
     }
 
+    const isTerminal = terminalStatuses.includes(status)
+
+    if (isTerminal) {
+        return (
+            <div
+                className={`px-2 py-1 rounded-full text-xs font-semibold inline-flex items-center gap-1 cursor-pointer ${current.color}`}
+            >
+                <current.icon size={14} />
+                {current.label}
+            </div>
+        )
+    }
     return (
         <Dropdown
             renderTitle={

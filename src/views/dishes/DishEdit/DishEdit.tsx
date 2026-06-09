@@ -15,6 +15,7 @@ import {
 } from '@/utils/custom-hooks/useDish'
 import { useGetCuisines } from '@/utils/custom-hooks/useCuisine'
 import { useRestaurantStore } from '@/store/restaurantStore'
+import { useCuisineStore } from '@/store/cuisineStore'
 
 const DishEdit = () => {
     const { dishId } = useParams()
@@ -23,6 +24,7 @@ const DishEdit = () => {
     const restaurantId = useRestaurantStore(
         (state) => state.activeRestaurant?.id,
     )
+    const { tableData } = useCuisineStore()
 
     // const [deletedKeys, setDeletedKeys] = useState<string[]>([])
 
@@ -31,7 +33,7 @@ const DishEdit = () => {
 
     const { mutate: updateDish, isPending: isUpdating } = useUpdateDish()
     const { mutate: deleteDish } = useDeleteDish()
-    const { data: cuisines } = useGetCuisines()
+    const { data: cuisines } = useGetCuisines({ ...tableData, pageSize: 1000 })
 
     // console.log('Dish id: ', dishId)
 

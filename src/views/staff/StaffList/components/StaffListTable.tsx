@@ -51,16 +51,16 @@ const StaffListTable = ({
             },
             {
                 header: 'Role',
-                accessorKey: 'role',
+                id: 'role',
                 cell: (props) => (
                     <StaffRoleBadge role={props.row.original.role} />
                 ),
             },
             {
                 header: 'Joined',
-                accessorKey: 'createdAt',
+                accessorKey: 'created_at',
                 cell: (props) =>
-                    dayjs(props.row.original.createdAt).format('DD/MM/YYYY'),
+                    dayjs(props.row.original.created_at).format('DD/MM/YYYY'),
             },
             {
                 header: '',

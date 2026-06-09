@@ -3,9 +3,39 @@ import { z } from 'zod'
 export const restaurantValidationSchema = z.object({
     name: z.string().min(1, 'Restaurant name is required'),
     address: z.string().min(1, 'Address is required'),
+    startingPrice: z.preprocess(
+        (val) => Number(val),
+        z.number().min(0, 'Starting price must be positive'),
+    ),
+    endingPrice: z.preprocess(
+        (val) => Number(val),
+        z.number().min(0, 'Ending price must be positive'),
+    ),
+    tax: z.preprocess(
+        (val) => Number(val),
+        z
+            .number()
+            .min(0, 'percentage cannot be over 0')
+            .max(100, 'percentage cannot be over 100.'),
+    ),
+    latitude: z.preprocess(
+        (val) => (val ? Number(val) : null),
+        z.number().nullable().optional(),
+    ),
+    longitude: z.preprocess(
+        (val) => (val ? Number(val) : null),
+        z.number().nullable().optional(),
+    ),
+
+    /*
     startingPrice: z.coerce.number().min(0, 'Starting price must be positive'),
     endingPrice: z.coerce.number().min(0, 'Ending price must be positive'),
+    tax: z.coerce
+        .number()
+        .min(0, 'percentage cannot be over 0')
+        .max(100, 'percentage cannot be over 100.'),
     latitude: z.coerce.number().nullable().optional(),
+    */
     // z
     //     .union([
     //         z.number(),
@@ -13,7 +43,9 @@ export const restaurantValidationSchema = z.object({
     //     ])
     //     .nullable()
     //     .optional(),
+    /*
     longitude: z.coerce.number().nullable().optional(),
+    */
     // z
     //     .union([
     //         z.number(),

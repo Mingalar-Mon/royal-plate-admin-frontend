@@ -13,6 +13,7 @@ import {
     TbUser,
 } from 'react-icons/tb'
 import dayjs from 'dayjs'
+import { ActionLink } from '@/components/shared'
 
 // Simple UI badge fallback placeholder – change path to match your layout folder setup if needed
 const BannerTypeBadge = ({ type }: { type: string }) => (
@@ -30,6 +31,8 @@ const BannerTypeBadge = ({ type }: { type: string }) => (
 const BannerDetail = () => {
     const { id } = useParams()
     const navigate = useNavigate()
+    const urlRegex =
+        /(https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_\+.~#?&\/=]*))/g
 
     // 1. Fetch live promotional banner dataset via our synchronized query hook
     const { data: bannerResponse, isLoading } = useBannerDetailQuery(id!)
@@ -75,7 +78,7 @@ const BannerDetail = () => {
                         <div className="lg:col-span-2 space-y-6">
                             <Card className="overflow-hidden border dark:border-gray-800 shadow-sm p-2 bg-gray-50 dark:bg-gray-800/20">
                                 <img
-                                    src={banner.imageUrl}
+                                    src={banner.image.url}
                                     alt="Promotional campaign banner preview"
                                     className="w-full rounded-lg object-contain max-h-[500px] mx-auto select-none"
                                 />
@@ -99,9 +102,22 @@ const BannerDetail = () => {
                                         <TbLink className="text-gray-400 text-lg shrink-0" />
                                         <span className="truncate">
                                             Linked Target Restaurant ID:{' '}
-                                            <strong className="text-gray-900 dark:text-gray-100 block mt-0.5 font-medium text-xs break-all bg-gray-50 dark:bg-gray-800 p-1.5 rounded">
-                                                {banner.linkToRestaurant}
-                                            </strong>
+                                            {!urlRegex.test(
+                                                banner.linkToRestaurant,
+                                            ) ? (
+                                                <strong className="text-gray-900 dark:text-gray-100 block mt-0.5 font-medium text-xs break-all bg-gray-50 dark:bg-gray-800 p-1.5 rounded">
+                                                    {banner.linkToRestaurant}
+                                                </strong>
+                                            ) : (
+                                                <ActionLink
+                                                    href={
+                                                        banner.linkToRestaurant
+                                                    }
+                                                    className="cursor-pointer block"
+                                                >
+                                                    {banner.linkToRestaurant}
+                                                </ActionLink>
+                                            )}
                                         </span>
                                     </div>
                                     <div className="flex items-center gap-2.5">

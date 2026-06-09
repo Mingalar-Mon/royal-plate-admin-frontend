@@ -23,6 +23,7 @@ export const protectedRoutes: Routes = [
         authority: [OWNER], // owner
     },
 
+    // ================ RESTAURANT ========================
     {
         key: 'restaurant.profile',
         path: '/restaurant/restaurant-profile/:restaurantId',
@@ -287,6 +288,14 @@ export const protectedRoutes: Routes = [
         key: 'owner.detail',
         path: '/owners',
         component: lazy(() => import('@/views/owner/OwnerDetail')),
+        authority: [ADMIN],
+    },
+
+    // ===== create account page ===========
+    {
+        key: 'sign.up',
+        path: '/sign-up',
+        component: lazy(() => import('@/views/auth/SignUp')),
         authority: [ADMIN],
     },
 

@@ -8,6 +8,7 @@ import ActionColumn from '../../components/ActionColumn'
 import dayjs from 'dayjs'
 import { TbPictureInPicture } from 'react-icons/tb'
 import BannerTypeBadge from '../../components/BannerTypeBadge'
+import { ActionLink } from '@/components/shared'
 
 interface BannerListTableProps {
     data: any[]
@@ -27,23 +28,47 @@ const BannerListTable = ({ data, total, loading }: BannerListTableProps) => {
                 header: 'Image',
                 accessorKey: 'imageUrl',
                 enableSorting: false, // Drop default pointer arrows from media cells
-                cell: (props) => (
-                    <Avatar
-                        shape="round"
-                        size={50}
-                        src={props.row.original.image.url}
-                        icon={<TbPictureInPicture />}
-                    />
-                ),
+                cell: (props) => {
+                    console.log('props: ', props)
+                    return (
+                        <Avatar
+                            shape="round"
+                            size={50}
+                            src={props.row.original.image.url}
+                            icon={<TbPictureInPicture />}
+                        />
+                    )
+                },
             },
             {
                 header: 'Linked Restaurant ID',
                 accessorKey: 'linkToRestaurant',
-                cell: (props) => (
-                    <span className="font-mono text-xs">
-                        {props.row.original.linkToRestaurant}
-                    </span>
-                ),
+                cell: (props) => {
+                    const urlRegex =
+                        /(https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_\+.~#?&\/=]*))/g
+
+                    return !urlRegex.test(
+                        props.row.original.linkToRestaurant,
+                    ) ? (
+                        <span className="font-mono text-xs ">
+                            {props.row.original.linkToRestaurant}
+                        </span>
+                    ) : (
+                        <ActionLink
+                            href={props.row.original.linkToRestaurant}
+                            className="cursor-pointer hover:underline"
+                            target="_blank"
+                        >
+                            {props.row.original.linkToRestaurant}
+                        </ActionLink>
+                    )
+
+                    // return (
+                    //     <span className="font-mono text-xs">
+                    //         {props.row.original.linkToRestaurant}
+                    //     </span>
+                    // )
+                },
             },
             {
                 header: 'Type',
