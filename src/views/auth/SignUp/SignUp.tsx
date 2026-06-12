@@ -1,10 +1,10 @@
 import Logo from '@/components/template/Logo'
 import Alert from '@/components/ui/Alert'
 import SignUpForm from './components/SignUpForm'
-import ActionLink from '@/components/shared/ActionLink'
+// import ActionLink from '@/components/shared/ActionLink'
 import useTimeOutMessage from '@/utils/hooks/useTimeOutMessage'
 import { useThemeStore } from '@/store/themeStore'
-import PreLoginLayout from '@/components/layouts/PreLoginLayout'
+// import PreLoginLayout from '@/components/layouts/PreLoginLayout'
 import { Card } from '@/components/ui'
 
 type SignUpProps = {
@@ -33,7 +33,7 @@ export const SignUpBase = ({
                 />
             </div>
             <div className="mb-8">
-                <h3 className="mb-1">Create Admin Or Owner{/*Sign Up*/}</h3>
+                <h3 className="mb-1">Create Owner{/*Sign Up*/}</h3>
                 {/* <p className="font-semibold heading-text">
                     And lets get started with your free trial
                 </p> */}

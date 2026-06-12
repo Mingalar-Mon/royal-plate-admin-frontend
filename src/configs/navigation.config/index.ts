@@ -23,7 +23,7 @@ const navigationConfig: NavigationTree[] = [
         path: '/owner/dashboard',
         title: 'Dashboard',
         translateKey: 'nav.dashboard',
-        icon: 'home',
+        icon: 'dashboard',
         type: NAV_ITEM_TYPE_ITEM,
         authority: [OWNER],
         subMenu: [],
@@ -31,9 +31,9 @@ const navigationConfig: NavigationTree[] = [
     {
         key: 'sign-up',
         path: '/sign-up',
-        title: 'SignUp',
+        title: 'Create Owner',
         translateKey: 'sign-up.form',
-        icon: 'home',
+        icon: 'createOwnerAdmin',
         type: NAV_ITEM_TYPE_ITEM,
         authority: [ADMIN],
         subMenu: [],
@@ -41,11 +41,11 @@ const navigationConfig: NavigationTree[] = [
 
     {
         key: 'dishManagement',
-        path: '',
+        path: '/restaurants/:restaurantId/dishes',
         title: 'Menu(Dish)',
-        icon: 'singleMenu', //'Group collapse menu',
+        icon: 'menu', //'Group collapse menu',
         translateKey: 'nav.orderManagement',
-        type: NAV_ITEM_TYPE_COLLAPSE,
+        type: NAV_ITEM_TYPE_ITEM,
         authority: [OWNER, STAFF],
         subMenu: [
             {
@@ -72,11 +72,11 @@ const navigationConfig: NavigationTree[] = [
     },
     {
         key: 'staffManagement',
-        path: '',
-        title: 'Staff',
-        icon: 'collapseMenu', //'Group collapse menu',
+        path: '/restaurants/:restaurantId/staffs',
+        title: 'Staffs',
+        icon: 'staffs', //'Group collapse menu',
         translateKey: 'nav.staffManagement',
-        type: NAV_ITEM_TYPE_COLLAPSE,
+        type: NAV_ITEM_TYPE_ITEM,
         authority: [OWNER],
         subMenu: [
             {
@@ -113,11 +113,11 @@ const navigationConfig: NavigationTree[] = [
     },
     {
         key: 'tableManagement',
-        path: '',
-        title: 'Table',
-        icon: 'collapseMenu',
+        path: '/restaurants/:restaurantId/tables',
+        title: 'Tables',
+        icon: 'table',
         translateKey: 'table.management',
-        type: NAV_ITEM_TYPE_COLLAPSE,
+        type: NAV_ITEM_TYPE_ITEM,
         authority: [OWNER, STAFF],
         subMenu: [
             {
@@ -144,11 +144,11 @@ const navigationConfig: NavigationTree[] = [
     },
     {
         key: 'blogManagement',
-        path: '',
+        path: '/blogs',
         title: 'Blog',
-        icon: 'collapseMenu',
+        icon: 'blogs',
         translateKey: 'cuisine.management',
-        type: NAV_ITEM_TYPE_COLLAPSE,
+        type: NAV_ITEM_TYPE_ITEM,
         authority: [OWNER, STAFF],
         subMenu: [
             {
@@ -175,11 +175,11 @@ const navigationConfig: NavigationTree[] = [
     },
     {
         key: 'cuisineManagement',
-        path: '',
+        path: '/cuisines',
         title: 'Cuisine',
-        icon: 'collapseMenu',
+        icon: 'cuisine',
         translateKey: 'cuisine.management',
-        type: NAV_ITEM_TYPE_COLLAPSE,
+        type: NAV_ITEM_TYPE_ITEM,
         authority: [ADMIN],
         subMenu: [
             {
@@ -206,11 +206,11 @@ const navigationConfig: NavigationTree[] = [
     },
     {
         key: 'bannerManagement',
-        path: '',
-        title: 'Banner',
-        icon: 'collapseMenu',
+        path: '/banners',
+        title: 'Banners',
+        icon: 'banner',
         translateKey: 'cuisine.management',
-        type: NAV_ITEM_TYPE_COLLAPSE,
+        type: NAV_ITEM_TYPE_ITEM,
         authority: [ADMIN],
         subMenu: [
             {
@@ -240,7 +240,7 @@ const navigationConfig: NavigationTree[] = [
         path: '/users',
         title: 'Users',
         translateKey: 'user.list',
-        icon: 'home',
+        icon: 'users',
         type: NAV_ITEM_TYPE_ITEM,
         authority: [ADMIN],
         subMenu: [],
@@ -250,7 +250,7 @@ const navigationConfig: NavigationTree[] = [
         path: '/owners',
         title: 'Owners',
         translateKey: 'owners',
-        icon: 'home',
+        icon: 'owners',
         type: NAV_ITEM_TYPE_ITEM,
         authority: [ADMIN],
         subMenu: [],

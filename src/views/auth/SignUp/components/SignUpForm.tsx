@@ -39,7 +39,7 @@ const validationSchema = z
 
 const SignUpForm = (props: SignUpFormProps) => {
     // 1. add state for the selected role
-    const [userRole, setUserRole] = useState<string>('auth')
+    const [userRole, setUserRole] = useState<string>('owner')
 
     const { disableSubmit = false, className, setMessage } = props
 
@@ -89,7 +89,7 @@ const SignUpForm = (props: SignUpFormProps) => {
                 size="md"
                 onChange={(value) => setUserRole(value as string)}
             >
-                <Segment.Item value="auth">Admin</Segment.Item>
+                {/* <Segment.Item value="auth">Admin</Segment.Item> */}
                 <Segment.Item value="owner">Owner</Segment.Item>
                 {/* <Segment.Item value="staff">Staff</Segment.Item> */}
             </Segment>

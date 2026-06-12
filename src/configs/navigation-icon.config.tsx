@@ -5,6 +5,16 @@ import {
     PiBookBookmarkDuotone,
     PiAcornDuotone,
     PiBagSimpleDuotone,
+    PiUsersDuotone, // Perfect for general Users management
+    PiCrownDuotone, // Ideal for business Owners / VIPs
+    PiImageDuotone, // Great for Banners / Heros / Carousels
+    PiForkKnifeDuotone, // Fits perfectly for Cuisine / Menu / Restaurants
+    PiUserPlusDuotone, // Excellent for Create Owner / Add Admin actions
+    PiSquaresFourDuotone, // Clean, modern style for Dashboard
+    PiCookingPotDuotone, // Perfect for a Food Menu / Recipes item
+    PiIdentificationCardDuotone, // Professional look for Staff / Employees
+    PiGridFourDuotone, // Fits perfectly for Restaurant Tables / Seating
+    PiArticleDuotone, // Great layout metaphor for Blogs / News / Articles
 } from 'react-icons/pi'
 import type { JSX } from 'react'
 
@@ -17,6 +27,18 @@ const navigationIcon: NavigationIcons = {
     groupSingleMenu: <PiBookOpenUserDuotone />,
     groupCollapseMenu: <PiBookBookmarkDuotone />,
     groupMenu: <PiBagSimpleDuotone />,
+
+    users: <PiUsersDuotone />,
+    owners: <PiCrownDuotone />,
+    banner: <PiImageDuotone />,
+    cuisine: <PiForkKnifeDuotone />,
+    createOwnerAdmin: <PiUserPlusDuotone />,
+
+    dashboard: <PiSquaresFourDuotone />,
+    menu: <PiCookingPotDuotone />,
+    staffs: <PiIdentificationCardDuotone />,
+    table: <PiGridFourDuotone />,
+    blogs: <PiArticleDuotone />,
 }
 
 export default navigationIcon

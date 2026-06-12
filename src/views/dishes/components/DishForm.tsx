@@ -208,7 +208,7 @@ const DishForm = ({
                                         name="preparationTime"
                                         control={control}
                                         render={({ field }) => (
-                                            <FormItem label="Prep Time (minutes)">
+                                            <FormItem label="Preparation Time (minutes)">
                                                 <Input
                                                     {...field}
                                                     value={
