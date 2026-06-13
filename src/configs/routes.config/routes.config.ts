@@ -286,9 +286,22 @@ export const protectedRoutes: Routes = [
     },
     {
         key: 'owner.detail',
-        path: '/owners',
+        path: '/owners/:id',
         component: lazy(() => import('@/views/owner/OwnerDetail')),
         authority: [ADMIN],
+    },
+    // ========= owner page ============
+    {
+        key: 'owner.edit',
+        path: '/owners/edit-owner/:id',
+        component: lazy(() => import('@/views/owner/OwnerEdit')),
+        authority: [],
+    },
+    {
+        key: 'owner.create',
+        path: '/owners/create',
+        component: lazy(() => import('@/views/owner/OwnerCreate')),
+        authority: [],
     },
 
     // ===== create account page ===========

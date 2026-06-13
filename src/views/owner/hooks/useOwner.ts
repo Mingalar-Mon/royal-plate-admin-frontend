@@ -2,7 +2,7 @@ import { useMutation } from '@tanstack/react-query'
 import { ownerAPI, LoginRequest, LoginResponse, AuthError } from '../api/owner'
 import apiClient from '../api/client'
 import { AxiosError } from 'axios'
-import OneSignal from 'react-onesignal'
+// import OneSignal from 'react-onesignal'
 
 // type responseAPI = successResponse | failedResponse
 
@@ -16,7 +16,7 @@ export const useLoginOwner = () => {
         },
         onSuccess: async (data: LoginResponse) => {
             console.log('Login successful:', data)
-            await OneSignal.login(data.data.id)
+            // await OneSignal.login(data.data.id)
             localStorage.setItem('token', data.token)
             localStorage.setItem('owner', JSON.stringify(data.data))
             apiClient.defaults.headers.common['Authorization'] =

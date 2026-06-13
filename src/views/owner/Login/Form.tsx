@@ -8,7 +8,7 @@ import { z } from 'zod'
 import React from 'react'
 import { useLoginOwner } from '../hooks/useOwner'
 import { useNavigate } from 'react-router'
-import OneSignal from 'react-onesignal'
+// import OneSignal from 'react-onesignal'
 
 type FormSchema = {
     email: string

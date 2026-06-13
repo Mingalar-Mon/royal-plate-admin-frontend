@@ -345,7 +345,7 @@ const RestaurantForm = (props: RestaurantFormProps) => {
                                     return (
                                         <FormItem>
                                             <input
-                                                multiple
+                                                // multiple
                                                 type="file"
                                                 onChange={handleFileChange}
                                             />

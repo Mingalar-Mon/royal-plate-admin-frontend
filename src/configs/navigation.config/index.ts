@@ -30,7 +30,7 @@ const navigationConfig: NavigationTree[] = [
     },
     {
         key: 'sign-up',
-        path: '/sign-up',
+        path: '/owners/create', //'/sign-up',
         title: 'Create Owner',
         translateKey: 'sign-up.form',
         icon: 'createOwnerAdmin',

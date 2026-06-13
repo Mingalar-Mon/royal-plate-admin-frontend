@@ -68,13 +68,22 @@ const OwnerListTable = ({ data, total, loading }: OwnerListTableProps) => {
             {
                 header: '',
                 id: 'action',
-                cell: (props) => (
-                    <ActionColumn
-                        onView={() =>
-                            navigate(`/owners/${props.row.original.id}`)
-                        }
-                    />
-                ),
+                cell: (props) => {
+                    console.log('PROPS: ', props)
+                    return (
+                        <ActionColumn
+                            onView={() =>
+                                navigate(`/owners/${props.row.original.id}`)
+                            }
+                            onEdit={() => {
+                                console.log('On edit got clicked')
+                                navigate(
+                                    `/owners/edit-owner/${props.row.original.id}`,
+                                )
+                            }}
+                        />
+                    )
+                },
             },
         ],
         [navigate],

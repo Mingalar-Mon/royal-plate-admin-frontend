@@ -20,3 +20,39 @@ export async function apiGetOwnerDetail(ownerId: string) {
         method: 'get',
     })
 }
+
+export interface UpdateOwnerPayload {
+    id: string
+    data: {
+        name?: string
+        email?: string
+        phone?: string
+        password?: string
+    }
+}
+
+export async function apiUpdateOwnerDetail({ id, data }: UpdateOwnerPayload) {
+    return ApiService.fetchDataWithAxios<any>({
+        url: `/owner/update-owner/${id}`,
+        method: 'patch',
+        data,
+    })
+}
+
+export interface CreateOwnerPayload {
+    data: {
+        name: string
+        email: string
+        phone: string
+        password: string
+        code?: string
+    }
+}
+
+export async function apiCreateOwner({ data }: CreateOwnerPayload) {
+    return ApiService.fetchDataWithAxios<any>({
+        url: `/owner/create-owner`,
+        method: 'post',
+        data,
+    })
+}
