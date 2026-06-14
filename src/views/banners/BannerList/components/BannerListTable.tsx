@@ -9,6 +9,7 @@ import dayjs from 'dayjs'
 import { TbPictureInPicture } from 'react-icons/tb'
 import BannerTypeBadge from '../../components/BannerTypeBadge'
 import { ActionLink } from '@/components/shared'
+import { useDeleteBannerMutation } from '@/utils/custom-hooks/useBanner'
 
 interface BannerListTableProps {
     data: any[]
@@ -21,6 +22,8 @@ const BannerListTable = ({ data, total, loading }: BannerListTableProps) => {
 
     const tableData = useBannerStore((state) => state.tableData)
     const setTableData = useBannerStore((state) => state.setTableData)
+
+    const { mutate: deleteBanner } = useDeleteBannerMutation()
 
     const columns: ColumnDef<any>[] = useMemo(
         () => [
@@ -103,12 +106,12 @@ const BannerListTable = ({ data, total, loading }: BannerListTableProps) => {
                         onEdit={() =>
                             navigate(`/banners/edit/${props.row.original.id}`)
                         }
-                        onDelete={() => {}}
+                        onDelete={() => deleteBanner(props.row.original.id)}
                     />
                 ),
             },
         ],
-        [navigate],
+        [navigate, deleteBanner],
     )
 
     const handlePaginationChange = (page: number) =>

@@ -43,7 +43,7 @@ export async function apiUpdateBanner(id: string, formData: FormData) {
 
 export async function apiDeleteBanner(id: string) {
     return ApiService.fetchDataWithAxios<any>({
-        url: `/banners/delete/${id}`,
+        url: `/banners/delete-banner/${id}`,
         method: 'delete',
     })
 }
