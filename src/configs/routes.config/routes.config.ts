@@ -1,9 +1,8 @@
-import { Staff } from '@/@types/restaurant'
 import { lazy } from 'react'
 import authRoute from './authRoute'
 import othersRoute from './othersRoute'
 import type { Routes } from '@/@types/routes'
-import { ADMIN, OWNER, STAFF, USER } from '@/constants/roles.constant'
+import { ADMIN, OWNER, STAFF } from '@/constants/roles.constant'
 
 export const publicRoutes: Routes = [...authRoute]
 
@@ -216,7 +215,7 @@ export const protectedRoutes: Routes = [
     // blog
     {
         key: 'blog.list',
-        path: '/restaurants/:restaurantId/blogs/create',
+        path: '/restaurants/:restaurantId/blogs',
         component: lazy(() => import('@/views/blogs/BlogList')),
         authority: [OWNER, STAFF],
     },

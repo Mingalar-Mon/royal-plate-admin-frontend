@@ -144,7 +144,7 @@ const navigationConfig: NavigationTree[] = [
     },
     {
         key: 'blogManagement',
-        path: '/blogs',
+        path: '/restaurants/:restaurantId/blogs',
         title: 'Blog',
         icon: 'blogs',
         translateKey: 'cuisine.management',
