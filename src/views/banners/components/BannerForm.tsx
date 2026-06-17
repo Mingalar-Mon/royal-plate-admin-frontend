@@ -13,6 +13,7 @@ import {
     useGetRestaurantList,
     useGetRestaurants,
 } from '@/utils/custom-hooks/useRestaurant'
+import { Restaurant } from '@/@types/restaurant'
 
 interface BannerFormProps {
     onFormSubmit: (data: BannerFormData) => void
@@ -67,10 +68,15 @@ const BannerForm = ({
     */
 
     const restaurantOptions =
-        restaurantsResponse?.data?.map((r: any) => ({
-            value: r.id, // 🔑 The hidden UUID sent to the server
-            label: r.name, // 👁️ The human-readable name shown in UI
-        })) || []
+        restaurantsResponse?.data?.map((r: Restaurant) => {
+            console.log('Mapped restaurant: ', r)
+            return {
+                value: r.profile ? r.profile.id : r.id, // 🔑 The hidden UUID sent to the server
+                label: r.name, // 👁️ The human-readable name shown in UI
+            }
+        }) || []
+
+    console.log('Restaurant options: ', restaurantOptions)
 
     useEffect(() => {
         if (defaultValues) reset(defaultValues)

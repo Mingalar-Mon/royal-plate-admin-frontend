@@ -290,7 +290,13 @@ const RestaurantProfilePage = () => {
                                     key={method.id}
                                     className="px-3 py-1 bg-gray-100 dark:bg-gray-800 rounded-full text-sm flex items-center gap-1"
                                 >
-                                    {method.icon && <img>{method.icon}</img>}
+                                    {method.logoImage && (
+                                        <img
+                                            src={method.logoImage.url}
+                                            alt={method.name}
+                                            className="w-4 h-4 object-contain"
+                                        />
+                                    )}
                                     {method.name}
                                 </span>
                             ))}

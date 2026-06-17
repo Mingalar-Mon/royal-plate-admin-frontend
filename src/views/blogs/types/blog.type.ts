@@ -12,6 +12,35 @@ export interface Blog {
     viewCount: number
     createdAt: string
     updatedAt: string
+    restaurant: {
+        id: string
+        name: string
+        address: string
+        images: {
+            key: string
+            url: string
+        }[]
+        logoImage: {
+            key: string
+            url: string
+        }
+        startingPrice: number
+        endingPrice: number
+        tax: number
+        latitude: number | null
+        longitude: number | null
+        profile: {
+            id: string
+            description: string
+            openingHour: number
+            closingHour: number
+            contactNumber: string
+            websiteUrl?: string | undefined
+            parking: boolean
+            dressCode?: string
+            accessibility?: string
+        }
+    }
 }
 
 // export interface BlogFormData {

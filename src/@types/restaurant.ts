@@ -22,7 +22,7 @@ export type Cuisine = {
 export type PaymentMethod = {
     id: string
     name: string
-    icon?: string
+    logoImage?: { key: string; url: string }
 }
 
 export type RestaurantProfile = {

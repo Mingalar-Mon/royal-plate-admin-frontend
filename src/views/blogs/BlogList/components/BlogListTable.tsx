@@ -4,7 +4,10 @@ import { ColumnDef } from '@tanstack/react-table'
 import DataTable from '@/components/shared/DataTable'
 import dayjs from 'dayjs'
 import cloneDeep from 'lodash/cloneDeep'
-import { useBlogList } from '@/utils/custom-hooks/useBlog'
+import {
+    useBlogList,
+    useDeleteBlogMutation,
+} from '@/utils/custom-hooks/useBlog'
 import ActionColumn from '@/views/order/components/ActionColumn'
 import type { Blog, TableQueries } from '../../types/blog.type'
 import { useBlogStore } from '@/store/blogStore'
@@ -22,6 +25,7 @@ const BlogListTable = ({ data, total, loading }: BlogListTableProps) => {
     // )
     const tableData = useBlogStore((state) => state.tableData)
     const setTableData = useBlogStore((state) => state.setTableData)
+    const { mutate: deleteBlog } = useDeleteBlogMutation()
 
     const columns: ColumnDef<Blog>[] = useMemo(
         () => [
@@ -76,12 +80,17 @@ const BlogListTable = ({ data, total, loading }: BlogListTableProps) => {
                                 `/restaurants/${restaurantId}/blogs/edit/${props.row.original.id}`,
                             )
                         }
-                        onDelete={() => {}}
+                        onDelete={() =>
+                            deleteBlog({
+                                blogId: props.row.original.id,
+                                restaurantId: props.row.original.restaurant.id,
+                            })
+                        }
                     />
                 ),
             },
         ],
-        [restaurantId, navigate],
+        [restaurantId, navigate, deleteBlog],
     )
 
     const handlePaginationChange = (page: number) => {
