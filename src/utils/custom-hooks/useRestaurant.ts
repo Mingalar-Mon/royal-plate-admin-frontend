@@ -74,8 +74,11 @@ export const useUpdateRestaurant = () => {
 
             return apiUpdateRestaurant({ id, data })
         },
-        onSuccess: () => {
+        onSuccess: (_, variables) => {
             queryClient.invalidateQueries({ queryKey: ['restaurants', userId] })
+            queryClient.invalidateQueries({
+                queryKey: ['restaurant', variables.id],
+            })
         },
         onError: (error: unknown) => {
             console.log('Error updating restaurant: ', error)

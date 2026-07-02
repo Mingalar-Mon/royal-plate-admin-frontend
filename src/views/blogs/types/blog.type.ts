@@ -74,6 +74,8 @@ export const blogValidationSchema = z.object({
 })
 
 export type BlogFormData = z.infer<typeof blogValidationSchema>
+export type BlogFormInput = z.input<typeof blogValidationSchema>
+export type BlogFormOutput = z.output<typeof blogValidationSchema>
 
 export interface TableQueries {
     pageIndex: number

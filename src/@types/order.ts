@@ -50,6 +50,13 @@ export type Order = {
     status: OrderStatus
     created_at: string
     updated_at: string
+
+    confirmed_at?: string
+    accepted_at?: string
+    preparing_at?: string
+    ready_at?: string
+    completed_at?: string
+    terminated_at?: string
     user: User
     items: OrderItem[]
     message: string

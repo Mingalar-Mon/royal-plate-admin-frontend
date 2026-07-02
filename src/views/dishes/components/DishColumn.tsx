@@ -5,7 +5,7 @@ import { FiPackage } from 'react-icons/fi'
 // import type { Dish } from '../types/dish.type'
 
 const DishColumn = ({ row }: { row: Dish & { cuisine: Cuisine } }) => {
-    // console.log('Row: ', row)
+    console.log('image url: ', row.coverImage.url)
     return (
         <div className="flex items-center gap-2">
             <Avatar

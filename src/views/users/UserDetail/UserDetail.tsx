@@ -35,7 +35,8 @@ const UserDetail = () => {
     }
 
     // 2. Unpack your response data object wrapper safely
-    const user = userResponse?.user // at first this was userResponse?.data, but adjust according to your actual API response structure
+    // user initially
+    const user = userResponse?.data // at first this was userResponse?.data, but adjust according to your actual API response structure
     if (!user) return <div className="p-8 text-center">User not found</div>
 
     return (

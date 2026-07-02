@@ -20,6 +20,7 @@ import {
     useUpdateRestaurant,
     useDeleteRestaurant,
 } from '@/utils/custom-hooks/useRestaurant'
+import { RestaurantFormInput } from '@/@types/restaurant.type'
 
 // import { useSessionUser } from '@/store/authStore'
 
@@ -69,12 +70,15 @@ const EditRestaurant = () => {
         )
     }
 
-    const defaultValues: RestaurantFormSchema = {
+    console.log('Populating form with restaurant data: ', restaurantJson.data)
+
+    // RestaurantFormSchema
+    const defaultValues: RestaurantFormInput = {
         name: restaurantJson.data.name,
         address: restaurantJson.data.address,
         startingPrice: restaurantJson.data.startingPrice,
         endingPrice: restaurantJson.data.endingPrice,
-        tax: restaurantJson.data.tax,
+        tax: restaurantJson.data.tax * 100,
         latitude: restaurantJson.data.latitude,
         longitude: restaurantJson.data.longitude,
         logoImage: restaurantJson.data.logoImage,
@@ -110,7 +114,7 @@ const EditRestaurant = () => {
                 }
             })
             // ====== Send existing images as a JSON string
-            body.append('existingImages', JSON.stringify(existingImages))
+            // body.append('existingImages', JSON.stringify(existingImages))
 
             if (formData.logoImage instanceof File) {
                 body.append('logo', formData.logoImage)

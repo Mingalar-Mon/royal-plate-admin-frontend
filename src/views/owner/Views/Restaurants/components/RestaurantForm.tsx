@@ -3,27 +3,27 @@ import { Form, FormItem } from '@/components/ui/Form'
 import Container from '@/components/shared/Container'
 import { Controller, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import isEmpty from 'lodash/isEmpty'
+
 import BasicInfoSection from './BasicInfoSection'
 import PricingSection from './PricingSection'
 import LocationSection from './LocationSection'
-import ImageSection from './ImageSection'
-import StaffSection from './StaffSection'
+// import ImageSection from './ImageSection'
+// import StaffSection from './StaffSection'
 import {
     RestaurantFormInput,
     RestaurantFormOutput,
     restaurantValidationSchema,
     type RestaurantFormSchema,
-} from '../types/restaurantForm.types'
-import { Card } from '@/components/ui'
+} from '@/@types/restaurant.type'
+import { Card, Notification, toast } from '@/components/ui'
 import CropModal from '@/components/shared/ImageCrop/CropModel'
 import { removeItem } from 'framer-motion'
-import { remove } from 'lodash'
-import { TbTrash } from 'react-icons/tb'
+
+import { TbTrash, TbUpload } from 'react-icons/tb'
 
 interface RestaurantFormProps {
-    onFormSubmit: (values: RestaurantFormSchema) => void
-    defaultValues?: RestaurantFormSchema
+    onFormSubmit: (values: RestaurantFormOutput) => void
+    defaultValues?: RestaurantFormInput
     isNew?: boolean
     useMockStaff?: boolean
     children?: React.ReactNode
@@ -35,21 +35,8 @@ const RestaurantForm = (props: RestaurantFormProps) => {
         defaultValues,
         children,
         isNew = false,
-        useMockStaff = true,
+        // useMockStaff = true,
     } = props
-
-    type RestaurantFormValues = {
-        name: string
-        address: string
-        startingPrice: number | string
-        endingPrice: number | string
-        images: (File | { key: string; url: string })[]
-        staffIds: string[] // Strict type
-        latitude?: number | null | string
-        longitude?: number | null | string
-    }
-
-    // console.log('Default values: ', defaultValues)
 
     const {
         handleSubmit,
@@ -60,7 +47,6 @@ const RestaurantForm = (props: RestaurantFormProps) => {
         setValue,
     } = useForm<RestaurantFormInput, any, RestaurantFormOutput>({
         defaultValues: defaultValues || {
-            //RestaurantFormInput, any, RestaurantFormOutput
             name: '',
             address: '',
             tax: 0,
@@ -118,11 +104,16 @@ const RestaurantForm = (props: RestaurantFormProps) => {
                             errors={errors}
                             isNew={isNew}
                         />
-                        <PricingSection control={control} errors={errors} />
+                        <PricingSection
+                            control={control}
+                            errors={errors}
+                            getValues={getValues}
+                        />
                         <LocationSection
                             control={control}
                             errors={errors}
                             isNew={isNew}
+                            setValue={setValue}
                         />
                     </div>
 
@@ -133,7 +124,7 @@ const RestaurantForm = (props: RestaurantFormProps) => {
                             <Controller
                                 name="logoImage"
                                 control={control}
-                                render={({ field, fieldState: { error } }) => {
+                                render={({ field }) => {
                                     const [modalState, setModalState] =
                                         useState<{
                                             isOpen: boolean
@@ -150,20 +141,69 @@ const RestaurantForm = (props: RestaurantFormProps) => {
                                         e: React.ChangeEvent<HTMLInputElement>,
                                     ) => {
                                         const file = e.target.files?.[0]
-                                        if (file) {
-                                            const reader = new FileReader()
-                                            reader.addEventListener(
-                                                'load',
-                                                () =>
-                                                    setModalState({
-                                                        isOpen: true,
-                                                        src: reader.result as
-                                                            | string
-                                                            | null,
-                                                    }),
+
+                                        if (!file) return
+
+                                        // 1. Define logo rules (JPG, PNG, WEBP & Max 5MB)
+                                        const ALLOWED_TYPES = [
+                                            'image/jpeg',
+                                            'image/png',
+                                            'image/webp',
+                                        ]
+                                        const MAX_SIZE = 5 * 1024 * 1024
+
+                                        // 2. Run validations
+                                        if (
+                                            !ALLOWED_TYPES.includes(file.type)
+                                        ) {
+                                            toast.push(
+                                                <Notification
+                                                    title="Unsupported File"
+                                                    type="warning"
+                                                >
+                                                    File &quot;
+                                                    {file.name}&quot; is not
+                                                    supported. Please upload
+                                                    JPG, PNG, or WEBP.
+                                                </Notification>,
+                                                {
+                                                    placement: 'top-center',
+                                                },
                                             )
-                                            reader.readAsDataURL(file)
+                                            e.target.value = '' // Clear input history path
+                                            return
                                         }
+
+                                        if (file.size > MAX_SIZE) {
+                                            toast.push(
+                                                <Notification
+                                                    title="Unsupported File Size"
+                                                    type="warning"
+                                                >
+                                                    File &quot;
+                                                    {file.name}&quot; exceeds
+                                                    the 5MB size limit..
+                                                </Notification>,
+                                                {
+                                                    placement: 'top-center',
+                                                },
+                                            )
+                                            e.target.value = '' // Clear input history path
+                                            return
+                                        }
+                                        // if (file) {
+                                        const reader = new FileReader()
+                                        reader.addEventListener('load', () =>
+                                            setModalState({
+                                                isOpen: true,
+                                                src: reader.result as
+                                                    | string
+                                                    | null,
+                                            }),
+                                        )
+                                        reader.readAsDataURL(file)
+                                        // }
+                                        e.target.value = ''
                                     }
 
                                     return (
@@ -171,11 +211,14 @@ const RestaurantForm = (props: RestaurantFormProps) => {
                                             label="Logo Image Url"
                                             invalid={!!errors.logoImage}
                                             errorMessage={
-                                                errors.logoImage?.message
+                                                errors.logoImage?.message as
+                                                    | string
+                                                    | undefined
                                             }
                                         >
                                             <div
-                                                className="border-2 border-dashed p-4 rounded-lg text-center cursor-pointer"
+                                                className="border-2 border-dashed border-gray-300 dark:border-gray-700 hover:border-primary rounded-xl p-6 text-center cursor-pointer transition-colors"
+                                                // className="border-2 border-dashed p-4 rounded-lg text-center cursor-pointer"
                                                 onClick={() =>
                                                     document
                                                         .getElementById(
@@ -197,17 +240,19 @@ const RestaurantForm = (props: RestaurantFormProps) => {
                                                         className="h-40 w-full object-cover md:object-contain rounded"
                                                     />
                                                 ) : (
-                                                    <p>
-                                                        Click to upload logo
-                                                        image
-                                                    </p>
+                                                    <>
+                                                        <TbUpload className="mx-auto text-3xl text-gray-400 mb-2" />
+                                                        <p className="text-sm font-medium text-gray-600 dark:text-gray-400">
+                                                            Click to select
+                                                            article images
+                                                        </p>
+                                                        <p className="text-xs text-gray-400 mt-1">
+                                                            Supports JPG, PNG,
+                                                            WEBP (Max 5MB)
+                                                        </p>
+                                                    </>
                                                 )}
                                             </div>
-                                            {error && (
-                                                <p className="text-red-500 text-xs mt-1">
-                                                    {error.message}
-                                                </p>
-                                            )}
 
                                             <CropModal
                                                 isOpen={modalState.isOpen}
@@ -258,13 +303,78 @@ const RestaurantForm = (props: RestaurantFormProps) => {
 
                                         if (selectedFiles.length === 0) return
 
+                                        // 1. Define allowed types and max size (5MB = 5 * 1024 * 1024 bytes)
+                                        const ALLOWED_TYPES = [
+                                            'image/jpeg',
+                                            'image/png',
+                                            'image/webp',
+                                        ]
+                                        const MAX_SIZE = 5 * 1024 * 1024
+
+                                        const validFiles = selectedFiles.filter(
+                                            (file) => {
+                                                const isValidType =
+                                                    ALLOWED_TYPES.includes(
+                                                        file.type,
+                                                    )
+                                                const isValidSize =
+                                                    file.size <= MAX_SIZE
+
+                                                if (!isValidType) {
+                                                    toast.push(
+                                                        <Notification
+                                                            title="Unsupported File"
+                                                            type="warning"
+                                                        >
+                                                            File &quot;
+                                                            {file.name}&quot; is
+                                                            not supported.
+                                                            Please upload JPG,
+                                                            PNG, or WEBP.
+                                                        </Notification>,
+                                                        {
+                                                            placement:
+                                                                'top-center',
+                                                        },
+                                                    )
+                                                } else if (!isValidSize) {
+                                                    toast.push(
+                                                        <Notification
+                                                            title="Unsupported File"
+                                                            type="warning"
+                                                        >
+                                                            File &quot;
+                                                            {file.name}&quot;
+                                                            exceeds the 5MB size
+                                                            limit..
+                                                        </Notification>,
+                                                        {
+                                                            placement:
+                                                                'top-center',
+                                                        },
+                                                    )
+                                                }
+
+                                                return (
+                                                    isValidType && isValidSize
+                                                )
+                                            },
+                                        )
+
+                                        // 3. Stop execution if no valid files remain
+                                        if (validFiles.length === 0) {
+                                            e.target.value = '' // Clear input
+                                            return
+                                        }
+
                                         const incomingQueue: {
                                             file: File
                                             src: string
                                         }[] = []
                                         let loadedCount = 0
 
-                                        selectedFiles.forEach((file: File) => {
+                                        // 4. Process only the valid files (selectedFiles initially)
+                                        validFiles.forEach((file: File) => {
                                             const reader = new FileReader()
                                             reader.addEventListener(
                                                 'load',
@@ -343,12 +453,40 @@ const RestaurantForm = (props: RestaurantFormProps) => {
                                     }
 
                                     return (
-                                        <FormItem>
-                                            <input
-                                                // multiple
-                                                type="file"
-                                                onChange={handleFileChange}
-                                            />
+                                        <FormItem
+                                            label="Restaurant Images "
+                                            invalid={!!errors.images}
+                                            errorMessage={
+                                                errors.images?.message
+                                            }
+                                        >
+                                            <div
+                                                className="border-2 border-dashed border-gray-300 dark:border-gray-700 hover:border-primary rounded-xl p-6 text-center cursor-pointer transition-colors"
+                                                onClick={() =>
+                                                    document
+                                                        .getElementById(
+                                                            'restaurantImages',
+                                                        )
+                                                        ?.click()
+                                                }
+                                            >
+                                                <input
+                                                    hidden
+                                                    id="restaurantImages"
+                                                    // multiple
+                                                    type="file"
+                                                    onChange={handleFileChange}
+                                                />
+                                                <TbUpload className="mx-auto text-3xl text-gray-400 mb-2" />
+                                                <p className="text-sm font-medium text-gray-600 dark:text-gray-400">
+                                                    Click to select article
+                                                    images
+                                                </p>
+                                                <p className="text-xs text-gray-400 mt-1">
+                                                    Supports JPG, PNG, WEBP (Max
+                                                    5MB)
+                                                </p>
+                                            </div>
                                             <div className="grid grid-cols-3 gap-2 mt-2">
                                                 {currentImages.map((img, i) => {
                                                     const previewUrl =
@@ -361,7 +499,7 @@ const RestaurantForm = (props: RestaurantFormProps) => {
                                                         >
                                                             <img
                                                                 src={previewUrl}
-                                                                className="h-20 w-full object-cover rounded"
+                                                                className="h-30 w-full object-cover rounded"
                                                             />
                                                             <button
                                                                 type="button"

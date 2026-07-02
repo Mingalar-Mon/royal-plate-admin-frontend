@@ -9,6 +9,7 @@ import type { RestaurantFormSchema } from './types/restaurantForm.types'
 
 import { useCreateRestaurant } from '@/utils/custom-hooks/useRestaurant'
 import { toast } from '@/components/ui'
+import { RestaurantFormInput } from '@/@types/restaurant.type'
 // import { useCreateRestaurant } from '../../hooks/useRestaurant'
 
 const CreateRestaurant = () => {
@@ -22,7 +23,7 @@ const CreateRestaurant = () => {
 
     // const createMutation = useCreateRestaurant()
 
-    const { mutate: createRestaurant, isPending } = useCreateRestaurant()
+    const { mutate: createRestaurant } = useCreateRestaurant()
 
     const defaultValues: Partial<RestaurantFormSchema> = {
         name: '',
@@ -36,6 +37,7 @@ const CreateRestaurant = () => {
     }
 
     const handleFormSubmit = async (formData: RestaurantFormSchema) => {
+        console.log('Form Data for creation: ', formData)
         try {
             // 1. create a FormData instance
             const body = new FormData()
@@ -58,10 +60,12 @@ const CreateRestaurant = () => {
 
             // 4.send to mutation
             createRestaurant(body, {
-                onSuccess: (response) =>
+                onSuccess: (response) => {
                     navigate(
                         `/restaurant/create-restaurant-profile/${response.data[0].id}`,
-                    ),
+                    )
+                    toastNotification
+                },
                 onError: (error) => {
                     console.error('Error:', error)
                     alert(
@@ -96,7 +100,7 @@ const CreateRestaurant = () => {
 
     return (
         <RestaurantForm
-            defaultValues={defaultValues as RestaurantFormSchema}
+            defaultValues={defaultValues as RestaurantFormInput}
             isNew={true}
             onFormSubmit={handleFormSubmit}
         >

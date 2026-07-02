@@ -11,6 +11,7 @@ import {
     TbAlarm,
     TbEraserOff,
     TbThumbUp,
+    TbUserOff,
 } from 'react-icons/tb'
 
 const statusConfig = {
@@ -53,6 +54,12 @@ const statusConfig = {
         label: 'Complete',
         color: 'bg-emerald-100 text-blue-700',
         icon: TbCircleCheck,
+    },
+
+    no_show: {
+        label: 'No Show',
+        color: 'bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-400',
+        icon: TbUserOff,
     },
 }
 

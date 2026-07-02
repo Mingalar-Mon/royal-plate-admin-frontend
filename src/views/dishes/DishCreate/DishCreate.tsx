@@ -21,7 +21,7 @@ const DishCreate = () => {
     const { mutate: createDish } = useCreateDish()
     const { data: cuisinesData } = useGetCuisines({
         ...tableData,
-        pageSize: 1000,
+        pageSize: 100,
     })
 
     const handleSubmit = async (data: DishFormData) => {

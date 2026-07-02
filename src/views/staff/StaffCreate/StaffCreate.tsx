@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import { useNavigate, useParams } from 'react-router'
 import Button from '@/components/ui/Button'
 import Notification from '@/components/ui/Notification'
@@ -6,8 +5,7 @@ import toast from '@/components/ui/toast'
 import { TbArrowNarrowLeft } from 'react-icons/tb'
 import StaffForm from '../components/StaffForm'
 import type { StaffFormData } from '../types/staff.type'
-import PostLoginLayout from '@/components/layouts/PostLoginLayout'
-import { useThemeStore } from '@/store/themeStore'
+
 import { useCreateStaff } from '@/utils/custom-hooks/useStaff'
 import { AdaptiveCard } from '@/components/shared'
 

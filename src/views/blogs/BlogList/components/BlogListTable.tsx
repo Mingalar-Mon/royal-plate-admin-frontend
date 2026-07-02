@@ -3,13 +3,10 @@ import { useNavigate, useParams } from 'react-router'
 import { ColumnDef } from '@tanstack/react-table'
 import DataTable from '@/components/shared/DataTable'
 import dayjs from 'dayjs'
-import cloneDeep from 'lodash/cloneDeep'
-import {
-    useBlogList,
-    useDeleteBlogMutation,
-} from '@/utils/custom-hooks/useBlog'
+
+import { useDeleteBlogMutation } from '@/utils/custom-hooks/useBlog'
 import ActionColumn from '@/views/order/components/ActionColumn'
-import type { Blog, TableQueries } from '../../types/blog.type'
+import type { Blog } from '../../types/blog.type'
 import { useBlogStore } from '@/store/blogStore'
 
 interface BlogListTableProps {
@@ -61,7 +58,7 @@ const BlogListTable = ({ data, total, loading }: BlogListTableProps) => {
             },
             {
                 header: 'Created',
-                accessorKey: 'createdAt',
+                accessorKey: 'created_at',
                 cell: (props) =>
                     dayjs(props.row.original.createdAt).format('DD/MM/YYYY'),
             },

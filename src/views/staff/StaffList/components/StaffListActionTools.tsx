@@ -1,19 +1,10 @@
 import Button from '@/components/ui/Button'
-import { TbCloudDownload, TbPlus } from 'react-icons/tb'
+import { TbCloudDownload, TbPlus, TbRefresh } from 'react-icons/tb'
 import { useNavigate, useParams } from 'react-router'
-import { CSVLink } from 'react-csv'
-import { useStaffList } from '@/utils/custom-hooks/useStaff'
-import { Staff } from '@/services/RestaurantStaffService'
 
-const StaffListActionTools = ({
-    staffList,
-    restaurantId,
-}: {
-    staffList: Staff[]
-    restaurantId: string
-}) => {
+const StaffListActionTools = ({ onRefresh }: { onRefresh: () => void }) => {
     const navigate = useNavigate()
-    // const { restaurantId } = useParams()
+    const { restaurantId } = useParams()
     // const { staffList } = useStaffList(restaurantId!)
 
     return (
@@ -29,6 +20,9 @@ const StaffListActionTools = ({
                 }
             >
                 Add Staff
+            </Button>
+            <Button icon={<TbRefresh />} onClick={onRefresh}>
+                Refresh
             </Button>
         </div>
     )

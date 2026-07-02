@@ -76,16 +76,19 @@ export const useUpdateRestaurant = () => {
 
     return useMutation({
         mutationFn: ({ id, data }: updateRequest) => {
-            console.log(data)
+            console.log('Updating the restaurant : ', id, 'with data: ', data)
             // const { owner, staff, ownerId, staffIds, ...refinedData } = data
             // TODO: change this to DTO
             return restaurantAPI.updateRestaurant(id, data)
         },
 
-        onSuccess: () => {
+        onSuccess: (_, variables) => {
+            console.log('Restaurant id', variables.id)
             // changes to restaurant list => invalidate existing data
             queryClient.invalidateQueries({ queryKey: ['restaurants'] })
-
+            queryClient.invalidateQueries({
+                queryKey: ['restaurant', variables.id],
+            })
             // TODO: model - success
 
             toast.push('success')

@@ -25,6 +25,17 @@ const OrderDetails = () => {
 
     console.log('Order', order)
 
+    const normalisedOrder = {
+        status: order.status,
+        created_at: order.created_at,
+        confirmed_at: order.confirmed_at,
+        accepted_at: order.accepted_at,
+        preparing_at: order.preparing_at,
+        ready_at: order.ready_at,
+        completed_at: order.completed_at,
+        terminated_at: order.terminated_at,
+    }
+
     return (
         <Container>
             <div className="py-6">
@@ -49,6 +60,7 @@ const OrderDetails = () => {
                             // paymentStatus={order.paymentStatus}
                         />
                         <OrderDetailsActivities
+                            order={normalisedOrder}
                             status={order.status}
                             createdAt={order.created_at}
                         />

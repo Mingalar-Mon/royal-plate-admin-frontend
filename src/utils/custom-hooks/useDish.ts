@@ -1,5 +1,3 @@
-// import { Dish } from '@/views/order/types/order.type'
-import { Notification, Toast } from '@/components/ui'
 import {
     apiCreateDish,
     apiDeleteDish,
@@ -12,10 +10,9 @@ import { delay } from '../helpers/mock.helper'
 // import { mockDishes } from '../mock/orderData'
 import { mockDishes } from '../mock/dishData'
 import {
-    Dish,
+    // Dish,
     TableQueries,
     FilterFormData,
-    DishFormData,
 } from '@/views/dishes/types/dish.type'
 import { useState } from 'react'
 import { useParams } from 'react-router'

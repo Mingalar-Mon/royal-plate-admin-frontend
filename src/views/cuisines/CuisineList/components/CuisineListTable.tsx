@@ -32,7 +32,7 @@ const CuisineListTable = ({ data, total, loading }: CuisineListTableProps) => {
                 id: 'image',
                 cell: (props) => (
                     <CuisineImage
-                        src={props.row.original.image}
+                        src={props.row.original.image.url}
                         name={props.row.original.name}
                     />
                 ),

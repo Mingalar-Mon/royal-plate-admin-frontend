@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useForm, Controller, useController } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Form, FormItem } from '@/components/ui/Form'
@@ -9,11 +9,10 @@ import Select from '@/components/ui/Select'
 import { TbUpload } from 'react-icons/tb'
 import { bannerValidationSchema } from '@/@types/banner.type'
 import type { BannerFormData } from '@/@types/banner.type'
-import {
-    useGetRestaurantList,
-    useGetRestaurants,
-} from '@/utils/custom-hooks/useRestaurant'
+import { useGetRestaurantList } from '@/utils/custom-hooks/useRestaurant'
 import { Restaurant } from '@/@types/restaurant'
+import CropModal from '@/components/shared/ImageCrop/CropModel'
+import { Notification, toast } from '@/components/ui'
 
 interface BannerFormProps {
     onFormSubmit: (data: BannerFormData) => void
@@ -51,7 +50,7 @@ const BannerForm = ({
 
     // 1. Core single source of truth field tracking for image data slot
     const { field: imageField } = useController({ name: 'image', control })
-    const activeImage = imageField.value
+    // const activeImage = imageField.value
 
     // WATCH THE DYNAMIC TYPE CHANGES
     const currentBannerType = watch('type')
@@ -71,8 +70,8 @@ const BannerForm = ({
         restaurantsResponse?.data?.map((r: Restaurant) => {
             console.log('Mapped restaurant: ', r)
             return {
-                value: r.profile ? r.profile.id : r.id, // 🔑 The hidden UUID sent to the server
-                label: r.name, // 👁️ The human-readable name shown in UI
+                value: r.profile ? r.profile.id : r.id, // the uuid sent to the server
+                label: r.name, //  the human-readable name shown in UI
             }
         }) || []
 
@@ -114,7 +113,179 @@ const BannerForm = ({
                                     invalid={!!errors.image}
                                     errorMessage={errors.image?.message}
                                 >
-                                    <div className="space-y-4">
+                                    {(() => {
+                                        // 1. Initialize local modal state for the cropper workflow
+                                        const [modalState, setModalState] =
+                                            useState<{
+                                                isOpen: boolean
+                                                src: string | null
+                                            }>({
+                                                isOpen: false,
+                                                src: null,
+                                            })
+
+                                        const activeImage = imageField.value
+                                        const previewUrl = activeImage
+                                            ? getPreviewUrl(activeImage)
+                                            : ''
+
+                                        const handleBannerSelect = (
+                                            e: React.ChangeEvent<HTMLInputElement>,
+                                        ) => {
+                                            const file = e.target.files?.[0]
+                                            if (!file) return
+
+                                            // 2. Enforce explicit validation constraints (Max 5MB)
+                                            const ALLOWED_TYPES = [
+                                                'image/jpeg',
+                                                'image/png',
+                                                'image/webp',
+                                            ]
+                                            const MAX_SIZE = 5 * 1024 * 1024
+
+                                            if (
+                                                !ALLOWED_TYPES.includes(
+                                                    file.type,
+                                                )
+                                            ) {
+                                                toast.push(
+                                                    <Notification
+                                                        title="Unsupported File"
+                                                        type="warning"
+                                                    >
+                                                        File &quot;
+                                                        {file.name}&quot; is not
+                                                        supported. Please upload
+                                                        JPG, PNG, or WEBP.
+                                                    </Notification>,
+                                                    {
+                                                        placement: 'top-center',
+                                                    },
+                                                )
+                                                e.target.value = ''
+                                                return
+                                            }
+
+                                            if (file.size > MAX_SIZE) {
+                                                toast.push(
+                                                    <Notification
+                                                        title="Unsupported File"
+                                                        type="warning"
+                                                    >
+                                                        File &quot;
+                                                        {file.name}&quot; is not
+                                                        supported. Please upload
+                                                        JPG, PNG, or WEBP.
+                                                    </Notification>,
+                                                    {
+                                                        placement: 'top-center',
+                                                    },
+                                                )
+                                                e.target.value = ''
+                                                return
+                                            }
+
+                                            // 3. Process the file to display inside the crop canvas
+                                            const reader = new FileReader()
+                                            reader.addEventListener(
+                                                'load',
+                                                () => {
+                                                    setModalState({
+                                                        isOpen: true,
+                                                        src: reader.result as
+                                                            | string
+                                                            | null,
+                                                    })
+                                                },
+                                            )
+                                            reader.readAsDataURL(file)
+
+                                            // Reset the native input target string path
+                                            e.target.value = ''
+                                        }
+
+                                        return (
+                                            <div className="space-y-4">
+                                                <div
+                                                    className="border-2 border-dashed border-gray-300 dark:border-gray-700 hover:border-primary rounded-xl p-6 text-center cursor-pointer transition-colors"
+                                                    onClick={() =>
+                                                        document
+                                                            .getElementById(
+                                                                'bannerFileInput',
+                                                            )
+                                                            ?.click()
+                                                    }
+                                                >
+                                                    <input
+                                                        id="bannerFileInput"
+                                                        type="file"
+                                                        className="hidden"
+                                                        // Restrict desktop picker explorer screen views
+                                                        accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp"
+                                                        onChange={
+                                                            handleBannerSelect
+                                                        }
+                                                    />
+                                                    <TbUpload className="mx-auto text-3xl text-gray-400 mb-2" />
+                                                    <p className="text-sm font-medium text-gray-600 dark:text-gray-400">
+                                                        Click to select banner
+                                                        promotional image
+                                                    </p>
+                                                    <p className="text-xs text-gray-400 mt-1">
+                                                        Supports JPG, PNG, WEBP
+                                                        (Max 5MB)
+                                                    </p>
+                                                </div>
+
+                                                {activeImage && previewUrl && (
+                                                    <div className="mt-4 rounded-xl overflow-hidden border dark:border-gray-800 shadow-sm max-w-xl mx-auto">
+                                                        <img
+                                                            src={previewUrl}
+                                                            alt="Promotional banner preview"
+                                                            className="w-full h-50 object-cover"
+                                                        />
+                                                    </div>
+                                                )}
+
+                                                <CropModal
+                                                    isOpen={modalState.isOpen}
+                                                    imageSrc={
+                                                        modalState.src || ''
+                                                    }
+                                                    aspect={16 / 9}
+                                                    onClose={() =>
+                                                        setModalState({
+                                                            isOpen: false,
+                                                            src: null,
+                                                        })
+                                                    }
+                                                    onCropComplete={(
+                                                        croppedFile: File,
+                                                    ) => {
+                                                        // Safe clean up handling for local object blob urls if applicable
+                                                        if (
+                                                            activeImage instanceof
+                                                            File
+                                                        ) {
+                                                            URL.revokeObjectURL(
+                                                                previewUrl,
+                                                            )
+                                                        }
+                                                        // Fire mutation state updates up into React Hook Form
+                                                        imageField.onChange(
+                                                            croppedFile,
+                                                        )
+                                                        setModalState({
+                                                            isOpen: false,
+                                                            src: null,
+                                                        })
+                                                    }}
+                                                />
+                                            </div>
+                                        )
+                                    })()}
+
+                                    {/* <div className="space-y-4">
                                         <div
                                             className="border-2 border-dashed border-gray-300 dark:border-gray-700 hover:border-primary rounded-xl p-6 text-center cursor-pointer transition-colors"
                                             onClick={() =>
@@ -146,7 +317,7 @@ const BannerForm = ({
                                             </p>
                                         </div>
 
-                                        {/* Live Preview Display Card Item Container */}
+                                        //  Live Preview Display Card Item Container *
                                         {activeImage && (
                                             <div className="mt-4 rounded-xl overflow-hidden border dark:border-gray-800 shadow-sm max-w-xl mx-auto">
                                                 <img
@@ -157,8 +328,10 @@ const BannerForm = ({
                                                     className="w-full h-40 object-cover"
                                                 />
                                             </div>
+
+
                                         )}
-                                    </div>
+                                    </div> */}
                                 </FormItem>
 
                                 <Controller
@@ -167,7 +340,16 @@ const BannerForm = ({
                                     render={({ field }) => {
                                         if (currentBannerType === 'in_app') {
                                             return (
-                                                <FormItem>
+                                                <FormItem
+                                                    label="Select a restaurant"
+                                                    invalid={
+                                                        !!errors.linkToRestaurant
+                                                    }
+                                                    errorMessage={
+                                                        errors.linkToRestaurant
+                                                            ?.message
+                                                    }
+                                                >
                                                     <Select
                                                         options={
                                                             restaurantOptions
@@ -190,7 +372,7 @@ const BannerForm = ({
 
                                         return (
                                             <FormItem
-                                                label="Linked Target Restaurant ID"
+                                                label="External Campaign Web Link"
                                                 invalid={
                                                     !!errors.linkToRestaurant
                                                 }
@@ -223,9 +405,17 @@ const BannerForm = ({
                                                         opt.value ===
                                                         field.value,
                                                 )}
-                                                onChange={(opt) =>
+                                                onChange={(opt) => {
                                                     field.onChange(opt?.value)
-                                                }
+                                                    setValue(
+                                                        'linkToRestaurant',
+                                                        '',
+                                                        {
+                                                            shouldValidate: false, // Prevents instant validation errors on swap
+                                                            shouldDirty: true,
+                                                        },
+                                                    )
+                                                }}
                                             />
                                         </FormItem>
                                     )}

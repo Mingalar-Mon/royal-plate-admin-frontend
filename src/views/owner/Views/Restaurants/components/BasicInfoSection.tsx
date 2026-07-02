@@ -5,8 +5,8 @@ import { Controller } from 'react-hook-form'
 import type { Control, FieldErrors } from 'react-hook-form'
 import type {
     RestaurantFormInput,
-    RestaurantFormSchema,
-} from '../types/restaurantForm.types'
+    // RestaurantFormSchema,
+} from '@/@types/restaurant.type'
 
 interface BasicInfoSectionProps {
     control: Control<RestaurantFormInput>

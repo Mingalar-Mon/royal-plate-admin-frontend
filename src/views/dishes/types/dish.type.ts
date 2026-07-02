@@ -15,7 +15,9 @@ export interface Dish {
 
 export const dishValidationSchema = z.object({
     name: z.string().min(1, 'Dish name is required'),
-    price: z.coerce.number().min(1, 'Price must be at least 1'), // coerce handles string input from HTML
+    price: z.coerce
+        .number<string | number>()
+        .min(1, 'Price must be at least 1'), // coerce handles string input from HTML
     category: z.string().min(1, 'Please select a cuisine category'),
     // Images are Files on create, but might be strings (URLs) on edit
     coverImage: z
@@ -45,7 +47,7 @@ export const dishValidationSchema = z.object({
     deletedImageKeys: z.array(z.string()).default([]),
 })
 
-// export type DishFormData = z.infer<typeof dishValidationSchema>
+export type DishFormData = z.infer<typeof dishValidationSchema>
 export type DishFormInput = z.input<typeof dishValidationSchema>
 export type DishFormOutput = z.output<typeof dishValidationSchema>
 

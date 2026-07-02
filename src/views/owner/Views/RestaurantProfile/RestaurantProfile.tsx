@@ -27,10 +27,6 @@ const RestaurantProfilePage = () => {
     const navigate = useNavigate()
     const { setActiveRestaurant } = useRestaurantStore()
 
-    console.log(restaurantId)
-
-    console.log('Restaurant Profile page got resndered.')
-
     const { data: profile, isLoading } = useGetRestaurantProfile(
         restaurantId as string,
     )
@@ -107,9 +103,6 @@ const RestaurantProfilePage = () => {
             </Container>
         )
     }
-    // console.log('Restaurant Profile', profile)
-    // profile.cuisines = MOCK_CUISINES
-    // profile.paymentMethods = MOCK_PAYMENT_METHODS
 
     const images = profile.data.restaurant.images.map((img) => img.url)
 
@@ -290,9 +283,9 @@ const RestaurantProfilePage = () => {
                                     key={method.id}
                                     className="px-3 py-1 bg-gray-100 dark:bg-gray-800 rounded-full text-sm flex items-center gap-1"
                                 >
-                                    {method.logoImage && (
+                                    {method.image && (
                                         <img
-                                            src={method.logoImage.url}
+                                            src={method.image.url}
                                             alt={method.name}
                                             className="w-4 h-4 object-contain"
                                         />

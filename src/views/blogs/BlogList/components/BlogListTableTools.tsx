@@ -1,11 +1,11 @@
 import BlogListSearch from './BlogListSearch'
-import { useBlogList } from '@/utils/custom-hooks/useBlog'
+
 import { useParams } from 'react-router'
-import cloneDeep from 'lodash/cloneDeep'
+
 import { useBlogStore } from '@/store/blogStore'
 
 const BlogListTableTools = () => {
-    const { restaurantId } = useParams()
+    // const { restaurantId } = useParams()
     // const { tableData, setTableData } = useBlogList(restaurantId!)
     const setTableData = useBlogStore((state) => state.setTableData)
 

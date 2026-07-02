@@ -1,14 +1,12 @@
 import { useState } from 'react'
 import { useParams, useNavigate } from 'react-router'
 import Button from '@/components/ui/Button'
-import Notification from '@/components/ui/Notification'
-import toast from '@/components/ui/toast'
+
 import ConfirmDialog from '@/components/shared/ConfirmDialog'
 import { TbTrash, TbArrowNarrowLeft } from 'react-icons/tb'
 import CuisineForm from '../components/CuisineForm'
 import type { CuisineFormData } from '../types/cuisine.type'
-import PostLoginLayout from '@/components/layouts/PostLoginLayout'
-import { useThemeStore } from '@/store/themeStore'
+
 import {
     // useCuisine,
     // useUpdateCuisine,
@@ -20,14 +18,9 @@ import {
 import { AdaptiveCard } from '@/components/shared'
 
 const CuisineEdit = () => {
-    console.log('Cuisine edit page')
     const { id } = useParams()
     const navigate = useNavigate()
     const [deleteConfirmationOpen, setDeleteConfirmationOpen] = useState(false)
-
-    console.log('ID: ', id)
-
-    const layoutType = useThemeStore((state) => state.layout)
 
     const { data: cuisineResponse, isLoading } = useCuisineDetailQuery(id!)
     const { mutate: updateCuisine, isPending: isUpdating } =

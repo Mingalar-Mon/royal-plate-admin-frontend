@@ -8,6 +8,12 @@ const authRoute: Routes = [
         component: lazy(() => import('@/views/auth/SignIn')),
         authority: [],
     },
+    {
+        key: 'signInForUser',
+        path: `/users/sign-in`,
+        component: lazy(() => import('@/views/auth/SignInUsers')),
+        authority: [],
+    },
     // {
     //     key: 'signUp',
     //     path: '/sign-up',

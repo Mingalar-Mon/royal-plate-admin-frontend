@@ -8,15 +8,13 @@ import {
     TbCalendar,
     TbInfoCircle,
 } from 'react-icons/tb'
-import PostLoginLayout from '@/components/layouts/PostLoginLayout'
-import { useThemeStore } from '@/store/themeStore'
+
 import { useCuisineDetailQuery } from '@/utils/custom-hooks/useCuisine'
 import dayjs from 'dayjs'
 
 const CuisineDetail = () => {
     const { id } = useParams()
     const navigate = useNavigate()
-    const layoutType = useThemeStore((state) => state.layout.type)
     const { data: cuisineResponse, isLoading } = useCuisineDetailQuery(id!)
 
     if (isLoading) return <div className="p-8 text-center">Loading...</div>
@@ -69,9 +67,9 @@ const CuisineDetail = () => {
                                 {cuisine.image && (
                                     <div>
                                         <img
-                                            src={cuisine.image}
+                                            src={cuisine.image.url}
                                             alt={cuisine.name}
-                                            className="w-full rounded-lg"
+                                            className="w-full object-contain rounded-lg"
                                         />
                                     </div>
                                 )}
@@ -79,7 +77,7 @@ const CuisineDetail = () => {
                                     <TbCalendar className="text-gray-500" />
                                     <span>
                                         Created:{' '}
-                                        {dayjs(cuisine.createdAt).format(
+                                        {dayjs(cuisine.created_at).format(
                                             'DD MMM YYYY',
                                         )}
                                     </span>
@@ -88,7 +86,7 @@ const CuisineDetail = () => {
                                     <TbInfoCircle className="text-gray-500" />
                                     <span>
                                         Last updated:{' '}
-                                        {dayjs(cuisine.updatedAt).format(
+                                        {dayjs(cuisine.updated_at).format(
                                             'DD MMM YYYY',
                                         )}
                                     </span>

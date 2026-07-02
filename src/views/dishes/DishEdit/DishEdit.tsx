@@ -31,7 +31,7 @@ const DishEdit = () => {
     // get data from hooks, stop using is submitting
     const [isSubmitting, setIsSubmitting] = useState(false)
 
-    const { mutate: updateDish, isPending: isUpdating } = useUpdateDish()
+    const { mutate: updateDish } = useUpdateDish()
     const { mutate: deleteDish } = useDeleteDish()
     const { data: cuisines } = useGetCuisines({ ...tableData, pageSize: 1000 })
 

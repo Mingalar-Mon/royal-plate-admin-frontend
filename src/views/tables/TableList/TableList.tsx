@@ -10,7 +10,10 @@ import { useTableListQuery } from '@/utils/custom-hooks/useTable'
 const TableList = () => {
     const { restaurantId } = useParams()
     const tableData = useTableStore((state) => state.tableData)
-    const { data, isLoading } = useTableListQuery(restaurantId!, tableData)
+    const { data, isLoading, refetch } = useTableListQuery(
+        restaurantId!,
+        tableData,
+    )
 
     const tablesList = data?.data || []
     const tablesTotal = data?.paginator?.totalItems || 0
@@ -21,7 +24,7 @@ const TableList = () => {
                 <div className="flex flex-col gap-4">
                     <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-2">
                         <h3>Tables</h3>
-                        <TableListActionTools data={tablesList} />
+                        <TableListActionTools onRefresh={refetch} />
                     </div>
                     <TableListTableTools />
                     <TableListTable

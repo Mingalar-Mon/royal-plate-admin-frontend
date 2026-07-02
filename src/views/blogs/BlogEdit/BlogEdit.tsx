@@ -1,16 +1,13 @@
 import { useState } from 'react'
 import { useParams, useNavigate } from 'react-router'
 import {
-    // useBlog,
-    // useUpdateBlog,
-    // useDeleteBlog,
     useGetBlogDetailQuery,
     useUpdateBlogMutation,
     useDeleteBlogMutation,
-} from '@/utils/custom-hooks/useBlog' // Your unified hooks path
+} from '@/utils/custom-hooks/useBlog'
 import { useGetDishes } from '@/utils/custom-hooks/useDish'
-import { useStaffStore } from '@/store/staffStore' // Adjust paths to match your systems
-import { useRestaurantStore } from '@/store/restaurantStore'
+// import { useStaffStore } from '@/store/staffStore'
+// import { useRestaurantStore } from '@/store/restaurantStore'
 import Button from '@/components/ui/Button'
 import Notification from '@/components/ui/Notification'
 import toast from '@/components/ui/toast'

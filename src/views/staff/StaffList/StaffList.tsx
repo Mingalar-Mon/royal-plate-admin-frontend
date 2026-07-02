@@ -13,7 +13,7 @@ const StaffList = () => {
 
     const tableData = useStaffStore((state) => state.tableData)
 
-    const { staffList, isLoading, total } = useStaffList({
+    const { staffList, isLoading, total, refetch } = useStaffList({
         restaurantId: restaurantId!,
         params: tableData,
     })
@@ -23,10 +23,7 @@ const StaffList = () => {
                 <div className="flex flex-col gap-4">
                     <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-2">
                         <h3>Staff Members</h3>
-                        <StaffListActionTools
-                            restaurantId={restaurantId!}
-                            staffList={staffList}
-                        />
+                        <StaffListActionTools onRefresh={refetch} />
                     </div>
                     <StaffListTableTools
                     // tableData={tableData}

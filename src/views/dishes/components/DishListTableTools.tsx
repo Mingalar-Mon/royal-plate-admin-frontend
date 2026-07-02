@@ -1,10 +1,11 @@
+import { useDishStore } from '@/store/dishStore'
 import DishListSearch from './DishListSearch'
 import DishTableFilter from './DishTableFilter'
 import { useDishList } from '@/utils/custom-hooks/useDish'
 import cloneDeep from 'lodash/cloneDeep'
 
 const DishListTableTools = () => {
-    const { setTableData } = useDishList()
+    const { setTableData } = useDishStore()
 
     const handleInputChange = (val: string) => {
         setTableData((prev) => ({ ...prev, query: val, pageIndex: 1 }))

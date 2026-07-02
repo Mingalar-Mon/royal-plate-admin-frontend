@@ -106,8 +106,8 @@ export async function apiGetStaffList({
             limit: params.pageSize,
             search: params.query,
             role: params.role,
-            sortBy: params.sort?.key,
-            sortOrder: params.sort?.order,
+            sortKey: params.sort?.key || 'created_at',
+            sortOrder: params.sort?.order || 'DESC',
         },
     })
 }

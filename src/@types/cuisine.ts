@@ -1,4 +1,14 @@
-import { Cuisine } from './restaurant'
+export interface Cuisine {
+    id: string
+    name: string
+    description: string
+    created_at: string
+    updated_at: string
+    image: {
+        key: string
+        url: string
+    }
+}
 
 export type GetCuisineResponse = {
     success: boolean
@@ -14,14 +24,7 @@ export type GetCuisineResponse = {
 
 export type GetCuisineDetailResponse = {
     success: boolean
-    data: {
-        id: string
-        name: string
-        description: string
-        created_at: string
-        updated_at: string
-        image: string
-    }
+    data: Cuisine
     message: string
 }
 

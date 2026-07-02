@@ -1,10 +1,10 @@
 import Button from '@/components/ui/Button'
-import { TbCloudDownload, TbPlus } from 'react-icons/tb'
+import { TbCloudDownload, TbPlus, TbRefresh } from 'react-icons/tb'
 import { useNavigate, useParams } from 'react-router'
 import { CSVLink } from 'react-csv'
 import { useTableList } from '@/utils/custom-hooks/useTable'
 
-const TableListActionTools = ({ data }: { data: any[] }) => {
+const TableListActionTools = ({ onRefresh }: { onRefresh: () => void }) => {
     const navigate = useNavigate()
     const { restaurantId } = useParams()
     // const { tables } = useTableList(restaurantId!)
@@ -22,6 +22,9 @@ const TableListActionTools = ({ data }: { data: any[] }) => {
                 }
             >
                 Add Table
+            </Button>
+            <Button icon={<TbRefresh />} onClick={onRefresh}>
+                Refresh
             </Button>
         </div>
     )

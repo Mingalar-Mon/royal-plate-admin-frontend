@@ -3,26 +3,22 @@ import { Form, FormItem } from '@/components/ui/Form'
 import Container from '@/components/shared/Container'
 import { useForm, Controller, useController } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { z } from 'zod'
+
 import Card from '@/components/ui/Card'
 import Input from '@/components/ui/Input'
 
 import Select from '@/components/ui/Select'
-import Button from '@/components/ui/Button'
+
 import RichTextEditor from '@/components/shared/RichTextEditor' // your existing rich text editor
-import { TbPlus, TbTrash, TbUpload } from 'react-icons/tb'
-import { BlogFormData, blogValidationSchema } from '../types/blog.type'
-
-// const blogSchema = z.object({
-//     title: z.string().min(1, 'Title is required'),
-//     content: z.string().min(1, 'Content is required'),
-//     imageUrls: z.array(z.string()).max(5, 'Maximum 5 images').optional(),
-//     authorType: z.enum(['owner', 'staff']),
-//     authorId: z.string().optional(),
-//     linkedDishId: z.string().optional(),
-// })
-
-// type BlogFormData = z.infer<typeof blogSchema>
+import { TbTrash, TbUpload } from 'react-icons/tb'
+import {
+    BlogFormData,
+    BlogFormInput,
+    BlogFormOutput,
+    blogValidationSchema,
+} from '../types/blog.type'
+import CropModal from '@/components/shared/ImageCrop/CropModel'
+import { Notification, toast } from '@/components/ui'
 
 interface BlogFormProps {
     onFormSubmit: (data: any) => void
@@ -37,47 +33,41 @@ interface BlogFormProps {
     availableDishes?: { value: string; label: string }[]
 }
 
-const authorTypeOptions = [
-    { value: 'owner', label: 'Restaurant Owner' },
-    { value: 'staff', label: 'Staff Member' },
-]
-
 const BlogForm = ({
     onFormSubmit,
     defaultValues,
     isNew = true,
     children,
-    availableAuthors = [],
+    // availableAuthors = [],
     availableDishes = [],
 }: BlogFormProps) => {
-    // const [imageUrls, setImageUrls] = useState<string[]>(
-    //     defaultValues?.imageUrls || [],
-    // )
-    const [newImageUrl, setNewImageUrl] = useState('')
-
     const {
         handleSubmit,
         reset,
         formState: { errors },
         control,
-        watch,
-
         getValues,
         setValue,
-    } = useForm<BlogFormData>({
+    } = useForm<BlogFormInput, any, BlogFormOutput>({
         defaultValues: defaultValues || {
             title: '',
             content: '',
             imageUrls: [],
-            // authorType: 'owner',
-            // authorId: '',
+
             linkedDishId: '',
             deletedImageKeys: [],
         },
         resolver: zodResolver(blogValidationSchema),
     })
+    const [modalState, setModalState] = useState<{
+        isOpen: boolean
+        src: string | null
+    }>({
+        isOpen: false,
+        src: null,
+    })
 
-    // 1. Core single source of truth field tracking using useController
+    // Core single source of truth field tracking using useController
     const { field: imageField } = useController({ name: 'imageUrls', control })
     const activeImages = imageField.value || []
 
@@ -86,7 +76,6 @@ const BlogForm = ({
     useEffect(() => {
         if (defaultValues) {
             reset(defaultValues)
-            // setImageUrls(defaultValues.imageUrls || [])
         }
     }, [defaultValues, reset])
 
@@ -96,7 +85,7 @@ const BlogForm = ({
         return typeof image === 'string' ? image : image?.url
     }
 
-    // ✅ FIXED TYPE-SAFE IMAGE DELETION METHOD
+    // FIXED TYPE-SAFE IMAGE DELETION METHOD
     const handleRemoveImage = (index: number) => {
         const newValue = [...activeImages]
         const [removedItem] = newValue.splice(index, 1)
@@ -114,35 +103,65 @@ const BlogForm = ({
         }
     }
 
-    //  Unified delete handler pushing S3 keys straight into the form data payload map
-    // const handleRemoveImage = (index: number) => {
-    //     const newValue = [...activeImages]
-    //     const [removedItem] = newValue.splice(index, 1)
-    //     imageField.onChange(newValue)
+    const handleFileSelect = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0] // Get only the first file
+        if (!file) return
 
-    //     // If it's an already saved object tracking keys from the backend, mark it for S3 removal
-    //     if (!(removedItem instanceof File) && removedItem?.key) {
-    //         const currentDeleted = getValues('deletedImageKeys') || []
-    //         setValue('deletedImageKeys', [...currentDeleted, removedItem.key])
-    //     }
-    // }
+        const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/webp']
+        const MAX_SIZE = 5 * 1024 * 1024 // 5MB
 
-    // 2. Clear image array mutations using hook states directly
-    // const handleAddImage = () => {
-    //     if (newImageUrl.trim() && activeImages.length < 5) {
-    //         imageField.onChange([...activeImages, newImageUrl.trim()])
-    //         setNewImageUrl('')
-    //     }
-    // }
+        // Verify slot limit
+        if (activeImages.length >= 5) {
+            alert(
+                'Maximum limit of 5 images reached. Please remove an image first.',
+            )
+            e.target.value = ''
+            return
+        }
 
-    // const handleRemoveImage = (index: number) => {
-    //     imageField.onChange(activeImages.filter((_, i) => i !== index))
-    // }
+        // Validate type and size constraints
+        if (!ALLOWED_TYPES.includes(file.type)) {
+            toast.push(
+                <Notification title="Unsupported File" type="warning">
+                    File &quot;
+                    {file.name}&quot; is not supported. Please upload JPG, PNG,
+                    or WEBP.
+                </Notification>,
+                {
+                    placement: 'top-center',
+                },
+            )
+            e.target.value = ''
+            return
+        }
 
-    // Filter available authors lists based on the chosen dropdown selector tier
-    const dynamicAuthorsList = availableAuthors.filter(
-        (a) => a.type === currentAuthorType,
-    )
+        if (file.size > MAX_SIZE) {
+            toast.push(
+                <Notification title="Unsupported File Size" type="warning">
+                    File &quot;
+                    {file.name}&quot; exceeds the 5MB size limit..
+                </Notification>,
+                {
+                    placement: 'top-center',
+                },
+            )
+            e.target.value = ''
+            return
+        }
+
+        // Process file for the crop display view
+        const reader = new FileReader()
+        reader.addEventListener('load', () => {
+            setModalState({
+                isOpen: true,
+                src: reader.result as string | null,
+            })
+        })
+        reader.readAsDataURL(file)
+
+        // Clear target so the same image can be re-selected if removed
+        e.target.value = ''
+    }
 
     // Debug tool tip: Logs hidden validation blocks if submission gets intercepted again
     if (Object.keys(errors).length > 0) {
@@ -192,10 +211,8 @@ const BlogForm = ({
                                             }
                                         >
                                             <RichTextEditor
-                                                // value={field.value}
                                                 content={field.value}
                                                 height={400}
-                                                // ✅ Intercept the composite object event and store ONLY the HTML string string field
                                                 onChange={(editorOutput: {
                                                     text: string
                                                     html: string
@@ -213,7 +230,7 @@ const BlogForm = ({
                         </Card>
                     </div>
 
-                    <div className="lg:w-[380px] space-y-6">
+                    <div className="lg:w-95 space-y-6">
                         <Card>
                             <h4 className="mb-4">
                                 Slider Images ({activeImages.length}/5)
@@ -238,18 +255,21 @@ const BlogForm = ({
                                             type="file"
                                             accept="image/*"
                                             className="hidden"
-                                            onChange={(e) => {
-                                                const selectedFiles =
-                                                    Array.from(
-                                                        e.target.files || [],
-                                                    )
-                                                imageField.onChange(
-                                                    [
-                                                        ...activeImages,
-                                                        ...selectedFiles,
-                                                    ].slice(0, 5),
-                                                )
-                                            }}
+                                            onChange={
+                                                handleFileSelect
+                                                //     (e) => {
+                                                //     const selectedFiles =
+                                                //         Array.from(
+                                                //             e.target.files || [],
+                                                //         )
+                                                //     imageField.onChange(
+                                                //         [
+                                                //             ...activeImages,
+                                                //             ...selectedFiles,
+                                                //         ].slice(0, 5),
+                                                //     )
+                                                // }
+                                            }
                                         />
                                         <TbUpload className="mx-auto text-3xl text-gray-400 mb-2" />
                                         <p className="text-sm font-medium text-gray-600 dark:text-gray-400">
@@ -288,6 +308,30 @@ const BlogForm = ({
                                             ))}
                                         </div>
                                     )}
+
+                                    <CropModal
+                                        isOpen={modalState.isOpen}
+                                        imageSrc={modalState.src || ''}
+                                        aspect={1 / 1}
+                                        onClose={() =>
+                                            setModalState({
+                                                isOpen: false,
+                                                src: null,
+                                            })
+                                        }
+                                        onCropComplete={(croppedFile: File) => {
+                                            // Safely append single file to form array up to 5 items max
+                                            const updatedList = [
+                                                ...activeImages,
+                                                croppedFile,
+                                            ].slice(0, 5)
+                                            imageField.onChange(updatedList)
+                                            setModalState({
+                                                isOpen: false,
+                                                src: null,
+                                            })
+                                        }}
+                                    />
                                 </div>
                             </FormItem>
                         </Card>
@@ -295,67 +339,6 @@ const BlogForm = ({
                         <Card>
                             <h4 className="mb-4">Menu Connection</h4>
                             <div className="space-y-4">
-                                {/* <Controller
-                                    name="authorType"
-                                    control={control}
-                                    render={({ field }) => (
-                                        <FormItem label="Author Type">
-                                            <Select
-                                                options={[
-                                                    {
-                                                        value: 'owner',
-                                                        label: 'Restaurant Owner',
-                                                    },
-                                                    {
-                                                        value: 'staff',
-                                                        label: 'Staff Member',
-                                                    },
-                                                ]}
-                                                value={[
-                                                    {
-                                                        value: field.value,
-                                                        label:
-                                                            field.value ===
-                                                            'owner'
-                                                                ? 'Restaurant Owner'
-                                                                : 'Staff Member',
-                                                    },
-                                                ]}
-                                                onChange={(opt) =>
-                                                    field.onChange(opt?.value)
-                                                }
-                                            />
-                                        </FormItem>
-                                    )}
-                                /> */}
-                                {/* <Controller
-                                    name="authorId"
-                                    control={control}
-                                    render={({ field }) => (
-                                        <FormItem label="Select Author">
-                                            <Select
-                                                options={dynamicAuthorsList}
-                                                value={dynamicAuthorsList.find(
-                                                    (a) =>
-                                                        a.value === field.value,
-                                                )}
-                                                isDisabled={
-                                                    dynamicAuthorsList.length ===
-                                                    0
-                                                }
-                                                placeholder={
-                                                    dynamicAuthorsList.length ===
-                                                    0
-                                                        ? 'No records available'
-                                                        : 'Select employee...'
-                                                }
-                                                onChange={(opt) =>
-                                                    field.onChange(opt?.value)
-                                                }
-                                            />
-                                        </FormItem>
-                                    )}
-                                /> */}
                                 <Controller
                                     name="linkedDishId"
                                     control={control}

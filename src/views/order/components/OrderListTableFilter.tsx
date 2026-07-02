@@ -9,9 +9,10 @@ const statusOptions = [
     { value: 'pending', label: 'Pending' },
     { value: 'confirmed', label: 'Confirmed' },
     { value: 'preparing', label: 'Preparing' },
-    { value: 'ready', label: 'Ready' },
+    { value: 'ready_for_pickup', label: 'Ready' },
     { value: 'completed', label: 'Completed' },
     { value: 'canceled', label: 'Canceled' },
+    { value: 'no_show', label: 'No Show' },
 ]
 // interface Props {
 //     tableData: OrderTableData

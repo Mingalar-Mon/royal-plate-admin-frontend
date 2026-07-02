@@ -21,10 +21,6 @@ const OrderListTableTools = () => {
             query: val,
             pageIndex: 1,
         }))
-        // const newTableData = cloneDeep(tableData)
-        // newTableData.query = val
-        // newTableData.pageIndex = 1
-        // setTableData(newTableData)
     }
 
     return (

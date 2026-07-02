@@ -1,11 +1,11 @@
 import { useMemo, useState } from 'react'
 import { ColumnDef } from '@tanstack/react-table'
 import DataTable from '@/components/shared/DataTable'
-import Tag from '@/components/ui/Tag'
+
 import dayjs from 'dayjs'
-import cloneDeep from 'lodash/cloneDeep'
+
 import {
-    useReservations,
+    // useReservations,
     useUpdateReservationStatus,
 } from '@/utils/custom-hooks/useReservation'
 import ReservationStatusBadge from '../components/ReservationStatusBadge'
@@ -13,9 +13,8 @@ import ActionColumn from '../components/ActionColumn'
 import type {
     // Reservation,
     ReservationStatus,
-    TableQueries,
 } from '@/views/reservations/types/reservation.type'
-import { useNavigate, useParams } from 'react-router'
+import { useNavigate } from 'react-router'
 import { NumericFormat } from 'react-number-format'
 import { useReservationStore } from '@/store/reservationStore'
 import { Reservation } from '@/services/ReservationService'

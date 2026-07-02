@@ -1,3 +1,4 @@
+import { GetBlogDetailResponse } from '@/@types/blog'
 import ApiService from './ApiService'
 
 export async function apiGetBlogList(restaurantId: string, params: any) {
@@ -9,7 +10,7 @@ export async function apiGetBlogList(restaurantId: string, params: any) {
             page: params.pageIndex,
             limit: params.pageSize,
             search: params.query || undefined,
-            sortBy: params.sort?.key,
+            sortKey: params.sort?.key,
             sortOrder: params.sort?.order,
         },
     })
@@ -22,7 +23,7 @@ export async function apiGetBlogDetail({
     restaurantId: string
     blogId: string
 }) {
-    return ApiService.fetchDataWithAxios<any>({
+    return ApiService.fetchDataWithAxios<GetBlogDetailResponse>({
         url: `restaurants/${restaurantId}/blogs/blog-detail/${blogId}`,
         method: 'get',
     })

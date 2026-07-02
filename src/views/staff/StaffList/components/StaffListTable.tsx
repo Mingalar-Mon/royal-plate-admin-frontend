@@ -1,14 +1,14 @@
-import { Dispatch, SetStateAction, useMemo } from 'react'
+import { useMemo } from 'react'
 import { useNavigate, useParams } from 'react-router'
 import { ColumnDef } from '@tanstack/react-table'
 import DataTable, { OnSortParam } from '@/components/shared/DataTable'
 import dayjs from 'dayjs'
 import cloneDeep from 'lodash/cloneDeep'
-import { useDeleteStaff, useStaffList } from '@/utils/custom-hooks/useStaff'
+import { useDeleteStaff } from '@/utils/custom-hooks/useStaff'
 import StaffRoleBadge from './StaffRoleBadge'
 import ActionColumn from './ActionColumn'
-import type { RestaurantStaff, TableQueries } from '../../types/staff.type'
-import { apiDeleteStaff, Staff } from '@/services/RestaurantStaffService'
+import type { RestaurantStaff } from '../../types/staff.type'
+import { Staff } from '@/services/RestaurantStaffService'
 import { useStaffStore } from '@/store/staffStore'
 
 const StaffListTable = ({

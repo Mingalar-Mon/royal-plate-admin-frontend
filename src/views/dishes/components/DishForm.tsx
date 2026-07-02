@@ -16,7 +16,7 @@ import {
     type DishFormOutput,
 } from '@/views/dishes/types/dish.type'
 
-import { TbTrash } from 'react-icons/tb'
+import { TbTrash, TbUpload } from 'react-icons/tb'
 
 import CropModal from '@/components/shared/ImageCrop/CropModel'
 
@@ -86,6 +86,7 @@ const DishForm = ({
         return value?.url || ''
     }
     // Custom hook to automatically clean up object URLs and prevent memory leaks
+    /*
     const useObjectUrlCleanup = (value: any) => {
         useEffect(() => {
             return () => {
@@ -101,6 +102,7 @@ const DishForm = ({
             }
         }, [value])
     }
+        */
 
     const [detailQueue, setDetailQueue] = useState<
         { file: File; src: string }[]
@@ -169,6 +171,7 @@ const DishForm = ({
                                             >
                                                 <Input
                                                     {...field}
+                                                    value={field.value}
                                                     type="number"
                                                     placeholder="0"
                                                 />
@@ -518,11 +521,33 @@ const DishForm = ({
                                     }
                                     return (
                                         <FormItem>
-                                            <input
-                                                multiple
-                                                type="file"
-                                                onChange={handleFileChange}
-                                            />
+                                            <div
+                                                className="border-2 border-dashed border-gray-300 dark:border-gray-700 hover:border-primary rounded-xl p-6 text-center cursor-pointer transition-colors"
+                                                onClick={() =>
+                                                    document
+                                                        .getElementById(
+                                                            'detailInput',
+                                                        )
+                                                        ?.click()
+                                                }
+                                            >
+                                                <input
+                                                    // multiple
+                                                    id="detailInput"
+                                                    type="file"
+                                                    onChange={handleFileChange}
+                                                />
+
+                                                <TbUpload className="mx-auto text-3xl text-gray-400 mb-2" />
+                                                <p className="text-sm font-medium text-gray-600 dark:text-gray-400">
+                                                    Click to select article
+                                                    images
+                                                </p>
+                                                <p className="text-xs text-gray-400 mt-1">
+                                                    Supports JPG, PNG, WEBP (Max
+                                                    5MB)
+                                                </p>
+                                            </div>
                                             <div className="grid grid-cols-3 gap-2 mt-2">
                                                 {currentImages.map((img, i) => {
                                                     const previewUrl =
@@ -535,7 +560,7 @@ const DishForm = ({
                                                         >
                                                             <img
                                                                 src={previewUrl}
-                                                                className="h-20 w-full object-cover rounded "
+                                                                className="h-30 w-full object-cover rounded bg-black"
                                                             />
                                                             <button
                                                                 type="button"

@@ -22,6 +22,8 @@ export const tableSchema = z.object({
 })
 
 export type TableFormData = z.infer<typeof tableSchema>
+export type TableFormInput = z.input<typeof tableSchema>
+export type TableFormOutput = z.output<typeof tableSchema>
 
 interface TableFormProps {
     onFormSubmit: (data: TableFormData) => void
@@ -62,7 +64,7 @@ const TableForm = ({
         reset,
         control,
         formState: { errors },
-    } = useForm<TableFormData>({
+    } = useForm<TableFormInput, any, TableFormOutput>({
         defaultValues: defaultValues || {
             type: 'standard',
             capacity: 4,
@@ -131,6 +133,12 @@ const TableForm = ({
                                                 {...field}
                                                 type="number"
                                                 placeholder="e.g., 4"
+                                                value={
+                                                    (field.value as
+                                                        | string
+                                                        | number
+                                                        | undefined) || ''
+                                                }
                                             />
                                         </FormItem>
                                     )}
@@ -145,7 +153,12 @@ const TableForm = ({
                                                     {...field}
                                                     type="number"
                                                     placeholder="90"
-                                                    value={field.value || ''}
+                                                    value={
+                                                        (field.value as
+                                                            | string
+                                                            | number
+                                                            | undefined) || ''
+                                                    }
                                                 />
                                             </FormItem>
                                         )}
@@ -159,7 +172,12 @@ const TableForm = ({
                                                     {...field}
                                                     type="number"
                                                     placeholder="0"
-                                                    value={field.value || ''}
+                                                    value={
+                                                        (field.value as
+                                                            | string
+                                                            | number
+                                                            | undefined) || ''
+                                                    }
                                                 />
                                             </FormItem>
                                         )}
@@ -193,7 +211,7 @@ const TableForm = ({
                             </div>
                         </Card>
                     </div>
-                    <div className="lg:w-[380px] space-y-6">
+                    <div className="lg:w-95 space-y-6">
                         <Card>
                             <h4 className="mb-4">Services & Amenities</h4>
                             <Controller

@@ -39,6 +39,9 @@
 }
 */
 
+import { Dish } from './dish'
+import { Restaurant } from './restaurant'
+
 // ========== Get Blog By Id ==========
 /*
 {
@@ -181,3 +184,40 @@
     "message": "Blog was updated successfully"
 }
 */
+
+interface Owner {
+    id: string
+    name: string
+    phone: string
+    email: string
+    password: string
+    code: string | null
+    created_at: string
+    updated_at: string
+}
+
+export interface Blog {
+    id: string
+    title: string
+    content: string
+    viewCount: number
+    created_at: string
+    updated_at: string
+    authorOwner?: Owner
+    authorStaff?: {
+        name: string
+        role: string
+    }
+    linkedDish: Dish
+    restaurant: Omit<Restaurant, 'owner, staff, profile'>
+    images: {
+        key: string
+        url: string
+    }[]
+}
+
+export interface GetBlogDetailResponse {
+    success: boolean
+    data: Blog
+    message: string
+}

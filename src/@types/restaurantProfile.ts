@@ -1,10 +1,5 @@
-import {
-    Cuisine,
-    Owner,
-    PaymentMethod,
-    Restaurant,
-    RestaurantProfile,
-} from './restaurant'
+import { Cuisine, Owner, Restaurant, RestaurantProfile } from './restaurant'
+import { PaymentMethod } from './paymentMethods'
 
 export type GetRestaurantProfileResponse = {
     success: boolean

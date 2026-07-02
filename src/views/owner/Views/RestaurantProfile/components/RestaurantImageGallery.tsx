@@ -160,9 +160,9 @@ const RestaurantImageGallery = ({
             {/* Lightbox */}
             <Dialog
                 isOpen={lightboxOpen}
-                width={90}
+                width={900}
                 closable={true}
-                contentClassName="p-0 bg-black overflow-hidden border-none relative flex flex-col justify-center min-h-[60vh]" // relative flex flex-col justify-center min-h-[60vh]
+                contentClassName="p-0 bg-black overflow-hidden border-none relative flex flex-col justify-center min-h-[60vh] " // relative flex flex-col justify-center min-h-[60vh]
                 onClose={() => setLightboxOpen(false)}
                 onRequestClose={() => setLightboxOpen(false)}
             >
@@ -171,7 +171,7 @@ const RestaurantImageGallery = ({
                         className="absolute top-4 right-4 z-20 bg-black/50 text-white p-2 rounded-full hover:bg-black/70 transition-colors"
                         onClick={() => setLightboxOpen(false)}
                     >
-                        <TbX size={24} />
+                        {/* <TbX size={24} /> */}
                     </button>
 
                     <Swiper
@@ -186,11 +186,11 @@ const RestaurantImageGallery = ({
                     >
                         {images.map((image, index) => (
                             <SwiperSlide key={index}>
-                                <div className="flex flex-col h-full">
+                                <div className="flex flex-col h-full w-full">
                                     <img
                                         src={image}
                                         alt={`Gallery image ${index + 1}`}
-                                        className="w-full h-full object-contain"
+                                        className="w-full h-full object-cover"
                                     />
                                     {/* {image.caption && (
                                         <div className="mt-4 text-center">

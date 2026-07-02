@@ -1,19 +1,17 @@
 import Button from '@/components/ui/Button'
-import { TbCloudDownload, TbPlus } from 'react-icons/tb'
+import { TbPlus, TbRefresh } from 'react-icons/tb'
 import { useNavigate, useParams } from 'react-router'
-import { CSVLink } from 'react-csv'
-import { useBlogList } from '@/utils/custom-hooks/useBlog'
 
-const BlogListActionTools = ({ data }: { data: any[] }) => {
+const BlogListActionTools = ({ onRefresh }: { onRefresh: () => void }) => {
     const navigate = useNavigate()
     const { restaurantId } = useParams()
     // const { blogs } = useBlogList(restaurantId!)
 
     return (
         <div className="flex gap-3">
-            <CSVLink filename="blogs.csv" data={data}>
+            {/* <CSVLink filename="blogs.csv" data={data}>
                 <Button icon={<TbCloudDownload />}>Export</Button>
-            </CSVLink>
+            </CSVLink> */}
             <Button
                 variant="solid"
                 icon={<TbPlus />}
@@ -22,6 +20,9 @@ const BlogListActionTools = ({ data }: { data: any[] }) => {
                 }
             >
                 New Post
+            </Button>
+            <Button icon={<TbRefresh />} onClick={onRefresh}>
+                Refresh
             </Button>
         </div>
     )

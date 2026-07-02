@@ -52,7 +52,7 @@ function AuthProvider({ children }: AuthProviderProps) {
     const navigatorRef = useRef<IsolatedNavigatorRef>(null)
 
     // bmk changes
-    const { activeRestaurant } = useRestaurantStore()
+    const { activeRestaurant, setActiveRestaurant } = useRestaurantStore()
 
     const redirect = (currentUser?: User) => {
         const search = window.location.search
@@ -113,6 +113,7 @@ function AuthProvider({ children }: AuthProviderProps) {
     const handleSignOut = () => {
         setToken('')
         setUser({})
+        setActiveRestaurant(null)
         setSessionSignedIn(false)
     }
 
@@ -220,7 +221,6 @@ function AuthProvider({ children }: AuthProviderProps) {
                 status: 'failed',
                 message: 'Unable to sign up',
             }
-            // eslint-disable-next-line  @typescript-eslint/no-explicit-any
         } catch (errors: any) {
             return {
                 status: 'failed',

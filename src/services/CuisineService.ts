@@ -1,7 +1,7 @@
 import { Cuisine } from '@/@types/restaurant'
 import ApiService from './ApiService'
 import { PASSWORD, USER_NAME } from '@/constants/api.constant'
-import { GetCuisineResponse } from '@/@types/cuisine'
+import { GetCuisineDetailResponse, GetCuisineResponse } from '@/@types/cuisine'
 import { CuisineQueries } from '@/store/cuisineStore'
 
 export async function apiGetCuisines(params: CuisineQueries) {
@@ -23,7 +23,7 @@ export async function apiGetCuisines(params: CuisineQueries) {
 }
 
 export async function apiGetCuisineDetail(id: string) {
-    return ApiService.fetchDataWithAxios<any>({
+    return ApiService.fetchDataWithAxios<GetCuisineDetailResponse>({
         url: `/cuisines/get-cuisine/${id}`,
         method: 'get',
         auth: {
@@ -34,7 +34,6 @@ export async function apiGetCuisineDetail(id: string) {
 }
 
 export async function apiCreateCuisine(data: FormData) {
-    console.log('Data to create cuisine: ', data)
     return ApiService.fetchDataWithAxios<any>({
         url: '/cuisines/create-cuisine',
         method: 'post',

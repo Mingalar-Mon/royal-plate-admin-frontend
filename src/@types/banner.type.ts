@@ -1,17 +1,60 @@
 import { z } from 'zod'
 
-export const bannerValidationSchema = z.object({
-    // Accepts binary files on upload, or an existing cloud asset map payload object
-    image: z
-        .union([
-            z.instanceof(File),
-            z.object({ key: z.string(), url: z.string() }),
-            z.string(),
-        ])
-        .refine((val) => !!val, { message: 'Banner image is required' }),
-    linkToRestaurant: z.string().min(1, 'Restaurant ID is required'),
-    type: z.enum(['in_app', 'external']),
-})
+export const bannerValidationSchema = z
+    .object({
+        // Accepts binary files on upload, or an existing cloud asset map payload object
+        image: z
+            .union([
+                z.instanceof(File),
+                z.object({ key: z.string(), url: z.string() }),
+                z.string(),
+            ])
+            .refine((val) => !!val, { message: 'Banner image is required' }),
+        linkToRestaurant: z.string(), //.min(1, 'Restaurant ID is required'),
+        type: z.enum(['in_app', 'external']),
+    })
+    .superRefine((data, ctx) => {
+        // 1. Check if the field is completely empty first
+        if (!data.linkToRestaurant) {
+            ctx.addIssue({
+                code: z.ZodIssueCode.custom,
+                message:
+                    data.type === 'in_app'
+                        ? 'Please select a restaurant'
+                        : 'Website URL is required',
+                path: ['linkToRestaurant'], // Attaches error to linkToRestaurant field
+            })
+            return
+        }
+
+        // 2. Conditional Type: Internal App Navigation (Expect UUID)
+        if (data.type === 'in_app') {
+            const uuidRegex =
+                /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
+            if (!uuidRegex.test(data.linkToRestaurant)) {
+                ctx.addIssue({
+                    code: 'custom',
+                    message:
+                        'Invalid selection. Please choose a valid restaurant from the dropdown.',
+                    path: ['linkToRestaurant'],
+                })
+            }
+        }
+
+        // 3. Conditional Type: External Campaign Redirect (Expect URL)
+        if (data.type === 'external') {
+            try {
+                new URL(data.linkToRestaurant)
+            } catch {
+                ctx.addIssue({
+                    code: 'custom',
+                    message:
+                        'Please enter a valid website address (e.g., https://example.com)',
+                    path: ['linkToRestaurant'],
+                })
+            }
+        }
+    })
 
 export type BannerFormData = z.infer<typeof bannerValidationSchema>
 

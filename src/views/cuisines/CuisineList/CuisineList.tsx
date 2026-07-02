@@ -10,7 +10,7 @@ const CuisineList = () => {
     const tableData = useCuisineStore((state) => state.tableData)
     // const setTableData = useCuisineStore((state) => state.setTableData)
 
-    const { data, isLoading } = useGetCuisines(tableData)
+    const { data, isLoading, refetch } = useGetCuisines(tableData)
 
     const cuisineList = data?.data || []
     const cuisineTotal = data?.paginator.totalItems || 0
@@ -21,7 +21,7 @@ const CuisineList = () => {
                 <div className="flex flex-col gap-4">
                     <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-2">
                         <h3>Cuisines</h3>
-                        <CuisineListActionTools />
+                        <CuisineListActionTools onRefresh={refetch} />
                     </div>
                     <CuisineListTableTools />
                     <CuisineListTable

@@ -32,7 +32,7 @@ const validationSchema = z.object({
 
 const SignInForm = (props: SignInFormProps) => {
     //  add state for the selected role
-    const [userRole, setUserRole] = useState<string>('owner') // auth = admin endpoint
+    const [userRole, setUserRole] = useState<string>('auth') // auth = admin endpoint
 
     const [isSubmitting, setSubmitting] = useState<boolean>(false)
     const { setActiveRestaurant } = useRestaurantStore()
@@ -45,8 +45,8 @@ const SignInForm = (props: SignInFormProps) => {
         control,
     } = useForm<SignInFormSchema>({
         defaultValues: {
-            email: 'yourEmail@gmail.com',
-            password: '123456',
+            email: 'superadmin@gmail.com',
+            password: '11111111!',
         },
         resolver: zodResolver(validationSchema),
     })
@@ -96,7 +96,7 @@ const SignInForm = (props: SignInFormProps) => {
                     size="md"
                     onChange={(value) => setUserRole(value as string)}
                 >
-                    {/* <Segment.Item value="auth">Admin</Segment.Item> */}
+                    <Segment.Item value="auth">Admin</Segment.Item>
                     <Segment.Item value="owner">Owner</Segment.Item>
                     <Segment.Item value="staff">Staff</Segment.Item>
                 </Segment>

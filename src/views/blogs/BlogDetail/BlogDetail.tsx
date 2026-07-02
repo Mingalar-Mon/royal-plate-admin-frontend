@@ -26,7 +26,6 @@ import 'swiper/css/effect-fade'
 import Card from '@/components/ui/Card'
 import Button from '@/components/ui/Button'
 import Dialog from '@/components/ui/Dialog'
-import Badge from '@/components/ui/Badge'
 import Container from '@/components/shared/Container'
 import AdaptiveCard from '@/components/shared/AdaptiveCard'
 import Spinner from '@/components/ui/Spinner'
@@ -92,7 +91,7 @@ const BlogDetail = () => {
         blog.authorOwner?.name || blog.authorStaff?.name || 'Unknown'
     const authorRole =
         blog.authorStaff?.role || (blog.authorOwner ? 'Owner' : '')
-    const activeImages = blog.image.map((img) => img.url) || []
+    const activeImages = blog.images.map((img) => img.url) || []
 
     return (
         <AdaptiveCard>
@@ -121,7 +120,7 @@ const BlogDetail = () => {
                         </Button>
                     </div>
 
-                    {/* 🚀 3. PREMIUM RUNTIME IMAGE GALLERY CAROUSEL ASSEMBLY FRAME */}
+                    {/*  PREMIUM RUNTIME IMAGE GALLERY CAROUSEL ASSEMBLY FRAME */}
                     {activeImages.length === 0 ? (
                         <div className="bg-gray-100 dark:bg-gray-800 rounded-xl h-64 flex items-center justify-center mb-6">
                             <div className="text-center">
@@ -345,12 +344,13 @@ const BlogDetail = () => {
                         contentClassName="p-0 bg-black overflow-hidden border-none relative flex flex-col justify-center min-h-[60vh]"
                         onClose={() => setLightboxOpen(false)}
                     >
-                        {/*Custom Modal Dismiss Anchor Button */}
-                        <button
-                            className="absolute top-4 right-4 z-20 bg-black/50 text-white p-2 rounded-full hover:bg-black/70 transition-colors"
-                            // className="absolute top-4 right-4 z-30 bg-black/60 backdrop-blur-sm text-white p-2 rounded-full hover:bg-black/90 transition-colors shadow-md border border-white/10"
-                            onClick={() => setLightboxOpen(false)}
-                        >
+                        <div className="relative">
+                            {/*Custom Modal Dismiss Anchor Button */}
+                            <button
+                                className="absolute top-4 right-4 z-20  text-white p-2 rounded-full  transition-colors" //hover:bg-black/70z bg-black/50 hover:bg-black/70
+                                // className="absolute top-4 right-4 z-30 bg-black/60 backdrop-blur-sm text-white p-2 rounded-full hover:bg-black/90 transition-colors shadow-md border border-white/10"
+                                onClick={() => setLightboxOpen(false)}
+                            ></button>
                             <Swiper
                                 modules={[Navigation, Pagination, Keyboard]}
                                 navigation={true}
@@ -362,19 +362,34 @@ const BlogDetail = () => {
                                 style={{ height: '80vh' }}
                                 // className="w-full"
                             >
-                                {console.log('activeImages: ', activeImages)}
                                 {activeImages.map(
                                     (img: string, index: number) => (
-                                        <img
+                                        <SwiperSlide
                                             key={index}
-                                            src={img}
-                                            alt={`Expanded asset preview ${index + 1}`}
-                                            className=" w-full h-ful object-contain " //rounded shadow-2xl select-none max-w-full max-h-full
-                                        />
+                                            className=" overflow-hidden"
+                                        >
+                                            <div className="flex flex-col h-full w-full">
+                                                <img
+                                                    src={img}
+                                                    alt={`Expanded asset preview ${index + 1}`}
+                                                    className="w-full h-full object-cover" //max-w-full max-h-full w-auto h-auto object-cover select-none block mx-auto
+                                                />
+                                            </div>
+                                        </SwiperSlide>
                                     ),
                                 )}
+
+                                {/*                             
+                            {activeImages.map((img: string, index: number) => (
+                                <img
+                                    key={index}
+                                    src={img}
+                                    alt={`Expanded asset preview ${index + 1}`}
+                                    className=" w-full  object-contain " // h-full rounded shadow-2xl select-none max-w-full max-h-full
+                                />
+                            ))} */}
                             </Swiper>
-                        </button>
+                        </div>
                     </Dialog>
                 </div>
             </Container>

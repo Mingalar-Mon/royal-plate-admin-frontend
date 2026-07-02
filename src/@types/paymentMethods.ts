@@ -1,6 +1,13 @@
-import { PaymentMethod } from './restaurant'
+export interface PaymentMethod {
+    id: string
+    name: string
+    image: {
+        key: string
+        url: string
+    }
+}
 
-export type GetPaymentMethodsResponse = {
+export interface GetPaymentMethodsResponse {
     success: boolean
     data: PaymentMethod[]
     message: string

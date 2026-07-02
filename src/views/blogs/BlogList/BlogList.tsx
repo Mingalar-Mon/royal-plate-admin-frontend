@@ -12,7 +12,10 @@ const BlogList = () => {
 
     const tableData = useBlogStore((state) => state.tableData)
 
-    const { data, isLoading } = useGetBlogListQuery(restaurantId!, tableData)
+    const { data, isLoading, refetch } = useGetBlogListQuery(
+        restaurantId!,
+        tableData,
+    )
 
     const blogsList = data?.data || []
     const blogsTotal = data?.paginator?.totalItems || 0
@@ -22,7 +25,7 @@ const BlogList = () => {
                 <div className="flex flex-col gap-4">
                     <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-2">
                         <h3>Blog Posts</h3>
-                        <BlogListActionTools data={blogsList} />
+                        <BlogListActionTools onRefresh={refetch} />
                     </div>
                     <BlogListTableTools />
                     <BlogListTable

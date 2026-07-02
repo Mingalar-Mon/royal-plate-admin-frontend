@@ -16,18 +16,16 @@ import PaymentMethodsSection from './PaymentMethodsSection'
 import {
     restaurantProfileValidationSchema,
     type RestaurantProfileFormSchema,
-    MOCK_CUISINES,
-    MOCK_PAYMENT_METHODS,
 } from '../types/restaurantProfile.type'
-import {
-    // useCreateRestaurantProfile,
-    useUpdateRestaurantProfile,
+import {} from // useCreateRestaurantProfile,
+// useUpdateRestaurantProfile,
 
-    // useGetRestaurantProfile,
-} from '../../../hooks/useRestaurantProfile'
+// useGetRestaurantProfile,
+'../../../hooks/useRestaurantProfile'
 import {
     useGetRestaurantProfile,
     useCreateRestaurantProfile,
+    useUpdateRestaurantProfile,
 } from '../../../../../utils/custom-hooks/useRestaurantProfile'
 
 import { Spinner } from '@/components/ui'
@@ -52,13 +50,11 @@ const RestaurantProfileForm = ({ isEditMode }: RestaurantProfileFormProps) => {
     console.log('Existing profile', existingProfile)
 
     // Fetch cuisines and payment methods (use mock or real API)
-    const { data: cuisines = MOCK_CUISINES, isLoading: isLoadingCuisines } =
+    const { data: cuisines, isLoading: isLoadingCuisines } =
         useGetCuisines(tableData)
 
-    const {
-        data: paymentMethods = MOCK_PAYMENT_METHODS,
-        isLoading: isLoadingPaymentMethods,
-    } = useGetPaymentMethods()
+    const { data: paymentMethods, isLoading: isLoadingPaymentMethods } =
+        useGetPaymentMethods()
 
     // console.log('Payment methods: ', paymentMethods)
 
@@ -381,51 +377,6 @@ const RestaurantProfileForm = ({ isEditMode }: RestaurantProfileFormProps) => {
                                                         )
                                                     }
                                                 />
-                                                {/* <select
-                                                    {...field}
-                                                    className="w-full px-3 py-2 border rounded-lg dark:bg-gray-800 dark:border-gray-700"
-                                                    onChange={(e) =>
-                                                        field.onChange(
-                                                            Number(
-                                                                e.target.value,
-                                                            ),
-                                                        )
-                                                    }
-                                                > */}
-                                                {/* {Array.from(
-                                                        { length: 24 },
-                                                        (_, i) => (
-                                                            <option
-                                                                key={i}
-                                                                value={i}
-                                                            >
-                                                                {i === 0
-                                                                    ? '12:00 AM'
-                                                                    : i < 12
-                                                                      ? `${i}:00 AM`
-                                                                      : i === 12
-                                                                        ? '12:00 PM'
-                                                                        : `${i - 12}:00 PM`}
-                                                            </option>
-                                                        ),
-                                                    )} */}
-
-                                                {/* {timeOptions.map(
-                                                        (option) => (
-                                                            <option
-                                                                key={
-                                                                    option.value
-                                                                }
-                                                                value={
-                                                                    option.value
-                                                                }
-                                                            >
-                                                                {option.label}
-                                                            </option>
-                                                        ),
-                                                    )} */}
-
-                                                {/* </select> */}
                                             </FormItem>
                                         )}
                                     />
@@ -484,19 +435,17 @@ const RestaurantProfileForm = ({ isEditMode }: RestaurantProfileFormProps) => {
 
                         {/* Right Column */}
                         <div className="space-y-6">
-                            {/* Cuisines */}
-                            {/* {console.log('cuisines: ', cuisines)} */}
                             <CuisineSection
                                 control={control}
                                 errors={errors}
-                                cuisines={cuisines.data}
+                                cuisines={cuisines?.data}
                             />
 
                             {/* Payment Methods */}
                             <PaymentMethodsSection
                                 control={control}
                                 errors={errors}
-                                paymentMethods={paymentMethods.data}
+                                paymentMethods={paymentMethods?.data}
                             />
 
                             {/* Amenities */}

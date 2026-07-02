@@ -44,7 +44,7 @@ const OrderDetailPayment = ({
                     </span>
                 </div>
                 <div className="flex justify-between">
-                    <span>Tax (5%)</span>
+                    <span>Tax</span>
                     <span>
                         <NumericFormat
                             thousandSeparator

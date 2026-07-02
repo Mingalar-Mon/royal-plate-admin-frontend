@@ -18,7 +18,7 @@ import { mockCuisines } from '../mock/cuisineData'
 import { CuisineQueries } from '@/store/cuisineStore'
 
 export const useGetCuisines = (params: CuisineQueries) => {
-    console.log('Params: ', params)
+    // console.log('Params: ', params)
     return useQuery<GetCuisineResponse>({
         queryKey: ['cuisines', params],
         queryFn: () => apiGetCuisines(params),

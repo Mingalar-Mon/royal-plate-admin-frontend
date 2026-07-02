@@ -1,12 +1,8 @@
-import { useState } from 'react'
 import { useNavigate, useParams } from 'react-router'
 import Button from '@/components/ui/Button'
-import Notification from '@/components/ui/Notification'
-import toast from '@/components/ui/toast'
 import { TbArrowNarrowLeft } from 'react-icons/tb'
 import BlogForm from '../components/BlogForm'
-import PostLoginLayout from '@/components/layouts/PostLoginLayout'
-import { useThemeStore } from '@/store/themeStore'
+
 import {
     // useCreateBlog,
     useCreateBlogMutation,
@@ -14,8 +10,7 @@ import {
 import AdaptiveCard from '@/components/shared/AdaptiveCard'
 import { useGetDishes } from '@/utils/custom-hooks/useDish'
 import { BlogFormData } from '../types/blog.type'
-import { useSessionUser } from '@/store/authStore'
-import { OWNER, STAFF } from '@/constants/roles.constant'
+// import { useSessionUser } from '@/store/authStore'
 
 const BlogCreate = () => {
     const { restaurantId } = useParams()
@@ -24,7 +19,7 @@ const BlogCreate = () => {
     // 1. Consume production React Query mutations hooks directly
     const { mutate: createBlog, isPending } = useCreateBlogMutation()
 
-    const session = useSessionUser((state) => state.user)
+    // const session = useSessionUser((state) => state.user)
 
     // 2. Fetch real data instead of passing mock collections arrays
     const { dishes } = useGetDishes({
@@ -42,15 +37,13 @@ const BlogCreate = () => {
         const body = new FormData()
         body.append('title', data.title)
         body.append('content', data.content)
-        body.append('restaurantId', restaurantId!)
+        // body.append('restaurantId', restaurantId!)
 
-        body.append('authorId', session.userId as string)
-        body.append(
-            'authorType',
-            (session.authority as string[]).includes(OWNER) ? OWNER : STAFF,
-        )
-        // body.append('authorType', data.authorType)
-        // body.append('authorId', data.authorId)
+        // body.append('authorId', session.userId as string)
+        // body.append(
+        //     'authorType',
+        //     (session.authority as string[]).includes(OWNER) ? OWNER : STAFF,
+        // )
 
         if (data.linkedDishId) body.append('linkedDishId', data.linkedDishId)
 

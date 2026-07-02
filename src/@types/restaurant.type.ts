@@ -55,25 +55,15 @@ export const restaurantValidationSchema = z.object({
         .min(0, 'percentage cannot be over 0')
         .max(100, 'percentage cannot be over 100.'),
     ),
-    
-    val ? Number(val) : null
     */
-    // latitude: z.preprocess(
-    //     (val: string | number | undefined | null) =>
-    //         val === '' || val === null || val === undefined
-    //             ? undefined
-    //             : Number(val),
-    //     z.number({ error: 'Latitude is required to locate the restaurant.' }),
-    // ),
-    // longitude: z.preprocess(
-    //     (val: string | number | undefined | null) =>
-    //         val === '' || val === null || val === undefined
-    //             ? undefined
-    //             : Number(val),
-    //     z.number({
-    //         error: 'Longitude is required to locate the restaurant.',
-    //     }),
-    // ),
+    latitude: z.preprocess(
+        (val: string | number | undefined | null) => (val ? Number(val) : null),
+        z.number(),
+    ),
+    longitude: z.preprocess(
+        (val: string | number | undefined | null) => (val ? Number(val) : null),
+        z.number(),
+    ),
 
     /*
     startingPrice: z.coerce.number().min(0, 'Starting price must be positive'),
@@ -82,8 +72,8 @@ export const restaurantValidationSchema = z.object({
         .number()
         .min(0, 'percentage cannot be over 0')
         .max(100, 'percentage cannot be over 100.'),
-        */
     latitude: z.coerce.number().nullable().optional(),
+    */
     // z
     //     .union([
     //         z.number(),
@@ -91,9 +81,9 @@ export const restaurantValidationSchema = z.object({
     //     ])
     //     .nullable()
     //     .optional(),
-
+    /*
     longitude: z.coerce.number().nullable().optional(),
-
+    */
     // z
     //     .union([
     //         z.number(),

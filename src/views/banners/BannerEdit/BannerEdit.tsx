@@ -6,8 +6,7 @@ import {
     useDeleteBannerMutation,
 } from '@/utils/custom-hooks/useBanner'
 import Button from '@/components/ui/Button'
-import Notification from '@/components/ui/Notification'
-import toast from '@/components/ui/toast'
+
 import ConfirmDialog from '@/components/shared/ConfirmDialog'
 import AdaptiveCard from '@/components/shared/AdaptiveCard'
 import Spinner from '@/components/ui/Spinner'
@@ -53,10 +52,11 @@ const BannerEdit = () => {
         // Only append raw binary file streams if a brand-new file was explicitly chosen
         if (formData.image instanceof File) {
             body.append('bannerImage', formData.image)
-        } else {
-            // Otherwise preserve your existing database string reference path token
-            body.append('existingImageUrl', formData.image as string)
         }
+        // else {
+        // Otherwise preserve your existing database string reference path token
+        // body.append('existingImageUrl', formData.image as string)
+        // }
 
         updateBanner(
             { id: id!, data: body },
@@ -76,9 +76,9 @@ const BannerEdit = () => {
     return (
         <AdaptiveCard>
             <BannerForm
-                onFormSubmit={handleSubmit}
                 defaultValues={defaultValues}
                 isNew={false}
+                onFormSubmit={handleSubmit}
             >
                 <div className="flex items-center justify-between">
                     <Button
