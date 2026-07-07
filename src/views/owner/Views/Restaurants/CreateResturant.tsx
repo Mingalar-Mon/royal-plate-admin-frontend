@@ -33,7 +33,7 @@ const CreateRestaurant = () => {
         latitude: 16.878639794964585,
         longitude: 96.19036674499512,
         images: [],
-        staffIds: [],
+        // staffIds: [],
     }
 
     const handleFormSubmit = async (formData: RestaurantFormSchema) => {

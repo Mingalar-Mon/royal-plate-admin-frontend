@@ -83,11 +83,12 @@ const EditRestaurant = () => {
         longitude: restaurantJson.data.longitude,
         logoImage: restaurantJson.data.logoImage,
         images: restaurantJson.data.images || [],
-        staffIds: restaurantJson.data.staff?.map((s: Staff) => s.id) || [],
+        // staffIds: restaurantJson.data.staff?.map((s: Staff) => s.id) || [],
         deletedImageKeys: [],
     }
 
     const handleFormSubmit = async (formData: RestaurantFormSchema) => {
+        console.log('In the form submit fn ')
         setIsSubmitting(true)
         try {
             // 1. Create a FormData instance
@@ -99,9 +100,10 @@ const EditRestaurant = () => {
             body.append('endingPrice', String(formData.endingPrice))
             body.append('latitude', String(formData.latitude))
             body.append('longitude', String(formData.longitude))
+            body.append('tax', String(formData.tax))
 
             // // Append staffIds (Backend usually expects multiple appends for arrays)
-            formData.staffIds.forEach((id) => body.append('staffIds', id))
+            // formData.staffIds.forEach((id) => body.append('staffIds', id))
             // // 3. Handle Images
             const existingImages: { key: string; url: string }[] = []
             formData.images.forEach((img) => {
@@ -119,23 +121,6 @@ const EditRestaurant = () => {
             if (formData.logoImage instanceof File) {
                 body.append('logo', formData.logoImage)
             }
-
-            // const jsonData = {
-            //     name: formData.name,
-            //     address: formData.address,
-            //     startingPrice: formData.startingPrice,
-            //     endingPrice: formData.endingPrice,
-            //     latitude: formData.latitude,
-            //     longitude: formData.longitude,
-            //     staffIds: formData.staffIds.forEach((id) =>
-            //         body.append('staffIds', id),
-            //     ),
-            //     existingImages: formData.images.filter(
-            //         (img) => !(img instanceof File),
-            //     ),
-            // }
-
-            // body.append('body', JSON.stringify(jsonData))
 
             console.log('Body: ', body)
             console.log('FormData contents:', Array.from(body.entries()))

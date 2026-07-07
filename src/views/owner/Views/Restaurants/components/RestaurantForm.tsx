@@ -54,7 +54,7 @@ const RestaurantForm = (props: RestaurantFormProps) => {
             endingPrice: 0,
             logoImage: '',
             images: [],
-            staffIds: [],
+            // staffIds: [],
             deletedImageKeys: [],
         },
         resolver: zodResolver(restaurantValidationSchema),
@@ -88,7 +88,11 @@ const RestaurantForm = (props: RestaurantFormProps) => {
     }
 
     return (
-        <Form onSubmit={handleSubmit(onSubmit)}>
+        <Form
+            onSubmit={handleSubmit(onSubmit, (errors) =>
+                console.log('Validation Failed Fields:', errors),
+            )}
+        >
             <Container>
                 {/* Header with buttons */}
                 <div className="flex items-center justify-between mb-6">

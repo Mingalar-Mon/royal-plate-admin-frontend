@@ -345,11 +345,13 @@ const BlogForm = ({
                                     render={({ field }) => (
                                         <FormItem label="Linked Dish (Optional)">
                                             <Select
+                                                isSearchable={false}
                                                 options={availableDishes}
                                                 value={availableDishes.find(
                                                     (d) =>
                                                         d.value === field.value,
                                                 )}
+                                                isClearable={isNew}
                                                 onChange={(opt) =>
                                                     field.onChange(opt?.value)
                                                 }

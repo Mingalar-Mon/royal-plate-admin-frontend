@@ -148,7 +148,7 @@ export const restaurantValidationSchema = z.object({
 
     deletedImageKeys: z.array(z.string()).default([]),
     // .default([]),
-    staffIds: z.array(z.string()), //.default([]),
+    // staffIds: z.array(z.string()), //.default([]),
 })
 
 export type RestaurantFormSchema = z.infer<typeof restaurantValidationSchema>

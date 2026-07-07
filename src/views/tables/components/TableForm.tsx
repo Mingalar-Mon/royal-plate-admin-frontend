@@ -10,13 +10,15 @@ import Checkbox from '@/components/ui/Checkbox'
 import Container from '@/components/shared/Container'
 
 export const tableSchema = z.object({
-    type: z.enum(['vip', 'standard', 'family']),
+    type: z.string().min(1, 'Table Type is required'), //z.enum(['vip', 'standard', 'family']),
     capacity: z.coerce
         .number()
         .min(1, 'Capacity must be at least 1')
         .max(20, 'Capacity max 20'),
     durationMinutes: z.coerce.number().optional().nullable(),
-    tableFee: z.coerce.number().min(1, 'Table Fee must be greater than 0.'), //.optional().nullable(),
+    tableFee: z.coerce
+        .number({ error: 'Table fee is required' })
+        .min(1, 'Table Fee must be greater than 0.'), //.optional().nullable(),
     status: z.enum(['active', 'inactive', 'maintenance']),
     services: z.array(z.string()).default([]),
 })
@@ -66,7 +68,7 @@ const TableForm = ({
         formState: { errors },
     } = useForm<TableFormInput, any, TableFormOutput>({
         defaultValues: defaultValues || {
-            type: 'standard',
+            type: '', //'standard',
             capacity: 4,
             durationMinutes: 90,
             tableFee: 0,
@@ -104,7 +106,18 @@ const TableForm = ({
                                             invalid={!!errors.type}
                                             errorMessage={errors.type?.message}
                                         >
-                                            <Select
+                                            <Input
+                                                {...field}
+                                                placeholder="Enter table type - VIP, Standard, Family, ..."
+                                                // value={
+                                                //     (field.value as
+                                                //         | string
+                                                //         | number
+                                                //         | undefined) || ''
+                                                // }
+                                            />
+
+                                            {/* <Select
                                                 options={typeOptions}
                                                 value={typeOptions.find(
                                                     (opt) =>
@@ -114,7 +127,7 @@ const TableForm = ({
                                                 onChange={(opt) =>
                                                     field.onChange(opt?.value)
                                                 }
-                                            />
+                                            /> */}
                                         </FormItem>
                                     )}
                                 />
@@ -167,7 +180,13 @@ const TableForm = ({
                                         name="tableFee"
                                         control={control}
                                         render={({ field }) => (
-                                            <FormItem label="Table Fee (MMK)">
+                                            <FormItem
+                                                label="Table Fee (MMK)"
+                                                invalid={!!errors.type}
+                                                errorMessage={
+                                                    errors.type?.message
+                                                }
+                                            >
                                                 <Input
                                                     {...field}
                                                     type="number"
@@ -213,7 +232,9 @@ const TableForm = ({
                     </div>
                     <div className="lg:w-95 space-y-6">
                         <Card>
-                            <h4 className="mb-4">Services & Amenities</h4>
+                            <h4 className="mb-4">
+                                Services & Amenities (Optional)
+                            </h4>
                             <Controller
                                 name="services"
                                 control={control}
@@ -223,6 +244,7 @@ const TableForm = ({
                                             {serviceOptions.map((option) => (
                                                 <Checkbox
                                                     key={option.value}
+                                                    className="mr-3"
                                                     checked={field.value?.includes(
                                                         option.value,
                                                     )}

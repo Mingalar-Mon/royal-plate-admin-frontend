@@ -68,7 +68,7 @@ const BlogEdit = () => {
     const defaultValues: Partial<BlogFormData> = {
         title: blog.title,
         content: blog.content,
-        imageUrls: blog.image || [],
+        imageUrls: blog.images || [],
         // authorType: blog.authorOwner ? 'owner' : 'staff',
 
         linkedDishId: blog.linkedDish?.id || undefined,
@@ -82,12 +82,11 @@ const BlogEdit = () => {
         body.append('title', formData.title)
         body.append('content', formData.content)
 
-        body.append('restaurantId', restaurantId!)
-        body.append('authorId', session.userId as string)
-        body.append(
-            'authorType',
-            (session.authority as string[]).includes(OWNER) ? OWNER : STAFF,
-        )
+        // body.append('authorId', session.userId as string)
+        // body.append(
+        //     'authorType',
+        //     (session.authority as string[]).includes(OWNER) ? OWNER : STAFF,
+        // )
 
         if (formData.linkedDishId)
             body.append('linkedDishId', formData.linkedDishId)

@@ -4,13 +4,14 @@ const typeConfig = {
     family: { label: 'Family', color: 'bg-green-100 text-green-700' },
 }
 
-const TableTypeBadge = ({ type }: { type: keyof typeof typeConfig }) => {
-    const config = typeConfig[type]
+// { type }: { type: keyof typeof typeConfig }
+const TableTypeBadge = ({ type }: { type: string }) => {
+    // const config = typeConfig[type]
     return (
         <span
-            className={`px-2 py-1 rounded-full text-xs font-semibold ${config.color}`}
+            className={`px-2 py-1 rounded-full text-xs font-semibold bg-blue-100 text-blue-700`}
         >
-            {config.label}
+            {type}
         </span>
     )
 }

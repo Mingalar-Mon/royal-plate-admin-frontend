@@ -80,7 +80,7 @@ const BlogListTable = ({ data, total, loading }: BlogListTableProps) => {
                         onDelete={() =>
                             deleteBlog({
                                 blogId: props.row.original.id,
-                                restaurantId: props.row.original.restaurant.id,
+                                restaurantId: restaurantId!,
                             })
                         }
                     />
