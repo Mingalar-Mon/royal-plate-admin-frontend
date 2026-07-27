@@ -28,11 +28,12 @@ export const SignInBase = ({
                     mode={mode}
                     imgClass="mx-auto"
                     logoWidth="auto"
+                    className="[&_h4]:text-primary"
                 />
             </div>
             <div className="mb-10">
-                <h2 className="mb-2">Welcome back!</h2>
-                <p className="font-semibold heading-text">
+                <h2 className="mb-2 text-primary">Welcome back!</h2>
+                <p className="font-semibold text-gray-500 dark:text-gray-400">
                     Please enter your credentials to sign in!
                 </p>
             </div>
