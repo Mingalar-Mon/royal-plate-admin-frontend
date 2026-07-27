@@ -27,13 +27,13 @@ export const SignInBase = ({
                     type="streamline"
                     mode={mode}
                     imgClass="mx-auto"
-                    logoWidth={60}
+                    logoWidth="auto"
                 />
             </div>
             <div className="mb-10">
-                <h2 className="mb-2">Welcome back!</h2>
+                <h2 className="mb-2">Restaurant Admin</h2>
                 <p className="font-semibold heading-text">
-                    Please enter your credentials to sign in!
+                    Sign in to manage restaurants and banners
                 </p>
             </div>
             {message && (
