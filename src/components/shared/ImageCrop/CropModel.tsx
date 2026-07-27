@@ -7,6 +7,7 @@ interface Props {
     isOpen: boolean
     imageSrc: string
     aspect: number
+    originalFile?: File | null
     onCropComplete: (croppedFile: File) => void
     onClose: () => void
 }
@@ -15,6 +16,7 @@ const CropModal = ({
     isOpen,
     imageSrc,
     aspect,
+    originalFile,
     onCropComplete,
     onClose,
 }: Props) => {
@@ -92,6 +94,18 @@ const CropModal = ({
                     >
                         Cancel
                     </button>
+                    {originalFile && (
+                        <button
+                            type="button"
+                            className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700"
+                            onClick={() => {
+                                onCropComplete(originalFile)
+                                onClose()
+                            }}
+                        >
+                            Use Full Image
+                        </button>
+                    )}
                     <button
                         type="button"
                         className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"

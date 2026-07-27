@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { useForm, Controller, useController } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Form, FormItem } from '@/components/ui/Form'
@@ -130,6 +130,8 @@ const BannerForm = ({
                                             ? getPreviewUrl(activeImage)
                                             : ''
 
+                                        const originalFileRef = useRef<File | null>(null)
+
                                         const handleBannerSelect = (
                                             e: React.ChangeEvent<HTMLInputElement>,
                                         ) => {
@@ -186,7 +188,10 @@ const BannerForm = ({
                                                 return
                                             }
 
-                                            // 3. Process the file to display inside the crop canvas
+                                            // 3. Save original file for "Use Full Image" option
+                                            originalFileRef.current = file
+
+                                            // 4. Process the file to display inside the crop canvas
                                             const reader = new FileReader()
                                             reader.addEventListener(
                                                 'load',
@@ -254,6 +259,9 @@ const BannerForm = ({
                                                         modalState.src || ''
                                                     }
                                                     aspect={16 / 9}
+                                                    originalFile={
+                                                        originalFileRef.current
+                                                    }
                                                     onClose={() =>
                                                         setModalState({
                                                             isOpen: false,
