@@ -67,13 +67,14 @@ const BannerForm = ({
     */
 
     const restaurantOptions =
-        restaurantsResponse?.data?.map((r: Restaurant) => {
-            console.log('Mapped restaurant: ', r)
-            return {
-                value: r.profile ? r.profile.id : r.id, // the uuid sent to the server
-                label: r.name, //  the human-readable name shown in UI
-            }
-        }) || []
+        restaurantsResponse?.data
+            ?.filter((r: Restaurant) => r.profile)
+            .map((r: Restaurant) => {
+                return {
+                    value: r.profile.id,
+                    label: r.name,
+                }
+            }) || []
 
     console.log('Restaurant options: ', restaurantOptions)
 
