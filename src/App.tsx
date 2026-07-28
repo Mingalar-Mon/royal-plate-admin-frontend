@@ -31,16 +31,34 @@ function App() {
         generateToken()
         onMessage(messaging, (payload) => {
             console.log(payload)
-            // title = payload.notification.title
-            // body = payload.notification.body
-            // image = payload.notification.image
+            const title = payload.notification?.title ?? ''
+            const body = payload.notification?.body ?? ''
+            const image = payload.notification?.image
+
+            // Detect event type from the notification title/body for appropriate styling
+            const titleLower = title.toLowerCase()
+            const bodyLower = body.toLowerCase()
+            const isOrder = titleLower.includes('order') || bodyLower.includes('order')
+            const isReservation = titleLower.includes('reservation') || bodyLower.includes('reservation')
+
+            let notifType: 'info' | 'success' | 'warning' | 'danger' = 'info'
+            if (titleLower.includes('cancel') || bodyLower.includes('cancel')) {
+                notifType = 'danger'
+            } else if (titleLower.includes('confirm') || bodyLower.includes('confirm') || titleLower.includes('complete') || bodyLower.includes('complete')) {
+                notifType = 'success'
+            } else if (titleLower.includes('pending') || bodyLower.includes('pending') || isOrder || isReservation) {
+                notifType = 'warning'
+            }
+
             toast.push(
                 <Notification
-                    title={payload.notification?.title}
-                    type="info"
-                    customIcon={<img src={payload.notification?.image} />}
+                    title={title}
+                    type={notifType}
+                    closable
+                    duration={6000}
+                    customIcon={image ? <img src={image} className="w-8 h-8 rounded-lg object-cover" alt="" /> : undefined}
                 >
-                    {payload.notification?.body}
+                    {body}
                 </Notification>,
             )
         })
