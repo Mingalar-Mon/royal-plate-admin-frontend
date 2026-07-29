@@ -18,6 +18,8 @@ import type { NavigateFunction } from 'react-router'
 
 import { STAFF } from '@/constants/roles.constant'
 import { useRestaurantStore } from '@/store/restaurantStore'
+import { getDeviceToken } from '@/notifications/firebase'
+import { apiRegisterDeviceToken } from '@/services/NotificationService'
 
 type AuthProviderProps = { children: ReactNode }
 
@@ -108,6 +110,14 @@ function AuthProvider({ children }: AuthProviderProps) {
             console.log('Setting the user with the following data', user)
             setUser(user)
         }
+
+        getDeviceToken().then((fcmToken) => {
+            if (fcmToken) {
+                apiRegisterDeviceToken(fcmToken, 'web').catch((err) =>
+                    console.error('Failed to register FCM device token:', err),
+                )
+            }
+        })
     }
 
     const handleSignOut = () => {

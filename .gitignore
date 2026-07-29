@@ -25,3 +25,6 @@ build
 *.sln
 *.sw?
 .vite-cache/
+
+NOTIFICATION_API_FRONTEND.md
+NOTIFICATION_API_PLAN.md

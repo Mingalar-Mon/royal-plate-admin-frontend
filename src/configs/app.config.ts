@@ -9,8 +9,8 @@ export type AppConfig = {
 }
 
 const appConfig: AppConfig = {
-    // apiPrefix: 'http://localhost:3000/api',// '/api/proxy/api', // 'http://152.42.244.67/api', '/api/proxy/api', 'http://localhost:3000/api'
-    apiPrefix: '/api/proxy/api', // for vercel production
+    apiPrefix: 'http://localhost:3000/api',// '/api/proxy/api', // 'http://152.42.244.67/api', '/api/proxy/api', 'http://localhost:3000/api'
+    // apiPrefix: '/api/proxy/api', // for vercel production
     // apiPrefix: 'http://152.42.244.67/api',
     authenticatedEntryPath: '/home',
     unAuthenticatedEntryPath: '/sign-in',
