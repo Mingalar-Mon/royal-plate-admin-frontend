@@ -34,6 +34,19 @@ export const generateToken = async () => {
     }
 }
 
+export const getDeviceTokenWithoutPrompt = async (): Promise<string | null> => {
+    try {
+        if (Notification.permission !== 'granted') return null
+        const token = await getToken(messaging, {
+            vapidKey: import.meta.env.VITE_VAPID_KEY,
+        })
+        return token ?? null
+    } catch (error) {
+        console.error('An error occurred while retrieving token:', error)
+        return null
+    }
+}
+
 export const getDeviceToken = async (): Promise<string | null> => {
     try {
         const permission = await Notification.requestPermission()

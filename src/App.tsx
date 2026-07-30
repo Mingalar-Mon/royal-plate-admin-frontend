@@ -7,7 +7,7 @@ import Views from '@/views'
 import { QueryClientProvider, QueryClient } from '@tanstack/react-query'
 import { useOneSignal } from './utils/custom-hooks/useOneSignal'
 import { useEffect } from 'react'
-import { generateToken, messaging } from './notifications/firebase'
+import { messaging } from './notifications/firebase'
 import { onMessage } from 'firebase/messaging'
 import { Toaster } from 'react-hot-toast'
 import toast, { Toast } from './components/ui/toast/toast'
@@ -28,7 +28,6 @@ const queryClient = new QueryClient({
 
 function App() {
     useEffect(() => {
-        generateToken()
         onMessage(messaging, (payload) => {
             console.log(payload)
             const title = payload.notification?.title ?? ''

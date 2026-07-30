@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import Input from '@/components/ui/Input'
 import Button from '@/components/ui/Button'
 import { FormItem, Form } from '@/components/ui/Form'
@@ -10,7 +10,8 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import type { CommonProps } from '@/@types/common'
 import type { ReactNode } from 'react'
-import { getDeviceToken } from '@/notifications/firebase'
+import { getDeviceTokenWithoutPrompt } from '@/notifications/firebase'
+import NotificationPermissionDialog from '@/components/shared/NotificationPermissionDialog'
 
 interface SignInFormProps extends CommonProps {
     disableSubmit?: boolean
@@ -30,6 +31,9 @@ const validationSchema = z.object({
 
 const SignInForm = (props: SignInFormProps) => {
     const [isSubmitting, setSubmitting] = useState<boolean>(false)
+    const [dialogOpen, setDialogOpen] = useState(false)
+    const [permissionDenied, setPermissionDenied] = useState(false)
+    const dialogResolveRef = useRef<((value: string | null) => void) | null>(null)
 
     const { disableSubmit = false, className, setMessage, passwordHint } = props
 
@@ -47,13 +51,43 @@ const SignInForm = (props: SignInFormProps) => {
 
     const { signIn } = useAuth()
 
+    const handleEnableNotifications = async () => {
+        const perm = await Notification.requestPermission()
+        if (perm === 'granted') {
+            const token = await getDeviceTokenWithoutPrompt()
+            console.log('FCM Token:', token)
+            dialogResolveRef.current?.(token)
+        } else {
+            dialogResolveRef.current?.('')
+        }
+        dialogResolveRef.current = null
+        setDialogOpen(false)
+    }
+
+    const handleDismissNotifications = () => {
+        dialogResolveRef.current?.('')
+        dialogResolveRef.current = null
+        setDialogOpen(false)
+    }
+
     const onSignIn = async (values: SignInFormSchema) => {
         const { email, password } = values
 
         if (!disableSubmit) {
             setSubmitting(true)
 
-            const token = await getDeviceToken()
+            let token: string | null = ''
+
+            if (Notification.permission === 'granted') {
+                token = await getDeviceTokenWithoutPrompt()
+                console.log('FCM Token:', token)
+            } else {
+                token = await new Promise<string | null>((resolve) => {
+                    dialogResolveRef.current = resolve
+                    setPermissionDenied(Notification.permission === 'denied')
+                    setDialogOpen(true)
+                })
+            }
 
             const result = await signIn({
                 email,
@@ -126,6 +160,12 @@ const SignInForm = (props: SignInFormProps) => {
                     {isSubmitting ? 'Signing in...' : 'Sign In'}
                 </Button>
             </Form>
+            <NotificationPermissionDialog
+                isOpen={dialogOpen}
+                denied={permissionDenied}
+                onEnable={handleEnableNotifications}
+                onDismiss={handleDismissNotifications}
+            />
         </div>
     )
 }
