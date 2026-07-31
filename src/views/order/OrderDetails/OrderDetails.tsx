@@ -1,15 +1,16 @@
-// OrderDetails.tsx
 import { useNavigate, useParams } from 'react-router'
 import Loading from '@/components/shared/Loading'
 import OrderDetailProducts from '../components/OrderDetailProducts'
 import OrderDetailPayment from '../components/OrderDetailPayment'
 import OrderDetailCustomer from '../components/OrderDetailCustomer'
 import OrderDetailNote from '../components/OrderDetailNote'
+import OrderDetailMeta from '../components/OrderDetailMeta'
+import OrderDetailHeader from '../components/OrderDetailHeader'
 import OrderDetailsActivities from '../components/OrderDetailsActivity'
 import { useGetOrder } from '@/utils/custom-hooks/useOrder'
 import { Container } from '@/components/shared'
 import { Button } from '@/components/ui'
-import { TbArrowLeft } from 'react-icons/tb'
+import { TbArrowNarrowLeft } from 'react-icons/tb'
 
 const OrderDetails = () => {
     const { orderId } = useParams()
@@ -18,12 +19,36 @@ const OrderDetails = () => {
 
     if (isLoading) return <Loading loading={true} />
 
-    // const order = orderResponse?.data
-    if (!order) return <div>No order found</div>
+    if (!order) {
+        return (
+            <Container>
+                <div className="py-16 text-center space-y-4">
+                    <h4>No order found</h4>
+                    <p className="text-gray-500 dark:text-gray-400">
+                        This order may have been removed or the link is invalid.
+                    </p>
+                    <Button
+                        variant="solid"
+                        icon={<TbArrowNarrowLeft />}
+                        onClick={() => navigate(-1)}
+                    >
+                        Back to Orders
+                    </Button>
+                </div>
+            </Container>
+        )
+    }
 
-    const subtotal = Number(order.totalPrice) - Number(order.tax)
-
-    console.log('Order', order)
+    const items = order.items ?? []
+    const lineSubtotal = items.reduce(
+        (sum, item) =>
+            sum + Number(item.quantity || 0) * Number(item.unitPrice || 0),
+        0,
+    )
+    const tax = Number(order.tax) || 0
+    const total = Number(order.totalPrice) || 0
+    const subtotal =
+        lineSubtotal > 0 ? lineSubtotal : Math.max(total - tax, 0)
 
     const normalisedOrder = {
         status: order.status,
@@ -42,38 +67,35 @@ const OrderDetails = () => {
                 <div className="flex items-center justify-between mb-6">
                     <Button
                         variant="plain"
-                        icon={<TbArrowLeft />}
+                        icon={<TbArrowNarrowLeft />}
                         onClick={() => navigate(-1)}
                     >
-                        Bact to Orders
+                        Back to Orders
                     </Button>
                 </div>
 
-                <div className="flex flex-col lg:flex-row gap-4">
-                    <div className="flex-1 space-y-4">
-                        <OrderDetailProducts items={order.items} />
-                        <OrderDetailPayment
-                            subtotal={subtotal}
-                            tax={order.tax}
-                            total={order.totalPrice}
-                            // paymentMethod={order.paymentMethod}
-                            // paymentStatus={order.paymentStatus}
-                        />
-                        <OrderDetailsActivities
-                            order={normalisedOrder}
-                            status={order.status}
-                            createdAt={order.created_at}
-                        />
-                    </div>
-                    <div className="lg:w-[360px] space-y-4">
-                        <OrderDetailCustomer
-                            user={order.user}
-                            // customer={order.customerName}
-                            // phone={order.customerPhone}
-                            // orderType={order.orderType}
-                            // address={order.address}
-                        />
-                        <OrderDetailNote notes={order.message} />
+                <div className="space-y-6">
+                    <OrderDetailHeader order={order} />
+
+                    <div className="flex flex-col lg:flex-row gap-6">
+                        <div className="flex-1 space-y-6">
+                            <OrderDetailProducts items={items} />
+                            <OrderDetailPayment
+                                subtotal={subtotal}
+                                tax={tax}
+                                total={total}
+                            />
+                            <OrderDetailsActivities
+                                order={normalisedOrder}
+                                status={order.status}
+                                createdAt={order.created_at}
+                            />
+                        </div>
+                        <div className="lg:w-[360px] space-y-6">
+                            <OrderDetailCustomer user={order.user} />
+                            <OrderDetailNote notes={order.message} />
+                            <OrderDetailMeta order={order} />
+                        </div>
                     </div>
                 </div>
             </div>

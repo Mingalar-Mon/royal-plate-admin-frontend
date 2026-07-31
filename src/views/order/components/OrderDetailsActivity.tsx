@@ -1,7 +1,7 @@
-// components/OrderDetailsActivities.tsx
 import Card from '@/components/ui/Card'
 import Timeline from '@/components/ui/Timeline'
 import Badge from '@/components/ui/Badge'
+import classNames from '@/utils/classNames'
 import dayjs from 'dayjs'
 
 interface OrderDetailsActivitiesProps {
@@ -15,15 +15,27 @@ interface OrderDetailsActivitiesProps {
         completed_at?: string
         terminated_at?: string
     }
-    status: string
-    createdAt: string
+    status?: string
+    createdAt?: string
 }
 
-const OrderDetailsActivities = ({
-    // status,
-    // createdAt,
-    order,
-}: OrderDetailsActivitiesProps) => {
+const statusLabels: Record<string, string> = {
+    pending: 'Pending',
+    confirmed: 'Confirmed',
+    accepted: 'Accepted',
+    preparing: 'Preparing',
+    ready_for_pickup: 'Ready for pickup',
+    completed: 'Completed',
+    canceled: 'Canceled',
+    rejected: 'Rejected',
+    no_show: 'No show',
+}
+
+const formatLabel = (step: string) =>
+    statusLabels[step] ||
+    step.replace(/_/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase())
+
+const OrderDetailsActivities = ({ order }: OrderDetailsActivitiesProps) => {
     const status = order.status
 
     const standardFlow = [
@@ -39,7 +51,6 @@ const OrderDetailsActivities = ({
         status === 'canceled' || status === 'rejected' || status === 'no_show'
 
     const displayFlow = isTerminated ? ['pending', status] : standardFlow
-
     const currentIndex = displayFlow.indexOf(status)
 
     const timestampMap: Record<string, string | undefined | null> = {
@@ -55,9 +66,12 @@ const OrderDetailsActivities = ({
     }
 
     const activities = displayFlow.map((step, idx) => ({
-        name: step.replace(/_/g, ' '),
-        completed: idx <= currentIndex,
+        key: step,
+        name: formatLabel(step),
+        completed: currentIndex >= 0 ? idx <= currentIndex : false,
+        isCurrent: step === status,
         date: timestampMap[step] || null,
+        isTerminalStep: isTerminated && step !== 'pending',
     }))
 
     return (
@@ -66,78 +80,47 @@ const OrderDetailsActivities = ({
             <Timeline>
                 {activities.map((act) => (
                     <Timeline.Item
-                        key={act.name}
+                        key={act.key}
                         media={
                             <Badge
+                                className={classNames(
+                                    act.isCurrent &&
+                                        'ring-2 ring-offset-2 ring-primary-500 dark:ring-offset-gray-800',
+                                )}
                                 innerClass={
                                     act.completed
-                                        ? isTerminated && act.name !== 'pending'
-                                            ? 'bg-red-500' // Red badge for terminal actions
-                                            : 'bg-emerald-500' // Green badge for successful steps
+                                        ? act.isTerminalStep
+                                            ? 'bg-red-500'
+                                            : 'bg-emerald-500'
                                         : 'bg-gray-300 dark:bg-gray-600'
                                 }
                             />
                         }
                     >
-                        <div className="font-bold capitalize text-sm text-gray-900 dark:text-gray-100">
+                        <div
+                            className={classNames(
+                                'capitalize text-sm',
+                                act.isCurrent
+                                    ? 'font-bold text-gray-900 dark:text-gray-100'
+                                    : act.completed
+                                      ? 'font-semibold text-gray-800 dark:text-gray-200'
+                                      : 'font-medium text-gray-500 dark:text-gray-400',
+                            )}
+                        >
                             {act.name}
+                            {act.isCurrent && (
+                                <span className="ml-2 text-xs font-semibold text-primary-600 dark:text-primary-400 normal-case">
+                                    Current
+                                </span>
+                            )}
                         </div>
-                        {act.date && (
+                        {act.date ? (
                             <div className="text-xs text-gray-500 mt-0.5">
                                 {dayjs(act.date).format('DD/MM/YYYY HH:mm')}
                             </div>
-                        )}
-                    </Timeline.Item>
-                ))}
-            </Timeline>
-        </Card>
-    )
-
-    // ==============
-    /*
-    const operationalFlow = [
-        'pending',
-        'accepted',
-        'preparing',
-        'ready_for_pickup',
-        'completed',
-    ]
-    const currentIndex = statusFlow.indexOf(status)
-    const isTerminated =
-        status === 'canceled' || status === 'rejected' || status === 'no_show'
-
-    const displayFlow = isTerminated ? ['pending', status] : operationalFlow
-    const activities = displayFlow.map((step, idx) => ({
-        name: step.replace(/_/g, ' '),
-        completed: idx <= currentIndex,
-        date: idx === 0 ? createdAt : null,
-    }))
-
-    console.log('Activities: ', activities)
-
-    return (
-        <Card>
-            <h4 className="mb-4">Order Timeline</h4>
-            <Timeline>
-                {activities.map((act) => (
-                    <Timeline.Item
-                        key={act.name}
-                        media={
-                            <Badge
-                                innerClass={
-                                    isTerminated
-                                        ? 'bg-red-500'
-                                        : act.completed
-                                          ? 'bg-emerald-500'
-                                          : 'bg-gray-300'
-                                }
-                            />
-                        }
-                    >
-                        <div className="font-bold capitalize">{act.name}</div>
-                        {act.date && (
-                            <div className="text-sm text-gray-500">
-                                {dayjs(act.date).format('DD/MM/YYYY HH:mm')}
+                        ) : (
+                            <div className="text-xs text-gray-400 dark:text-gray-500 mt-0.5">
+                                {act.completed ? '—' : 'Pending'}
                             </div>
                         )}
                     </Timeline.Item>
@@ -145,7 +128,6 @@ const OrderDetailsActivities = ({
             </Timeline>
         </Card>
     )
-        */
 }
 
 export default OrderDetailsActivities

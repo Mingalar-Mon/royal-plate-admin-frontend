@@ -1,40 +1,70 @@
 import Card from '@/components/ui/Card'
-import { TbUser, TbPhone, TbMapPin } from 'react-icons/tb'
+import Avatar from '@/components/ui/Avatar'
+import { TbUser, TbPhone, TbMail } from 'react-icons/tb'
+import { User } from '@/@types/order'
 
 interface OrderDetailCustomerProps {
-    user?: {
-        name: string
-        email: string
-        phone?: string // Add if available on your user record
-    }
+    user?: User
 }
+
 const OrderDetailCustomer = ({ user }: OrderDetailCustomerProps) => {
-    if (!user) return null
+    if (!user) {
+        return (
+            <Card>
+                <h4 className="mb-4">Customer Details</h4>
+                <p className="text-sm text-gray-500 dark:text-gray-400">
+                    No customer information available.
+                </p>
+            </Card>
+        )
+    }
 
     return (
         <Card>
             <h4 className="mb-4">Customer Details</h4>
-            <div className="space-y-3">
-                <div className="flex items-center gap-2">
-                    <TbUser className="text-gray-500" />
-                    <span>{user.name}</span>
-                </div>
-                <div className="flex items-center gap-2">
-                    <TbPhone className="text-gray-500" />
-                    <span>{user.email || user.phone}</span>
-                </div>
-                {/* <div className="flex items-center gap-2">
-                    <TbMapPin className="text-gray-500" />
-                    <span className="capitalize">
-                        {orderTypeLabel[orderType]}
-                    </span>
-                </div> */}
-                {/* {address && (
-                    <div className="flex items-start gap-2">
-                        <TbMapPin className="text-gray-500 mt-0.5" />
-                        <span>{address}</span>
+            <div className="flex items-center gap-3 mb-4">
+                <Avatar
+                    size={48}
+                    shape="circle"
+                    src={user.profileImage || undefined}
+                    icon={<TbUser />}
+                />
+                <div className="min-w-0">
+                    <div className="font-semibold heading-text truncate">
+                        {user.name || 'Unknown customer'}
                     </div>
-                )} */}
+                    {user.isVerified && (
+                        <div className="text-xs text-emerald-600 dark:text-emerald-400">
+                            Verified customer
+                        </div>
+                    )}
+                </div>
+            </div>
+
+            <div className="space-y-3 text-sm">
+                {user.phone && (
+                    <a
+                        href={`tel:${user.phone}`}
+                        className="flex items-center gap-2 text-gray-700 dark:text-gray-200 hover:text-primary-600"
+                    >
+                        <TbPhone className="text-gray-500 shrink-0" />
+                        <span className="truncate">{user.phone}</span>
+                    </a>
+                )}
+                {user.email && (
+                    <a
+                        href={`mailto:${user.email}`}
+                        className="flex items-center gap-2 text-gray-700 dark:text-gray-200 hover:text-primary-600"
+                    >
+                        <TbMail className="text-gray-500 shrink-0" />
+                        <span className="truncate">{user.email}</span>
+                    </a>
+                )}
+                {!user.phone && !user.email && (
+                    <p className="text-gray-500 dark:text-gray-400">
+                        No contact details provided.
+                    </p>
+                )}
             </div>
         </Card>
     )

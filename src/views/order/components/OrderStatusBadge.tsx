@@ -1,7 +1,6 @@
 // components/OrderStatusBadge.tsx
-import { useState } from 'react'
-import Button from '@/components/ui/Button'
 import Dropdown from '@/components/ui/Dropdown'
+import Spinner from '@/components/ui/Spinner'
 import {
     TbCheck,
     TbClock,
@@ -13,6 +12,7 @@ import {
     TbThumbUp,
     TbUserOff,
 } from 'react-icons/tb'
+import { OrderStatus } from '@/@types/order'
 
 const statusConfig = {
     pending: {
@@ -51,7 +51,7 @@ const statusConfig = {
         icon: TbX,
     },
     completed: {
-        label: 'Complete',
+        label: 'Completed',
         color: 'bg-emerald-100 text-blue-700',
         icon: TbCircleCheck,
     },
@@ -63,15 +63,22 @@ const statusConfig = {
     },
 }
 
-const OrderStatusBadge = ({ status, onChange, isLoading }: any) => {
-    console.log('Status: ', status)
-    const [isOpen, setIsOpen] = useState(false)
+interface OrderStatusBadgeProps {
+    status: OrderStatus
+    onChange: (status: OrderStatus) => void
+    isLoading?: boolean
+}
+
+const OrderStatusBadge = ({
+    status,
+    onChange,
+    isLoading,
+}: OrderStatusBadgeProps) => {
     const current = statusConfig[status]
     const terminalStatuses = ['rejected', 'canceled', 'completed']
 
     const handleSelect = (newStatus: string) => {
-        onChange(newStatus)
-        setIsOpen(false)
+        onChange(newStatus as OrderStatus)
     }
     const isTerminal = terminalStatuses.includes(status)
 
@@ -80,9 +87,13 @@ const OrderStatusBadge = ({ status, onChange, isLoading }: any) => {
             <Dropdown
                 renderTitle={
                     <div
-                        className={`px-2 py-1 rounded-full text-xs font-semibold inline-flex items-center gap-1 cursor-pointer ${current.color}`}
+                        className={`px-2 py-1 rounded-full text-xs font-semibold inline-flex items-center gap-1 cursor-pointer ${current.color} ${isLoading ? 'opacity-60' : ''}`}
                     >
-                        <current.icon size={14} />
+                        {isLoading ? (
+                            <Spinner size={14} />
+                        ) : (
+                            <current.icon size={14} />
+                        )}
                         {current.label}
                     </div>
                 }
@@ -91,7 +102,7 @@ const OrderStatusBadge = ({ status, onChange, isLoading }: any) => {
                 {Object.entries(statusConfig).map(([key, config]) => (
                     <Dropdown.Item
                         key={key}
-                        disabled={key === status}
+                        disabled={key === status || isLoading}
                         onClick={() => handleSelect(key)}
                     >
                         <div className="flex items-center gap-2">

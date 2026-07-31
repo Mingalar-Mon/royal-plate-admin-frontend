@@ -1,22 +1,16 @@
 import { OrderQueries } from '@/store/orderStore'
-import { Notification } from '@/components/ui/Notification'
-import { QueryClient } from '@tanstack/react-query'
 // import { apiCreateOrder } from '@/services/OrderService'
 import { Order, OrderFormSchema } from '@/views/order/types/order.type'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { useEffect, useState } from 'react'
 import { delay } from '../helpers/mock.helper'
 
 import { mockOrders } from '../mock/orderData'
 import { useParams } from 'react-router'
-import { GetOrdersParams } from '@/@types/order'
 import {
     apiGetOrder,
     apiGetOrders,
     apiUpdateOrderStatus,
 } from '@/services/OrderService'
-import { apiUpdateDish } from '@/services/DishService'
-import { toast, Notification } from '@/components/ui'
 import { useOrderStore } from '@/store/orderStore'
 
 // ========= MOCK HELPERS ===============
@@ -242,8 +236,11 @@ export const useUpdateOrderStatus = () => {
     const queryClient = useQueryClient()
     return useMutation({
         mutationFn: apiUpdateOrderStatus,
-        onSuccess: () => {
+        onSuccess: (_data, variables) => {
             queryClient.invalidateQueries({ queryKey: ['orders'] })
+            queryClient.invalidateQueries({
+                queryKey: ['order', variables.orderId],
+            })
         },
     })
 }

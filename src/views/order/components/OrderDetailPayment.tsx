@@ -1,8 +1,5 @@
-// components/OrderDetailPayment.tsx
 import Card from '@/components/ui/Card'
-import Tag from '@/components/ui/Tag'
 import { NumericFormat } from 'react-number-format'
-import { paymentStatusMap } from '@/utils/Status/paymentStatus'
 
 interface OrderDetailPaymentProps {
     subtotal: number
@@ -10,66 +7,39 @@ interface OrderDetailPaymentProps {
     total: number
     paymentMethod?: string
 }
+
+const formatAmount = (value: number) => (
+    <NumericFormat
+        thousandSeparator
+        displayType="text"
+        value={Number(value) || 0}
+        prefix="MMK "
+    />
+)
+
 const OrderDetailPayment = ({
     subtotal,
     tax,
     total,
-    // paymentMethod,
-    // paymentStatus,
 }: OrderDetailPaymentProps) => {
     return (
         <Card>
-            <div className="flex items-center gap-2 mb-6">
-                <h4>Payment</h4>
-
-                {/*      Add this after passing payment status        
-                <Tag className={paymentStatusMap[paymentStatus]?.bgClass}>
-                    <span
-                        className={paymentStatusMap[paymentStatus]?.textClass}
-                    >
-                        {paymentStatusMap[paymentStatus]?.label}
-                    </span>
-                </Tag> */}
-            </div>
+            <h4 className="mb-6">Payment Summary</h4>
             <div className="space-y-3">
-                <div className="flex justify-between">
+                <div className="flex justify-between text-sm text-gray-600 dark:text-gray-300">
                     <span>Subtotal</span>
-                    <span>
-                        <NumericFormat
-                            thousandSeparator
-                            displayType="text"
-                            value={subtotal}
-                            prefix="MMK "
-                        />
-                    </span>
+                    <span>{formatAmount(subtotal)}</span>
                 </div>
-                <div className="flex justify-between">
+                <div className="flex justify-between text-sm text-gray-600 dark:text-gray-300">
                     <span>Tax</span>
-                    <span>
-                        <NumericFormat
-                            thousandSeparator
-                            displayType="text"
-                            value={tax}
-                            prefix="MMK "
-                        />
+                    <span>{formatAmount(tax)}</span>
+                </div>
+                <div className="flex justify-between items-center pt-3 border-t border-gray-200 dark:border-gray-600">
+                    <span className="font-bold text-base">Total</span>
+                    <span className="font-bold text-lg heading-text">
+                        {formatAmount(total)}
                     </span>
                 </div>
-                <div className="flex justify-between font-bold">
-                    <span>Total</span>
-                    <span>
-                        <NumericFormat
-                            thousandSeparator
-                            displayType="text"
-                            value={total}
-                            prefix="MMK "
-                        />
-                    </span>
-                </div>
-                <hr />
-                {/* <div className="flex justify-between">
-                    <span>Payment Method</span>
-                    <span className="capitalize">{paymentMethod}</span>
-                </div> */}
             </div>
         </Card>
     )
