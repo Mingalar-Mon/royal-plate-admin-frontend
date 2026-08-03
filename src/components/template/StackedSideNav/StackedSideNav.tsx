@@ -11,7 +11,7 @@ import useResponsive from '@/utils/hooks/useResponsive'
 import { useThemeStore } from '@/store/themeStore'
 import { useRouteKeyStore } from '@/store/routeKeyStore'
 import { useSessionUser } from '@/store/authStore'
-import navigationConfig from '@/configs/navigation.config'
+import navigationConfig, { getDashboardOnlyNavigation } from '@/configs/navigation.config'
 import appConfig from '@/configs/app.config'
 import isEmpty from 'lodash/isEmpty'
 import useTranslation from '@/utils/hooks/useTranslation'
@@ -54,7 +54,7 @@ const StackedSideNav = ({
     // 2. Build dynamic navigation tree
     const dynamicNavigationTree = useMemo(() => {
         if (!currentId) {
-            return navigationConfig.filter((node) => node.key === 'dashboard')
+            return getDashboardOnlyNavigation()
         }
 
         const treeCopy = cloneDeep(navigationConfig)

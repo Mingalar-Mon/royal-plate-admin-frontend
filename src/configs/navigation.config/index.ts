@@ -1,6 +1,7 @@
 import {
     NAV_ITEM_TYPE_TITLE,
     NAV_ITEM_TYPE_ITEM,
+    NAV_ITEM_TYPE_COLLAPSE,
 } from '@/constants/navigation.constant'
 
 import type { NavigationTree } from '@/@types/navigation'
@@ -19,13 +20,65 @@ const navigationConfig: NavigationTree[] = [
     // },
     {
         key: 'dashboard',
-        path: '/owner/dashboard',
+        path: '',
         title: 'Dashboard',
         translateKey: 'nav.dashboard',
         icon: 'dashboard',
-        type: NAV_ITEM_TYPE_ITEM,
+        type: NAV_ITEM_TYPE_COLLAPSE,
         authority: [OWNER],
-        subMenu: [],
+        subMenu: [
+            {
+                key: 'owner.dashboard',
+                path: '/owner/dashboard',
+                title: 'Main Dashboard',
+                translateKey: 'nav.dashboard.main',
+                icon: 'dashboard',
+                type: NAV_ITEM_TYPE_ITEM,
+                authority: [OWNER],
+                subMenu: [],
+            },
+            {
+                key: 'restaurant.eda-dashboard',
+                path: '/restaurants/:restaurantId/eda-dashboard',
+                title: 'EDA Dashboard',
+                translateKey: 'nav.dashboard.eda',
+                icon: 'dashboard',
+                type: NAV_ITEM_TYPE_ITEM,
+                authority: [OWNER],
+                subMenu: [],
+            },
+        ],
+    },
+    {
+        key: 'restaurantProfile',
+        path: '',
+        title: 'Restaurant Profile',
+        translateKey: 'nav.restaurantProfile.restaurantProfile',
+        icon: 'profile',
+        type: NAV_ITEM_TYPE_COLLAPSE,
+        authority: [OWNER],
+        subMenu: [
+            {
+                key: 'restaurantProfile.view',
+                path: '/restaurant/restaurant-profile/:restaurantId',
+                title: 'Profile View',
+                translateKey: 'nav.restaurantProfile.view',
+                icon: '',
+                type: NAV_ITEM_TYPE_ITEM,
+                authority: [],
+                subMenu: [],
+            },
+            // {
+            //     key: 'restaurantProfile.create',
+            //     path: '/restaurant/create-restaurant-profile/:restaurantId',
+            //     title: 'Create Profile',
+            //     translateKey: 'nav.restaurantProfile.create',
+            //     icon: '',
+            //     type: NAV_ITEM_TYPE_ITEM,
+            //     authority: [],
+            //     subMenu: [],
+            // },
+        ],
     },
     {
         key: 'sign-up',
@@ -476,3 +529,16 @@ const navigationConfig: NavigationTree[] = [
 ]
 
 export default navigationConfig
+
+export const getDashboardOnlyNavigation = (): NavigationTree[] => [
+    {
+        key: 'dashboard',
+        path: '/owner/dashboard',
+        title: 'Main Dashboard',
+        translateKey: 'nav.dashboard',
+        icon: 'dashboard',
+        type: NAV_ITEM_TYPE_ITEM,
+        authority: [OWNER],
+        subMenu: [],
+    },
+]

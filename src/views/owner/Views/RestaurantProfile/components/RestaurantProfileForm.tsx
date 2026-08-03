@@ -150,9 +150,9 @@ const RestaurantProfileForm = ({ isEditMode }: RestaurantProfileFormProps) => {
                 createRestaurantProfile(
                     { restaurantId: restaurantId as string, data },
                     {
-                        onSuccess: (data) =>
+                        onSuccess: () =>
                             navigate(
-                                `/restaurant/restaurant-profile/${data.data[0].id}`,
+                                `/restaurants/${restaurantId}/eda-dashboard`,
                             ),
                     },
                 )

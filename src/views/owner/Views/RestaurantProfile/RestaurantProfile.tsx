@@ -92,7 +92,7 @@ const RestaurantProfilePage = () => {
                             variant="solid"
                             onClick={() =>
                                 navigate(
-                                    `/restaurants/${restaurantId}/profile/create`,
+                                    `/restaurant/create-restaurant-profile/${restaurantId}`,
                                 )
                             }
                         >

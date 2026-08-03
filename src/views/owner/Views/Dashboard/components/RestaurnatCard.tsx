@@ -21,13 +21,10 @@ const RestaurantCard = ({ restaurant }: RestaurantCardProps) => {
     // console.log('Restaurant in card: ', restaurant)
 
     const handleViewDetails = (e: React.MouseEvent) => {
-        e.stopPropagation() // Prevent triggering card-level clicks if you add them later
+        e.stopPropagation()
         if (restaurant.profile !== null) {
-            return navigate(
-                `/restaurant/restaurant-profile/${restaurant.profile.id}`,
-            )
+            return navigate(`/restaurants/${restaurant.id}/eda-dashboard`)
         } else {
-            console.log('Opening the dialog')
             openProfileDialog('CREATE_PROFILE', {
                 id: restaurant.id,
                 name: restaurant.name,

@@ -5,7 +5,7 @@ import VerticalMenuContent from '@/components/template/VerticalMenuContent'
 import { useThemeStore } from '@/store/themeStore'
 import { useSessionUser } from '@/store/authStore'
 import { useRouteKeyStore } from '@/store/routeKeyStore'
-import navigationConfig from '@/configs/navigation.config'
+import navigationConfig, { getDashboardOnlyNavigation } from '@/configs/navigation.config'
 import appConfig from '@/configs/app.config'
 import { Link, useParams } from 'react-router'
 import {
@@ -70,7 +70,7 @@ const SideNav = ({
     // 2. Build the live dynamic navigation tree
     const dynamicNavigationTree = useMemo(() => {
         if (!currentId) {
-            return navigationConfig.filter((node) => node.key === 'dashboard')
+            return getDashboardOnlyNavigation()
         }
 
         // Deep clone the static source so configuration reference properties remain immutable

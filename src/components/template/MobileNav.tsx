@@ -4,7 +4,7 @@ import Drawer from '@/components/ui/Drawer'
 import NavToggle from '@/components/shared/NavToggle'
 import { DIR_RTL } from '@/constants/theme.constant'
 import withHeaderItem, { WithHeaderItemProps } from '@/utils/hoc/withHeaderItem'
-import navigationConfig from '@/configs/navigation.config'
+import navigationConfig, { getDashboardOnlyNavigation } from '@/configs/navigation.config'
 import appConfig from '@/configs/app.config'
 import { useThemeStore } from '@/store/themeStore'
 import { useRouteKeyStore } from '@/store/routeKeyStore'
@@ -65,7 +65,7 @@ const MobileNav = ({
     // 2. Build the live dynamic navigation tree
     const dynamicNavigationTree = useMemo(() => {
         if (!currentId) {
-            return navigationConfig.filter((node) => node.key === 'dashboard')
+            return getDashboardOnlyNavigation()
         }
 
         // Deep clone the static source so configuration reference properties remain immutable

@@ -10,9 +10,9 @@ import {
 import ApiService from './ApiService'
 import endpointConfig from '@/configs/endpoint.config'
 
-export async function apiGetRestaurantProfile(profileId: string) {
+export async function apiGetRestaurantProfile(restaurantId: string) {
     return ApiService.fetchDataWithAxios<GetRestaurantProfileResponse>({
-        url: `/restaurant/profile/get-profile/${profileId}`,
+        url: `/restaurant/profile/get-profile-by-restaurant/${restaurantId}`,
         method: 'get',
         auth: {
             username: 'royal-plate-mobile-app',

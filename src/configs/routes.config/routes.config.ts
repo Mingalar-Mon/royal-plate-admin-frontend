@@ -67,6 +67,15 @@ export const protectedRoutes: Routes = [
         authority: [OWNER],
     },
     {
+        key: 'restaurant.eda-dashboard',
+        path: '/restaurants/:restaurantId/eda-dashboard',
+        component: lazy(
+            () =>
+                import('@/views/owner/Views/Dashboard/components/EdaDashboard'),
+        ),
+        authority: [OWNER],
+    },
+    {
         key: 'restaurant.profile',
         path: '/restaurant/restaurant-profile/:profileId',
         component: lazy(
