@@ -8,6 +8,8 @@ export interface OrderQueries {
     status: string
     sort?: OnSortParam
     pickUpDate: string
+    fromDate: string
+    toDate: string
 }
 
 interface OrderStoreState {
@@ -23,6 +25,8 @@ export const useOrderStore = create<OrderStoreState>((set) => ({
         status: '',
         query: '',
         pickUpDate: '',
+        fromDate: '',
+        toDate: '',
         sort: { key: 'scheduledDate', order: 'desc' }, // Clean default sorting path
     },
     setTableData: (updater) =>
@@ -35,6 +39,8 @@ export const useOrderStore = create<OrderStoreState>((set) => ({
                 status: '',
                 query: '',
                 pickUpDate: '',
+                fromDate: '',
+                toDate: '',
             },
         })
     },

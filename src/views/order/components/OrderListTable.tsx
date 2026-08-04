@@ -1,4 +1,4 @@
-import { useState, useMemo, Dispatch, SetStateAction } from 'react'
+import { useState, useMemo } from 'react'
 import { useNavigate } from 'react-router'
 import { ColumnDef } from '@tanstack/react-table'
 import DataTable from '@/components/shared/DataTable'
@@ -16,10 +16,11 @@ import ActionColumn from './ActionColumn'
 
 // import { orderStatusColor } from '@/utils/Status/orderStatus'
 import { Order, OrderStatus } from '@/@types/order'
-import { Select } from '@/components/ui'
 
 import OrderStatusBadge from './OrderStatusBadge'
 import { useOrderStore } from '@/store/orderStore'
+import Button from '@/components/ui/Button'
+import { TbCalendarEvent, TbX } from 'react-icons/tb'
 
 /*
 const PaymentMethodImage = ({ method }: { method: string }) => {
@@ -83,11 +84,6 @@ const OrderListTable = ({
     // console.log('Order list: ', orderList)
     const [deleteConfirmationOpen, setDeleteConfirmationOpen] = useState(false)
     const [toDeleteId, setToDeleteId] = useState<string | null>(null)
-
-    const handleDelete = (id: string) => {
-        setToDeleteId(id)
-        setDeleteConfirmationOpen(true)
-    }
 
     const confirmDelete = () => {
         if (toDeleteId) {
@@ -271,8 +267,40 @@ const OrderListTable = ({
         // handleSetTableData(newData)
     }
 
+    const dateRangeActive = Boolean(tableData.fromDate || tableData.toDate)
+
+    const handleClearDateRange = () => {
+        setTableData((prev) => ({ ...prev, fromDate: '', toDate: '' }))
+    }
+
     return (
         <>
+            {dateRangeActive && (
+                <div className="mb-3 flex flex-wrap items-center gap-2">
+                    <span className="inline-flex items-center gap-1.5 rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">
+                        <TbCalendarEvent />
+                        {tableData.fromDate
+                            ? `From ${dayjs(tableData.fromDate).format(
+                                  'DD/MM/YYYY',
+                              )}`
+                            : 'Any start date'}
+                        <span className="text-primary/50">—</span>
+                        {tableData.toDate
+                            ? `To ${dayjs(tableData.toDate).format(
+                                  'DD/MM/YYYY',
+                              )}`
+                            : 'Any end date'}
+                    </span>
+                    <Button
+                        size="xs"
+                        variant="plain"
+                        icon={<TbX />}
+                        onClick={handleClearDateRange}
+                    >
+                        Clear
+                    </Button>
+                </div>
+            )}
             <DataTable
                 columns={columns}
                 data={orderList}

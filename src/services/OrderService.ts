@@ -2,7 +2,6 @@ import { Order } from '@/views/order/types/order.type'
 import ApiService from './ApiService'
 import {
     GetOrderListResponse,
-    GetOrdersParams,
     GetOrderResponse,
     OrderStatus,
 } from '@/@types/order'
@@ -45,6 +44,12 @@ export async function apiGetOrders({
             sortKey: params.sort?.key,
             sortOrder: params.sort?.order,
             pickUpDate: params.pickUpDate || undefined,
+            fromDate: params.fromDate
+                ? new Date(params.fromDate).toISOString()
+                : undefined,
+            toDate: params.toDate
+                ? new Date(params.toDate).toISOString()
+                : undefined,
         },
     })
 }

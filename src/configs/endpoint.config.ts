@@ -2,7 +2,7 @@ export const apiPrefix = '/api'
 
 const endpointConfig = {
     signIn: '/login',
-    signOut: '/sign-out',
+    signOut: '/auth/sign-out',
     signUp: '/sign-up',
     forgotPassword: 'auth/super-admin/send-otp',
     resetPassword: '/reset-password',

@@ -1,22 +1,12 @@
-import { Dispatch, SetStateAction } from 'react'
 import OrderListSearch from './OrderListSearch'
 import OrderListTableFilter from './OrderListTableFilter'
-import { OrderTableData, useOrderList } from '@/utils/custom-hooks/useOrder'
-import cloneDeep from 'lodash/cloneDeep'
-import {
-    useReservation,
-    useReservations,
-} from '@/utils/custom-hooks/useReservation'
-import { useReservationStore } from '@/store/reservationStore'
 import { useOrderStore } from '@/store/orderStore'
 
 const OrderListTableTools = () => {
-    // const { tableData, setTableData } = useOrderList()
-    // const tableData = useOrderStore((state) => state.tableData)
     const setTableData = useOrderStore((state) => state.setTableData)
 
     const handleInputChange = (val: string) => {
-        setTableData((prev: any) => ({
+        setTableData((prev) => ({
             ...prev,
             query: val,
             pageIndex: 1,
@@ -24,7 +14,7 @@ const OrderListTableTools = () => {
     }
 
     return (
-        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-2">
+        <div className="flex flex-col gap-3 xl:flex-row xl:items-center xl:justify-between">
             <OrderListSearch onInputChange={handleInputChange} />
             <OrderListTableFilter />
         </div>
