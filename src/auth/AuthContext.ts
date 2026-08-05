@@ -4,12 +4,14 @@ import type {
     AuthResult,
     User,
     OauthSignInCallbackPayload,
+    SignUpCredential,
 } from '@/@types/auth'
 
 type Auth = {
     authenticated: boolean
     user: User
-    signIn: (values: SignInCredential) => AuthResult
+    signUp: (values: SignUpCredential) => AuthResult
+    signIn: (values: SignInCredential & { role: string }) => AuthResult
     signOut: () => void
     oAuthSignIn: (
         callback: (payload: OauthSignInCallbackPayload) => void,
@@ -37,6 +39,7 @@ const AuthContext = createContext<Auth>({
     authenticated: false,
     user: {},
     signIn: async () => defaultFunctionPlaceHolder(),
+    signUp: async () => defaultFunctionPlaceHolder(),
     signOut: () => {},
     oAuthSignIn: defaultOAuthSignInPlaceHolder,
 })

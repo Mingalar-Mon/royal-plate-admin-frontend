@@ -5,9 +5,9 @@ import Checkbox from '@/components/ui/Checkbox'
 import type { Control, FieldErrors } from 'react-hook-form'
 import {
     type RestaurantProfileFormSchema,
-    type Cuisine,
-    MOCK_CUISINES,
+    // type Cuisine,
 } from '../types/restaurantProfile.type'
+import { Cuisine } from '@/@types/cuisine'
 
 interface CuisineSectionProps {
     control: Control<RestaurantProfileFormSchema>
@@ -18,11 +18,16 @@ interface CuisineSectionProps {
 const CuisineSection = ({
     control,
     errors,
-    cuisines = MOCK_CUISINES,
+    cuisines = [],
 }: CuisineSectionProps) => {
     return (
         <Card>
-            <h4 className="mb-4">Cuisines</h4>
+            <h4 className="mb-0">Cuisines</h4>
+            {/* {(!field.value || field.value.length === 0) && ( */}
+            <p className="text-xs text-gray-500 mb-3 ">
+                Select at least one cuisine type
+            </p>
+            {/* )} */}
             <Controller
                 name="cuisineIds"
                 control={control}
@@ -70,11 +75,6 @@ const CuisineSection = ({
                                 </label>
                             ))}
                         </div>
-                        {(!field.value || field.value.length === 0) && (
-                            <p className="text-sm text-gray-500 mt-2">
-                                Select at least one cuisine type
-                            </p>
-                        )}
                     </FormItem>
                 )}
             />

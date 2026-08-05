@@ -10,6 +10,8 @@ const ProtectedRoute = () => {
 
     const pathName = location.pathname
 
+    // console.log('Path name', pathName)
+
     const getPathName =
         pathName === '/' ? '' : `?${REDIRECT_URL_KEY}=${pathName}`
 

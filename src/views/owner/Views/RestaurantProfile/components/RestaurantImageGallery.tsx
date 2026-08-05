@@ -15,13 +15,7 @@ import 'swiper/css'
 import 'swiper/css/navigation'
 import 'swiper/css/pagination'
 import 'swiper/css/effect-fade'
-
-interface GalleryImage {
-    id?: string
-    url: string
-    caption?: string
-    type?: string
-}
+import classNames from '@/utils/classNames'
 
 interface RestaurantImageGalleryProps {
     images: string[]
@@ -29,7 +23,7 @@ interface RestaurantImageGalleryProps {
 }
 
 const RestaurantImageGallery = ({
-    images,
+    images = [],
     title = 'Gallery',
 }: RestaurantImageGalleryProps) => {
     const [lightboxOpen, setLightboxOpen] = useState(false)
@@ -38,13 +32,12 @@ const RestaurantImageGallery = ({
     if (!images || images.length === 0) {
         console.log(images)
         return (
-            <div></div>
-            // <div className="bg-gray-100 dark:bg-gray-800 rounded-xl h-96 flex items-center justify-center">
-            //     <div className="text-center">
-            //         <TbZoom className="text-4xl text-gray-400 mx-auto mb-2" />
-            //         <p className="text-gray-500">No images available</p>
-            //     </div>
-            // </div>
+            <div className="bg-gray-100 dark:bg-gray-800 rounded-xl h-96 flex items-center justify-center">
+                <div className="text-center">
+                    <TbZoom className="text-4xl text-gray-400 mx-auto mb-2" />
+                    <p className="text-gray-500">No images available</p>
+                </div>
+            </div>
         )
     }
 
@@ -56,12 +49,14 @@ const RestaurantImageGallery = ({
                 </h3>
                 <div className="relative w-full flex justify-center group/container">
                     {/* Custom Previous Button */}
-                    <button className="custom-prev-button absolute left-4 top-1/2 -translate-y-1/2 z-10 w-11 h-11 flex items-center justify-center bg-gray-900/80 backdrop-blur-sm border border-white/10 rounded-full text-white shadow-lg transition-all duration-300 hover:bg-black hover:scale-110 active:scale-95 opacity-0 group-hover/container:opacity-100 disabled:opacity-0">
+                    {/* opacity-0 */}
+                    <button className="custom-prev-button absolute left-4 top-1/2 -translate-y-1/2 z-10 w-11 h-11 flex items-center justify-center bg-gray-900/80 backdrop-blur-sm border border-white/10 rounded-full text-white shadow-lg transition-all duration-300 hover:bg-black hover:scale-110 active:scale-95  group-hover/container:opacity-100 disabled:opacity-0">
                         <TbChevronLeft size={28} />
                     </button>
 
                     {/* Custom Next Button */}
-                    <button className="custom-next-button absolute right-4 top-1/2 -translate-y-1/2 z-10 w-11 h-11 flex items-center justify-center bg-gray-900/80 backdrop-blur-sm border border-white/10 rounded-full text-white shadow-lg transition-all duration-300 hover:bg-black hover:scale-110 active:scale-95 opacity-0 group-hover/container:opacity-100 disabled:opacity-0">
+                    {/* md:opacity-0 */}
+                    <button className="custom-next-button absolute right-4 top-1/2 -translate-y-1/2 z-10 w-10 h-10 flex items-center justify-center bg-white/90 dark:bg-gray-900/90 backdrop-blur-sm border border-gray-200 dark:border-white/10 rounded-full text-gray-800 dark:text-white shadow-md transition-all active:scale-95  md:group-hover/container:opacity-100">
                         <TbChevronRight size={28} />
                     </button>
                     <div className="w-[80%]">
@@ -87,6 +82,10 @@ const RestaurantImageGallery = ({
                             loop={true}
                             className="rounded-xl overflow-hidden shadow-xl"
                             style={{ height: '500px' }}
+                            initialSlide={selectedIndex}
+                            onSlideChange={(swiper) =>
+                                setSelectedIndex(swiper.activeIndex)
+                            }
                         >
                             {images.map((image, index) => (
                                 <SwiperSlide key={index}>
@@ -129,7 +128,13 @@ const RestaurantImageGallery = ({
                     {images.slice(0, 6).map((image, index) => (
                         <div
                             key={index}
-                            className="relative flex-shrink-0 w-20 h-20 rounded-lg overflow-hidden cursor-pointer hover:opacity-80 transition-opacity"
+                            // hover:opacity-80 transition-opacity
+                            className={classNames(
+                                'relative shrink-0 w-20 h-20 rounded-lg overflow-hidden cursor-pointer ',
+                                index === selectedIndex
+                                    ? 'ring-2 ring-primary'
+                                    : 'opacity-90',
+                            )}
                             onClick={() => {
                                 setSelectedIndex(index)
                                 setLightboxOpen(true)
@@ -155,8 +160,9 @@ const RestaurantImageGallery = ({
             {/* Lightbox */}
             <Dialog
                 isOpen={lightboxOpen}
-                width="90%"
+                width={900}
                 closable={true}
+                contentClassName="p-0 bg-black overflow-hidden border-none relative flex flex-col justify-center min-h-[60vh] " // relative flex flex-col justify-center min-h-[60vh]
                 onClose={() => setLightboxOpen(false)}
                 onRequestClose={() => setLightboxOpen(false)}
             >
@@ -165,7 +171,7 @@ const RestaurantImageGallery = ({
                         className="absolute top-4 right-4 z-20 bg-black/50 text-white p-2 rounded-full hover:bg-black/70 transition-colors"
                         onClick={() => setLightboxOpen(false)}
                     >
-                        <TbX size={24} />
+                        {/* <TbX size={24} /> */}
                     </button>
 
                     <Swiper
@@ -180,11 +186,11 @@ const RestaurantImageGallery = ({
                     >
                         {images.map((image, index) => (
                             <SwiperSlide key={index}>
-                                <div className="flex flex-col h-full">
+                                <div className="flex flex-col h-full w-full">
                                     <img
                                         src={image}
                                         alt={`Gallery image ${index + 1}`}
-                                        className="w-full h-full object-contain"
+                                        className="w-full h-full object-cover"
                                     />
                                     {/* {image.caption && (
                                         <div className="mt-4 text-center">

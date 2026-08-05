@@ -1,80 +1,76 @@
-import { Suspense, lazy, useEffect } from 'react'
-import useSWR from 'swr'
-import Dialog from '@/components/ui/Dialog'
 import Spinner from '@/components/ui/Spinner'
 import AdaptiveCard from '@/components/shared/AdaptiveCard'
 import RestaurantHeader from './components/RestaurantHeader'
 import RestaurantGrid from './components/RestaurantGrid'
-import { useRestaurantStore } from '../../store/restaurantStore'
-import PostLoginLayout from '@/components/layouts/PostLoginLayout'
-import { useThemeStore } from '@/store/themeStore'
-import { useGetRestaurants } from '../../hooks/useRestaurant'
+// import { useRestaurantStore } from '../../store/restaurantStore'
+// import { useRestaurantStore } from '@/store/restaurantStore'
+
 import DialogModal from './components/DialogModel'
+import { useGetRestaurants } from '@/utils/custom-hooks/useRestaurant'
+import { useRestaurantStore } from '@/store/restaurantStore'
+import { useEffect } from 'react'
 
 const RestaurantDashboard = () => {
-    const { restaurants, setRestaurants, setLoading, setError } =
-        useRestaurantStore()
+    // const { restaurants, setRestaurants, setError } = useRestaurantStore()
+    // const { openProfileDialog } = useRestaurantStore()
 
-    // // SWR data fetching (pattern from Scrum Board)
-    // const { isLoading, error } = useSWR(
-    //     '/api/restaurant/get-restaurants',
-    //     () => apiGetRestaurants<RestaurantsResponse>(),
-    //     {
-    //         revalidateOnFocus: false,
-    //         revalidateIfStale: false,
-    //         onSuccess: (data) => {
-    //             console.log('Fetched restaurants:', data)
-    //             setRestaurants(data)
-    //         },
-    //         onError: (err) => {
-    //             setError(err.message)
-    //         },
-    //     },
-    // )
+    const {
+        data: restaurantsFromAPI,
+        isLoading,
+        isFetching,
 
-    const { data: restaurantsFromAPI, isLoading, error } = useGetRestaurants()
+        error,
+        refetch,
+    } = useGetRestaurants()
+
+    const setActiveRestaurant = useRestaurantStore(
+        (state) => state.setActiveRestaurant,
+    )
 
     useEffect(() => {
-        if (restaurantsFromAPI) {
-            setRestaurants(restaurantsFromAPI)
-        }
-    }, [restaurantsFromAPI, setRestaurants])
+        setActiveRestaurant(null)
+    }, [setActiveRestaurant])
 
-    // Update loading state
-    if (isLoading !== isLoading) setLoading(isLoading)
+    const showSpinner = isLoading || isFetching
+
+    // console.log('restaurant from api: ', restaurantsFromAPI)
+    // const restaurants = restaurantsFromAPI?.data;
+
+    // useEffect(() => {
+    //     if (restaurantsFromAPI) {
+    //         setRestaurants(restaurantsFromAPI.data)
+    //     }
+    //     if (error) {
+    //         setError(error.message)
+    //     }
+    // }, [restaurantsFromAPI, setRestaurants, error, setError])
+
     if (error) {
         console.error('Error loading restaurants:', error)
-        setError(error.message)
+        return (
+            <div className="text-red-500 p-4 text-center">
+                Failed to load restaurants: {error.message}
+            </div>
+        )
     }
 
-    const layoutType = useThemeStore((state) => state.layout.type)
-
     return (
-        <PostLoginLayout layoutType={layoutType}>
-            <AdaptiveCard className="h-full" bodyClass="h-full flex flex-col">
-                <RestaurantHeader />
+        <AdaptiveCard className="h-full" bodyClass="h-full flex flex-col">
+            <RestaurantHeader isRefreshing={isFetching} onRefresh={refetch} />
 
-                {isLoading ? (
-                    <div className="flex justify-center items-center h-96">
-                        <Spinner size={40} />
-                    </div>
-                ) : (
-                    <>
-                        {/* {console.log(restaurants)} */}
-                        <RestaurantGrid restaurants={restaurants} />
-                        <DialogModal />
-                    </>
-                )}
-            </AdaptiveCard>
-        </PostLoginLayout>
+            {showSpinner ? (
+                <div className="flex justify-center items-center h-96">
+                    <Spinner size={40} />
+                </div>
+            ) : (
+                <>
+                    {/* {console.log(restaurants)} */}
+                    <RestaurantGrid restaurants={restaurantsFromAPI?.data} />
+                    <DialogModal />
+                </>
+            )}
+        </AdaptiveCard>
     )
 }
 
 export default RestaurantDashboard
-
-// <PostLoginLayout layoutType={layoutType}>
-//     <AdaptiveCard className="h-full" bodyClass="h-full flex flex-col">
-
-//     </AdaptiveCard>
-// </PostLoginLayout>
-// const { data: restaurants, isLoading, isError } = useGetRestaurants()

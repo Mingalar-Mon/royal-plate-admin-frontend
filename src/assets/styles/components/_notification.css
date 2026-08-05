@@ -1,10 +1,11 @@
 @layer components {
+  /* Legacy .notification kept for backward compat */
   .notification {
-    @apply bg-white shadow-xl dark:shadow-2xl rounded-xl mb-3 relative border border-gray-100 dark:bg-gray-700 dark:border-transparent font-semibold;
+    @apply bg-white shadow-xl dark:shadow-2xl rounded-2xl mb-3 relative border border-gray-100 dark:bg-gray-800 dark:border-gray-700/50 font-semibold overflow-hidden;
   }
 
   .notification-content {
-    @apply py-5 px-6 flex;
+    @apply py-4 px-5 flex;
 
     &.no-child {
       @apply items-center;
@@ -12,10 +13,31 @@
   }
 
   .notification-title {
-    @apply font-bold text-base text-gray-800 dark:text-white;
+    @apply font-bold text-sm text-gray-900 dark:text-white;
+  }
+
+  .notification-description {
+    @apply text-sm text-gray-500 dark:text-gray-400 leading-snug;
   }
 
   .notification-close {
-    @apply top-5 ltr:right-4 rtl:left-4;
+    @apply top-4 ltr:right-4 rtl:left-4;
+  }
+
+  /* Premium popup container */
+  .notification-popup {
+    @apply font-sans;
+    animation: notif-slide-in 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  }
+
+  @keyframes notif-slide-in {
+    from {
+      opacity: 0;
+      transform: translateX(60px) scale(0.95);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0) scale(1);
+    }
   }
 }

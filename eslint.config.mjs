@@ -104,6 +104,7 @@ export default tseslint.config(
         files: ['**/*.tsx', '**/*.ts'],
         rules: {
             '@typescript-eslint/no-unused-expressions': 'off',
+            '@typescript-eslint/no-explicit-any': 'off', // <--- Add this line by bmk
         },
     },
 )

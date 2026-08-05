@@ -1,5 +1,5 @@
 import classNames from '@/utils/classNames'
-import type { CommonProps } from '@/@types/common'
+import type { CommonProps } from '@/@types/common_type'
 import type { ReactNode, ElementType } from 'react'
 
 export interface IconTextProps extends CommonProps {

@@ -1,7 +1,7 @@
 import authRoute from '@/configs/routes.config/authRoute'
 import { useLocation } from 'react-router'
 import AuthLayout from './AuthLayout'
-import type { CommonProps } from '@/@types/common'
+import type { CommonProps } from '@/@types/common_type'
 
 const PreLoginLayout = ({ children }: CommonProps) => {
     const location = useLocation()

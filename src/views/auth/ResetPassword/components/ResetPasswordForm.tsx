@@ -6,7 +6,7 @@ import { apiResetPassword } from '@/services/AuthService'
 import { useForm, Controller } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
-import type { CommonProps } from '@/@types/common'
+import type { CommonProps } from '@/@types/common_type'
 
 interface ResetPasswordFormProps extends CommonProps {
     resetComplete: boolean

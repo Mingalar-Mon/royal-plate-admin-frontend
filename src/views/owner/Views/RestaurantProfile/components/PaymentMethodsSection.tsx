@@ -5,23 +5,27 @@ import Checkbox from '@/components/ui/Checkbox'
 import type { Control, FieldErrors } from 'react-hook-form'
 import type {
     RestaurantProfileFormSchema,
-    PaymentMethod,
-} from '../types/restaurantProfile.types'
+    // PaymentMethod,
+} from '../types/restaurantProfile.type'
+import { PaymentMethod } from '@/@types/paymentMethods'
 
 interface PaymentMethodsSectionProps {
     control: Control<RestaurantProfileFormSchema>
     errors: FieldErrors<RestaurantProfileFormSchema>
-    paymentMethods: PaymentMethod[]
+    paymentMethods?: PaymentMethod[]
 }
 
 const PaymentMethodsSection = ({
     control,
     errors,
-    paymentMethods,
+    paymentMethods = [],
 }: PaymentMethodsSectionProps) => {
     return (
         <Card>
-            <h4 className="mb-4">Payment Methods</h4>
+            <h4 className="mb-0">Payment Methods</h4>
+            <p className="text-xs text-gray-500 mb-3">
+                Select at least one payment method
+            </p>
             <Controller
                 name="paymentMethodIds"
                 control={control}
@@ -31,7 +35,7 @@ const PaymentMethodsSection = ({
                         errorMessage={errors.paymentMethodIds?.message}
                     >
                         <div className="grid grid-cols-2 gap-3">
-                            {paymentMethods.map((method) => (
+                            {(paymentMethods || []).map((method) => (
                                 <label
                                     key={method.id}
                                     className="flex items-center gap-2 p-2 rounded-lg cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800"
@@ -56,22 +60,29 @@ const PaymentMethodsSection = ({
                                             }
                                         }}
                                     />
-                                    <span>
-                                        {method.icon && (
-                                            <span className="mr-1">
-                                                {method.icon}
-                                            </span>
-                                        )}
-                                        {method.name}
-                                    </span>
+
+                                    {method.image && (
+                                        <span
+                                            key={method.id}
+                                            className="px-3 py-1 bg-gray-100 dark:bg-gray-800 rounded-full text-sm flex items-center gap-1"
+                                        >
+                                            <img
+                                                src={method.image.url}
+                                                alt={method.name}
+                                                className="w-4 h-4 object-contain rounded"
+                                            />
+
+                                            {method.name}
+                                        </span>
+                                    )}
                                 </label>
                             ))}
                         </div>
-                        {(!field.value || field.value.length === 0) && (
+                        {/* {(!field.value || field.value.length === 0) && (
                             <p className="text-sm text-gray-500 mt-2">
                                 Select at least one payment method
                             </p>
-                        )}
+                        )} */}
                     </FormItem>
                 )}
             />

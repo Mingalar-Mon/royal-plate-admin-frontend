@@ -13,7 +13,7 @@ import {
     restaurantValidationSchema,
     type RestaurantFormSchema,
 } from '../types/restaurantForm.types'
-import type { CommonProps } from '@/@types/common'
+import type { CommonProps } from '@/@types/common_type'
 
 interface RestaurantFormProps extends CommonProps {
     onFormSubmit: (values: RestaurantFormSchema) => void

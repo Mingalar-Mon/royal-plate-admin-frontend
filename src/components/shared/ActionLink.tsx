@@ -1,6 +1,6 @@
 import classNames from '@/utils/classNames'
 import { Link } from 'react-router'
-import type { CommonProps } from '@/@types/common'
+import type { CommonProps } from '@/@types/common_type'
 import type { ComponentPropsWithoutRef } from 'react'
 
 interface ActionLink extends CommonProps, ComponentPropsWithoutRef<'a'> {

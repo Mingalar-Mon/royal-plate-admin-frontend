@@ -8,6 +8,7 @@ import { z } from 'zod'
 import React from 'react'
 import { useLoginOwner } from '../hooks/useOwner'
 import { useNavigate } from 'react-router'
+// import OneSignal from 'react-onesignal'
 
 type FormSchema = {
     email: string
@@ -56,8 +57,9 @@ const Basic = () => {
         loginMutation.mutate(
             { email, password },
             {
-                onSuccess: () => {
-                    console.log('login successful')
+                onSuccess: (data) => {
+                    console.log('login successful with data: ', data)
+                    // await OneSignal.login()
                     return navigate('/owner/dashboard', { replace: true })
                 },
                 onError: (error: unknown) => {

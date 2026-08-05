@@ -1,2 +1,4 @@
-export const ADMIN = 'admin'
-export const USER = 'user'
+export const OWNER = 'OWNER'
+export const ADMIN = 'ADMIN'
+export const USER = 'USER'
+export const STAFF = 'STAFF'

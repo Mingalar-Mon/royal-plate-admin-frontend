@@ -1,5 +1,5 @@
 import { cloneElement } from 'react'
-import type { CommonProps } from '@/@types/common'
+import type { CommonProps } from '@/@types/common_type'
 
 type SideProps = CommonProps
 

@@ -12,6 +12,7 @@ type SignInProps = {
 }
 
 export const SignInBase = ({
+    signUpUrl = '/sign-up',
     forgetPasswordUrl = '/forgot-password',
     disableSubmit,
 }: SignInProps) => {
@@ -26,12 +27,13 @@ export const SignInBase = ({
                     type="streamline"
                     mode={mode}
                     imgClass="mx-auto"
-                    logoWidth={60}
+                    logoWidth="auto"
+                    className="[&_h4]:text-primary"
                 />
             </div>
             <div className="mb-10">
-                <h2 className="mb-2">Welcome back!</h2>
-                <p className="font-semibold heading-text">
+                <h2 className="mb-2 text-primary">Welcome back!</h2>
+                <p className="font-semibold text-gray-500 dark:text-gray-400">
                     Please enter your credentials to sign in!
                 </p>
             </div>
@@ -43,19 +45,30 @@ export const SignInBase = ({
             <SignInForm
                 disableSubmit={disableSubmit}
                 setMessage={setMessage}
-                passwordHint={
-                    <div className="mb-7 mt-2">
-                        <ActionLink
-                            to={forgetPasswordUrl}
-                            className="font-semibold heading-text mt-2 underline"
-                            themeColor={false}
-                        >
-                            Forgot password
-                        </ActionLink>
-                    </div>
-                }
+                // passwordHint={
+                //     <div className="mb-7 mt-2">
+                //         <ActionLink
+                //             to={forgetPasswordUrl}
+                //             className="font-semibold heading-text mt-2 underline"
+                //             themeColor={false}
+                //         >
+                //             Forgot password
+                //         </ActionLink>
+                //     </div>
+                // }
             />
-
+            <div>
+                <div className="mt-6 text-center">
+                    {/* <span>{`Don't have an account yet?`} </span>
+                    <ActionLink
+                        to={signUpUrl}
+                        className="heading-text font-bold"
+                        themeColor={false}
+                    >
+                        Sign up
+                    </ActionLink> */}
+                </div>
+            </div>
         </>
     )
 }

@@ -8,6 +8,7 @@ const ApiService = {
         return new Promise<Response>((resolve, reject) => {
             AxiosBase(param)
                 .then((response: AxiosResponse<Response>) => {
+                    console.log('Response in fetch with axios: ', response)
                     resolve(response.data)
                 })
                 .catch((errors: AxiosError) => {

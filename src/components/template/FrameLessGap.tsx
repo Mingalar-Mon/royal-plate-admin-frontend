@@ -1,5 +1,5 @@
 import classNames from '@/utils/classNames'
-import type { CommonProps } from '@/@types/common'
+import type { CommonProps } from '@/@types/common_type'
 
 export interface FrameLessGapProps extends CommonProps {
     contained?: boolean
