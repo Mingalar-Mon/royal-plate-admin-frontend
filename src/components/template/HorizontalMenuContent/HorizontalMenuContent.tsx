@@ -7,7 +7,7 @@ import useMenuActive from '@/utils/hooks/useMenuActive'
 import { TbChevronDown } from 'react-icons/tb'
 import { Direction } from '@/@types/theme'
 import type { NavigationTree } from '@/@types/navigation'
-import type { TraslationFn } from '@/@types/common'
+import type { TraslationFn } from '@/@types/common_type'
 
 type HorizontalMenuContentProps = {
     routeKey: string

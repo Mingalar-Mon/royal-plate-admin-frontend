@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useEffect } from 'react'
 import Card from '@/components/ui/Card'
 import { TbMapPin, TbNavigation, TbCurrentLocation } from 'react-icons/tb'
 import Button from '@/components/ui/Button'
@@ -7,6 +7,7 @@ import Button from '@/components/ui/Button'
 import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet'
 import L from 'leaflet'
 import 'leaflet/dist/leaflet.css'
+import { Notification, toast } from '@/components/ui'
 
 // Fix for default marker icons in Leaflet
 delete (L.Icon.Default.prototype as any)._getIconUrl
@@ -108,6 +109,11 @@ const LocationView = ({
             )
         } else {
             alert('Geolocation is not supported by your browser')
+            toast.push(
+                <Notification title="Error">
+                    Geolocation is not supported by your browser
+                </Notification>,
+            )
             getDirections()
         }
     }
@@ -187,13 +193,13 @@ const LocationView = ({
 
                 {/* Floating Action Buttons */}
                 {showDirections && (
-                    <div className="absolute bottom-3 right-3 z-[1000] flex gap-2">
+                    <div className="absolute bottom-3 right-3 z-0 flex gap-2">
                         <Button
                             type="button"
                             size="sm"
                             variant="default"
                             icon={<TbNavigation />}
-                            className="shadow-lg bg-white dark:bg-gray-800"
+                            className="shadow-lg bg-white dark:bg-gray-800 z-400"
                             onClick={getDirections}
                         >
                             Directions
@@ -203,7 +209,7 @@ const LocationView = ({
                             size="sm"
                             variant="default"
                             icon={<TbCurrentLocation />}
-                            className="shadow-lg bg-white dark:bg-gray-800"
+                            className="shadow-lg bg-white dark:bg-gray-800 z-400"
                             onClick={getCurrentLocation}
                         >
                             My Location

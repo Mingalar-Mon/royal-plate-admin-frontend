@@ -58,7 +58,7 @@ export const PageContainerHeader = ({
         <div
             className={classNames(
                 contained && 'container mx-auto',
-                'flex items-center justify-between mb-4',
+                'flex items-center justify-between mb-4 ',
                 gutterLess && 'mt-4',
                 className,
             )}

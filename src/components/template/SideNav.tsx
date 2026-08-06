@@ -5,9 +5,9 @@ import VerticalMenuContent from '@/components/template/VerticalMenuContent'
 import { useThemeStore } from '@/store/themeStore'
 import { useSessionUser } from '@/store/authStore'
 import { useRouteKeyStore } from '@/store/routeKeyStore'
-import navigationConfig from '@/configs/navigation.config'
+import navigationConfig, { getDashboardOnlyNavigation } from '@/configs/navigation.config'
 import appConfig from '@/configs/app.config'
-import { Link } from 'react-router'
+import { Link, useParams } from 'react-router'
 import {
     SIDE_NAV_WIDTH,
     SIDE_NAV_COLLAPSED_WIDTH,
@@ -16,6 +16,10 @@ import {
     LOGO_X_GUTTER,
 } from '@/constants/theme.constant'
 import type { Mode } from '@/@types/theme'
+import { useRestaurantStore } from '@/store/restaurantStore'
+import { useMemo } from 'react'
+import cloneDeep from 'lodash/cloneDeep'
+import { ADMIN } from '@/constants/roles.constant'
 
 type SideNavProps = {
     translationSetup?: boolean
@@ -52,6 +56,44 @@ const SideNav = ({
 
     const userAuthority = useSessionUser((state) => state.user.authority)
 
+    // 1. GET THE CURRENT SELECTION CONTEXT
+    const activeRestaurantId = useRestaurantStore(
+        (state) => state.activeRestaurant?.id,
+    )
+
+    console.log('active id: ', activeRestaurantId)
+
+    const { restaurantId } = useParams()
+    const currentId = activeRestaurantId || restaurantId
+    console.log('Current id: ', currentId)
+
+    // 2. Build the live dynamic navigation tree
+    const dynamicNavigationTree = useMemo(() => {
+        if (!currentId) {
+            return getDashboardOnlyNavigation()
+        }
+
+        // Deep clone the static source so configuration reference properties remain immutable
+        const treeCopy = cloneDeep(navigationConfig)
+
+        // Recursion helper block to walk down subMenu nodes and replace tokens
+        const substituteTokens = (nodes: any[]) => {
+            nodes.forEach((node) => {
+                if (node.path && node.path.includes(':restaurantId')) {
+                    node.path = node.path.replace(':restaurantId', currentId)
+                }
+
+                if (node.subMenu && node.subMenu.length > 0) {
+                    substituteTokens(node.subMenu)
+                }
+            })
+        }
+
+        substituteTokens(treeCopy)
+
+        return treeCopy
+    }, [currentId])
+
     return (
         <div
             style={sideNavCollapse ? sideNavCollapseStyle : sideNavStyle}
@@ -83,7 +125,11 @@ const SideNav = ({
                 <ScrollBar style={{ height: '100%' }} direction={direction}>
                     <VerticalMenuContent
                         collapsed={sideNavCollapse}
-                        navigationTree={navigationConfig}
+                        navigationTree={
+                            userAuthority && userAuthority[0] === ADMIN
+                                ? navigationConfig
+                                : dynamicNavigationTree
+                        }
                         routeKey={currentRouteKey}
                         direction={direction}
                         translationSetup={translationSetup}

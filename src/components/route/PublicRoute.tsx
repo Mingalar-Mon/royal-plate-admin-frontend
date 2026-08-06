@@ -7,6 +7,8 @@ const { authenticatedEntryPath } = appConfig
 const PublicRoute = () => {
     const { authenticated } = useAuth()
 
+    // if (!authenticated) return <Outlet />
+
     return authenticated ? <Navigate to={authenticatedEntryPath} /> : <Outlet />
 }
 

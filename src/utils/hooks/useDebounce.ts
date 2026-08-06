@@ -1,3 +1,4 @@
+import { useMemo } from 'react'
 import debounce from 'lodash/debounce'
 import type { DebounceSettingsLeading } from 'lodash'
 
@@ -7,7 +8,7 @@ function useDebounce<T extends (...args: any) => any>(
     wait: number | undefined,
     options?: DebounceSettingsLeading,
 ) {
-    return debounce(func, wait, options)
+    return useMemo(() => debounce(func, wait, options), [func, wait, options])
 }
 
 export default useDebounce

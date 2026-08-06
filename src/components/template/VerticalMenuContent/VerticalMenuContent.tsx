@@ -137,6 +137,8 @@ const VerticalMenuContent = (props: VerticalMenuContentProps) => {
         )
     }
 
+    console.log('Navigation tree: ', navigationTree)
+
     return (
         <Menu
             className="px-4 pb-4"

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import Input from '@/components/ui/Input'
 import Button from '@/components/ui/Button'
 import { FormItem, Form } from '@/components/ui/Form'
@@ -10,6 +10,12 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import type { CommonProps } from '@/@types/common'
 import type { ReactNode } from 'react'
+import { Segment } from '@/components/ui'
+import {
+    getDeviceTokenWithoutPrompt,
+} from '@/notifications/firebase'
+import NotificationPermissionDialog from '@/components/shared/NotificationPermissionDialog'
+import { useRestaurantStore } from '@/store/restaurantStore'
 
 interface SignInFormProps extends CommonProps {
     disableSubmit?: boolean
@@ -23,16 +29,19 @@ type SignInFormSchema = {
 }
 
 const validationSchema = z.object({
-    email: z
-        .string()
-        .min(1, { message: 'Please enter your email' }),
-    password: z
-        .string()
-        .min(1, { message: 'Please enter your password' }),
+    email: z.string().min(1, { message: 'Please enter your email' }),
+    password: z.string().min(1, { message: 'Please enter your password' }),
 })
 
 const SignInForm = (props: SignInFormProps) => {
+    //  add state for the selected role
+    const [userRole, setUserRole] = useState<string>('owner') // auth = admin endpoint
+
     const [isSubmitting, setSubmitting] = useState<boolean>(false)
+    const [dialogOpen, setDialogOpen] = useState(false)
+    const [permissionDenied, setPermissionDenied] = useState(false)
+    const dialogResolveRef = useRef<((value: string | null) => void) | null>(null)
+    const { setActiveRestaurant } = useRestaurantStore()
 
     const { disableSubmit = false, className, setMessage, passwordHint } = props
 
@@ -42,13 +51,32 @@ const SignInForm = (props: SignInFormProps) => {
         control,
     } = useForm<SignInFormSchema>({
         defaultValues: {
-            email: 'superadmin@gmail.com',
-            password: '11111111!',
+            email: 'yourEmail@gmail.com',
+            password: '123456',
         },
         resolver: zodResolver(validationSchema),
     })
 
     const { signIn } = useAuth()
+
+    const handleEnableNotifications = async () => {
+        const perm = await Notification.requestPermission()
+        if (perm === 'granted') {
+            const token = await getDeviceTokenWithoutPrompt()
+            console.log('FCM Token:', token)
+            dialogResolveRef.current?.(token)
+        } else {
+            dialogResolveRef.current?.('')
+        }
+        dialogResolveRef.current = null
+        setDialogOpen(false)
+    }
+
+    const handleDismissNotifications = () => {
+        dialogResolveRef.current?.('')
+        dialogResolveRef.current = null
+        setDialogOpen(false)
+    }
 
     const onSignIn = async (values: SignInFormSchema) => {
         const { email, password } = values
@@ -56,7 +84,33 @@ const SignInForm = (props: SignInFormProps) => {
         if (!disableSubmit) {
             setSubmitting(true)
 
-            const result = await signIn({ email, password })
+            let token: string | null = ''
+
+            if (Notification.permission === 'granted') {
+                token = await getDeviceTokenWithoutPrompt()
+                console.log('FCM Token:', token)
+            } else {
+                token = await new Promise<string | null>((resolve) => {
+                    dialogResolveRef.current = resolve
+                    setPermissionDenied(Notification.permission === 'denied')
+                    setDialogOpen(true)
+                })
+            }
+
+            const result = await signIn({
+                email,
+                password,
+                fcmToken: token || '',
+                //'eepvIgSAcwK6Cz4q9ovivJ:APA91bFOxMdLTPuGf7YM-2k83sdfgF_HPi6G-umw5PGUZIVrpeHBa-0goSY26w6P_nKNNPAz_5mkbLgoZK2inrV7iymiJorob_AF5bwf6V09XQ_ii6VxjGo',
+                role: userRole,
+            })
+
+            if (result.isStaff) {
+                setActiveRestaurant({
+                    id: result.isStaff.restaurantId,
+                    name: result.isStaff.restaurantName,
+                })
+            }
 
             if (result?.status === 'failed') {
                 setMessage?.(result.message)
@@ -68,9 +122,23 @@ const SignInForm = (props: SignInFormProps) => {
 
     return (
         <div className={className}>
+            {/* 3. add the ui for role selection */}
+            <div className="mb-6">
+                <Segment
+                    value={userRole}
+                    // className="w-full justify-center"
+                    size="md"
+                    onChange={(value) => setUserRole(value as string)}
+                >
+                    {/* <Segment.Item value="auth">Admin</Segment.Item> */}
+                    <Segment.Item value="owner">Owner</Segment.Item>
+                    <Segment.Item value="staff">Staff</Segment.Item>
+                </Segment>
+            </div>
             <Form onSubmit={handleSubmit(onSignIn)}>
                 <FormItem
                     label="Email"
+                    labelClass="text-primary font-semibold"
                     invalid={Boolean(errors.email)}
                     errorMessage={errors.email?.message}
                 >
@@ -89,6 +157,7 @@ const SignInForm = (props: SignInFormProps) => {
                 </FormItem>
                 <FormItem
                     label="Password"
+                    labelClass="text-primary font-semibold"
                     invalid={Boolean(errors.password)}
                     errorMessage={errors.password?.message}
                     className={classNames(
@@ -120,6 +189,12 @@ const SignInForm = (props: SignInFormProps) => {
                     {isSubmitting ? 'Signing in...' : 'Sign In'}
                 </Button>
             </Form>
+            <NotificationPermissionDialog
+                isOpen={dialogOpen}
+                denied={permissionDenied}
+                onEnable={handleEnableNotifications}
+                onDismiss={handleDismissNotifications}
+            />
         </div>
     )
 }

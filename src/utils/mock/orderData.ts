@@ -1,0 +1,116 @@
+// mock/orderData.ts
+import type { Dish, Order } from '../../views/order/types/order.type'
+
+export const mockDishes: Dish[] = [
+    {
+        id: '1',
+        name: 'Margherita Pizza',
+        price: 12000,
+        category: 'Pizza',
+        available: true,
+    },
+    {
+        id: '2',
+        name: 'Pad Thai',
+        price: 9000,
+        category: 'Noodles',
+        available: true,
+    },
+    {
+        id: '3',
+        name: 'Caesar Salad',
+        price: 7000,
+        category: 'Salad',
+        available: true,
+    },
+    {
+        id: '4',
+        name: 'Green Curry',
+        price: 11000,
+        category: 'Curry',
+        available: true,
+    },
+    {
+        id: '5',
+        name: 'Sushi Set',
+        price: 25000,
+        category: 'Japanese',
+        available: true,
+    },
+    {
+        id: '6',
+        name: 'Burger & Fries',
+        price: 10000,
+        category: 'Fast Food',
+        available: true,
+    },
+]
+
+export const mockOrders: Order[] = [
+    {
+        id: 'ORD-001',
+        orderNumber: '1001',
+        customerName: 'John Doe',
+        customerPhone: '0912345678',
+        orderType: 'dine_in',
+        items: [
+            {
+                dishId: '1',
+                name: 'Margherita Pizza',
+                quantity: 2,
+                unitPrice: 12000,
+                subtotal: 24000,
+            },
+            {
+                dishId: '3',
+                name: 'Caesar Salad',
+                quantity: 1,
+                unitPrice: 7000,
+                subtotal: 7000,
+            },
+        ],
+        specialInstructions: 'Extra cheese on pizza',
+        subtotal: 31000,
+        tax: 1550,
+        total: 32550,
+        paymentMethod: 'cash',
+        status: 'pending',
+        date: Date.now() / 1000,
+        restaurantId: '62027174-8805-4059-9840-b0fd69b19b79',
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+    },
+    {
+        id: 'ORD-002',
+        orderNumber: '1002',
+        customerName: 'Jane Smith',
+        customerPhone: '0998765432',
+        orderType: 'takeaway',
+        items: [
+            {
+                dishId: '4',
+                name: 'Green Curry',
+                quantity: 1,
+                unitPrice: 11000,
+                subtotal: 11000,
+            },
+            {
+                dishId: '2',
+                name: 'Pad Thai',
+                quantity: 1,
+                unitPrice: 9000,
+                subtotal: 9000,
+            },
+        ],
+        specialInstructions: 'Less spicy',
+        subtotal: 20000,
+        tax: 1000,
+        total: 21000,
+        paymentMethod: 'mobile',
+        status: 'confirmed',
+        date: Date.now() / 1000 - 86400,
+        restaurantId: '62027174-8805-4059-9840-b0fd69b19b79',
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+    },
+]

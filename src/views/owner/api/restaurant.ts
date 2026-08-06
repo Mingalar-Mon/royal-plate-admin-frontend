@@ -21,7 +21,7 @@ export const restaurantAPI = {
         apiClient.delete(`/restaurant/delete-restaurant/${id}`),
 
     // Get all cuisines
-    getCuisines: () => apiClient.get(`/cuisines`),
+    getCuisines: () => apiClient.get(`/cuisine/get-cuisines`),
 
     // Get all payment methods
     getPaymentMethods: () => apiClient.get(`/payment-methods`),

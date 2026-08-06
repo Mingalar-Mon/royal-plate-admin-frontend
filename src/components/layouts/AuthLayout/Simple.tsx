@@ -1,7 +1,7 @@
 import { cloneElement } from 'react'
 import Container from '@/components/shared/Container'
 import type { ReactNode, ReactElement } from 'react'
-import type { CommonProps } from '@/@types/common'
+import type { CommonProps } from '@/@types/common_type'
 
 interface SimpleProps extends CommonProps {
     content?: ReactNode

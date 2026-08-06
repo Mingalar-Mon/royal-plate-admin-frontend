@@ -1,0 +1,12 @@
+{
+    "rewrites": [
+        {
+            "source": "/api/proxy/api/:path*",
+            "destination": "https://royal-plate-dev-server-bpcr2.ondigitalocean.app/api/:path*"
+        },
+        {
+            "source": "/(.*)",
+            "destination": "/"
+        }
+    ]
+}

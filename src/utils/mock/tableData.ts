@@ -1,0 +1,40 @@
+import type { Table } from '@/views/tables/types/table.type'
+
+export const mockTables: Table[] = [
+    {
+        id: '1',
+        type: 'vip',
+        capacity: 6,
+        durationMinutes: 120,
+        tableFee: 50000,
+        status: 'active',
+        services: ['Waiter', 'VIP Lounge', 'Complimentary drinks'],
+        restaurantId: 'mock-rest-id',
+        createdAt: '2025-01-10T10:00:00Z',
+        updatedAt: '2025-01-10T10:00:00Z',
+    },
+    {
+        id: '2',
+        type: 'standard',
+        capacity: 4,
+        durationMinutes: 90,
+        tableFee: 20000,
+        status: 'active',
+        services: ['Standard seating'],
+        restaurantId: 'mock-rest-id',
+        createdAt: '2025-02-15T14:30:00Z',
+        updatedAt: '2025-02-15T14:30:00Z',
+    },
+    {
+        id: '3',
+        type: 'family',
+        capacity: 8,
+        durationMinutes: 150,
+        tableFee: 80000,
+        status: 'maintenance',
+        services: ['Kids area', 'High chair'],
+        restaurantId: 'mock-rest-id',
+        createdAt: '2025-03-20T09:00:00Z',
+        updatedAt: '2025-03-20T09:00:00Z',
+    },
+]

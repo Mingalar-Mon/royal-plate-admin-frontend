@@ -1,0 +1,72 @@
+// Import the functions you need from the SDKs you need
+import { initializeApp } from 'firebase/app'
+import { getAnalytics } from 'firebase/analytics'
+import { getMessaging, getToken } from 'firebase/messaging'
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+    apiKey: import.meta.env.VITE_API_KEY,
+    authDomain: import.meta.env.VITE_AUTH_DOMAIN,
+    projectId: import.meta.env.VITE_PROJECT_ID,
+    storageBucket: import.meta.env.VITE_STORAGE_BUCKET,
+    messagingSenderId: import.meta.env.VITE_MESSAGING_SENDER_ID,
+    appId: import.meta.env.VITE_APP_ID,
+    measurementId: import.meta.env.VITE_MEASUREMENT_ID,
+}
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig)
+export const messaging = getMessaging(app)
+const analytics = getAnalytics(app)
+
+export const generateToken = async () => {
+    const permission = await Notification.requestPermission()
+    console.log(permission)
+    if (permission === 'granted') {
+        const token = await getToken(messaging, {
+            vapidKey: import.meta.env.VITE_VAPID_KEY,
+        })
+
+        console.log(token)
+    }
+}
+
+export const getDeviceTokenWithoutPrompt = async (): Promise<string | null> => {
+    try {
+        if (Notification.permission !== 'granted') return null
+        const token = await getToken(messaging, {
+            vapidKey: import.meta.env.VITE_VAPID_KEY,
+        })
+        return token ?? null
+    } catch (error) {
+        console.error('An error occurred while retrieving token:', error)
+        return null
+    }
+}
+
+export const getDeviceToken = async (): Promise<string | null> => {
+    try {
+        const permission = await Notification.requestPermission()
+
+        if (permission !== 'granted') return null
+
+        const token = await getToken(messaging, {
+            vapidKey: import.meta.env.VITE_VAPID_KEY,
+        })
+
+        if (token) {
+            return token
+        } else {
+            console.warn(
+                'No registration token available. Request permission to generate one.',
+            )
+            return null
+        }
+    } catch (error) {
+        console.error('An error occurred while retrieving token:', error)
+        return null
+    }
+}

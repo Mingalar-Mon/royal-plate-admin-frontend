@@ -4,12 +4,13 @@ import FrameLessGap from '@/components/template/FrameLessGap'
 import SideNavToggle from '@/components/template/SideNavToggle'
 import MobileNav from '@/components/template/MobileNav'
 import UserProfileDropdown from '@/components//template/UserProfileDropdown'
+import Notification from '@/components/template/Notification'
 import LayoutBase from '@/components//template/LayoutBase'
 import classNames from '@/utils/classNames'
 import useScrollTop from '@/utils/hooks/useScrollTop'
 import useResponsive from '@/utils/hooks/useResponsive'
 import { LAYOUT_FRAMELESS_SIDE } from '@/constants/theme.constant'
-import type { CommonProps } from '@/@types/common'
+import type { CommonProps } from '@/@types/common_type'
 import type { FooterPageContainerType } from '@/components/template/Footer'
 
 const FrameLessSide = ({ children }: CommonProps) => {
@@ -98,6 +99,7 @@ const FrameLessSide = ({ children }: CommonProps) => {
                             }
                             headerEnd={
                                 <>
+                                    <Notification />
                                     <UserProfileDropdown hoverable={false} />
                                 </>
                             }

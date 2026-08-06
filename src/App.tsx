@@ -5,6 +5,13 @@ import { AuthProvider } from '@/auth'
 import Views from '@/views'
 
 import { QueryClientProvider, QueryClient } from '@tanstack/react-query'
+import { useOneSignal } from './utils/custom-hooks/useOneSignal'
+import { useEffect } from 'react'
+import { messaging } from './notifications/firebase'
+import { onMessage } from 'firebase/messaging'
+import { Toaster } from 'react-hot-toast'
+import toast, { Toast } from './components/ui/toast/toast'
+import { Notification } from './components/ui'
 
 const queryClient = new QueryClient({
     defaultOptions: {
@@ -12,11 +19,50 @@ const queryClient = new QueryClient({
             staleTime: 5 * 60 * 1000, // 5 minutes
             retry: 1,
             refetchOnWindowFocus: false,
+            retryOnMount: false,
         },
     },
 })
 
+// const notify = () => toast('Here is your toast')
+
 function App() {
+    useEffect(() => {
+        onMessage(messaging, (payload) => {
+            console.log(payload)
+            const title = payload.notification?.title ?? ''
+            const body = payload.notification?.body ?? ''
+            const image = payload.notification?.image
+
+            // Detect event type from the notification title/body for appropriate styling
+            const titleLower = title.toLowerCase()
+            const bodyLower = body.toLowerCase()
+            const isOrder = titleLower.includes('order') || bodyLower.includes('order')
+            const isReservation = titleLower.includes('reservation') || bodyLower.includes('reservation')
+
+            let notifType: 'info' | 'success' | 'warning' | 'danger' = 'info'
+            if (titleLower.includes('cancel') || bodyLower.includes('cancel')) {
+                notifType = 'danger'
+            } else if (titleLower.includes('confirm') || bodyLower.includes('confirm') || titleLower.includes('complete') || bodyLower.includes('complete')) {
+                notifType = 'success'
+            } else if (titleLower.includes('pending') || bodyLower.includes('pending') || isOrder || isReservation) {
+                notifType = 'warning'
+            }
+
+            toast.push(
+                <Notification
+                    title={title}
+                    type={notifType}
+                    closable
+                    duration={6000}
+                    customIcon={image ? <img src={image} className="w-8 h-8 rounded-lg object-cover" alt="" /> : undefined}
+                >
+                    {body}
+                </Notification>,
+            )
+        })
+    }, [])
+    // useOneSignal() // Initialize OneSignal for the entire app
     return (
         <QueryClientProvider client={queryClient}>
             <Theme>

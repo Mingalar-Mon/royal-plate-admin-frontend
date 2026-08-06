@@ -10,7 +10,7 @@ import {
 } from '@/constants/navigation.constant'
 import navigationIcon from '@/configs/navigation-icon.config'
 import { TbCircle } from 'react-icons/tb'
-import type { CommonProps, TraslationFn } from '@/@types/common'
+import type { CommonProps, TraslationFn } from '@/@types/common_type'
 import type { NavigationTree, HorizontalMenuMeta } from '@/@types/navigation'
 import type { ReactNode, HTMLProps } from 'react'
 

@@ -1,13 +1,16 @@
+import { Restaurant } from './restaurant'
+
 export type SignInCredential = {
     email: string
     password: string
+    fcmToken: string
 }
 export type SignInResponse = {
     success: boolean
     message: string
     data: {
         token: string
-        admin: {
+        user: {
             id: string
             name: string
             email: string
@@ -16,6 +19,9 @@ export type SignInResponse = {
                 name: string
                 permissions?: any[]
             }
+            // bmk's changes
+            code?: string
+            restaurant?: Omit<Restaurant, 'owner, staff, profile'>
         }
     }
 }
@@ -23,9 +29,12 @@ export type SignInResponse = {
 export type SignUpResponse = SignInResponse
 
 export type SignUpCredential = {
-    userName: string
+    name: string
     email: string
     password: string
+    // bmk changes
+    phone: string
+    role: string
 }
 
 export type ForgotPassword = {
@@ -33,7 +42,7 @@ export type ForgotPassword = {
 }
 
 export type VerifyOtp = {
-    code : number
+    code: number
 }
 
 export type ResetPassword = {
@@ -45,6 +54,10 @@ export type AuthRequestStatus = 'success' | 'failed' | ''
 export type AuthResult = Promise<{
     status: AuthRequestStatus
     message: string
+    isStaff?: {
+        restaurantId: string
+        restaurantName: string
+    }
 }>
 
 export type User = {
