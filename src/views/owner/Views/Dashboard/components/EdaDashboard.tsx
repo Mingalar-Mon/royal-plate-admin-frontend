@@ -463,12 +463,12 @@ const EdaDashboard = () => {
                                 today.
                             </p>
                         </div>
-                        <div className="grid grid-cols-2 gap-3 sm:flex sm:items-center">
+                        <div className="grid w-full max-w-xs grid-cols-2 gap-3">
                             <div className="rounded-2xl border border-white/70 bg-white/70 px-4 py-3 shadow-sm backdrop-blur dark:border-gray-700/70 dark:bg-gray-800/70">
                                 <p className="text-[11px] font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400">
                                     Total orders
                                 </p>
-                                <p className="mt-1 text-xl font-bold text-gray-900 dark:text-gray-100">
+                                <p className="mt-1 whitespace-nowrap text-xl font-bold text-gray-900 dark:text-gray-100">
                                     {edaLoading
                                         ? '—'
                                         : formatNumber(totalOrders)}
@@ -478,7 +478,7 @@ const EdaDashboard = () => {
                                 <p className="text-[11px] font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400">
                                     Reservations
                                 </p>
-                                <p className="mt-1 text-xl font-bold text-gray-900 dark:text-gray-100">
+                                <p className="mt-1 whitespace-nowrap text-xl font-bold text-gray-900 dark:text-gray-100">
                                     {edaLoading
                                         ? '—'
                                         : formatNumber(totalReservations)}
