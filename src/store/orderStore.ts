@@ -22,7 +22,7 @@ export const useOrderStore = create<OrderStoreState>((set) => ({
     tableData: {
         pageIndex: 1,
         pageSize: 10,
-        status: '',
+        status: 'all',
         query: '',
         pickUpDate: '',
         fromDate: '',
@@ -36,7 +36,7 @@ export const useOrderStore = create<OrderStoreState>((set) => ({
             tableData: {
                 pageIndex: 1,
                 pageSize: 10,
-                status: '',
+                status: 'all',
                 query: '',
                 pickUpDate: '',
                 fromDate: '',

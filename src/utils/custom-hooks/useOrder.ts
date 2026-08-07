@@ -1,4 +1,5 @@
-import { OrderQueries } from '@/store/orderStore'
+import { normalizeOrderStatus } from '@/@types/order'
+import { OrderQueries, useOrderStore } from '@/store/orderStore'
 // import { apiCreateOrder } from '@/services/OrderService'
 import { Order, OrderFormSchema } from '@/views/order/types/order.type'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
@@ -11,7 +12,6 @@ import {
     apiGetOrders,
     apiUpdateOrderStatus,
 } from '@/services/OrderService'
-import { useOrderStore } from '@/store/orderStore'
 
 // ========= MOCK HELPERS ===============
 const mockOrderData = [...mockOrders]
@@ -46,7 +46,10 @@ export const useGetOrder = (orderId: string) => {
         queryFn: async () => {
             // Call API
             const response = await apiGetOrder(orderId)
-            return response.data
+            return {
+                ...response.data,
+                status: normalizeOrderStatus(response.data.status),
+            }
             // // mock
             // await delay(800)
             // const filtered = mockOrderData.filter(
@@ -69,7 +72,10 @@ export const useGetOrders = (restaurantId: string, params: OrderQueries) => {
         queryFn: async () => {
             const response = await apiGetOrders({ restaurantId, params })
             return {
-                orders: response.data,
+                orders: response.data.map((order) => ({
+                    ...order,
+                    status: normalizeOrderStatus(order.status),
+                })),
                 total: response.paginator.totalItems,
                 success: response.success,
             }
@@ -119,6 +125,7 @@ export const useGetOrders = (restaurantId: string, params: OrderQueries) => {
 // ================ DELETE ORDER  =====================
 export const deleteOrder = async (id: string) => {
     // await apiClient.delete(`/orders/${id}`)
+    void id
     await delay(300)
     return { success: true }
 }
@@ -165,7 +172,7 @@ export const useCreateOrder = () => {
 //         | 'preparing'
 //         | 'ready'
 //         | 'completed'
-//         | 'cancelled'
+//         | 'canceled'
 //     paymentMethod: string
 //     paymentIdentifier: string
 //     totalAmount: number
@@ -208,14 +215,7 @@ export const useOrderList = () => {
     //     },
     // })
 
-    const { data, isLoading } = useGetOrders({
-        restaurantId: restaurantId!,
-        // tableData
-        pageIndex: tableData.pageIndex,
-        pageSize: tableData.pageSize,
-        query: tableData.query,
-        orderStatus: tableData.status,
-    })
+    const { data, isLoading } = useGetOrders(restaurantId!, tableData)
     console.log('data: ', data)
 
     const orderList = data?.orders || []

@@ -11,7 +11,6 @@ import {
     TbCalendarCheck,
     TbCalendarClock,
     TbChefHat,
-    TbCircleCheck,
     TbClock,
     TbDatabaseOff,
     TbRefresh,
@@ -352,12 +351,11 @@ const EdaDashboard = () => {
     } = useGetTopCustomers(restaurantId ?? '')
 
     const stats = edaData?.data
-    const acceptedOrders = stats?.todayAcceptedOrders ?? 0
     const pendingOrders = stats?.todayPendingOrder ?? 0
     const confirmedOrders = stats?.todayComfirmedOrder ?? 0
     const pendingReservations = stats?.todayPendingReservation ?? 0
     const confirmedReservations = stats?.todayComfirmedReservation ?? 0
-    const totalOrders = acceptedOrders + pendingOrders + confirmedOrders
+    const totalOrders = pendingOrders + confirmedOrders
     const totalReservations = pendingReservations + confirmedReservations
     const restaurantName =
         restaurantResponse?.data?.name || 'Restaurant workspace'
@@ -518,13 +516,6 @@ const EdaDashboard = () => {
                 ) : (
                     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
                         <StatCard
-                            label="Accepted orders"
-                            value={acceptedOrders}
-                            description="Orders accepted today"
-                            icon={<TbCircleCheck />}
-                            tone="emerald"
-                        />
-                        <StatCard
                             label="Pending orders"
                             value={pendingOrders}
                             description="Waiting for action"
@@ -590,12 +581,6 @@ const EdaDashboard = () => {
                                     </div>
                                 </div>
                                 <div className="space-y-4">
-                                    <StatusBar
-                                        label="Accepted"
-                                        value={acceptedOrders}
-                                        total={totalOrders}
-                                        tone="emerald"
-                                    />
                                     <StatusBar
                                         label="Pending"
                                         value={pendingOrders}

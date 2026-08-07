@@ -7,10 +7,11 @@ const statusOptions = [
     { value: 'pending', label: 'Pending' },
     { value: 'confirmed', label: 'Confirmed' },
     { value: 'preparing', label: 'Preparing' },
-    { value: 'ready_for_pickup', label: 'Ready' },
+    { value: 'ready', label: 'Ready' },
     { value: 'completed', label: 'Completed' },
-    { value: 'canceled', label: 'Canceled' },
+    { value: 'rejected', label: 'Rejected' },
     { value: 'no_show', label: 'No Show' },
+    { value: 'canceled', label: 'Canceled' },
 ]
 
 const OrderListTableFilter = () => {

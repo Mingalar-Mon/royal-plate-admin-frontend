@@ -1,5 +1,4 @@
 export type DashboardEDAData = {
-    todayAcceptedOrders: number
     todayPendingOrder: number
     todayComfirmedOrder: number
     todayPendingReservation: number

@@ -9,7 +9,6 @@ interface OrderDetailsActivitiesProps {
         status: string
         created_at: string
         confirmed_at?: string
-        accepted_at?: string
         preparing_at?: string
         ready_at?: string
         completed_at?: string
@@ -22,9 +21,8 @@ interface OrderDetailsActivitiesProps {
 const statusLabels: Record<string, string> = {
     pending: 'Pending',
     confirmed: 'Confirmed',
-    accepted: 'Accepted',
     preparing: 'Preparing',
-    ready_for_pickup: 'Ready for pickup',
+    ready: 'Ready',
     completed: 'Completed',
     canceled: 'Canceled',
     rejected: 'Rejected',
@@ -41,9 +39,8 @@ const OrderDetailsActivities = ({ order }: OrderDetailsActivitiesProps) => {
     const standardFlow = [
         'pending',
         'confirmed',
-        'accepted',
         'preparing',
-        'ready_for_pickup',
+        'ready',
         'completed',
     ]
 
@@ -56,9 +53,8 @@ const OrderDetailsActivities = ({ order }: OrderDetailsActivitiesProps) => {
     const timestampMap: Record<string, string | undefined | null> = {
         pending: order.created_at,
         confirmed: order.confirmed_at,
-        accepted: order.accepted_at,
         preparing: order.preparing_at,
-        ready_for_pickup: order.ready_at,
+        ready: order.ready_at,
         completed: order.completed_at,
         canceled: order.terminated_at,
         rejected: order.terminated_at,

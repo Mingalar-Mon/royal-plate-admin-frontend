@@ -56,7 +56,9 @@ export interface Order extends OrderFormSchema {
         | 'preparing'
         | 'ready'
         | 'completed'
-        | 'cancelled'
+        | 'rejected'
+        | 'no_show'
+        | 'canceled'
     date: number // newly added
     createdAt: string
     updatedAt: string

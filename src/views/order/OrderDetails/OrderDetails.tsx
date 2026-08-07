@@ -54,7 +54,6 @@ const OrderDetails = () => {
         status: order.status,
         created_at: order.created_at,
         confirmed_at: order.confirmed_at,
-        accepted_at: order.accepted_at,
         preparing_at: order.preparing_at,
         ready_at: order.ready_at,
         completed_at: order.completed_at,

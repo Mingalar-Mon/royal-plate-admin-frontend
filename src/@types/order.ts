@@ -7,15 +7,30 @@ export interface GetOrdersParams extends OrderQueries {
 }
 
 export enum OrderStatus {
-    CONFIRMED = 'confirmed',
     PENDING = 'pending',
-    CANCELED = 'canceled',
-    ACCEPTED = 'accepted',
+    CONFIRMED = 'confirmed',
     PREPARING = 'preparing',
-    READY_FOR_PICKUP = 'ready_for_pickup',
+    READY = 'ready',
+    COMPLETED = 'completed',
     REJECTED = 'rejected',
     NO_SHOW = 'no_show',
-    COMPLETED = 'completed',
+    CANCELED = 'canceled',
+}
+
+const legacyOrderStatusMap: Record<string, OrderStatus> = {
+    accepted: OrderStatus.CONFIRMED,
+    ready_for_pickup: OrderStatus.READY,
+    ready_to_pickup: OrderStatus.READY,
+}
+
+const currentOrderStatuses = new Set<string>(Object.values(OrderStatus))
+
+export const normalizeOrderStatus = (status: string): OrderStatus => {
+    const normalizedStatus = legacyOrderStatusMap[status] ?? status
+
+    return currentOrderStatuses.has(normalizedStatus)
+        ? (normalizedStatus as OrderStatus)
+        : OrderStatus.PENDING
 }
 export type OrderItem = {
     id: string
@@ -52,7 +67,6 @@ export type Order = {
     updated_at: string
 
     confirmed_at?: string
-    accepted_at?: string
     preparing_at?: string
     ready_at?: string
     completed_at?: string

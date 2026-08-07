@@ -31,25 +31,6 @@ const PaymentMethodImage = ({ method }: { method: string }) => {
     }
     return <span className="text-lg mr-1">{icons[method] || '💵'}</span>
 }
-
-const allowedStatuses = [
-    { value: 'accepted', label: 'Accepted' },
-    { value: 'preparing', label: 'Preparing' },
-    { value: 'ready_for_pickup', label: 'Ready for Pickup' },
-    { value: 'completed', label: 'Completed' },
-    { value: 'rejected', label: 'Rejected' },
-    { value: 'no_show', label: 'No Show' },
-    // { value: 'pending', label: 'Pending' },
-]
-
-const baseAllowedOptions = [
-    { value: 'accepted', label: 'Accepted' },
-    { value: 'preparing', label: 'Preparing' },
-    { value: 'ready_for_pickup', label: 'Ready for Pickup' },
-    { value: 'completed', label: 'Completed' },
-    { value: 'rejected', label: 'Rejected' },
-    { value: 'no_show', label: 'No Show' },
-]
 */
 interface Props {
     orderList: Order[]
@@ -101,13 +82,17 @@ const OrderListTable = ({
         // const handleEdit = (order: Order) => {
         //     navigate(`/orders/edit/${order.id}`)
         // }
-        const handleStatusChange = async (
+        const handleStatusChange = (
             id: string,
             newStatus: OrderStatus,
         ) => {
             setStatusUpdatingId(id)
-            updateStatus({ orderId: id, status: newStatus })
-            setStatusUpdatingId(null)
+            updateStatus(
+                { orderId: id, status: newStatus },
+                {
+                    onSettled: () => setStatusUpdatingId(null),
+                },
+            )
         }
         return [
             {
