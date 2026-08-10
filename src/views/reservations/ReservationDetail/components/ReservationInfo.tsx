@@ -10,6 +10,7 @@ const ReservationInfo = ({ reservation }: { reservation: Reservation }) => {
             <div className="flex justify-between items-start mb-4">
                 <h4>Reservation Details</h4>
                 <ReservationStatusBadge
+                    readOnly
                     status={reservation.status}
                     onChange={() => {}}
                 />

@@ -1,8 +1,11 @@
 export type ReservationStatus =
-    | 'confirmed'
     | 'pending'
+    | 'confirmed'
+    | 'seated'
+    | 'completed'
+    | 'no_show'
+    | 'rejected'
     | 'canceled'
-    | 'complete'
 
 export interface User {
     id: string
@@ -23,20 +26,25 @@ export interface Reservation {
     startingTime: string // ISO datetime
     endingTime: string
     status: ReservationStatus
-    remark?: string
+    remark?: string | null
     user: User
     table: Table
-    dishes?: { id: string; name: string }[]
-    createdAt: string
-    updatedAt: string
+    reservationItems?: {
+        id: string
+        quantity: number
+        unitPrice: number
+        dish: { id: string; name: string }
+    }[]
+    created_at: string
+    updated_at: string
 }
 
 export interface TableQueries {
     pageIndex: number
     pageSize: number
-    sort?: { order: 'asc' | 'desc'; key: string }
+    sort?: { order: 'asc' | 'desc' | ''; key: string | number }
     query?: string
-    status?: string
+    status?: ReservationStatus | ''
     dateFrom?: string
     dateTo?: string
 }

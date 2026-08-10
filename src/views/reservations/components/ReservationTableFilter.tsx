@@ -1,50 +1,53 @@
-import { useState } from 'react'
-import { useForm, Controller } from 'react-hook-form'
+import { useEffect, useState } from 'react'
+import { Controller, useForm } from 'react-hook-form'
 import Button from '@/components/ui/Button'
 import Drawer from '@/components/ui/Drawer'
 import { Form, FormItem } from '@/components/ui/Form'
-
-import Select from '@/components/ui/Select'
 import Input from '@/components/ui/Input'
+import Select from '@/components/ui/Select'
 import { TbFilter } from 'react-icons/tb'
-// import { useReservations } from '@/utils/custom-hooks/useReservation'
 import { useReservationStore } from '@/store/reservationStore'
+import type { ReservationStatus } from '../types/reservation.type'
 
-const statusOptions = [
-    { value: '', label: 'All' },
+const statusOptions: { value: ReservationStatus | ''; label: string }[] = [
+    { value: '', label: 'All statuses' },
     { value: 'pending', label: 'Pending' },
     { value: 'confirmed', label: 'Confirmed' },
+    { value: 'seated', label: 'Seated' },
+    { value: 'completed', label: 'Completed' },
+    { value: 'no_show', label: 'No show' },
+    { value: 'rejected', label: 'Rejected' },
     { value: 'canceled', label: 'Canceled' },
-    { value: 'complete', label: 'Complete' },
 ]
 
-// {
-//     tableData,
-//     setTableData,
-// }: {
-//     tableData: any
-//     setTableData: any
-// }
+type FilterValues = {
+    status: ReservationStatus | ''
+    dateFrom: string
+    dateTo: string
+}
+
 const ReservationTableFilter = () => {
     const [isOpen, setIsOpen] = useState(false)
     const tableData = useReservationStore((state) => state.tableData)
     const setTableData = useReservationStore((state) => state.setTableData)
-    // const { tableData, setTableData } = useReservations()
-    const { control, handleSubmit, reset } = useForm({
+    const { control, handleSubmit, reset } = useForm<FilterValues>({
         defaultValues: {
-            status: tableData.status || '',
-            dateFrom: tableData.dateFrom || '',
-            dateTo: tableData.dateTo || '',
+            status: tableData.status,
+            dateFrom: tableData.dateFrom,
+            dateTo: tableData.dateTo,
         },
     })
 
-    const onSubmit = (values: any) => {
-        setTableData((prev) => {
-            // console.log('Previous table data:', prev)
-            // console.log('Updating table data with values:', values)
-            return { ...prev, ...values, pageIndex: 1 }
+    useEffect(() => {
+        reset({
+            status: tableData.status,
+            dateFrom: tableData.dateFrom,
+            dateTo: tableData.dateTo,
         })
-        // setTableData({ ...tableData, ...values, pageIndex: 1 })
+    }, [reset, tableData.status, tableData.dateFrom, tableData.dateTo])
+
+    const onSubmit = (values: FilterValues) => {
+        setTableData((prev) => ({ ...prev, ...values, pageIndex: 1 }))
         setIsOpen(false)
     }
 
@@ -60,19 +63,36 @@ const ReservationTableFilter = () => {
         setIsOpen(false)
     }
 
+    const activeFilterCount = [
+        tableData.status,
+        tableData.dateFrom,
+        tableData.dateTo,
+    ].filter(Boolean).length
+
     return (
         <>
-            <Button icon={<TbFilter />} onClick={() => setIsOpen(true)}>
+            <Button
+                className="relative"
+                icon={<TbFilter />}
+                onClick={() => setIsOpen(true)}
+            >
                 Filter
+                {activeFilterCount > 0 && (
+                    <span className="ml-1 inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-primary px-1 text-xs text-white">
+                        {activeFilterCount}
+                    </span>
+                )}
             </Button>
             <Drawer
-                title="Filter Reservations"
+                title="Filter reservations"
                 isOpen={isOpen}
                 onClose={() => setIsOpen(false)}
             >
                 <Form
                     containerClassName="flex flex-col justify-between h-full"
-                    onSubmit={handleSubmit(onSubmit)}
+                    onSubmit={(event) => {
+                        void handleSubmit(onSubmit)(event)
+                    }}
                 >
                     <div className="space-y-4">
                         <FormItem label="Status">
@@ -83,10 +103,11 @@ const ReservationTableFilter = () => {
                                     <Select
                                         options={statusOptions}
                                         value={statusOptions.find(
-                                            (opt) => opt.value === field.value,
+                                            (option) =>
+                                                option.value === field.value,
                                         )}
-                                        onChange={(opt) =>
-                                            field.onChange(opt?.value)
+                                        onChange={(option) =>
+                                            field.onChange(option?.value || '')
                                         }
                                     />
                                 )}
@@ -112,11 +133,15 @@ const ReservationTableFilter = () => {
                         </FormItem>
                     </div>
                     <div className="flex gap-2 mt-6">
-                        <Button variant="default" onClick={handleClear}>
+                        <Button
+                            type="button"
+                            variant="default"
+                            onClick={handleClear}
+                        >
                             Clear
                         </Button>
                         <Button variant="solid" type="submit">
-                            Apply
+                            Apply filters
                         </Button>
                     </div>
                 </Form>

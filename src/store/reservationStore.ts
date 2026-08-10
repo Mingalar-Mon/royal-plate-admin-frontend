@@ -1,11 +1,12 @@
-import { OnSortParam } from '@/components/shared/DataTable'
+import type { OnSortParam } from '@/components/shared/DataTable'
+import type { ReservationStatus } from '@/views/reservations/types/reservation.type'
 import { create } from 'zustand'
 
 export interface ReservationQueries {
     pageIndex: number
     pageSize: number
     query: string
-    status: string
+    status: ReservationStatus | ''
     dateFrom: string
     dateTo: string
     sort?: OnSortParam

@@ -1,13 +1,11 @@
-import {
+import type {
     ReservationStatus,
     User,
 } from '@/views/reservations/types/reservation.type'
 import ApiService from './ApiService'
 import { Paginator } from '@/@types/common_type'
 import { Dish } from '@/@types/dish'
-import { url } from 'inspector'
 import { OnSortParam } from '@/components/shared/DataTable'
-import { date } from 'zod'
 
 type TableType = 'family' | 'vip' | 'standard'
 type TableStatus = 'active' | 'inactive' | 'maintenance'
@@ -36,10 +34,10 @@ export type GetReservationResponse = {
         reservationDate: string
         startingTime: string
         endingTime: string
-        status: string
+        status: ReservationStatus
         remark: string | null
-        tax: number
-        totalPrice: number
+        tax?: number
+        totalPrice?: number
         created_at: string
         updated_at: string
         confirmed_at: string | null
@@ -61,15 +59,16 @@ export type Reservation = {
     reservationDate: string
     startingTime: string
     endingTime: string
-    status: string
+    status: ReservationStatus
     remark: string | null
-    tax: number
-    totalPrice: number
+    tax?: number
+    totalPrice?: number
     created_at: string
     updated_at: string
-    confirmed_at: string | null
-    seated_at: string | null
-    complete_at: string | null
+    confirmed_at?: string | null
+    seated_at?: string | null
+    complete_at?: string | null
+    terminated_at?: string | null
     table: Table
     user: User
     reservationItems: {
@@ -88,8 +87,10 @@ export type GetReservationListResponse = {
         reservationDate: string
         startingTime: string
         endingTime: string
-        status: string
+        status: ReservationStatus
         remark: string | null
+        tax?: number
+        totalPrice?: number
         created_at: string
         updated_at: string
         user: User
@@ -212,6 +213,12 @@ create reservation
 
 */
 
+export type UpdateReservationStatusResponse = {
+    success: boolean
+    data?: Reservation
+    message: string
+}
+
 export async function apiUpdateReservationStatus({
     reservationId,
     status,
@@ -219,8 +226,8 @@ export async function apiUpdateReservationStatus({
     reservationId: string
     status: ReservationStatus
 }) {
-    return ApiService.fetchDataWithAxios({
-        url: `reservation/update-status/${reservationId}`,
+    return ApiService.fetchDataWithAxios<UpdateReservationStatusResponse>({
+        url: `/reservation/update-status/${reservationId}`,
         method: 'patch',
         data: { status },
     })
