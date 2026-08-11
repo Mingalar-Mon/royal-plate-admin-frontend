@@ -31,6 +31,7 @@ export type GetReservationResponse = {
     success: boolean
     data: {
         id: string
+        reservationNumber: string
         reservationDate: string
         startingTime: string
         endingTime: string
@@ -56,6 +57,7 @@ export type GetReservationResponse = {
 
 export type Reservation = {
     id: string
+    reservationNumber?: string
     reservationDate: string
     startingTime: string
     endingTime: string
@@ -84,6 +86,7 @@ export type GetReservationListResponse = {
     paginator: Paginator
     data: {
         id: string
+        reservationNumber?: string
         reservationDate: string
         startingTime: string
         endingTime: string

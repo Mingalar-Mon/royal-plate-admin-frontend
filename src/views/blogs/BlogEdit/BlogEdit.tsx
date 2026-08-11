@@ -17,6 +17,7 @@ import Spinner from '@/components/ui/Spinner'
 import { TbTrash, TbArrowNarrowLeft } from 'react-icons/tb'
 import BlogForm from '../components/BlogForm'
 import type { BlogFormData } from '../types/blog.type'
+import { linkifyUrlsInHtml } from '@/utils/helpers/blogContent.helper'
 import { useSessionUser } from '@/store/authStore'
 import { OWNER, STAFF } from '@/constants/roles.constant'
 
@@ -80,7 +81,7 @@ const BlogEdit = () => {
         // Build multipart FormData since your service pipes binary array streams if required
         const body = new FormData()
         body.append('title', formData.title)
-        body.append('content', formData.content)
+        body.append('content', linkifyUrlsInHtml(formData.content))
 
         // body.append('authorId', session.userId as string)
         // body.append(

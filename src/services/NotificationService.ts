@@ -1,4 +1,5 @@
 import ApiService from './ApiService'
+import { PASSWORD, USER_NAME } from '@/constants/api.constant'
 import type {
     GetUnreadCountResponse,
     GetNotificationListResponse,
@@ -54,5 +55,9 @@ export async function apiRegisterDeviceToken(
         url: `${PREFIX}/device-token`,
         method: 'post',
         data: { token, platform },
+        auth: {
+            username: USER_NAME,
+            password: PASSWORD,
+        },
     })
 }

@@ -10,6 +10,7 @@ import {
 import AdaptiveCard from '@/components/shared/AdaptiveCard'
 import { useGetDishes } from '@/utils/custom-hooks/useDish'
 import { BlogFormData } from '../types/blog.type'
+import { linkifyUrlsInHtml } from '@/utils/helpers/blogContent.helper'
 // import { useSessionUser } from '@/store/authStore'
 
 const BlogCreate = () => {
@@ -36,7 +37,7 @@ const BlogCreate = () => {
         console.log('Handle submit fn got fired.')
         const body = new FormData()
         body.append('title', data.title)
-        body.append('content', data.content)
+        body.append('content', linkifyUrlsInHtml(data.content))
         // body.append('restaurantId', restaurantId!)
 
         // body.append('authorId', session.userId as string)

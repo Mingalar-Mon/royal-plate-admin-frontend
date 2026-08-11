@@ -67,6 +67,15 @@ const ReservationListTable = ({
                 ),
             },
             {
+                header: 'Reservation No.',
+                accessorKey: 'reservationNumber',
+                cell: (props) => (
+                    <span className="font-medium text-gray-900 dark:text-gray-100 whitespace-nowrap">
+                        {props.row.original.reservationNumber || '-'}
+                    </span>
+                ),
+            },
+            {
                 header: 'Date & time',
                 accessorKey: 'startingTime',
                 cell: (props) => (

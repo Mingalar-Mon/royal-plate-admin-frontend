@@ -17,6 +17,12 @@ const ReservationInfo = ({ reservation }: { reservation: Reservation }) => {
             </div>
             <div className="space-y-2">
                 <div className="flex justify-between">
+                    <span className="font-medium">Reservation Number</span>
+                    <span className="font-semibold text-primary">
+                        {reservation.reservationNumber || '-'}
+                    </span>
+                </div>
+                <div className="flex justify-between">
                     <span className="font-medium">Reservation ID</span>
                     <span>{reservation.id}</span>
                 </div>
