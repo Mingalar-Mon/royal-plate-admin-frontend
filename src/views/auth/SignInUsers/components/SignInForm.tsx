@@ -109,7 +109,7 @@ const SignInForm = (props: SignInFormProps) => {
             <Form onSubmit={handleSubmit(onSignIn)}>
                 <FormItem
                     label="Email"
-                    labelClass="text-xs text-[#6e1423] dark:text-[#e9c66a] font-semibold"
+                    labelClass="text-xs text-primary dark:text-gold-light font-semibold"
                     invalid={Boolean(errors.email)}
                     errorMessage={errors.email?.message}
                 >
@@ -129,7 +129,7 @@ const SignInForm = (props: SignInFormProps) => {
                 </FormItem>
                 <FormItem
                     label="Password"
-                    labelClass="text-xs text-[#6e1423] dark:text-[#e9c66a] font-semibold"
+                    labelClass="text-xs text-primary dark:text-gold-light font-semibold"
                     invalid={Boolean(errors.password)}
                     errorMessage={errors.password?.message}
                     className={classNames(

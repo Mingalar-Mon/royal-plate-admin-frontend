@@ -17,7 +17,7 @@ export const SignInBase = ({
     return (
         <>
             <div className="mb-6 mt-2 flex flex-col items-center">
-                <div className="rounded-full overflow-hidden ring-2 ring-[#c9a227] shadow-lg shadow-[#6e1423]/10">
+                <div className="rounded-full overflow-hidden ring-2 ring-gold shadow-lg shadow-primary/10">
                     <img
                         src={emailOptLogo}
                         alt="Royal Plate"
@@ -25,13 +25,13 @@ export const SignInBase = ({
                     />
                 </div>
                 <div className="mt-4 flex items-center gap-2 select-none">
-                    <span className="h-px w-16 bg-gradient-to-r from-transparent to-[#c9a227]" />
-                    <span className="h-1.5 w-1.5 rotate-45 bg-[#e9c66a]" />
-                    <span className="h-px w-16 bg-gradient-to-l from-transparent to-[#c9a227]" />
+                    <span className="h-px w-16 bg-gradient-to-r from-transparent to-gold" />
+                    <span className="h-1.5 w-1.5 rotate-45 bg-gold-light" />
+                    <span className="h-px w-16 bg-gradient-to-l from-transparent to-gold" />
                 </div>
             </div>
             <div className="mb-6">
-                <h2 className="mb-1 font-serif text-[#6e1423] dark:text-[#e9c66a] text-2xl">
+                <h2 className="mb-1 font-serif text-primary dark:text-gold-light text-2xl">
                     Welcome to Royal Plate
                 </h2>
                 <p className="text-sm font-medium text-gray-500 dark:text-gray-400">

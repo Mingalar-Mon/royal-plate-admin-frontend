@@ -5,10 +5,13 @@
 @layer theme {
 	:root {
 		--neutral: #ffffff;
-		--primary: #2a85ff;
-		--primary-deep: #0069f6;
-		--primary-mild: #4996ff;
-		--primary-subtle: #2a85ff1a;
+		--primary: #6e1423;
+		--primary-deep: #4a0d16;
+		--primary-mild: #8a2a35;
+		--primary-subtle: #6e14231a;
+		--gold: #c9a227;
+		--gold-light: #e9c66a;
+		--gold-dark: #a8861d;
 		--error: #ff6a55;
 		--error-subtle: #ff6a551a;
 		--success: #10b981;
@@ -32,10 +35,13 @@
 
 	.dark {
 		--neutral: #ffffff;
-		--primary: #2a85ff;
-		--primary-deep: #0069f6;
-		--primary-mild: #4996ff;
-		--primary-subtle: #2a85ff1a;
+		--primary: #6e1423;
+		--primary-deep: #4a0d16;
+		--primary-mild: #8a2a35;
+		--primary-subtle: #6e14231a;
+		--gold: #c9a227;
+		--gold-light: #e9c66a;
+		--gold-dark: #a8861d;
 		--error: #ff6a55;
 		--error-subtle: #ff6a551a; 
 		--success: #10b981;
@@ -119,14 +125,19 @@
 
 /* Royal Plate restaurant login — gold/dark-red button (un-layered to override theme utility) */
 .btn-restaurant-solid {
-	background-color: #c9a227;
-	color: #4a0d16;
+	background-color: var(--gold);
+	color: var(--primary-deep);
 	font-weight: 700;
-	border-color: #c9a227;
+	border-color: var(--gold);
 }
 .btn-restaurant-solid:hover,
 .btn-restaurant-solid:focus-visible {
-	background-color: #d4af37;
-	border-color: #d4af37;
+	background-color: var(--gold-dark);
+	border-color: var(--gold-dark);
 	color: #3a0a10;
+}
+.btn-restaurant-solid .animate-spin {
+	color: var(--gold-light);
+	stroke: var(--gold-light);
+	fill: none;
 }

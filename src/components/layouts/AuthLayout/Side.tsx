@@ -16,10 +16,10 @@ const Side = ({ children, ...rest }: SideProps) => {
                         : null}
                 </div>
             </div>
-            <div className="py-10 px-12 lg:flex flex-col flex-1 justify-center hidden rounded-3xl items-center relative xl:max-w-[520px] 2xl:max-w-[720px] overflow-hidden bg-gradient-to-br from-[#2a0a10] via-[#4a0d16] to-[#6e1423]">
-                <div className="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_28%_18%,#c9a227_0%,transparent_45%),radial-gradient(circle_at_82%_85%,#8a5a1e_0%,transparent_42%)]" />
+            <div className="py-10 px-12 lg:flex flex-col flex-1 justify-center hidden rounded-3xl items-center relative xl:max-w-[520px] 2xl:max-w-[720px] overflow-hidden bg-gradient-to-br from-[#2a0a10] via-primary-deep to-primary">
+                <div className="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_28%_18%,var(--gold)_0%,transparent_45%),radial-gradient(circle_at_82%_85%,var(--gold-dark)_0%,transparent_42%)]" />
                 <div className="relative flex flex-col items-center gap-6 text-center">
-                    <div className="rounded-full overflow-hidden ring-2 ring-[#c9a227] shadow-2xl shadow-black/40">
+                    <div className="rounded-full overflow-hidden ring-2 ring-gold shadow-2xl shadow-black/40">
                         <img
                             src={emailOptLogo}
                             alt="Royal Plate"
@@ -27,10 +27,10 @@ const Side = ({ children, ...rest }: SideProps) => {
                         />
                     </div>
                     <div>
-                        <h1 className="font-serif text-4xl text-[#e9c66a] tracking-wide">
+                        <h1 className="font-serif text-4xl text-gold-light tracking-wide">
                             Royal Plate
                         </h1>
-                        <p className="text-[#c9a227] uppercase text-xs tracking-[0.35em] mt-2">
+                        <p className="text-gold uppercase text-xs tracking-[0.35em] mt-2">
                             Restaurant Management
                         </p>
                     </div>

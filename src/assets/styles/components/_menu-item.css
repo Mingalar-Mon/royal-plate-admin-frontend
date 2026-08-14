@@ -8,6 +8,7 @@
   
     &.menu-item-active {
       @apply text-primary hover:text-primary;
+      border-left: 3px solid var(--gold);
     }
   
     a {
