@@ -105,7 +105,7 @@ const StatCard = ({ label, value, description, icon, tone }: StatCardProps) => {
 
     return (
         <Card
-            className={`group overflow-hidden transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md ${styles.soft}`}
+            className={`group overflow-hidden transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md border-t-[3px] border-gold ${styles.soft}`}
             bodyClass="p-5"
         >
             <div className="flex items-start justify-between gap-3">
@@ -113,7 +113,7 @@ const StatCard = ({ label, value, description, icon, tone }: StatCardProps) => {
                     <p className="truncate text-xs font-semibold uppercase tracking-[0.12em] text-gray-500 dark:text-gray-400">
                         {label}
                     </p>
-                    <p className="mt-3 text-3xl font-bold tracking-tight text-gray-900 dark:text-gray-100">
+                    <p className="mt-3 text-3xl font-bold tracking-tight text-primary dark:text-gold-light">
                         {formatNumber(value)}
                     </p>
                 </div>

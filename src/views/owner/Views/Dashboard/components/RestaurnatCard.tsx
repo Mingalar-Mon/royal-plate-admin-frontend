@@ -59,7 +59,7 @@ const RestaurantCard = ({ restaurant }: RestaurantCardProps) => {
 
     return (
         <Card
-            className="hover:shadow-lg transition-shadow duration-200 w-fit cursor-pointer"
+            className="hover:shadow-lg hover:ring-1 hover:ring-gold transition-all duration-200 w-full cursor-pointer"
             bodyClass="p-0"
             // onClick={handleViewDetails}
         >
@@ -71,14 +71,14 @@ const RestaurantCard = ({ restaurant }: RestaurantCardProps) => {
                     className="w-full h-full object-cover"
                 />
                 {/* Price badge */}
-                <div className="absolute bottom-2 right-2 bg-black bg-opacity-70 text-white px-2 py-1 rounded text-sm">
+                <div className="absolute bottom-2 right-2 bg-gold text-primary-deep px-2 py-1 rounded text-sm font-semibold">
                     {priceRange}
                 </div>
             </div>
 
             {/* Content */}
             <div className="p-4">
-                <h4 className="font-semibold text-lg mb-2">
+                <h4 className="font-serif font-semibold text-lg mb-2 text-primary">
                     {restaurant.name}
                 </h4>
 
