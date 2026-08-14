@@ -71,7 +71,7 @@ const BannerForm = ({
             ?.filter((r: Restaurant) => r.profile)
             .map((r: Restaurant) => {
                 return {
-                    value: r.profile.id,
+                    value: r.profile?.id,
                     label: r.name,
                 }
             }) || []

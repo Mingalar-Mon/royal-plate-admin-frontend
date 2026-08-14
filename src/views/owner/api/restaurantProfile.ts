@@ -1,5 +1,5 @@
 import apiClient from './client'
-import type { RestaurantProfile } from '@/views/restaurant-profile/types/restaurantProfile.types'
+// import type { RestaurantProfile } from '@/views/restaurant-profile/types/restaurantProfile.types'
 
 export const restaurantProfileAPI = {
     // Get profile by restaurant ID

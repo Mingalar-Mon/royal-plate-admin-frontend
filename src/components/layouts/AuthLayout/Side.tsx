@@ -1,12 +1,13 @@
 import { cloneElement } from 'react'
 import type { CommonProps } from '@/@types/common_type'
+import emailOptLogo from '@/assets/logo/emailoptlogo.png'
 
 type SideProps = CommonProps
 
 const Side = ({ children, ...rest }: SideProps) => {
     return (
-        <div className="flex h-full p-6 bg-white dark:bg-gray-800">
-            <div className=" flex flex-col justify-center items-center flex-1">
+        <div className="flex h-full p-6 bg-[#faf7f2] dark:bg-gray-800">
+            <div className="flex flex-col justify-center items-center flex-1">
                 <div className="w-full xl:max-w-[450px] px-8 max-w-[380px]">
                     {children
                         ? cloneElement(children as React.ReactElement, {
@@ -15,11 +16,28 @@ const Side = ({ children, ...rest }: SideProps) => {
                         : null}
                 </div>
             </div>
-            <div className="py-6 px-10 lg:flex flex-col flex-1 justify-between hidden rounded-3xl items-end relative xl:max-w-[520px] 2xl:max-w-[720px]">
-                <img
-                    src="/img/others/auth-side-bg.png"
-                    className="absolute h-full w-full top-0 left-0 rounded-3xl"
-                />
+            <div className="py-10 px-12 lg:flex flex-col flex-1 justify-center hidden rounded-3xl items-center relative xl:max-w-[520px] 2xl:max-w-[720px] overflow-hidden bg-gradient-to-br from-[#2a0a10] via-[#4a0d16] to-[#6e1423]">
+                <div className="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_28%_18%,#c9a227_0%,transparent_45%),radial-gradient(circle_at_82%_85%,#8a5a1e_0%,transparent_42%)]" />
+                <div className="relative flex flex-col items-center gap-6 text-center">
+                    <div className="rounded-full overflow-hidden ring-2 ring-[#c9a227] shadow-2xl shadow-black/40">
+                        <img
+                            src={emailOptLogo}
+                            alt="Royal Plate"
+                            className="h-24 w-24 md:h-28 md:w-28 object-cover"
+                        />
+                    </div>
+                    <div>
+                        <h1 className="font-serif text-4xl text-[#e9c66a] tracking-wide">
+                            Royal Plate
+                        </h1>
+                        <p className="text-[#c9a227] uppercase text-xs tracking-[0.35em] mt-2">
+                            Restaurant Management
+                        </p>
+                    </div>
+                    <p className="font-serif italic text-[#fdf6e3]/80 max-w-sm leading-relaxed">
+                        Elevating every meal, one order at a time.
+                    </p>
+                </div>
             </div>
         </div>
     )
