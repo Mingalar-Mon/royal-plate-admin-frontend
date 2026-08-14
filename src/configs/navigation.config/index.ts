@@ -65,7 +65,7 @@ const navigationConfig: NavigationTree[] = [
                 translateKey: 'nav.restaurantProfile.view',
                 icon: '',
                 type: NAV_ITEM_TYPE_ITEM,
-                authority: [],
+                authority: [OWNER],
                 subMenu: [],
             },
             // {

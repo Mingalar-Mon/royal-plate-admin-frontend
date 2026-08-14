@@ -65,14 +65,15 @@ const RestaurantProfilePage = () => {
     }
 
     const handleBackToDashboard = () => {
-        setActiveRestaurant(null)
-        navigate(`/owner/dashboard`)
+        // setActiveRestaurant(null)
+        navigate(`/restaurants/${restaurantId}/eda-dashboard`)
     }
 
     if (isLoading) {
         return (
-            <div className="flex justify-center items-center h-96">
-                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto"></div>
+            <div className="flex flex-col items-center justify-center min-h-[60vh]">
+                <div className="animate-spin rounded-full h-20 w-20 border-4 border-primary border-t-transparent mb-4"></div>
+                <p className="text-gray-600 dark:text-gray-300 text-lg">Loading restaurant profile...</p>
             </div>
         )
     }
@@ -116,7 +117,7 @@ const RestaurantProfilePage = () => {
                     icon={<TbArrowNarrowLeft />}
                     onClick={handleBackToDashboard}
                 >
-                    Back to Dashboard
+                    Back to Restaurant Dashboard
                 </Button>
                 <Button
                     variant="solid"

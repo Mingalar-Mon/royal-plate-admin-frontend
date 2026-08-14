@@ -17,18 +17,19 @@ import {
     restaurantProfileValidationSchema,
     type RestaurantProfileFormSchema,
 } from '../types/restaurantProfile.type'
-import {} from // useCreateRestaurantProfile,
+import { useRestaurantStore } from '@/store/restaurantStore'
+
+// useCreateRestaurantProfile,
 // useUpdateRestaurantProfile,
 
 // useGetRestaurantProfile,
 '../../../hooks/useRestaurantProfile'
-import {
-    useGetRestaurantProfile,
+import {    useGetRestaurantProfile,
     useCreateRestaurantProfile,
     useUpdateRestaurantProfile,
 } from '../../../../../utils/custom-hooks/useRestaurantProfile'
 
-import { Spinner } from '@/components/ui'
+import Skeleton from '@/components/ui/Skeleton'
 import { useGetCuisines } from '@/utils/custom-hooks/useCuisine'
 import { useGetPaymentMethods } from '@/utils/custom-hooks/usePayment'
 import { useCuisineStore } from '@/store/cuisineStore'
@@ -38,9 +39,12 @@ interface RestaurantProfileFormProps {
 }
 
 const RestaurantProfileForm = ({ isEditMode }: RestaurantProfileFormProps) => {
-    const { restaurantId, profileId } = useParams()
-    // console.log(restaurantId, profileId)
+    const { restaurantId: urlRestaurantId, profileId } = useParams()
     const navigate = useNavigate()
+    const { activeRestaurant } = useRestaurantStore()
+    // Use URL parameter if available, otherwise fall back to globally selected restaurant
+    const restaurantId = urlRestaurantId || (activeRestaurant?.id || '')
+    // console.log(restaurantId, profileId)
     const { tableData } = useCuisineStore()
 
     // Fetch existing profile if in edit mode
@@ -166,12 +170,10 @@ const RestaurantProfileForm = ({ isEditMode }: RestaurantProfileFormProps) => {
 
     if (isLoadingProfile || isLoadingCuisines || isLoadingPaymentMethods) {
         return (
-            <div className="p-10 text-center">
-                <Spinner />
+            <div className="flex flex-col items-center justify-center min-h-[60vh]">
+                <div className="animate-spin rounded-full h-20 w-20 border-4 border-primary border-t-transparent mb-4"></div>
+                <p className="text-gray-600 dark:text-gray-300 text-lg">Loading profile...</p>
             </div>
-            // <div className="flex justify-center items-center h-96">
-            //     <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto"></div>
-            // </div>
         )
     }
 
@@ -228,14 +230,11 @@ const RestaurantProfileForm = ({ isEditMode }: RestaurantProfileFormProps) => {
                             type="button"
                             variant="plain"
                             icon={<TbArrowNarrowLeft />}
-                            onClick={() =>
-                                navigate(
-                                    profileId
-                                        ? `/restaurant/profile/${restaurantId}`
-                                        : `/owner/dashboard`,
-                                    // `/restaurant/profile/${restaurantId ?? profileId}`,
-                                )
-                            }
+                            onClick={() => {
+                                if (profileId) {
+                                    navigate(`/restaurant/restaurant-profile/${restaurantId}`)
+                                }
+                            }}
                         >
                             Back to Restaurant
                         </Button>

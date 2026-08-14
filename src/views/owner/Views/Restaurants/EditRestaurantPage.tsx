@@ -49,8 +49,9 @@ const EditRestaurant = () => {
 
     if (isLoading) {
         return (
-            <div className="flex justify-center items-center h-96">
-                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto"></div>
+            <div className="flex flex-col items-center justify-center min-h-[60vh]">
+                <div className="animate-spin rounded-full h-20 w-20 border-4 border-primary border-t-transparent mb-4"></div>
+                <p className="text-gray-600 dark:text-gray-300 text-lg">Loading restaurant...</p>
             </div>
         )
     }
