@@ -59,7 +59,7 @@ const navigationConfig: NavigationTree[] = [
         authority: [OWNER],
         subMenu: [
             {
-                key: 'restaurantProfile.view',
+                key: 'restaurant.profile',
                 path: '/restaurant/restaurant-profile/:restaurantId',
                 title: 'Profile View',
                 translateKey: 'nav.restaurantProfile.view',
@@ -81,17 +81,6 @@ const navigationConfig: NavigationTree[] = [
         ],
     },
     {
-        key: 'sign-up',
-        path: '/owners/create', //'/sign-up',
-        title: 'Create Owner',
-        translateKey: 'sign-up.form',
-        icon: 'createOwnerAdmin',
-        type: NAV_ITEM_TYPE_ITEM,
-        authority: [ADMIN],
-        subMenu: [],
-    },
-
-    {
         key: 'dishManagement',
         path: '/restaurants/:restaurantId/dishes',
         title: 'Menu(Dish)',
@@ -101,7 +90,7 @@ const navigationConfig: NavigationTree[] = [
         authority: [OWNER, STAFF],
         subMenu: [
             {
-                key: 'menuDish.item1',
+                key: 'dish.list',
                 path: '/restaurants/:restaurantId/dishes',
                 title: 'Menu(dish) List',
                 translateKey: 'dishManagement.collapse.item1',
@@ -111,7 +100,7 @@ const navigationConfig: NavigationTree[] = [
                 subMenu: [],
             },
             {
-                key: 'menuDish.item2',
+                key: 'dish.create',
                 path: '/dishes/create/:restaurantId',
                 title: 'Menu(dish) Create',
                 translateKey: 'dishManagement.collapse.item2',
@@ -132,7 +121,7 @@ const navigationConfig: NavigationTree[] = [
         authority: [OWNER],
         subMenu: [
             {
-                key: 'staff.item1',
+                key: 'staff.list',
                 path: '/restaurants/:restaurantId/staffs',
                 title: 'Staff List',
                 translateKey: 'staffManagement.collapse.item1',
@@ -152,7 +141,7 @@ const navigationConfig: NavigationTree[] = [
             //     subMenu: [],
             // },
             {
-                key: 'staff.item3',
+                key: 'staff.create',
                 path: '/restaurants/:restaurantId/staff/create',
                 title: 'Staff Create',
                 translateKey: 'dishManagement.collapse.item4',
@@ -173,7 +162,7 @@ const navigationConfig: NavigationTree[] = [
         authority: [OWNER, STAFF],
         subMenu: [
             {
-                key: 'table.item1',
+                key: 'table.list',
                 path: '/restaurants/:restaurantId/tables',
                 title: 'Table List',
                 translateKey: 'tableManagement.collapse.item1',
@@ -183,7 +172,7 @@ const navigationConfig: NavigationTree[] = [
                 subMenu: [],
             },
             {
-                key: 'table.item2',
+                key: 'table.create',
                 path: '/restaurants/:restaurantId/tables/create',
                 title: 'Table Create',
                 translateKey: 'tableManagement.collapse.item2',
@@ -204,7 +193,7 @@ const navigationConfig: NavigationTree[] = [
         authority: [OWNER, STAFF],
         subMenu: [
             {
-                key: 'blog.item1',
+                key: 'blog.list',
                 path: '/blogs',
                 title: 'Blog List',
                 translateKey: 'blogManagement.collapse.item1',
@@ -214,10 +203,51 @@ const navigationConfig: NavigationTree[] = [
                 subMenu: [],
             },
             {
-                key: 'blog.item2',
+                key: 'blog.create',
                 path: '/blogs/:id',
                 title: 'Blog Create',
                 translateKey: 'blogManagement.collapse.item2',
+                icon: 'create',
+                type: NAV_ITEM_TYPE_ITEM,
+                authority: [],
+                subMenu: [],
+            },
+        ],
+    },
+    {
+        key: 'owner.list',
+        path: '/owners',
+        title: 'Owners',
+        translateKey: 'owners',
+        icon: 'owners',
+        type: NAV_ITEM_TYPE_ITEM,
+        authority: [ADMIN],
+        subMenu: [],
+    },
+    {
+        key: 'bannerManagement',
+        path: '/banners',
+        title: 'Banners',
+        icon: 'banner',
+        translateKey: 'cuisine.management',
+        type: NAV_ITEM_TYPE_ITEM,
+        authority: [ADMIN],
+        subMenu: [
+            {
+                key: 'banner.list',
+                path: '/banners',
+                title: 'Banner List',
+                translateKey: 'bannerManagement.collapse.item1',
+                icon: 'list',
+                type: NAV_ITEM_TYPE_ITEM,
+                authority: [],
+                subMenu: [],
+            },
+            {
+                key: 'banner.create',
+                path: '/banners/create',
+                title: 'Banner Create',
+                translateKey: 'bannerManagement.collapse.item2',
                 icon: 'create',
                 type: NAV_ITEM_TYPE_ITEM,
                 authority: [],
@@ -235,7 +265,7 @@ const navigationConfig: NavigationTree[] = [
         authority: [ADMIN],
         subMenu: [
             {
-                key: 'cuisine.item1',
+                key: 'cuisine.list',
                 path: '/cuisines',
                 title: 'Cuisine List',
                 translateKey: 'cuisineManagement.collapse.item1',
@@ -245,72 +275,10 @@ const navigationConfig: NavigationTree[] = [
                 subMenu: [],
             },
             {
-                key: 'cuisine.item2',
+                key: 'cuisine.detail',
                 path: '/cuisines/:id',
                 title: 'Cuisine Create',
                 translateKey: 'cuisineManagement.collapse.item2',
-                icon: 'create',
-                type: NAV_ITEM_TYPE_ITEM,
-                authority: [],
-                subMenu: [],
-            },
-        ],
-    },
-    {
-        key: 'bannerManagement',
-        path: '/banners',
-        title: 'Banners',
-        icon: 'banner',
-        translateKey: 'cuisine.management',
-        type: NAV_ITEM_TYPE_ITEM,
-        authority: [ADMIN],
-        subMenu: [
-            {
-                key: 'banner.item1',
-                path: '/banners',
-                title: 'Banner List',
-                translateKey: 'bannerManagement.collapse.item1',
-                icon: 'list',
-                type: NAV_ITEM_TYPE_ITEM,
-                authority: [],
-                subMenu: [],
-            },
-            {
-                key: 'banner.item2',
-                path: '/banners/create',
-                title: 'Banner Create',
-                translateKey: 'bannerManagement.collapse.item2',
-                icon: 'create',
-                type: NAV_ITEM_TYPE_ITEM,
-                authority: [],
-                subMenu: [],
-            },
-        ],
-    },
-    {
-        key: 'appVersionManagement',
-        path: '/app-versions',
-        title: 'App Versions',
-        icon: 'appVersion',
-        translateKey: 'cuisine.management',
-        type: NAV_ITEM_TYPE_ITEM,
-        authority: [ADMIN],
-        subMenu: [
-            {
-                key: 'appVersion.item1',
-                path: '/app-versions',
-                title: 'App Version List',
-                translateKey: 'appVersionManagement.collapse.item1',
-                icon: 'list',
-                type: NAV_ITEM_TYPE_ITEM,
-                authority: [],
-                subMenu: [],
-            },
-            {
-                key: 'appVersion.item2',
-                path: '/app-versions/create',
-                title: 'App Version Create',
-                translateKey: 'appVersionManagement.collapse.item2',
                 icon: 'create',
                 type: NAV_ITEM_TYPE_ITEM,
                 authority: [],
@@ -329,14 +297,35 @@ const navigationConfig: NavigationTree[] = [
         subMenu: [],
     },
     {
-        key: 'owner.list',
-        path: '/owners',
-        title: 'Owners',
-        translateKey: 'owners',
-        icon: 'owners',
+        key: 'appVersionManagement',
+        path: '/app-versions',
+        title: 'App Versions',
+        icon: 'appVersion',
+        translateKey: 'cuisine.management',
         type: NAV_ITEM_TYPE_ITEM,
         authority: [ADMIN],
-        subMenu: [],
+        subMenu: [
+            {
+                key: 'appVersion.list',
+                path: '/app-versions',
+                title: 'App Version List',
+                translateKey: 'appVersionManagement.collapse.item1',
+                icon: 'list',
+                type: NAV_ITEM_TYPE_ITEM,
+                authority: [],
+                subMenu: [],
+            },
+            {
+                key: 'appVersion.create',
+                path: '/app-versions/create',
+                title: 'App Version Create',
+                translateKey: 'appVersionManagement.collapse.item2',
+                icon: 'create',
+                type: NAV_ITEM_TYPE_ITEM,
+                authority: [],
+                subMenu: [],
+            },
+        ],
     },
     // {
     //     key: 'orderManagement',
@@ -484,7 +473,7 @@ const navigationConfig: NavigationTree[] = [
         authority: [OWNER, STAFF],
         subMenu: [
             {
-                key: 'orderManagement.item1',
+                key: 'order.list',
                 path: '/restaurants/:restaurantId/orders',
                 title: 'Order List',
                 translateKey: 'orderManagement.collapse.item1',
@@ -494,7 +483,7 @@ const navigationConfig: NavigationTree[] = [
                 subMenu: [],
             },
             {
-                key: 'reservationManagement.item1',
+                key: 'reservation.list',
                 path: '/restaurants/:restaurantId/reservations',
                 title: 'Reservation List',
                 translateKey: 'reservationManagement.collapse.item1',
@@ -563,7 +552,7 @@ export default navigationConfig
 
 export const getDashboardOnlyNavigation = (): NavigationTree[] => [
     {
-        key: 'dashboard',
+        key: 'owner.dashboard',
         path: '/owner/dashboard',
         title: 'Main Dashboard',
         translateKey: 'nav.dashboard',

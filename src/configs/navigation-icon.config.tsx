@@ -9,7 +9,6 @@ import {
     PiCrownDuotone, // Ideal for business Owners / VIPs
     PiImageDuotone, // Great for Banners / Heros / Carousels
     PiForkKnifeDuotone, // Fits perfectly for Cuisine / Menu / Restaurants
-    PiUserPlusDuotone, // Excellent for Create Owner / Add Admin actions
     PiSquaresFourDuotone, // Clean, modern style for Dashboard
     PiCookingPotDuotone, // Perfect for a Food Menu / Recipes item
     PiIdentificationCardDuotone, // Professional look for Staff / Employees
@@ -34,7 +33,6 @@ const navigationIcon: NavigationIcons = {
     owners: <PiCrownDuotone />,
     banner: <PiImageDuotone />,
     cuisine: <PiForkKnifeDuotone />,
-    createOwnerAdmin: <PiUserPlusDuotone />,
 
     dashboard: <PiSquaresFourDuotone />,
     menu: <PiCookingPotDuotone />,
