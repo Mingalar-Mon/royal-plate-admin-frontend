@@ -8,15 +8,20 @@ import {
     apiUpdateRestaurant,
     apiGetRestaurantList,
 } from '@/services/RestaurantService'
+import { useAuth } from '@/auth'
 import { useSessionUser } from '@/store/authStore'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 
 export const useGetRestaurants = () => {
     const userId = useSessionUser((state) => state.user.userId)
+    const { authenticated } = useAuth()
+
     return useQuery({
         queryKey: ['restaurants', userId],
         queryFn: () => apiGetRestaurants(),
-        enabled: !!userId,
+        // Do not start the request until both auth state and user state have
+        // been committed after the login redirect.
+        enabled: authenticated && !!userId,
     })
 }
 

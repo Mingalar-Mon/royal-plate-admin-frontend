@@ -273,6 +273,32 @@ export const protectedRoutes: Routes = [
         authority: [ADMIN],
     },
 
+    // App Version
+    {
+        key: 'appVersion.list',
+        path: '/app-versions',
+        component: lazy(() => import('@/views/app-versions/AppVersionList')),
+        authority: [ADMIN],
+    },
+    {
+        key: 'appVersion.create',
+        path: '/app-versions/create',
+        component: lazy(() => import('@/views/app-versions/AppVersionCreate')),
+        authority: [ADMIN],
+    },
+    {
+        key: 'appVersion.edit',
+        path: '/app-versions/edit/:id',
+        component: lazy(() => import('@/views/app-versions/AppVersionEdit')),
+        authority: [ADMIN],
+    },
+    {
+        key: 'appVersion.detail',
+        path: '/app-versions/:id',
+        component: lazy(() => import('@/views/app-versions/AppVersionDetail')),
+        authority: [ADMIN],
+    },
+
     // User
     {
         key: 'user.list',

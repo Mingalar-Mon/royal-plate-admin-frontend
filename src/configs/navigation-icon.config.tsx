@@ -16,6 +16,7 @@ import {
     PiGridFourDuotone, // Fits perfectly for Restaurant Tables / Seating
     PiArticleDuotone, // Great layout metaphor for Blogs / News / Articles
     PiStorefrontDuotone, // Restaurant / Storefront for Profile
+    PiDeviceMobileDuotone, // Perfect for App Version management
 } from 'react-icons/pi'
 import type { JSX } from 'react'
 
@@ -41,6 +42,7 @@ const navigationIcon: NavigationIcons = {
     table: <PiGridFourDuotone />,
     blogs: <PiArticleDuotone />,
     profile: <PiStorefrontDuotone />,
+    appVersion: <PiDeviceMobileDuotone />,
 }
 
 export default navigationIcon

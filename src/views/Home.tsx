@@ -14,6 +14,7 @@ import {
     TbCalendarEvent,
     TbChefHat,
     TbClipboardList,
+    TbDeviceMobile,
     TbLayoutGrid,
     TbMapPin,
     TbShieldCheck,
@@ -157,6 +158,13 @@ const Home = () => {
             path: '/banners',
             icon: <TbSparkles />,
             tone: 'bg-pink-500/10 text-pink-600 dark:text-pink-400',
+        },
+        {
+            title: 'App versions',
+            description: 'Manage the app release versions and download links.',
+            path: '/app-versions',
+            icon: <TbDeviceMobile />,
+            tone: 'bg-teal-500/10 text-teal-600 dark:text-teal-400',
         },
     ]
 
