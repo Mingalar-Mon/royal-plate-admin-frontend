@@ -14,6 +14,7 @@ import {
     TbTable,
     TbCreditCard,
     TbLocation,
+    TbChefHat,
 } from 'react-icons/tb'
 // import { useGetRestaurantProfile } from '../../hooks/useRestaurantProfile'
 import { useGetRestaurantProfile } from '@/utils/custom-hooks/useRestaurantProfile'
@@ -72,8 +73,28 @@ const RestaurantProfilePage = () => {
     if (isLoading) {
         return (
             <div className="flex flex-col items-center justify-center min-h-[60vh]">
-                <div className="animate-spin rounded-full h-20 w-20 border-4 border-primary border-t-transparent mb-4"></div>
-                <p className="text-gray-600 dark:text-gray-300 text-lg">Loading restaurant profile...</p>
+                {/* Animated restaurant icon */}
+                <div className="relative mb-6">
+                    <div className="absolute -inset-3 animate-spin rounded-full border-2 border-dashed border-primary/40" />
+                    <div className="relative flex h-20 w-20 items-center justify-center rounded-full bg-primary/10 border border-primary/20">
+                        <TbChefHat className="text-4xl text-primary" />
+                    </div>
+                </div>
+                {/* Text with animated dots */}
+                <div className="flex items-center gap-2">
+                    <p className="text-gray-600 dark:text-gray-300 text-lg font-medium">
+                        Loading restaurant profile
+                    </p>
+                    <span className="flex items-end gap-1">
+                        {[0, 1, 2].map((i) => (
+                            <span
+                                key={i}
+                                className="h-2 w-2 rounded-full bg-primary animate-wave"
+                                style={{ animationDelay: `${i * 150}ms` }}
+                            />
+                        ))}
+                    </span>
+                </div>
             </div>
         )
     }

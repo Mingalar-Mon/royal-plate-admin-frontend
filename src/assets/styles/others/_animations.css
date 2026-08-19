@@ -24,3 +24,20 @@
 .animate-aurora:after {
     animation: aurora 60s linear infinite;
 }
+
+@keyframes wave {
+    0%,
+    100% {
+        transform: translateY(0) scaleY(0.4);
+        opacity: 0.4;
+    }
+    50% {
+        transform: translateY(-4px) scaleY(1.2);
+        opacity: 1;
+    }
+}
+
+.animate-wave {
+    animation: wave 1.2s ease-in-out infinite;
+    transform-origin: bottom;
+}
