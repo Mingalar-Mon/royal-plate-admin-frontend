@@ -44,7 +44,7 @@ const RestaurantImageGallery = ({
     return (
         <>
             <div className="mb-8 w-full flex flex-col ">
-                <h3 className="text-xl font-semibold mb-4 self-center w-[80%]">
+                <h3 className="text-xl font-semibold mb-4 self-center w-[80%] text-primary">
                     {title}
                 </h3>
                 <div className="relative w-full flex justify-center group/container">

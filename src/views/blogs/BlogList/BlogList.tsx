@@ -24,7 +24,7 @@ const BlogList = () => {
             <AdaptiveCard>
                 <div className="flex flex-col gap-4">
                     <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-2">
-                        <h3>Blog Posts</h3>
+                        <h3 className='text-primary'>Blog Posts</h3>
                         <BlogListActionTools onRefresh={refetch} />
                     </div>
                     <BlogListTableTools />

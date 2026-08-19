@@ -3,7 +3,7 @@ import Dropdown from '@/components/ui/Dropdown'
 import withHeaderItem from '@/utils/hoc/withHeaderItem'
 import { useSessionUser } from '@/store/authStore'
 import { Link } from 'react-router'
-import { PiUserDuotone, PiSignOutDuotone } from 'react-icons/pi'
+import { PiUser, PiSignOutDuotone } from 'react-icons/pi'
 import { useAuth } from '@/auth'
 import type { JSX } from 'react'
 
@@ -25,7 +25,16 @@ const _UserDropdown = () => {
     }
 
     const avatarProps = {
-        ...(avatar ? { src: avatar } : { icon: <PiUserDuotone /> }),
+        ...(avatar
+            ? { src: avatar }
+            : {
+                  icon: (
+                      <PiUser
+                          className="text-[#8a6d14] dark:text-gold"
+                          strokeWidth={1.5}
+                      />
+                  ),
+              }),
     }
 
     return (
@@ -34,14 +43,26 @@ const _UserDropdown = () => {
             toggleClassName="flex items-center"
             renderTitle={
                 <div className="cursor-pointer flex items-center">
-                    <Avatar size={32} {...avatarProps} />
+                    {avatar ? (
+                        <Avatar size={32} src={avatar} />
+                    ) : (
+                        <div className="relative flex items-center justify-center w-9 h-9 rounded-xl hover:bg-primary-subtle dark:hover:bg-primary-subtle transition-all duration-200 cursor-pointer">
+                            <PiUser
+                                className="text-2xl text-primary dark:text-primary-mild"
+                                strokeWidth={1.5}
+                            />
+                        </div>
+                    )}
                 </div>
             }
             placement="bottom-end"
         >
             <Dropdown.Item variant="header">
                 <div className="py-2 px-3 flex items-center gap-3">
-                    <Avatar {...avatarProps} />
+                    <Avatar
+                        {...avatarProps}
+                        className="bg-transparent dark:bg-transparent"
+                    />
                     <div>
                         <div className="font-bold text-gray-900 dark:text-gray-100">
                             {userName || 'Anonymous'}

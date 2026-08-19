@@ -23,7 +23,7 @@ const TableList = () => {
             <AdaptiveCard>
                 <div className="flex flex-col gap-4">
                     <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-2">
-                        <h3>Tables</h3>
+                        <h3 className='text-primary'>Tables</h3>
                         <TableListActionTools onRefresh={refetch} />
                     </div>
                     <TableListTableTools />

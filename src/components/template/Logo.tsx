@@ -29,7 +29,7 @@ const Logo = (props: LogoProps) => {
                 ...{ width: logoWidth },
             }}
         >
-            <h4>Royal Plate</h4>
+            <h4 className="text-primary dark:text-primary-mild">Royal Plate</h4>
             {/* <img
                 className={imgClass}
                 src={`${LOGO_SRC_PATH}logo-${mode}-${type}.png`}

@@ -39,7 +39,7 @@ const RestaurantHeader = ({
     return (
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
             <div>
-                <h3>Restaurant Dashboard</h3>
+                <h3 className='text-primary'>Restaurant Dashboard</h3>
                 <p className="text-gray-500">
                     Manage all restaurants in one place
                 </p>

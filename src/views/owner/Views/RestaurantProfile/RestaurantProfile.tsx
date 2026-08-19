@@ -163,7 +163,7 @@ const RestaurantProfilePage = () => {
                 <div className="lg:col-span-2 flex flex-col justify-between space-y-6    ">
                     {/* Description */}
                     <Card>
-                        <h4 className="mb-4">About</h4>
+                        <h4 className="mb-4 text-primary">About</h4>
                         <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
                             {profile.data.description}
                         </p>
@@ -171,12 +171,12 @@ const RestaurantProfilePage = () => {
 
                     {/* Hours */}
                     <Card>
-                        <h4 className="mb-4 flex items-center gap-2">
+                        <h4 className="mb-4 flex items-center gap-2 text-primary">
                             <TbClock />
                             Operating Hours
                         </h4>
                         <div className="space-y-2">
-                            <div className="flex justify-between items-center py-2 border-b dark:border-gray-700">
+                            <div className="flex justify-between items-center py-2 text-primary border-b dark:border-gray-700">
                                 <span className="font-medium">
                                     Opening Time
                                 </span>
@@ -184,8 +184,8 @@ const RestaurantProfilePage = () => {
                                     {formatTime(profile.data.openingHour)}
                                 </span>
                             </div>
-                            <div className="flex justify-between items-center py-2">
-                                <span className="font-medium">
+                            <div className="flex justify-between items-center py-2 text-primary">
+                                <span className="font-medium ">
                                     Closing Time
                                 </span>
                                 <span>
@@ -197,7 +197,7 @@ const RestaurantProfilePage = () => {
 
                     {/* Cuisines */}
                     <Card>
-                        <h4 className="mb-4 flex items-center gap-2">
+                        <h4 className="mb-4 flex text-primary items-center gap-2">
                             <TbTable />
                             Cuisines
                         </h4>
@@ -218,7 +218,7 @@ const RestaurantProfilePage = () => {
                 <div className="space-y-6 ">
                     {/* Contact Info */}
                     <Card>
-                        <h4 className="mb-4">Contact Information</h4>
+                        <h4 className="mb-4 text-primary">Contact Information</h4>
                         <div className="space-y-3">
                             <div className="flex items-start gap-3">
                                 <TbPhone className="mt-0.5 text-gray-500" />
@@ -262,7 +262,7 @@ const RestaurantProfilePage = () => {
 
                     {/* Amenities */}
                     <Card>
-                        <h4 className="mb-4">Amenities</h4>
+                        <h4 className="mb-4 text-primary">Amenities</h4>
                         <div className="space-y-3">
                             <div className="flex items-center gap-3">
                                 <TbCar className="text-gray-500" />
@@ -295,7 +295,7 @@ const RestaurantProfilePage = () => {
 
                     {/* Payment Methods */}
                     <Card>
-                        <h4 className="mb-4 flex items-center gap-2">
+                        <h4 className="mb-4 flex items-center gap-2 text-primary">
                             <TbCreditCard />
                             Payment Methods
                         </h4>

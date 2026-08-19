@@ -10,8 +10,8 @@ const NotificationToggle = ({
 }) => {
     return (
         <div className={classNames('relative flex items-center justify-center', className)}>
-            <div className="relative flex items-center justify-center w-9 h-9 rounded-xl hover:bg-indigo-50 dark:hover:bg-indigo-950/40 transition-all duration-200 cursor-pointer">
-                <PiBellDuotone className="text-2xl text-gray-600 dark:text-gray-300" />
+            <div className="relative flex items-center justify-center w-9 h-9 rounded-xl hover:bg-primary-subtle dark:hover:bg-primary-subtle transition-all duration-200 cursor-pointer">
+                <PiBellDuotone className="text-2xl text-primary dark:text-primary-mild" />
                 {dot && (
                     <span className="absolute top-1.5 right-1.5 flex h-2.5 w-2.5">
                         <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-500 opacity-100" />

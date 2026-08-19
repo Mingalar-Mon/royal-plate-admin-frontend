@@ -121,7 +121,7 @@ const LocationView = ({
     if (!hasValidCoordinates) {
         return (
             <Card>
-                <h4 className="mb-4 flex items-center gap-2">
+                <h4 className="mb-4 flex items-center gap-2 text-primary">
                     <TbMapPin />
                     Location
                 </h4>
@@ -140,7 +140,7 @@ const LocationView = ({
 
     return (
         <Card>
-            <h4 className="mb-4 flex items-center gap-2">
+            <h4 className="mb-4 flex items-center gap-2 text-primary">
                 <TbMapPin />
                 Location
             </h4>

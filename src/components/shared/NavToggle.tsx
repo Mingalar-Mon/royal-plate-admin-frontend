@@ -8,7 +8,11 @@ export interface NavToggleProps extends CommonProps {
 const NavToggle = ({ toggled, className }: NavToggleProps) => {
     return (
         <div className={className}>
-            {toggled ? <HiOutlineMenu /> : <HiOutlineMenuAlt2 />}
+            {toggled ? (
+                <HiOutlineMenu className="text-primary dark:text-primary-mild" />
+            ) : (
+                <HiOutlineMenuAlt2 className="text-primary dark:text-primary-mild" />
+            )}
         </div>
     )
 }

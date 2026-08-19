@@ -117,7 +117,7 @@ const _Notification = ({ className }: { className?: string }) => {
             placement={larger.md ? 'bottom-end' : 'bottom'}
             onOpen={onNotificationOpen}
         >
-            <div className="px-5 pt-5 pb-3 bg-gradient-to-br from-indigo-600 via-purple-600 to-violet-700 dark:from-indigo-700 dark:via-purple-700 dark:to-violet-800">
+            <div className="px-5 pt-5 pb-3 bg-gradient-to-br from-[#2a0a10] via-primary-deep to-primary">
                 <div className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
                         <div className="flex items-center justify-center w-9 h-9 rounded-xl bg-white/20 backdrop-blur-sm">
@@ -128,7 +128,7 @@ const _Notification = ({ className }: { className?: string }) => {
                                 Notifications
                             </h6>
                             {unreadCount > 0 && (
-                                <p className="text-indigo-200 text-xs mt-0.5">
+                                <p className="text-white/75 text-xs mt-0.5">
                                     {unreadCount} unread message{unreadCount > 1 ? 's' : ''}
                                 </p>
                             )}
@@ -154,15 +154,15 @@ const _Notification = ({ className }: { className?: string }) => {
                             <div
                                 className={classNames(
                                     'relative flex items-start gap-3 px-4 py-3.5 cursor-pointer transition-all duration-200',
-                                    'hover:bg-indigo-50 dark:hover:bg-indigo-950/30',
+                                    'hover:bg-primary-subtle dark:hover:bg-primary-subtle',
                                     !item.isRead
-                                        ? 'bg-indigo-50/60 dark:bg-indigo-950/20'
+                                        ? 'bg-primary-subtle dark:bg-primary-subtle'
                                         : 'bg-white dark:bg-gray-900',
                                 )}
                                 onClick={() => onMarkAsRead(item.id)}
                             >
                                 {!item.isRead && (
-                                    <span className="absolute left-0 top-3 bottom-3 w-0.5 rounded-full bg-gradient-to-b from-indigo-500 to-purple-500" />
+                                    <span className="absolute left-0 top-3 bottom-3 w-0.5 rounded-full bg-gradient-to-b from-primary to-primary-mild" />
                                 )}
 
                                 <div className="flex-shrink-0 mt-0.5">
@@ -183,7 +183,7 @@ const _Notification = ({ className }: { className?: string }) => {
                                             {item.body}
                                         </span>
                                     </p>
-                                    <span className="inline-block mt-1 text-xs text-indigo-500 dark:text-indigo-400 font-medium">
+                                    <span className="inline-block mt-1 text-xs text-primary dark:text-primary-mild font-medium">
                                         {dayjs(item.created_at).fromNow()}
                                     </span>
                                 </div>
@@ -194,7 +194,7 @@ const _Notification = ({ className }: { className?: string }) => {
                                             'block w-2 h-2 rounded-full',
                                             item.isRead
                                                 ? 'bg-gray-300 dark:bg-gray-600'
-                                                : 'bg-indigo-500 shadow-sm shadow-indigo-400',
+                                                : 'bg-primary shadow-sm shadow-primary/50',
                                         )}
                                     />
                                 </div>
@@ -215,8 +215,8 @@ const _Notification = ({ className }: { className?: string }) => {
                 {noResult && notificationList.length === 0 && !loading && (
                     <div className={classNames('flex items-center justify-center', notificationHeight)}>
                         <div className="text-center px-6">
-                            <div className="mx-auto mb-4 w-16 h-16 rounded-2xl bg-indigo-50 dark:bg-indigo-950/40 flex items-center justify-center">
-                                <HiOutlineBell className="text-3xl text-indigo-400" />
+                            <div className="mx-auto mb-4 w-16 h-16 rounded-2xl bg-primary-subtle dark:bg-primary-subtle flex items-center justify-center">
+                                <HiOutlineBell className="text-3xl text-primary-mild" />
                             </div>
                             <h6 className="font-semibold text-gray-800 dark:text-gray-200 mb-1">
                                 You're all caught up!
@@ -232,7 +232,7 @@ const _Notification = ({ className }: { className?: string }) => {
             <div className="px-4 py-3 bg-gray-50 dark:bg-gray-800/60 border-t border-gray-100 dark:border-gray-700/60">
                 <button
                     onClick={handleViewAllActivity}
-                    className="w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl text-sm font-semibold text-white bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 active:scale-[0.98] transition-all duration-200 shadow-md shadow-indigo-500/25 cursor-pointer border-0"
+                    className="w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl text-sm font-semibold text-white bg-gradient-to-r from-primary-deep to-primary hover:from-primary-mild hover:to-primary-mild active:scale-[0.98] transition-all duration-200 shadow-md shadow-primary/25 cursor-pointer border-0"
                 >
                     View All Activity
                     <HiArrowRight className="text-base" />
