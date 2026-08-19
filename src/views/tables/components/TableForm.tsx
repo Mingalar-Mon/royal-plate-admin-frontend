@@ -16,6 +16,7 @@ export const tableSchema = z.object({
         .min(1, 'Capacity must be at least 1')
         .max(20, 'Capacity max 20'),
     durationMinutes: z.coerce.number().optional().nullable(),
+    gap: z.coerce.number().min(0, 'Gap must be 0 or more').optional().nullable(),
     tableFee: z.coerce
         .number({ error: 'Table fee is required' })
         .min(1, 'Table Fee must be greater than 0.'), //.optional().nullable(),
@@ -71,6 +72,7 @@ const TableForm = ({
             type: '', //'standard',
             capacity: 4,
             durationMinutes: 90,
+            gap: null,
             tableFee: 0,
             status: 'active',
             services: [],
@@ -202,6 +204,29 @@ const TableForm = ({
                                         )}
                                     />
                                 </div>
+                                <Controller
+                                    name="gap"
+                                    control={control}
+                                    render={({ field }) => (
+                                        <FormItem
+                                            label="Gap Between Reservations (minutes)"
+                                            invalid={!!errors.gap}
+                                            errorMessage={errors.gap?.message}
+                                        >
+                                            <Input
+                                                {...field}
+                                                type="number"
+                                                placeholder="e.g., 15"
+                                                value={
+                                                    (field.value as
+                                                        | string
+                                                        | number
+                                                        | undefined) || ''
+                                                }
+                                            />
+                                        </FormItem>
+                                    )}
+                                />
                                 <Controller
                                     name="status"
                                     control={control}

@@ -43,6 +43,7 @@ const TableEdit = () => {
         type: table.type,
         capacity: table.capacity,
         durationMinutes: table.durationMinutes || null,
+        gap: table.gap || null,
         tableFee: table.tableFee || null,
         status: table.status,
         services: table.services || [],

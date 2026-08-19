@@ -6,6 +6,7 @@ export interface Table {
     type: TableType
     capacity: number
     durationMinutes?: number
+    gap?: number
     tableFee?: number
     status: TableStatus
     services?: string[]
@@ -18,6 +19,7 @@ export interface TableFormData {
     type: TableType
     capacity: number
     durationMinutes?: number
+    gap?: number
     tableFee?: number
     status: TableStatus
     services?: string[]

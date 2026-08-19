@@ -60,6 +60,11 @@ const TableListTable = ({ data, total, loading }: TableListTableProps) => {
                 cell: (props) => props.row.original.durationMinutes || '—',
             },
             {
+                header: 'Gap (min)',
+                accessorKey: 'gap',
+                cell: (props) => props.row.original.gap || '—',
+            },
+            {
                 header: 'Fee (MMK)',
                 accessorKey: 'tableFee',
                 cell: (props) =>
