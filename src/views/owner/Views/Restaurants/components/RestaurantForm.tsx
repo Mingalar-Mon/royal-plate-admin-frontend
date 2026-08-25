@@ -261,7 +261,7 @@ const RestaurantForm = (props: RestaurantFormProps) => {
                                             <CropModal
                                                 isOpen={modalState.isOpen}
                                                 imageSrc={modalState.src || ''}
-                                                aspect={1 / 1}
+                                                aspect={16 / 9}
                                                 onClose={() =>
                                                     setModalState({
                                                         isOpen: false,
