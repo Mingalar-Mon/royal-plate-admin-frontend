@@ -13,6 +13,7 @@ import type { ReservationStatus } from '@/views/reservations/types/reservation.t
 import { useReservationStore } from '@/store/reservationStore'
 import type { Reservation } from '@/services/ReservationService'
 import Button from '@/components/ui/Button'
+import Dialog from '@/components/ui/Dialog'
 
 interface ReservationListTableProps {
     reservations: Reservation[]
@@ -32,19 +33,31 @@ const ReservationListTable = ({
     const tableData = useReservationStore((state) => state.tableData)
     const setTableData = useReservationStore((state) => state.setTableData)
     const { mutate: updateStatus } = useUpdateReservationStatus()
+    const [statusChangePreview, setStatusChangePreview] = useState<{
+        reservation: Reservation
+        newStatus: ReservationStatus
+    } | null>(null)
+
+    const handleStatusChange = (
+        reservation: Reservation,
+        newStatus: ReservationStatus,
+    ) => {
+        setStatusChangePreview({ reservation, newStatus })
+    }
+
+    const confirmStatusChange = () => {
+        if (!statusChangePreview) return
+
+        const { reservation, newStatus } = statusChangePreview
+        setStatusChangePreview(null)
+        setStatusUpdatingId(reservation.id)
+        updateStatus(
+            { reservationId: reservation.id, status: newStatus },
+            { onSettled: () => setStatusUpdatingId(null) },
+        )
+    }
 
     const columns: ColumnDef<Reservation>[] = useMemo(() => {
-        const handleStatusChange = (
-            id: string,
-            newStatus: ReservationStatus,
-        ) => {
-            setStatusUpdatingId(id)
-            updateStatus(
-                { reservationId: id, status: newStatus },
-                { onSettled: () => setStatusUpdatingId(null) },
-            )
-        }
-
         const handleView = (reservation: Reservation) => {
             navigate(`/reservations/detail/${reservation.id}`)
         }
@@ -148,7 +161,7 @@ const ReservationListTable = ({
                             status={status}
                             isLoading={statusUpdatingId === id}
                             onChange={(newStatus) =>
-                                handleStatusChange(id, newStatus)
+                                handleStatusChange(props.row.original, newStatus)
                             }
                         />
                     )
@@ -178,7 +191,7 @@ const ReservationListTable = ({
                 ),
             },
         ]
-    }, [navigate, statusUpdatingId, updateStatus])
+    }, [navigate, statusUpdatingId])
 
     const handlePaginationChange = (page: number) => {
         setTableData((prev) => ({ ...prev, pageIndex: page }))
@@ -248,6 +261,90 @@ const ReservationListTable = ({
                 onSelectChange={handleSelectChange}
                 onSort={handleSort}
             />
+            <Dialog
+                isOpen={Boolean(statusChangePreview)}
+                onClose={() => setStatusChangePreview(null)}
+                onRequestClose={() => setStatusChangePreview(null)}
+                width={480}
+                contentClassName="max-h-[90vh] overflow-y-auto"
+                title="Preview Reservation"
+            >
+                {statusChangePreview && (
+                    <div className="p-4">
+                        <div className="mb-5 rounded-xl bg-gradient-to-r from-primary/10 via-blue-50 to-purple-50 p-4 dark:from-primary/20 dark:via-blue-950/40 dark:to-purple-950/40">
+                            <div className="flex items-center justify-between gap-3">
+                                <div>
+                                    <p className="text-xs font-semibold uppercase tracking-wide text-primary">
+                                        Reservation Preview
+                                    </p>
+                                    <h5 className="mt-1 text-lg font-bold">
+                                        #{statusChangePreview.reservation.reservationNumber || statusChangePreview.reservation.id}
+                                    </h5>
+                                </div>
+                                <ReservationStatusBadge
+                                    status={statusChangePreview.newStatus}
+                                    readOnly
+                                />
+                            </div>
+                            <p className="mt-2 text-sm text-gray-600 dark:text-gray-300">
+                                Review the pre-ordered dishes before changing the reservation status.
+                            </p>
+                        </div>
+
+                        {statusChangePreview.reservation.remark && (
+                            <div className="mb-4 rounded-lg bg-amber-50 px-3 py-2 text-sm text-amber-800 dark:bg-amber-950/30 dark:text-amber-200">
+                                <span className="font-semibold">Remark:</span>{' '}
+                                {statusChangePreview.reservation.remark}
+                            </div>
+                        )}
+
+                        <div className="max-h-[45vh] overflow-y-auto pr-1">
+                            {statusChangePreview.reservation.reservationItems?.length ? (
+                                statusChangePreview.reservation.reservationItems.map((item) => (
+                                    <div
+                                        key={item.id}
+                                        className="flex items-center justify-between border-b border-gray-200/70 py-3 first:pt-0 last:border-b-0 last:pb-0 dark:border-gray-700"
+                                    >
+                                        <div className="min-w-0">
+                                            <div className="font-medium text-primary-700 dark:text-primary-300">
+                                                {item.dish.name}
+                                            </div>
+                                        </div>
+                                        <div className="text-right">
+                                            <div className="font-semibold text-purple-700 dark:text-purple-300">
+                                                x{item.quantity}
+                                            </div>
+                                            <div className="text-sm text-gray-500">
+                                                {(item.quantity * item.unitPrice).toLocaleString()} MMK
+                                            </div>
+                                        </div>
+                                    </div>
+                                ))
+                            ) : (
+                                <p className="py-6 text-center text-gray-500">
+                                    No pre-ordered dishes found.
+                                </p>
+                            )}
+                        </div>
+
+                        <div className="mt-4 flex justify-end gap-2 border-t border-primary/10 bg-white pt-4 dark:bg-gray-900">
+                            <Button
+                                type="button"
+                                onClick={() => setStatusChangePreview(null)}
+                            >
+                                Cancel
+                            </Button>
+                            <Button
+                                type="button"
+                                variant="solid"
+                                onClick={confirmStatusChange}
+                            >
+                                Change Status
+                            </Button>
+                        </div>
+                    </div>
+                )}
+            </Dialog>
         </>
     )
 }

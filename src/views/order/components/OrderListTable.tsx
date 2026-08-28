@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router'
 import { ColumnDef } from '@tanstack/react-table'
 import DataTable from '@/components/shared/DataTable'
 import ConfirmDialog from '@/components/shared/ConfirmDialog'
+import Dialog from '@/components/ui/Dialog'
 // import { NumericFormat } from 'react-number-format'
 import dayjs from 'dayjs'
 
@@ -52,6 +53,26 @@ const OrderListTable = ({
     const [statusUpdatingId, setStatusUpdatingId] = useState<string | null>(
         null,
     )
+    const [statusChangePreview, setStatusChangePreview] = useState<{
+        order: Order
+        newStatus: OrderStatus
+    } | null>(null)
+
+    const handleStatusChange = (order: Order, newStatus: OrderStatus) => {
+        setStatusChangePreview({ order, newStatus })
+    }
+
+    const confirmStatusChange = () => {
+        if (!statusChangePreview) return
+
+        const { order, newStatus } = statusChangePreview
+        setStatusChangePreview(null)
+        setStatusUpdatingId(order.id)
+        updateStatus(
+            { orderId: order.id, status: newStatus },
+            { onSettled: () => setStatusUpdatingId(null) },
+        )
+    }
     const tableData = useOrderStore((state) => state.tableData)
     const setTableData = useOrderStore((state) => state.setTableData)
     // const {
@@ -82,18 +103,6 @@ const OrderListTable = ({
         // const handleEdit = (order: Order) => {
         //     navigate(`/orders/edit/${order.id}`)
         // }
-        const handleStatusChange = (
-            id: string,
-            newStatus: OrderStatus,
-        ) => {
-            setStatusUpdatingId(id)
-            updateStatus(
-                { orderId: id, status: newStatus },
-                {
-                    onSettled: () => setStatusUpdatingId(null),
-                },
-            )
-        }
         return [
             {
                 header: 'Order',
@@ -150,7 +159,10 @@ const OrderListTable = ({
                             status={status}
                             isLoading={statusUpdatingId === orderId}
                             onChange={(newStatus: OrderStatus) =>
-                                handleStatusChange(orderId, newStatus)
+                                handleStatusChange(
+                                    props.row.original,
+                                    newStatus,
+                                )
                             }
                         />
                     )
@@ -229,7 +241,7 @@ const OrderListTable = ({
                 ),
             },
         ]
-    }, [navigate, updateStatus, statusUpdatingId])
+    }, [navigate, statusUpdatingId])
 
     // const handleSetTableData = (data: TableQueries) => setTableData(data)
     const handlePaginationChange = (page: number) => {
@@ -299,6 +311,98 @@ const OrderListTable = ({
                 onSelectChange={handleSelectChange}
                 onSort={handleSort}
             />
+            <Dialog
+                isOpen={Boolean(statusChangePreview)}
+                onClose={() => setStatusChangePreview(null)}
+                onRequestClose={() => setStatusChangePreview(null)}
+                width={480}
+                contentClassName="max-h-[90vh] overflow-y-auto"
+                title="Preview Order Items"
+            >
+                {statusChangePreview && (
+                    <div className="p-4">                                <div className="mb-5 rounded-xl bg-gradient-to-r from-primary/10 via-blue-50 to-purple-50 p-4 dark:from-primary/20 dark:via-blue-950/40 dark:to-purple-950/40">
+                        <div className="flex items-center justify-between gap-3">
+                            <div>
+                                <p className="text-xs font-semibold uppercase tracking-wide text-primary">
+                                    Order Preview
+                                </p>
+                                <h5 className="mt-1 text-lg font-bold">
+                                    #{statusChangePreview.order.orderNumber}
+                                </h5>
+                            </div>
+                            <OrderStatusBadge
+                                status={statusChangePreview.newStatus} onChange={function (status: OrderStatus): void {
+                                    throw new Error('Function not implemented.')
+                                }} />
+                        </div>
+                        {/* <p className="mt-2 text-sm text-gray-600 dark:text-gray-300">
+                            Review the items before changing the order status.
+                        </p> */}
+                    </div>
+
+                        {statusChangePreview.order.remark && (
+                            <div className="mb-4 rounded-lg bg-amber-50 px-3 py-2 text-sm text-amber-800 dark:bg-amber-950/30 dark:text-amber-200">
+                                <span className="font-semibold">Remark:</span>{' '}
+                                {statusChangePreview.order.remark}
+                            </div>
+                        )}
+
+                        <div className="max-h-[45vh] overflow-y-auto pr-1">
+
+                            {statusChangePreview.order.items.length > 0 ? (
+                                statusChangePreview.order.items.map((item) => (<div
+                                    key={item.id}                                            className="flex items-center justify-between border-b border-gray-200/70 py-3 first:pt-0 last:border-b-0 last:pb-0 dark:border-gray-700"
+
+                                >                                            <div className="min-w-0">
+                                                <div className="font-medium text-primary-700 dark:text-primary-300">
+                                                    {item.dish.name}
+                                                </div>
+                                                {item.note && (
+                                                    <div className="text-xs text-gray-500">
+                                                        Note: {item.note}
+                                                    </div>
+                                                )}
+                                            </div>
+
+                                    <div className="text-right">
+                                        <div className="font-semibold text-purple-700 dark:text-purple-300">
+                                            x{item.quantity}
+                                        </div>
+                                        <div className="text-sm text-gray-500">
+                                            {(
+                                                item.quantity * item.unitPrice
+                                            ).toLocaleString()}{' '}
+                                            MMK
+                                        </div>
+                                    </div>
+                                </div>
+                                ))
+                            ) : (
+                                <p className="py-6 text-center text-gray-500">
+                                    No items found for this order.
+                                </p>
+                            )}
+                        </div>
+
+                        <div className="mt-4 flex justify-end gap-2 border-t border-primary/10 bg-white pt-4 dark:bg-gray-900">
+                            <Button
+                                type="button"
+                                variant="default"
+                                onClick={() => setStatusChangePreview(null)}
+                            >
+                                Cancel
+                            </Button>
+                            <Button
+                                type="button"
+                                variant="solid"
+                                onClick={confirmStatusChange}
+                            >
+                                Change Status
+                            </Button>
+                        </div>
+                    </div>
+                )}
+            </Dialog>
             <ConfirmDialog
                 isOpen={deleteConfirmationOpen}
                 type="danger"
