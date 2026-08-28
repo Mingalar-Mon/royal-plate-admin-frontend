@@ -79,7 +79,7 @@ const EditRestaurant = () => {
         address: restaurantJson.data.address,
         startingPrice: restaurantJson.data.startingPrice,
         endingPrice: restaurantJson.data.endingPrice,
-        tax: restaurantJson.data.tax * 100,
+        tax: restaurantJson.data.tax,
         latitude: restaurantJson.data.latitude,
         longitude: restaurantJson.data.longitude,
         logoImage: restaurantJson.data.logoImage,
