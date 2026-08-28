@@ -8,11 +8,11 @@ import {
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 
 export const useGetRestaurantProfile = (restaurantProfileId: string) => {
-    console.log('restuarantProfileId: ', restaurantProfileId)
     return useQuery({
         queryKey: ['restaurant-profile', restaurantProfileId],
         queryFn: () => apiGetRestaurantProfile(restaurantProfileId),
         enabled: !!restaurantProfileId,
+        refetchOnWindowFocus: false,
     })
 }
 

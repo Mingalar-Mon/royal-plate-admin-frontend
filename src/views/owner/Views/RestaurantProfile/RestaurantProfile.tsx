@@ -145,7 +145,7 @@ const RestaurantProfilePage = () => {
                     icon={<TbEdit />}
                     onClick={() => {
                         return navigate(
-                            `/restaurant/update-restaurant-profile/${profile.data.id}`,
+                            `/restaurant/update-restaurant-profile/${profile.data.restaurant.id}/${profile.data.id}`,
                         )
                     }}
                 >

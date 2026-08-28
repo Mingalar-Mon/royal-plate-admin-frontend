@@ -19,17 +19,12 @@ import {
 } from '../types/restaurantProfile.type'
 import { useRestaurantStore } from '@/store/restaurantStore'
 
-// useCreateRestaurantProfile,
-// useUpdateRestaurantProfile,
-
-// useGetRestaurantProfile,
-'../../../hooks/useRestaurantProfile'
-import {    useGetRestaurantProfile,
+import {
+    useGetRestaurantProfile,
     useCreateRestaurantProfile,
     useUpdateRestaurantProfile,
-} from '../../../../../utils/custom-hooks/useRestaurantProfile'
+} from '@/utils/custom-hooks/useRestaurantProfile'
 
-import Skeleton from '@/components/ui/Skeleton'
 import { useGetCuisines } from '@/utils/custom-hooks/useCuisine'
 import { useGetPaymentMethods } from '@/utils/custom-hooks/usePayment'
 import { useCuisineStore } from '@/store/cuisineStore'
@@ -49,9 +44,9 @@ const RestaurantProfileForm = ({ isEditMode }: RestaurantProfileFormProps) => {
 
     // Fetch existing profile if in edit mode
 
+    // This API endpoint fetches the profile by restaurant ID
     const { data: existingProfile, isLoading: isLoadingProfile } =
-        useGetRestaurantProfile(isEditMode ? (profileId as string) : '')
-    console.log('Existing profile', existingProfile)
+        useGetRestaurantProfile(isEditMode ? restaurantId : '')
 
     // Fetch cuisines and payment methods (use mock or real API)
     const { data: cuisines, isLoading: isLoadingCuisines } =
@@ -95,23 +90,21 @@ const RestaurantProfileForm = ({ isEditMode }: RestaurantProfileFormProps) => {
 
     // Populate form with existing data
     useEffect(() => {
-        if (existingProfile && isEditMode) {
-            reset({
-                ...existingProfile.data,
-                // description: existingProfile.description,
-                // openingHour: existingProfile.openingHour,
-                // closingHour: existingProfile.closingHour,
-                // contactNumber: existingProfile.contactNumber,
-                // websiteUrl: existingProfile.websiteUrl || '',
-                // parking: existingProfile.parking,
-                // dressCode: existingProfile.dressCode || '',
-                // accessibility: existingProfile.accessibility || '',
-                cuisineIds: existingProfile.data.cuisines.map((c) => c.id),
-                paymentMethodIds: existingProfile.data.paymentMethods.map(
-                    (p) => p.id,
-                ),
-            })
-        }
+        const profile = existingProfile?.data
+        if (!profile || !isEditMode) return
+
+        reset({
+            description: profile.description ?? '',
+            openingHour: profile.openingHour ?? 540,
+            closingHour: profile.closingHour ?? 1200,
+            contactNumber: profile.contactNumber ?? '',
+            websiteUrl: profile.websiteUrl ?? '',
+            parking: !!profile.parking,
+            dressCode: profile.dressCode ?? '',
+            accessibility: profile.accessibility ?? '',
+            cuisineIds: (profile.cuisines ?? []).map((c) => c.id),
+            paymentMethodIds: (profile.paymentMethods ?? []).map((p) => p.id),
+        })
     }, [existingProfile, isEditMode, reset])
 
     const onSubmit = async (data: RestaurantProfileFormSchema) => {
@@ -119,38 +112,18 @@ const RestaurantProfileForm = ({ isEditMode }: RestaurantProfileFormProps) => {
         // console.log('Data to be updated: ', data)
         try {
             if (isEditMode) {
-                console.log('data to be updated: ', data)
                 updateRestaurantProfile(
                     { profileId: profileId as string, data },
                     {
                         onSuccess: () => {
-                            console.log(
-                                'Update successful, navigating to profile page...',
-                            )
-
-                            console.log('Profile ID: ', profileId)
-
-                            if (!profileId) {
-                                navigate('/owner/dashboard')
-                            }
-
+                            // The profile view page fetches by restaurant ID
                             navigate(
-                                `/restaurant/restaurant-profile/${profileId}`,
+                                `/restaurant/restaurant-profile/${restaurantId}`,
                             )
                         },
                     },
                 )
-                // await updateMutation.mutateAsync({
-                //     profileId: profileId as string,
-                //     data,
-                // })
-
-                // navigate(`/restaurant/update-restaurant-profile/${profileId}`)
             } else {
-                // await createMutation.mutateAsync({
-                //     restaurantId: restaurantId as string,
-                //     data,
-                // })
                 createRestaurantProfile(
                     { restaurantId: restaurantId as string, data },
                     {
@@ -160,8 +133,6 @@ const RestaurantProfileForm = ({ isEditMode }: RestaurantProfileFormProps) => {
                             ),
                     },
                 )
-
-                console.log('Success')
             }
         } catch (error) {
             console.error('Form submission error:', error)
@@ -193,15 +164,12 @@ const RestaurantProfileForm = ({ isEditMode }: RestaurantProfileFormProps) => {
     // })
 
     const timeToMinutes = (timeString: string) => {
-        console.log('Time string: ', timeString)
         if (!timeString) return 0
         const [hrs, mins] = timeString.split(':').map(Number)
-        console.log('time: ', hrs * 60 + mins)
         return hrs * 60 + mins
     }
 
     const minutesToTime = (totalMinutes: number) => {
-        console.log('TotalMinutes: ', totalMinutes)
         const hrs = Math.floor(totalMinutes / 60)
             .toString()
             .padStart(2, '0')
