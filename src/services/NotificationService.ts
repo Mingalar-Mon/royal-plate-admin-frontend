@@ -21,7 +21,7 @@ export async function apiGetNotificationList(
     params?: {
         page?: number
         limit?: number
-        category?: 'order' | 'reservation'
+        category?: 'order' | 'reservation' | 'blog'
         isRead?: boolean
     },
 ) {

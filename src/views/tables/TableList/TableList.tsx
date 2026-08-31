@@ -2,7 +2,7 @@ import Container from '@/components/shared/Container'
 import AdaptiveCard from '@/components/shared/AdaptiveCard'
 import TableListActionTools from './components/TableListActionTools'
 import TableListTableTools from './components/TableListTableTools'
-import TableListTable from './components/TableListTable'
+import TableListCards from './components/TableListCards'
 import { useTableStore } from '@/store/tableStore'
 import { useParams } from 'react-router'
 import { useTableListQuery } from '@/utils/custom-hooks/useTable'
@@ -27,7 +27,7 @@ const TableList = () => {
                         <TableListActionTools onRefresh={refetch} />
                     </div>
                     <TableListTableTools />
-                    <TableListTable
+                    <TableListCards
                         data={tablesList}
                         total={tablesTotal}
                         loading={isLoading}

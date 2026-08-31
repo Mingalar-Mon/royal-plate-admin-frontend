@@ -1,5 +1,6 @@
 import { OnSortParam } from '@/components/shared/DataTable'
 import { create } from 'zustand'
+import dayjs from 'dayjs'
 
 export interface OrderQueries {
     pageIndex: number
@@ -7,7 +8,7 @@ export interface OrderQueries {
     query: string
     status: string
     sort?: OnSortParam
-    pickUpDate: string
+    // pickUpDate: string
     fromDate: string
     toDate: string
 }
@@ -18,30 +19,26 @@ interface OrderStoreState {
     resetFilters: () => void
 }
 
+const today = dayjs().format('YYYY-MM-DD')
+
+const defaultTableData: OrderQueries = {
+    pageIndex: 1,
+    pageSize: 10,
+    status: 'all',
+    query: '',
+    // pickUpDate: today,
+    fromDate: today,
+    toDate: today,
+    sort: { key: 'scheduledDate', order: 'desc' },
+}
+
 export const useOrderStore = create<OrderStoreState>((set) => ({
-    tableData: {
-        pageIndex: 1,
-        pageSize: 10,
-        status: 'all',
-        query: '',
-        pickUpDate: '',
-        fromDate: '',
-        toDate: '',
-        sort: { key: 'scheduledDate', order: 'desc' }, // Clean default sorting path
-    },
+    tableData: defaultTableData,
     setTableData: (updater) =>
         set((state) => ({ tableData: updater(state.tableData) })),
     resetFilters: () => {
         return set({
-            tableData: {
-                pageIndex: 1,
-                pageSize: 10,
-                status: 'all',
-                query: '',
-                pickUpDate: '',
-                fromDate: '',
-                toDate: '',
-            },
+            tableData: { ...defaultTableData },
         })
     },
 }))

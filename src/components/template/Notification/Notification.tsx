@@ -15,9 +15,9 @@ import {
 import isLastChild from '@/utils/isLastChild'
 import useResponsive from '@/utils/hooks/useResponsive'
 import { useNavigate } from 'react-router'
+import { useRestaurantStore } from '@/store/restaurantStore'
 import { HiOutlineMailOpen, HiOutlineBell } from 'react-icons/hi'
 import { HiArrowRight } from 'react-icons/hi2'
-import { useRestaurantStore } from '@/store/restaurantStore'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 
@@ -80,6 +80,23 @@ const _Notification = ({ className }: { className?: string }) => {
         } catch (err) {
             console.error('Failed to mark all as read', err)
         }
+    }
+
+    const onNotificationClick = async (item: NotificationItem) => {
+        await onMarkAsRead(item.id)
+
+        if (!item.referenceId) return
+
+        const basePath = restaurantId ? `/restaurants/${restaurantId}` : ''
+        if (item.category === 'order') {
+            navigate(`/orders/${item.referenceId}`)
+        } else if (item.category === 'reservation') {
+            navigate(`/reservations/detail/${item.referenceId}`)
+        } else if (item.category === 'blog') {
+            navigate(`${basePath}/blogs/${item.referenceId}`)
+        }
+
+        notificationDropdownRef.current?.handleDropdownClose()
     }
 
     const onMarkAsRead = async (id: string) => {
@@ -159,7 +176,7 @@ const _Notification = ({ className }: { className?: string }) => {
                                         ? 'bg-primary-subtle dark:bg-primary-subtle'
                                         : 'bg-white dark:bg-gray-900',
                                 )}
-                                onClick={() => onMarkAsRead(item.id)}
+                                onClick={() => void onNotificationClick(item)}
                             >
                                 {!item.isRead && (
                                     <span className="absolute left-0 top-3 bottom-3 w-0.5 rounded-full bg-gradient-to-b from-primary to-primary-mild" />

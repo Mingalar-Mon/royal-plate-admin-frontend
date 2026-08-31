@@ -1,6 +1,7 @@
 import type { OnSortParam } from '@/components/shared/DataTable'
 import type { ReservationStatus } from '@/views/reservations/types/reservation.type'
 import { create } from 'zustand'
+import dayjs from 'dayjs'
 
 export interface ReservationQueries {
     pageIndex: number
@@ -20,27 +21,24 @@ interface ReservationStoreState {
     resetFilters: () => void
 }
 
+const today = dayjs().format('YYYY-MM-DD')
+
+const defaultTableData: ReservationQueries = {
+    pageIndex: 1,
+    pageSize: 10,
+    query: '',
+    status: '',
+    dateFrom: today,
+    dateTo: today,
+}
+
 export const useReservationStore = create<ReservationStoreState>((set) => ({
-    tableData: {
-        pageIndex: 1,
-        pageSize: 10,
-        query: '',
-        status: '',
-        dateFrom: '',
-        dateTo: '',
-    },
+    tableData: defaultTableData,
     setTableData: (updater) =>
         set((state) => ({ tableData: updater(state.tableData) })),
     resetFilters: () => {
         return set({
-            tableData: {
-                pageIndex: 1,
-                pageSize: 10,
-                query: '',
-                status: '',
-                dateFrom: '',
-                dateTo: '',
-            },
+            tableData: { ...defaultTableData },
         })
     },
 }))

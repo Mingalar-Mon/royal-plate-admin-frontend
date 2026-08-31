@@ -1,7 +1,7 @@
 export type NotificationItem = {
     id: string
-    category: 'order' | 'reservation'
-    eventType: 'created' | 'updated' | 'cancelled' | 'confirmed' | 'completed'
+    category: 'order' | 'reservation' | 'blog'
+    eventType: 'created' | 'updated' | 'cancelled' | 'confirmed' | 'completed' | string
     title: string
     body: string
     referenceId: string
