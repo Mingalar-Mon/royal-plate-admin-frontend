@@ -143,6 +143,13 @@ export const protectedRoutes: Routes = [
         component: lazy(() => import('@/views/reservations/ReservationList')),
         authority: [OWNER, STAFF],
     },
+    // ============= TRANSACTION ============
+    {
+        key: 'transaction.list',
+        path: '/restaurants/:restaurantId/transactions',
+        component: lazy(() => import('@/views/transaction/TransactionList')),
+        authority: [OWNER],
+    },
     // ================ STAFF ==============
     {
         key: 'staff.create',

@@ -232,6 +232,20 @@ const CommissionListTable = ({
                     return date ? dayjs(date).format('DD/MM/YYYY') : '—'
                 },
             },
+            {
+                header: 'Deactivated Date',
+                id: 'deactivatedAt',
+                cell: (props) => {
+                    const commission = props.row.original
+                    if (commission.is_active === true) {
+                        return '—'
+                    }
+                    const date =
+                        commission.deactivated_date ||
+                        commission.deactivatedAt
+                    return date ? dayjs(date).format('DD/MM/YYYY') : '—'
+                },
+            },
         ],
         [statusPending, updatingStatusId],
     )

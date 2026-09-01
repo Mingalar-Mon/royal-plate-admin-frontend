@@ -16,6 +16,7 @@ import {
     PiArticleDuotone, // Great layout metaphor for Blogs / News / Articles
     PiStorefrontDuotone, // Restaurant / Storefront for Profile
     PiDeviceMobileDuotone, // Perfect for App Version management
+    PiReceiptDuotone, // Perfect for Transactions / Statements
 } from 'react-icons/pi'
 import type { JSX } from 'react'
 
@@ -42,6 +43,7 @@ const navigationIcon: NavigationIcons = {
     profile: <PiStorefrontDuotone />,
     appVersion: <PiDeviceMobileDuotone />,
     commission: <PiBagSimpleDuotone />,
+    transaction: <PiReceiptDuotone />,
 }
 
 export default navigationIcon

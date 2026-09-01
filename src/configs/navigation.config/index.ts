@@ -419,6 +419,16 @@ const navigationConfig: NavigationTree[] = [
                 authority: [],
                 subMenu: [],
             },
+            {
+                key: 'transaction.list',
+                path: '/restaurants/:restaurantId/transactions',
+                title: 'Transactions',
+                translateKey: 'transaction.list',
+                icon: 'transaction',
+                type: NAV_ITEM_TYPE_ITEM,
+                authority: [OWNER],
+                subMenu: [],
+            },
         ],
     },
     // {

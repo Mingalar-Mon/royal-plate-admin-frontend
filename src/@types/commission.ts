@@ -14,6 +14,7 @@ export interface Commission {
     updatedAt?: string
     created_at?: string
     updated_at?: string
+    deactivated_date?: string
 }
 
 export interface CommissionQuery {
