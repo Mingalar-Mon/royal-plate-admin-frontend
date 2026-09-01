@@ -1,5 +1,5 @@
 import { Suspense } from 'react'
-import Loading from '@/components/shared/Loading'
+import PageLoading from '@/components/shared/PageLoading'
 import type { CommonProps } from '@/@types/common'
 import { useAuth } from '@/auth'
 import { useThemeStore } from '@/store/themeStore'
@@ -15,8 +15,7 @@ const Layout = ({ children }: CommonProps) => {
         <Suspense
             fallback={
                 <div className="flex flex-auto flex-col h-screen">
-                    {/* h-[100vh] */}
-                    <Loading loading={true} />
+                    <PageLoading />
                 </div>
             }
         >

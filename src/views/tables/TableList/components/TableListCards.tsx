@@ -46,7 +46,7 @@ const TableListCards = ({ data, total, loading }: Props) => {
                 {data.map((table) => (
                     <div
                         key={table.id}
-                        className="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm transition-shadow hover:shadow-md dark:border-gray-700 dark:bg-gray-800"
+                        className="flex flex-col rounded-2xl border border-gray-200 bg-white p-5 shadow-sm transition-shadow hover:shadow-md dark:border-gray-700 dark:bg-gray-800"
                     >
                         <div className="flex items-start justify-between gap-3">
                             <div>
@@ -85,7 +85,7 @@ const TableListCards = ({ data, total, loading }: Props) => {
                             </div>
                         </div>
 
-                        <div className="mt-4 space-y-2 border-t border-gray-100 pt-4 text-sm dark:border-gray-700">
+                        <div className="mt-4 flex-1 space-y-2 border-t border-gray-100 pt-4 text-sm dark:border-gray-700">
                             <div className="flex justify-between gap-3">
                                 <span className="text-gray-500">Gap</span>
                                 <span className="font-medium">{table.gap || '—'} min</span>

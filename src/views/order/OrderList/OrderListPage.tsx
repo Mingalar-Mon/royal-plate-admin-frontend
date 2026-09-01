@@ -8,6 +8,7 @@ import OrderListCards from '../components/OrderListCards'
 import OrderListTableTools from '../components/OrderListTableTools'
 
 import { useOrderStore } from '@/store/orderStore'
+import PageLoading from '@/components/shared/PageLoading'
 
 const OrderList = () => {
     const { restaurantId } = useParams()
@@ -18,7 +19,9 @@ const OrderList = () => {
     const orderList = data?.orders || []
     const orderListTotal = data?.total || 0
 
-    // if (isLoading) return <div>Loading...</div>
+    if (isLoading) {
+        return <PageLoading label="Loading orders" />
+    }
 
     // if (!orderList || !(orderList.length > 0)) return <div> No order found</div>
 

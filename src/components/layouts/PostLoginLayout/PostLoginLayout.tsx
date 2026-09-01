@@ -7,7 +7,7 @@ import {
     LAYOUT_CONTENT_OVERLAY,
     LAYOUT_BLANK,
 } from '@/constants/theme.constant'
-import Loading from '@/components/shared/Loading'
+import PageLoading from '@/components/shared/PageLoading'
 import type { CommonProps } from '@/@types/common'
 import type { LazyExoticComponent, JSX } from 'react'
 import type { LayoutType } from '@/@types/theme'
@@ -39,7 +39,7 @@ const PostLoginLayout = ({ layoutType, children }: PostLoginLayoutProps) => {
         <Suspense
             fallback={
                 <div className="flex flex-auto flex-col h-[100vh]">
-                    <Loading loading={true} />
+                    <PageLoading />
                 </div>
             }
         >
