@@ -41,6 +41,7 @@ const navigationIcon: NavigationIcons = {
     blogs: <PiArticleDuotone />,
     profile: <PiStorefrontDuotone />,
     appVersion: <PiDeviceMobileDuotone />,
+    commission: <PiBagSimpleDuotone />,
 }
 
 export default navigationIcon

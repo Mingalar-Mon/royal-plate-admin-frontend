@@ -273,6 +273,14 @@ export const protectedRoutes: Routes = [
         authority: [ADMIN],
     },
 
+    // Commission
+    {
+        key: 'commission.list',
+        path: '/commissions',
+        component: lazy(() => import('@/views/commission/CommissionList')),
+        authority: [ADMIN],
+    },
+
     // App Version
     {
         key: 'appVersion.list',

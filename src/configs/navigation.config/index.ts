@@ -193,6 +193,27 @@ const navigationConfig: NavigationTree[] = [
         ],
     },
     {
+        key: 'commissionManagement',
+        path: '/commissions',
+        title: 'Commissions',
+        icon: 'commission',
+        translateKey: 'commission.management',
+        type: NAV_ITEM_TYPE_ITEM,
+        authority: [ADMIN],
+        subMenu: [
+            {
+                key: 'commission.list',
+                path: '/commissions',
+                title: 'Commission List',
+                translateKey: 'commissionManagement.collapse.item1',
+                icon: 'list',
+                type: NAV_ITEM_TYPE_ITEM,
+                authority: [],
+                subMenu: [],
+            },
+        ],
+    },
+    {
         key: 'user.list',
         path: '/users',
         title: 'Users',
