@@ -47,14 +47,9 @@ const TransactionListTable = ({
                     const reference =
                         item.orderNumber || item.reservationNumber || '—'
                     return (
-                        <div className="min-w-44">
-                            <div className="font-semibold text-gray-900 dark:text-gray-100">
-                                {reference}
-                            </div>
-                            <div className="text-xs text-gray-500">
-                                {item.referenceId}
-                            </div>
-                        </div>
+                        <span className="min-w-44 font-semibold text-gray-900 dark:text-gray-100">
+                            {reference}
+                        </span>
                     )
                 },
             },

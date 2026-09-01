@@ -5,7 +5,7 @@ import {
 } from '@/constants/navigation.constant'
 
 import type { NavigationTree } from '@/@types/navigation'
-import { ADMIN, OWNER, STAFF } from '@/constants/roles.constant'
+import { ADMIN, MANAGER, OWNER, STAFF } from '@/constants/roles.constant'
 
 const navigationConfig: NavigationTree[] = [
     // {
@@ -426,7 +426,7 @@ const navigationConfig: NavigationTree[] = [
                 translateKey: 'transaction.list',
                 icon: 'transaction',
                 type: NAV_ITEM_TYPE_ITEM,
-                authority: [OWNER],
+                authority: [OWNER, MANAGER],
                 subMenu: [],
             },
         ],
