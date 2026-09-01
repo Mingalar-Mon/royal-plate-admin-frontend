@@ -14,6 +14,7 @@ const defaultTableData: TransactionQueries = {
     page: 1,
     limit: 10,
     month: dayjs().format('YYYY-MM'),
+    restaurantId: '',
 }
 
 export const useTransactionStore = create<TransactionStoreState>((set) => ({

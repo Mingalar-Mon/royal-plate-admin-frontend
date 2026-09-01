@@ -45,4 +45,7 @@ export type TransactionQueries = {
     // Selected period formatted as 'YYYY-MM' (e.g. '2026-09').
     // Empty string means no date filter (all transactions).
     month: string
+    // Restaurant the transactions belong to. Set by the admin module after
+    // the admin picks a restaurant; the owner module uses the URL param instead.
+    restaurantId: string
 }

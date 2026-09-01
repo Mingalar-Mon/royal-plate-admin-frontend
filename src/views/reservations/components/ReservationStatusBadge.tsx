@@ -9,7 +9,7 @@ import { TbCheck } from 'react-icons/tb'
 
 type ReservationStatusBadgeProps = {
     status: ReservationStatusValue
-    onChange: (status: ReservationStatusValue) => void
+    onChange?: (status: ReservationStatusValue) => void
     isLoading?: boolean
     readOnly?: boolean
 }
@@ -83,7 +83,7 @@ const ReservationStatusBadge = ({
                     <Dropdown.Item
                         key={key}
                         disabled={key === status || isLoading}
-                        onClick={() => onChange(key)}
+                        onClick={() => onChange?.(key)}
                     >
                         <div className="flex items-center gap-2 min-w-32">
                             <config.icon size={14} />

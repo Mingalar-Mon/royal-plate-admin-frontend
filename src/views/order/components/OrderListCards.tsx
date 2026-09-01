@@ -57,7 +57,7 @@ const OrderListCards = ({ orderList, orderListTotal, isLoading }: Props) => {
                 {orderList.map((order) => (
                     <div
                         key={order.id}
-                        className="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm transition-shadow hover:shadow-md dark:border-gray-700 dark:bg-gray-800"
+                        className="flex flex-col rounded-2xl border border-gray-200 bg-white p-5 shadow-sm transition-shadow hover:shadow-md dark:border-gray-700 dark:bg-gray-800"
                     >
                         <div className="flex items-start justify-between gap-3">
                             <button
@@ -102,7 +102,7 @@ const OrderListCards = ({ orderList, orderListTotal, isLoading }: Props) => {
                             </div>
                         </div>
 
-                        <div className="mt-4 border-t border-gray-100 pt-4 dark:border-gray-700">
+                        <div className="mt-4 flex-1 border-t border-gray-100 pt-4 dark:border-gray-700">
                             <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-gray-500">
                                 Items ({order.items?.length || 0})
                             </p>

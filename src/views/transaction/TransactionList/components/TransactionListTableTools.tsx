@@ -35,10 +35,13 @@ const mapTransactionToCsvRow = (item: TransactionItem) => ({
 
 const TransactionListTableTools = ({
     onRefresh,
+    restaurantId: restaurantIdProp,
 }: {
     onRefresh: () => void
+    restaurantId?: string
 }) => {
-    const { restaurantId } = useParams()
+    const { restaurantId: restaurantIdFromParams } = useParams()
+    const restaurantId = restaurantIdProp || restaurantIdFromParams
     const tableData = useTransactionStore((state) => state.tableData)
     const setTableData = useTransactionStore((state) => state.setTableData)
 

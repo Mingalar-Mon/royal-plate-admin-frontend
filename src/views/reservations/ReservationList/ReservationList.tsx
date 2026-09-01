@@ -2,7 +2,7 @@ import Container from '@/components/shared/Container'
 import AdaptiveCard from '@/components/shared/AdaptiveCard'
 import ReservationListActionTools from '../components/ReservationListActionTools'
 import ReservationListTableTools from '../components/ReservationListTableTools'
-import ReservationListTable from '../components/ReservationListTable'
+import ReservationListCards from '../components/ReservationListCards'
 import { useParams } from 'react-router'
 import { useReservations } from '@/utils/custom-hooks/useReservation'
 import { useReservationStore } from '@/store/reservationStore'
@@ -31,11 +31,10 @@ const ReservationList = () => {
                         <ReservationListActionTools onRefresh={refetch} />
                     </div>
                     <ReservationListTableTools />
-                    <ReservationListTable
+                    <ReservationListCards
                         reservations={reservations}
                         total={total}
                         isLoading={isLoading}
-                        // updateStatus={updateStatus}
                     />
                 </div>
             </AdaptiveCard>
