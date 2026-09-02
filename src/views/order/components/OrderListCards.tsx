@@ -21,7 +21,8 @@ const OrderListCards = ({ orderList, orderListTotal, isLoading }: Props) => {
     const navigate = useNavigate()
     const setTableData = useOrderStore((state) => state.setTableData)
     const tableData = useOrderStore((state) => state.tableData)
-    const { mutate: updateStatus } = useUpdateOrderStatus()
+    const { mutate: updateStatus, isPending: isUpdating } =
+        useUpdateOrderStatus()
     const [statusUpdatingId, setStatusUpdatingId] = useState<string | null>(null)
     const [statusChangePreview, setStatusChangePreview] = useState<{
         order: Order
@@ -36,11 +37,15 @@ const OrderListCards = ({ orderList, orderListTotal, isLoading }: Props) => {
         if (!statusChangePreview) return
 
         const { order, newStatus } = statusChangePreview
-        setStatusChangePreview(null)
         setStatusUpdatingId(order.id)
         updateStatus(
             { orderId: order.id, status: newStatus },
-            { onSettled: () => setStatusUpdatingId(null) },
+            {
+                onSettled: () => {
+                    setStatusUpdatingId(null)
+                    setStatusChangePreview(null)
+                },
+            },
         )
     }
 
@@ -160,8 +165,12 @@ const OrderListCards = ({ orderList, orderListTotal, isLoading }: Props) => {
 
             <Dialog
                 isOpen={Boolean(statusChangePreview)}
-                onClose={() => setStatusChangePreview(null)}
-                onRequestClose={() => setStatusChangePreview(null)}
+                onClose={() => {
+                    if (!isUpdating) setStatusChangePreview(null)
+                }}
+                onRequestClose={() => {
+                    if (!isUpdating) setStatusChangePreview(null)
+                }}
                 width={480}
                 height="min(90vh, 760px)"
                 contentClassName="flex max-h-[90vh] flex-col overflow-y-auto"
@@ -244,6 +253,7 @@ const OrderListCards = ({ orderList, orderListTotal, isLoading }: Props) => {
                             <Button
                                 type="button"
                                 variant="default"
+                                disabled={isUpdating}
                                 onClick={() => setStatusChangePreview(null)}
                             >
                                 Cancel
@@ -251,6 +261,7 @@ const OrderListCards = ({ orderList, orderListTotal, isLoading }: Props) => {
                             <Button
                                 type="button"
                                 variant="solid"
+                                loading={isUpdating}
                                 onClick={confirmStatusChange}
                             >
                                 Change status

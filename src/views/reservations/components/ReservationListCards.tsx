@@ -30,7 +30,8 @@ const ReservationListCards = ({
     const navigate = useNavigate()
     const tableData = useReservationStore((state) => state.tableData)
     const setTableData = useReservationStore((state) => state.setTableData)
-    const { mutate: updateStatus } = useUpdateReservationStatus()
+    const { mutate: updateStatus, isPending: isUpdating } =
+        useUpdateReservationStatus()
     const [statusUpdatingId, setStatusUpdatingId] = useState<string | null>(
         null,
     )
@@ -50,11 +51,15 @@ const ReservationListCards = ({
         if (!statusChangePreview) return
 
         const { reservation, newStatus } = statusChangePreview
-        setStatusChangePreview(null)
         setStatusUpdatingId(reservation.id)
         updateStatus(
             { reservationId: reservation.id, status: newStatus },
-            { onSettled: () => setStatusUpdatingId(null) },
+            {
+                onSettled: () => {
+                    setStatusUpdatingId(null)
+                    setStatusChangePreview(null)
+                },
+            },
         )
     }
 
@@ -236,8 +241,12 @@ const ReservationListCards = ({
 
             <Dialog
                 isOpen={Boolean(statusChangePreview)}
-                onClose={() => setStatusChangePreview(null)}
-                onRequestClose={() => setStatusChangePreview(null)}
+                onClose={() => {
+                    if (!isUpdating) setStatusChangePreview(null)
+                }}
+                onRequestClose={() => {
+                    if (!isUpdating) setStatusChangePreview(null)
+                }}
                 width={480}
                 height="min(90vh, 760px)"
                 contentClassName="flex max-h-[90vh] flex-col overflow-y-auto"
@@ -368,6 +377,7 @@ const ReservationListCards = ({
                             <Button
                                 type="button"
                                 variant="default"
+                                disabled={isUpdating}
                                 onClick={() => setStatusChangePreview(null)}
                             >
                                 Cancel
@@ -375,6 +385,7 @@ const ReservationListCards = ({
                             <Button
                                 type="button"
                                 variant="solid"
+                                loading={isUpdating}
                                 onClick={confirmStatusChange}
                             >
                                 Change status
