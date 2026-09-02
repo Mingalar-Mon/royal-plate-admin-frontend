@@ -9,6 +9,7 @@ import {
 import { useUpdateReservationStatus } from '@/utils/custom-hooks/useReservation'
 import { useReservationStore } from '@/store/reservationStore'
 import ReservationStatusBadge from './ReservationStatusBadge'
+import CardSkeleton from '@/components/shared/CardSkeletonGrid'
 import Button from '@/components/ui/Button'
 import Dialog from '@/components/ui/Dialog'
 import Pagination from '@/components/ui/Pagination'
@@ -58,11 +59,7 @@ const ReservationListCards = ({
     }
 
     if (isLoading) {
-        return (
-            <div className="py-12 text-center text-gray-500">
-                Loading reservations...
-            </div>
-        )
+        return <CardSkeleton count={6} />
     }
 
     if (reservations.length === 0) {

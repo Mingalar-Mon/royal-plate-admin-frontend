@@ -6,6 +6,7 @@ import { useUpdateOrderStatus } from '@/utils/custom-hooks/useOrder'
 import { useOrderStore } from '@/store/orderStore'
 import type { Order, OrderStatus } from '@/@types/order'
 import OrderStatusBadge from './OrderStatusBadge'
+import CardSkeleton from '@/components/shared/CardSkeletonGrid'
 import Button from '@/components/ui/Button'
 import Dialog from '@/components/ui/Dialog'
 import Pagination from '@/components/ui/Pagination'
@@ -44,7 +45,7 @@ const OrderListCards = ({ orderList, orderListTotal, isLoading }: Props) => {
     }
 
     if (isLoading) {
-        return <div className="py-12 text-center text-gray-500">Loading orders...</div>
+        return <CardSkeleton count={6} />
     }
 
     if (orderList.length === 0) {

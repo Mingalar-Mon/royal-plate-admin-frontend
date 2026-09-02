@@ -7,6 +7,7 @@ import { useUpdateTableMutation } from '@/utils/custom-hooks/useTable'
 import type { Table, TableStatus } from '../../types/table.type'
 import TableTypeBadge from '../../components/TableTypeBadge'
 import TableStatusBadge from '../../components/TableStatusBadge'
+import CardSkeleton from '@/components/shared/CardSkeletonGrid'
 import Button from '@/components/ui/Button'
 import Pagination from '@/components/ui/Pagination'
 
@@ -33,7 +34,7 @@ const TableListCards = ({ data, total, loading }: Props) => {
     }
 
     if (loading) {
-        return <div className="py-12 text-center text-gray-500">Loading tables...</div>
+        return <CardSkeleton count={6} />
     }
 
     if (data.length === 0) {
