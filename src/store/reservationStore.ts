@@ -25,7 +25,7 @@ const today = dayjs().format('YYYY-MM-DD')
 
 const defaultTableData: ReservationQueries = {
     pageIndex: 1,
-    pageSize: 9,
+    pageSize: 12,
     query: '',
     status: '',
     dateFrom: today,

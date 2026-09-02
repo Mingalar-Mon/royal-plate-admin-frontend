@@ -23,7 +23,7 @@ const today = dayjs().format('YYYY-MM-DD')
 
 const defaultTableData: OrderQueries = {
     pageIndex: 1,
-    pageSize: 9,
+    pageSize: 12,
     status: 'all',
     query: '',
     // pickUpDate: today,

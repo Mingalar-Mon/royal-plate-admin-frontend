@@ -4,7 +4,10 @@ export interface Blog {
     id: string
     title: string
     content: string // markdown or rich text
-    imageUrls: string[] // up to 5 images
+    image: {
+        key: string
+        url: string
+    }[]
     restaurantId: string
     authorOwner?: { id: string; name: string }
     authorStaff?: { id: string; name: string; role: string }

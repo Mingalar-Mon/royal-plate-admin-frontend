@@ -31,13 +31,21 @@ const PricingSection = ({ control, errors }: PricingSectionProps) => {
                                 ref={ref}
                                 name={name}
                                 type="number"
+                                min={0}
                                 placeholder="Minimum price"
                                 value={
                                     (value as string | number | undefined) ?? ''
                                 }
                                 onChange={(e) => {
                                     const val = e.target.value
-                                    onChange(val === '' ? '' : Number(val))
+                                    if (val === '' || val === '-') {
+                                        onChange('')
+                                        return
+                                    }
+                                    const num = Number(val)
+                                    onChange(
+                                        Number.isNaN(num) ? 0 : Math.max(0, num),
+                                    )
                                 }}
                                 onBlur={onBlur}
                             />
@@ -58,6 +66,7 @@ const PricingSection = ({ control, errors }: PricingSectionProps) => {
                             <Input
                                 {...field}
                                 type="number"
+                                min={0}
                                 placeholder="Maximum price"
                                 value={
                                     (field.value as
@@ -65,9 +74,19 @@ const PricingSection = ({ control, errors }: PricingSectionProps) => {
                                         | number
                                         | undefined) || ''
                                 }
-                                onChange={(e) =>
-                                    field.onChange(Number(e.target.value))
-                                }
+                                onChange={(e) => {
+                                    const val = e.target.value
+                                    if (val === '' || val === '-') {
+                                        field.onChange('')
+                                        return
+                                    }
+                                    const num = Number(val)
+                                    field.onChange(
+                                        Number.isNaN(num)
+                                            ? 0
+                                            : Math.max(0, num),
+                                    )
+                                }}
                             />
                         </FormItem>
                     )}
@@ -88,6 +107,7 @@ const PricingSection = ({ control, errors }: PricingSectionProps) => {
                                 <Input
                                     {...field}
                                     type="number"
+                                    min={0}
                                     placeholder="0%"
                                     value={
                                         (field.value as
@@ -95,6 +115,19 @@ const PricingSection = ({ control, errors }: PricingSectionProps) => {
                                             | number
                                             | undefined) || ''
                                     }
+                                    onChange={(e) => {
+                                        const val = e.target.value
+                                        if (val === '' || val === '-') {
+                                            field.onChange('')
+                                            return
+                                        }
+                                        const num = Number(val)
+                                        field.onChange(
+                                            Number.isNaN(num)
+                                                ? 0
+                                                : Math.max(0, num),
+                                        )
+                                    }}
                                 />
                             </FormItem>
                         )

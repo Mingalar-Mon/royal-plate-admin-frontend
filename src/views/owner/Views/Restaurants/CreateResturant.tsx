@@ -1,8 +1,6 @@
-import { useState } from 'react'
 import { useNavigate } from 'react-router'
 import Button from '@/components/ui/Button'
 import Notification from '@/components/ui/Notification'
-// import toast from '@/components/ui/toast'
 import { TbArrowNarrowLeft } from 'react-icons/tb'
 import RestaurantForm from './components/RestaurantForm'
 import type { RestaurantFormSchema } from './types/restaurantForm.types'
@@ -14,16 +12,11 @@ import { RestaurantFormInput } from '@/@types/restaurant.type'
 
 const CreateRestaurant = () => {
     const navigate = useNavigate()
-    const [isSubmitting, setIsSubmitting] = useState(false)
-    const toastNotification = (
-        <Notification title="Message">
-            Restaurant created successfully
-        </Notification>
-    )
 
     // const createMutation = useCreateRestaurant()
 
-    const { mutate: createRestaurant } = useCreateRestaurant()
+    const { mutate: createRestaurant, isPending: isCreating } =
+        useCreateRestaurant()
 
     const defaultValues: Partial<RestaurantFormSchema> = {
         name: '',
@@ -64,7 +57,6 @@ const CreateRestaurant = () => {
                     navigate(
                         `/restaurant/create-restaurant-profile/${response.data[0].id}`,
                     )
-                    toastNotification
                 },
                 onError: (error) => {
                     console.error('Error:', error)
@@ -72,7 +64,6 @@ const CreateRestaurant = () => {
                         'Failed to create restaurant. Check console for details.',
                     )
                 },
-                onSettled: () => setIsSubmitting(false),
             }) // go to create profile page instead of dashboard
         } catch (error: any) {
             toast.push(
@@ -102,6 +93,7 @@ const CreateRestaurant = () => {
         <RestaurantForm
             defaultValues={defaultValues as RestaurantFormInput}
             isNew={true}
+            disabled={isCreating}
             onFormSubmit={handleFormSubmit}
         >
             <Button
@@ -112,7 +104,7 @@ const CreateRestaurant = () => {
             >
                 Back to Dashboard
             </Button>
-            <Button type="submit" variant="solid" loading={isSubmitting}>
+            <Button type="submit" variant="solid" loading={isCreating}>
                 Create Restaurant
             </Button>
         </RestaurantForm>

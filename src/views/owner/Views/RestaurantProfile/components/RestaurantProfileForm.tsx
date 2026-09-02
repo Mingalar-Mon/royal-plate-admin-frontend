@@ -58,8 +58,10 @@ const RestaurantProfileForm = ({ isEditMode }: RestaurantProfileFormProps) => {
     // console.log('Payment methods: ', paymentMethods)
 
     // const createMutation = useCreateRestaurantProfile()
-    const { mutate: updateRestaurantProfile } = useUpdateRestaurantProfile()
-    const { mutate: createRestaurantProfile } = useCreateRestaurantProfile()
+    const { mutate: updateRestaurantProfile, isPending: isUpdatingProfile } =
+        useUpdateRestaurantProfile()
+    const { mutate: createRestaurantProfile, isPending: isCreatingProfile } =
+        useCreateRestaurantProfile()
 
     const {
         control,
@@ -209,14 +211,22 @@ const RestaurantProfileForm = ({ isEditMode }: RestaurantProfileFormProps) => {
                         <Button
                             type="submit"
                             variant="solid"
-                            loading={isSubmitting}
+                            loading={isSubmitting || isUpdatingProfile || isCreatingProfile}
                         >
                             {isEditMode ? 'Update Profile' : 'Create Profile'}
                         </Button>
                     </div>
 
                     {/* Form Content */}
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <fieldset
+                        disabled={
+                            isSubmitting ||
+                            isUpdatingProfile ||
+                            isCreatingProfile
+                        }
+                        className="m-0 min-w-0 rounded-none border-0 p-0"
+                    >
+                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                         {/* Left Column */}
                         <div className="space-y-6">
                             {/* Description */}
@@ -474,6 +484,7 @@ const RestaurantProfileForm = ({ isEditMode }: RestaurantProfileFormProps) => {
                             </Card>
                         </div>
                     </div>
+                    </fieldset>
                 </div>
             </Container>
         </form>

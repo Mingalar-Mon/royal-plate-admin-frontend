@@ -19,7 +19,7 @@ interface BlogStoreState {
 export const useBlogStore = create<BlogStoreState>((set) => ({
     tableData: {
         pageIndex: 1,
-        pageSize: 10,
+        pageSize: 12,
         query: '',
         sort: { key: 'created_at', order: 'desc' },
     },
@@ -31,7 +31,7 @@ export const useBlogStore = create<BlogStoreState>((set) => ({
         set({
             tableData: {
                 pageIndex: 1,
-                pageSize: 10,
+                pageSize: 12,
                 query: '',
                 sort: { key: 'created_at', order: 'desc' },
             },
