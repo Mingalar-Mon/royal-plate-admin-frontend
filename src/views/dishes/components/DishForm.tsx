@@ -27,6 +27,7 @@ interface DishFormProps {
     onImageDelete?: (key: string) => void
     children?: React.ReactNode
     categories: { value: string; label: string }[]
+    disabled?: boolean
 }
 
 const DishForm = ({
@@ -35,6 +36,7 @@ const DishForm = ({
     isNew = true,
     categories,
     children,
+    disabled = false,
     // onImageDelete,
 }: DishFormProps) => {
     // Fallback default values
@@ -110,18 +112,22 @@ const DishForm = ({
 
     return (
         <Form onSubmit={handleSubmit(onSubmit)}>
+            <fieldset
+                disabled={disabled}
+                className="m-0 min-w-0 rounded-none border-0 p-0"
+            >
             <Container>
                 {/* Dynamic Heading */}
                 <div className="mb-6">
-                    <h3 className="text-2xl font-semibold">
+                    <h3 className="text-xl font-semibold sm:text-2xl">
                         {isNew ? 'Add New Dish' : 'Edit Dish'}
                     </h3>
                 </div>
 
                 {/* Custom buttons (Back, Submit, Delete) passed from parent */}
-                <div className="mb-6">{children}</div>
+                <div className="mb-6 rounded-xl border border-gray-200/80 bg-gray-50/60 p-2 sm:p-3 dark:border-gray-700/80 dark:bg-gray-900/40">{children}</div>
 
-                <div className="flex flex-col xl:flex-row gap-6">
+                <div className="flex flex-col gap-5 lg:gap-6 xl:flex-row">
                     {/* Left column */}
                     <div className="flex-1 space-y-6">
                         <Card>
@@ -157,7 +163,7 @@ const DishForm = ({
                                         </FormItem>
                                     )}
                                 />
-                                <div className="grid grid-cols-2 gap-4">
+                                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                                     <Controller
                                         name="price"
                                         control={control}
@@ -206,7 +212,7 @@ const DishForm = ({
                                         )}
                                     />
                                 </div>
-                                <div className="grid grid-cols-2 gap-4">
+                                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                                     <Controller
                                         name="preparationTime"
                                         control={control}
@@ -266,7 +272,7 @@ const DishForm = ({
                     </div>
 
                     {/* Right column */}
-                    <div className="lg:w-95 space-y-6">
+                    <div className="w-full space-y-5 xl:w-95 xl:space-y-6">
                         <Card>
                             <h4 className="mb-4">Cover Image</h4>
                             <Controller
@@ -308,7 +314,7 @@ const DishForm = ({
                                             }
                                         >
                                             <div
-                                                className="border-2 border-dashed p-4 rounded-lg text-center cursor-pointer"
+                                                className="cursor-pointer rounded-xl border-2 border-dashed border-gray-300 p-4 text-center transition-colors hover:border-primary dark:border-gray-700"
                                                 onClick={() =>
                                                     document
                                                         .getElementById(
@@ -343,7 +349,7 @@ const DishForm = ({
                                                             //       : field.value.url
                                                             //
                                                         }
-                                                        className="h-40 w-full object-cover md:object-contain rounded"
+                                                        className="h-40 w-full rounded-lg object-cover sm:object-contain"
                                                     />
                                                 ) : (
                                                     <p>
@@ -522,7 +528,7 @@ const DishForm = ({
                                     return (
                                         <FormItem>
                                             <div
-                                                className="border-2 border-dashed border-gray-300 dark:border-gray-700 hover:border-primary rounded-xl p-6 text-center cursor-pointer transition-colors"
+                                                className="cursor-pointer rounded-xl border-2 border-dashed border-gray-300 p-5 text-center transition-colors hover:border-primary sm:p-6 dark:border-gray-700"
                                                 onClick={() =>
                                                     document
                                                         .getElementById(
@@ -532,23 +538,23 @@ const DishForm = ({
                                                 }
                                             >
                                                 <input
-                                                    // multiple
+                                                    multiple
                                                     id="detailInput"
                                                     type="file"
                                                     onChange={handleFileChange}
                                                 />
 
                                                 <TbUpload className="mx-auto text-3xl text-gray-400 mb-2" />
-                                                <p className="text-sm font-medium text-gray-600 dark:text-gray-400">
+                                                <p className="text-sm font-medium text-content-secondary">
                                                     Click to select article
                                                     images
                                                 </p>
-                                                <p className="text-xs text-gray-400 mt-1">
+                                                <p className="mt-1 text-xs text-content-muted">
                                                     Supports JPG, PNG, WEBP (Max
                                                     5MB)
                                                 </p>
                                             </div>
-                                            <div className="grid grid-cols-3 gap-2 mt-2">
+                                            <div className="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-3">
                                                 {currentImages.map((img, i) => {
                                                     const previewUrl =
                                                         getImagePreview(img)
@@ -601,6 +607,7 @@ const DishForm = ({
                     </div>
                 </div>
             </Container>
+            </fieldset>
         </Form>
     )
 }

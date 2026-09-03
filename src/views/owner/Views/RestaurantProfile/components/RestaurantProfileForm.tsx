@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router'
 import { useForm, Controller } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import Container from '@/components/shared/Container'
+import PageLoading from '@/components/shared/PageLoading'
 import Card from '@/components/ui/Card'
 import Button from '@/components/ui/Button'
 import Input from '@/components/ui/Input'
@@ -142,12 +143,7 @@ const RestaurantProfileForm = ({ isEditMode }: RestaurantProfileFormProps) => {
     }
 
     if (isLoadingProfile || isLoadingCuisines || isLoadingPaymentMethods) {
-        return (
-            <div className="flex flex-col items-center justify-center min-h-[60vh]">
-                <div className="animate-spin rounded-full h-20 w-20 border-4 border-primary border-t-transparent mb-4"></div>
-                <p className="text-gray-600 dark:text-gray-300 text-lg">Loading profile...</p>
-            </div>
-        )
+        return <PageLoading label="Loading restaurant profile" />
     }
 
     // Helper to generate 30-min intervals (0 to 1410 minutes)

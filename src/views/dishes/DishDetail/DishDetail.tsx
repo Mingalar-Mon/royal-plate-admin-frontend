@@ -40,8 +40,8 @@ const DishDetail = () => {
 
     return (
         <Container>
-            <div className="py-6">
-                <div className="flex items-center justify-between mb-6">
+            <div className="py-4 sm:py-6">
+                <div className="mb-5 flex flex-col gap-3 sm:mb-6 sm:flex-row sm:items-center sm:justify-between">
                     <Button
                         variant="plain"
                         icon={<TbArrowNarrowLeft />}
@@ -62,11 +62,11 @@ const DishDetail = () => {
                     </Button>
                 </div>
 
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 gap-5 lg:grid-cols-3 lg:gap-6">
                     <div className="lg:col-span-2 space-y-6">
                         <Card>
                             <div className="flex justify-between items-start">
-                                <h3 className="text-2xl font-bold">
+                                <h3 className="text-xl font-bold sm:text-2xl">
                                     {dish.data.name}
                                 </h3>
                                 <DishStatusBadge
@@ -81,7 +81,7 @@ const DishDetail = () => {
                         </Card>
                         <Card>
                             <h4 className="mb-4">Details</h4>
-                            <div className="grid grid-cols-2 gap-4">
+                            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                                 <div className="flex items-center gap-2">
                                     <TbCurrencyDollar className="text-gray-500" />
                                     <span>
@@ -128,7 +128,7 @@ const DishDetail = () => {
                                 <img
                                     src={dish.data.coverImage.url}
                                     alt={dish.data.coverImage.key}
-                                    className="w-full rounded-lg"
+                                    className="max-h-72 w-full rounded-xl object-cover sm:max-h-96"
                                 />
                             ) : (
                                 <div className="h-40 bg-gray-100 rounded-lg flex items-center justify-center text-gray-400">
@@ -140,7 +140,7 @@ const DishDetail = () => {
                         <Card>
                             <h4 className="mb-4">Detail Images</h4>
                             {detailImages.length > 0 ? (
-                                <div className="grid grid-cols-3 gap-2">
+                                <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
                                     {detailImages
                                         .slice(0, 6)
                                         .map((img, index) => {

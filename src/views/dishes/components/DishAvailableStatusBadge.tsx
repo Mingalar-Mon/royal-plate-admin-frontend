@@ -1,7 +1,4 @@
 import { Dropdown } from '@/components/ui'
-import { keyBy } from 'lodash'
-import { useState } from 'react'
-import { classNames } from 'react-easy-crop/helpers'
 import { TbCheck, TbThumbDown, TbThumbUp } from 'react-icons/tb'
 
 const statusConfig = {
@@ -17,19 +14,29 @@ const statusConfig = {
     },
 }
 
-const DishAvailableStatusBadge = ({ status, onChange, isLoading }: any) => {
-    const [isOpen, setIsOpen] = useState(false)
+type DishStatus = keyof typeof statusConfig
+
+interface DishAvailableStatusBadgeProps {
+    status: DishStatus
+    onChange: (status: DishStatus) => void
+    isLoading?: boolean
+}
+
+const DishAvailableStatusBadge = ({
+    status,
+    onChange,
+    isLoading,
+}: DishAvailableStatusBadgeProps) => {
     const current = statusConfig[status]
 
-    const handleSelect = (newStatus: string) => {
+    const handleSelect = (newStatus: DishStatus) => {
         onChange(newStatus)
-        setIsOpen(false)
     }
     return (
         <Dropdown
             renderTitle={
                 <div
-                    className={`px-2 py-1 rounded-full text-xs font-semibold inline-flex items-center gap-1 cursor-pointer ${current.color}`}
+                    className={`inline-flex min-h-8 items-center gap-1 rounded-full px-2.5 py-1 text-xs font-semibold transition-colors ${current.color}`}
                 >
                     <current.icon size={14} />
                     {current.label}
@@ -42,7 +49,7 @@ const DishAvailableStatusBadge = ({ status, onChange, isLoading }: any) => {
                 <Dropdown.Item
                     key={key}
                     disabled={key === status}
-                    onClick={() => handleSelect(key)}
+                    onClick={() => handleSelect(key as DishStatus)}
                 >
                     <div className="flex items-center gap-2">
                         <config.icon size={14} />

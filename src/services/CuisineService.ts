@@ -22,6 +22,17 @@ export async function apiGetCuisines(params: CuisineQueries) {
     })
 }
 
+export async function apiGetCuisinesByRestaurant(id: string) {
+    return ApiService.fetchDataWithAxios<GetCuisineResponse>({
+        url: `/cuisines/get-cuisine-restaurant/${id}`,
+        method: 'get',
+        // auth: {
+        //     username: USER_NAME,
+        //     password: PASSWORD,
+        // },
+    })
+}
+
 export async function apiGetCuisineDetail(id: string) {
     return ApiService.fetchDataWithAxios<GetCuisineDetailResponse>({
         url: `/cuisines/get-cuisine/${id}`,

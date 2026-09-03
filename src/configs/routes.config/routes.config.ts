@@ -107,12 +107,6 @@ export const protectedRoutes: Routes = [
 
     // ================= DISH ==================
     {
-        key: 'dish.create',
-        path: '/dishes/create/:restaurantId',
-        component: lazy(() => import('@/views/dishes/DishCreate')),
-        authority: [OWNER, STAFF],
-    },
-    {
         key: 'dish.edit',
         path: '/dishes/edit/:dishId',
         component: lazy(() => import('@/views/dishes/DishEdit')),

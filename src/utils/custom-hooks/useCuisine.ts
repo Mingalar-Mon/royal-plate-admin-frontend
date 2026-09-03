@@ -1,6 +1,7 @@
 import { GetCuisineResponse } from '@/@types/cuisine'
 import {
     apiGetCuisines,
+    apiGetCuisinesByRestaurant,
     apiGetCuisineDetail,
     apiCreateCuisine,
     apiDeleteCuisine,
@@ -32,6 +33,13 @@ export const useCuisineDetailQuery = (id: string) => {
     })
 }
 
+export const useGetCuisinesByRestaurant = (restaurantId: string) => {
+    return useQuery<GetCuisineResponse>({
+        queryKey: ['cuisines-by-restaurant', restaurantId],
+        queryFn: () => apiGetCuisinesByRestaurant(restaurantId),
+        enabled: !!restaurantId,
+    })
+}
 export const useCreateCuisineMutation = () => {
     const queryClient = useQueryClient()
     return useMutation({
