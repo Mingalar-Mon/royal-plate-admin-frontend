@@ -3,6 +3,7 @@ import { create } from 'zustand'
 import dayjs from 'dayjs'
 
 export interface OrderQueries {
+    // pickUpDate: string,
     pageIndex: number
     pageSize: number
     query: string

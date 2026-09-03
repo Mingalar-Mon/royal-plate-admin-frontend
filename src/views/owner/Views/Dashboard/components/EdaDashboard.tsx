@@ -1,7 +1,9 @@
 import { useEffect, type ReactNode } from 'react'
 import { useNavigate, useParams } from 'react-router'
+import type { ApexOptions } from 'apexcharts'
 import dayjs from 'dayjs'
 import Container from '@/components/shared/Container'
+import Chart from '@/components/shared/Chart'
 import Card from '@/components/ui/Card'
 import Button from '@/components/ui/Button'
 import Avatar from '@/components/ui/Avatar'
@@ -11,7 +13,9 @@ import {
     TbCalendarCheck,
     TbCalendarClock,
     TbChefHat,
+    TbCircleCheck,
     TbClock,
+    TbCoin,
     TbDatabaseOff,
     TbRefresh,
     TbShoppingBag,
@@ -34,13 +38,7 @@ type StatCardProps = {
     description: string
     icon: ReactNode
     tone: Tone
-}
-
-type StatusBarProps = {
-    label: string
-    value: number
-    total: number
-    tone: Tone
+    valueFormatter?: (value: number) => string
 }
 
 type CustomerRow = {
@@ -91,6 +89,9 @@ const formatNumber = (value: number | string | null | undefined) => {
     return Number.isFinite(numericValue) ? numericValue.toLocaleString() : '0'
 }
 
+const formatCurrency = (value: number | string | null | undefined) =>
+    `${formatNumber(value)} MMK`
+
 const getInitials = (name: string) =>
     name
         .trim()
@@ -100,7 +101,14 @@ const getInitials = (name: string) =>
         .join('')
         .toUpperCase()
 
-const StatCard = ({ label, value, description, icon, tone }: StatCardProps) => {
+const StatCard = ({
+    label,
+    value,
+    description,
+    icon,
+    tone,
+    valueFormatter = formatNumber,
+}: StatCardProps) => {
     const styles = toneStyles[tone]
 
     return (
@@ -113,8 +121,8 @@ const StatCard = ({ label, value, description, icon, tone }: StatCardProps) => {
                     <p className="truncate text-xs font-semibold uppercase tracking-[0.12em] text-gray-500 dark:text-gray-400">
                         {label}
                     </p>
-                    <p className="mt-3 text-3xl font-bold tracking-tight text-primary dark:text-gold-light">
-                        {formatNumber(value)}
+                    <p className="mt-3 text-2xl font-bold tracking-tight text-primary dark:text-gold-light sm:text-3xl">
+                        {valueFormatter(value)}
                     </p>
                 </div>
                 <div
@@ -127,40 +135,6 @@ const StatCard = ({ label, value, description, icon, tone }: StatCardProps) => {
                 {description}
             </p>
         </Card>
-    )
-}
-
-const StatusBar = ({ label, value, total, tone }: StatusBarProps) => {
-    const styles = toneStyles[tone]
-    const percentage = total > 0 ? Math.round((value / total) * 100) : 0
-
-    return (
-        <div>
-            <div className="mb-2 flex items-center justify-between gap-3 text-sm">
-                <span className="font-medium text-gray-700 dark:text-gray-300">
-                    {label}
-                </span>
-                <span className={`font-semibold ${styles.value}`}>
-                    {formatNumber(value)}{' '}
-                    <span className="text-xs font-normal text-gray-400">
-                        ({percentage}%)
-                    </span>
-                </span>
-            </div>
-            <div
-                className="h-2 overflow-hidden rounded-full bg-gray-100 dark:bg-gray-700"
-                aria-label={`${label}: ${percentage}%`}
-                role="progressbar"
-                aria-valuemin={0}
-                aria-valuemax={100}
-                aria-valuenow={percentage}
-            >
-                <div
-                    className={`h-full rounded-full transition-all duration-700 ${styles.bar}`}
-                    style={{ width: `${percentage}%` }}
-                />
-            </div>
-        </div>
     )
 }
 
@@ -355,13 +329,87 @@ const EdaDashboard = () => {
     const confirmedOrders = stats?.todayComfirmedOrder ?? 0
     const pendingReservations = stats?.todayPendingReservation ?? 0
     const confirmedReservations = stats?.todayComfirmedReservation ?? 0
-    const totalOrders = pendingOrders + confirmedOrders
-    const totalReservations = pendingReservations + confirmedReservations
+    const completedOrders = stats?.todayCompletedOrder ?? 0
+    const completedOrderRevenue = stats?.todayCompletedOrderTotalPrice ?? 0
+    const completedReservations = stats?.todayCompletedReservation ?? 0
+    const completedReservationRevenue =
+        stats?.todayCompletedReservationTotalPrice ?? 0
+    const totalOrders = pendingOrders + confirmedOrders + completedOrders
+    const totalReservations =
+        pendingReservations + confirmedReservations + completedReservations
+    const totalCompletedRevenue =
+        completedOrderRevenue + completedReservationRevenue
     const restaurantName =
         restaurantResponse?.data?.name || 'Restaurant workspace'
     const today = dayjs().format('dddd, DD MMM YYYY')
     const refreshing =
         restaurantLoading || edaLoading || dishesLoading || customersLoading
+
+    const activityChartOptions: ApexOptions = {
+        chart: {
+            stacked: true,
+            toolbar: { show: false },
+        },
+        colors: ['#f59e0b', '#2a85ff', '#10b981'],
+        plotOptions: {
+            bar: {
+                horizontal: true,
+                borderRadius: 4,
+                barHeight: '48%',
+            },
+        },
+        xaxis: {
+            categories: ['Orders', 'Reservations'],
+            labels: {
+                formatter: (value) => formatNumber(value),
+            },
+        },
+        yaxis: {
+            labels: {
+                style: { fontWeight: 600 },
+            },
+        },
+        dataLabels: { enabled: false },
+        legend: {
+            position: 'bottom',
+            horizontalAlign: 'left',
+            itemMargin: { horizontal: 12 },
+        },
+        tooltip: {
+            y: {
+                formatter: (value) => `${formatNumber(value)} items`,
+            },
+        },
+    }
+
+    const revenueChartOptions: ApexOptions = {
+        chart: {
+            toolbar: { show: false },
+        },
+        colors: ['#6e1423'],
+        plotOptions: {
+            bar: {
+                horizontal: false,
+                borderRadius: 4,
+                columnWidth: '38%',
+            },
+        },
+        xaxis: {
+            categories: ['Orders', 'Reservations'],
+        },
+        yaxis: {
+            labels: {
+                formatter: (value) => formatNumber(value),
+            },
+        },
+        dataLabels: { enabled: false },
+        legend: { show: false },
+        tooltip: {
+            y: {
+                formatter: (value) => formatCurrency(value),
+            },
+        },
+    }
 
     useEffect(() => {
         if (!restaurantId) return
@@ -461,7 +509,7 @@ const EdaDashboard = () => {
                                 today.
                             </p>
                         </div>
-                        <div className="grid w-full max-w-xs grid-cols-2 gap-3">
+                        <div className="grid w-full max-w-sm grid-cols-2 gap-3">
                             <div className="rounded-2xl border border-white/70 bg-white/70 px-4 py-3 shadow-sm backdrop-blur dark:border-gray-700/70 dark:bg-gray-800/70">
                                 <p className="text-[11px] font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400">
                                     Total orders
@@ -474,7 +522,7 @@ const EdaDashboard = () => {
                             </div>
                             <div className="rounded-2xl border border-white/70 bg-white/70 px-4 py-3 shadow-sm backdrop-blur dark:border-gray-700/70 dark:bg-gray-800/70">
                                 <p className="text-[11px] font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400">
-                                    Reservations
+                                    Total reservations
                                 </p>
                                 <p className="mt-1 whitespace-nowrap text-xl font-bold text-gray-900 dark:text-gray-100">
                                     {edaLoading
@@ -487,8 +535,8 @@ const EdaDashboard = () => {
                 </Card>
 
                 {edaLoading ? (
-                    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
-                        {Array.from({ length: 5 }).map((_, index) => (
+                    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+                        {Array.from({ length: 8 }).map((_, index) => (
                             <Card key={index} bodyClass="p-5">
                                 <div className="flex justify-between">
                                     <div className="space-y-3">
@@ -514,7 +562,7 @@ const EdaDashboard = () => {
                         <ErrorState onRetry={() => void refetchEda()} />
                     </Card>
                 ) : (
-                    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
+                    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
                         <StatCard
                             label="Pending orders"
                             value={pendingOrders}
@@ -530,103 +578,137 @@ const EdaDashboard = () => {
                             tone="blue"
                         />
                         <StatCard
-                            label="Pending bookings"
+                            label="Completed orders"
+                            value={completedOrders}
+                            description="Orders completed today"
+                            icon={<TbCircleCheck />}
+                            tone="emerald"
+                        />
+                        <StatCard
+                            label="Order revenue"
+                            value={completedOrderRevenue}
+                            description="Completed order value"
+                            icon={<TbCoin />}
+                            tone="emerald"
+                            valueFormatter={formatCurrency}
+                        />
+                        <StatCard
+                            label="Pending reservations"
                             value={pendingReservations}
                             description="Reservations to review"
                             icon={<TbCalendarClock />}
                             tone="orange"
                         />
                         <StatCard
-                            label="Confirmed bookings"
+                            label="Confirmed reservations"
                             value={confirmedReservations}
                             description="Confirmed for today"
                             icon={<TbCalendarCheck />}
                             tone="violet"
                         />
+                        <StatCard
+                            label="Completed reservations"
+                            value={completedReservations}
+                            description="Reservations completed today"
+                            icon={<TbCircleCheck />}
+                            tone="emerald"
+                        />
+                        <StatCard
+                            label="Reservation revenue"
+                            value={completedReservationRevenue}
+                            description="Completed reservation value"
+                            icon={<TbCoin />}
+                            tone="emerald"
+                            valueFormatter={formatCurrency}
+                        />
                     </div>
                 )}
 
-                {!edaError && (
-                    <Card
-                        header={{
-                            content: (
-                                <div>
-                                    <h2 className="text-base font-bold text-gray-900 dark:text-gray-100">
-                                        Service pulse
-                                    </h2>
-                                    <p className="mt-1 text-xs font-normal text-gray-500 dark:text-gray-400">
-                                        Understand today’s workload at a glance.
-                                    </p>
-                                </div>
-                            ),
-                            bordered: false,
-                            className: 'px-5 py-5 sm:px-6',
-                        }}
-                        bodyClass="px-5 pb-6 pt-0 sm:px-6"
-                    >
-                        <div className="grid grid-cols-1 gap-8 md:grid-cols-2 md:gap-12">
-                            <div>
-                                <div className="mb-4 flex items-center gap-2">
-                                    <span className="rounded-lg bg-primary/10 p-2 text-primary">
-                                        <TbShoppingBag />
-                                    </span>
+                {!edaError && !edaLoading && (
+                    <div className="grid grid-cols-1 gap-6 xl:grid-cols-[1.35fr_1fr]">
+                        <Card
+                            header={{
+                                content: (
                                     <div>
-                                        <h3 className="text-sm font-bold text-gray-800 dark:text-gray-200">
-                                            Orders
-                                        </h3>
-                                        <p className="text-xs text-gray-500 dark:text-gray-400">
-                                            {formatNumber(totalOrders)} total
-                                            today
+                                        <h2 className="text-base font-bold text-gray-900 dark:text-gray-100">
+                                            Activity by status
+                                        </h2>
+                                        <p className="mt-1 text-xs font-normal text-gray-500 dark:text-gray-400">
+                                            Orders and reservations completed or
+                                            waiting today.
                                         </p>
                                     </div>
-                                </div>
-                                <div className="space-y-4">
-                                    <StatusBar
-                                        label="Pending"
-                                        value={pendingOrders}
-                                        total={totalOrders}
-                                        tone="amber"
-                                    />
-                                    <StatusBar
-                                        label="Confirmed"
-                                        value={confirmedOrders}
-                                        total={totalOrders}
-                                        tone="blue"
-                                    />
-                                </div>
-                            </div>
-                            <div>
-                                <div className="mb-4 flex items-center gap-2">
-                                    <span className="rounded-lg bg-violet-500/10 p-2 text-violet-600 dark:text-violet-400">
-                                        <TbCalendarCheck />
-                                    </span>
+                                ),
+                                bordered: false,
+                                className: 'px-5 py-5 sm:px-6',
+                            }}
+                            bodyClass="px-3 pb-4 pt-0 sm:px-6"
+                        >
+                            <Chart
+                                type="bar"
+                                height={290}
+                                series={[
+                                    {
+                                        name: 'Pending',
+                                        data: [
+                                            pendingOrders,
+                                            pendingReservations,
+                                        ],
+                                    },
+                                    {
+                                        name: 'Confirmed',
+                                        data: [
+                                            confirmedOrders,
+                                            confirmedReservations,
+                                        ],
+                                    },
+                                    {
+                                        name: 'Completed',
+                                        data: [
+                                            completedOrders,
+                                            completedReservations,
+                                        ],
+                                    },
+                                ]}
+                                customOptions={activityChartOptions}
+                            />
+                        </Card>
+                        <Card
+                            header={{
+                                content: (
                                     <div>
-                                        <h3 className="text-sm font-bold text-gray-800 dark:text-gray-200">
-                                            Reservations
-                                        </h3>
-                                        <p className="text-xs text-gray-500 dark:text-gray-400">
-                                            {formatNumber(totalReservations)}{' '}
-                                            total today
+                                        <h2 className="text-base font-bold text-gray-900 dark:text-gray-100">
+                                            Completed revenue
+                                        </h2>
+                                        <p className="mt-1 text-xs font-normal text-gray-500 dark:text-gray-400">
+                                            {formatCurrency(
+                                                totalCompletedRevenue,
+                                            )}{' '}
+                                            earned today.
                                         </p>
                                     </div>
-                                </div>
-                                <div className="space-y-4">
-                                    <StatusBar
-                                        label="Pending"
-                                        value={pendingReservations}
-                                        total={totalReservations}
-                                        tone="orange"
-                                    />
-                                    <StatusBar
-                                        label="Confirmed"
-                                        value={confirmedReservations}
-                                        total={totalReservations}
-                                        tone="violet"
-                                    />
-                                </div>
-                            </div>
-                        </div>
-                    </Card>
+                                ),
+                                bordered: false,
+                                className: 'px-5 py-5 sm:px-6',
+                            }}
+                            bodyClass="px-3 pb-4 pt-0 sm:px-6"
+                        >
+                            <Chart
+                                type="bar"
+                                height={290}
+                                series={[
+                                    {
+                                        name: 'Revenue',
+                                        data: [
+                                            completedOrderRevenue,
+                                            completedReservationRevenue,
+                                        ],
+                                    },
+                                ]}
+                                customOptions={revenueChartOptions}
+                            />
+                        </Card>
+                    </div>
                 )}
 
                 <Card
@@ -684,7 +766,7 @@ const EdaDashboard = () => {
                                             className="py-3 text-right font-semibold"
                                             scope="col"
                                         >
-                                            Quantity sold
+                                            Order/Reservation Time
                                         </th>
                                     </tr>
                                 </thead>
