@@ -37,9 +37,9 @@ const RestaurantProfilePage = () => {
         setActiveRestaurant(
             profile
                 ? {
-                      id: profile.data.restaurant.id,
-                      name: profile.data.restaurant.name,
-                  }
+                    id: profile.data.restaurant.id,
+                    name: profile.data.restaurant.name,
+                }
                 : null,
         )
     }, [profile, setActiveRestaurant])
@@ -85,7 +85,7 @@ const RestaurantProfilePage = () => {
                         <p className="text-gray-500 mb-4">
                             This restaurant doesn&apos;t have a profile yet.
                         </p>
-                        <Button
+                        {/* <Button
                             variant="solid"
                             onClick={() =>
                                 navigate(
@@ -94,7 +94,9 @@ const RestaurantProfilePage = () => {
                             }
                         >
                             Create Profile
-                        </Button>
+                        </Button> */}
+                        // rediect to login
+
                     </div>
                 </div>
             </Container>

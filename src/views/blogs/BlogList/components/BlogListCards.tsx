@@ -38,7 +38,7 @@ const BlogListCards = ({ data, total, loading }: Props) => {
     const { restaurantId } = useParams()
     const tableData = useBlogStore((state) => state.tableData)
     const setTableData = useBlogStore((state) => state.setTableData)
-    const { mutate: deleteBlog } = useDeleteBlogMutation()
+    const { mutate: deleteBlog, isPending: isDeleting } = useDeleteBlogMutation()
     const { mutate: updateBlog, isPending: isUpdating } =
         useUpdateBlogMutation()
     const { dishes } = useGetDishes({
@@ -80,6 +80,11 @@ const BlogListCards = ({ data, total, loading }: Props) => {
                 },
             },
         )
+    }
+
+    const handleCloseDeleteDialog = () => {
+        if (isDeleting) return
+        setDeletingBlog(null)
     }
 
     const handleUpdateBlog = (formData: BlogFormData) => {
@@ -426,9 +431,11 @@ const BlogListCards = ({ data, total, loading }: Props) => {
                 isOpen={Boolean(deletingBlog)}
                 type="danger"
                 title="Delete Blog Post"
-                onClose={() => setDeletingBlog(null)}
-                onCancel={() => setDeletingBlog(null)}
+                onClose={handleCloseDeleteDialog}
+                onCancel={handleCloseDeleteDialog}
                 onConfirm={handleDelete}
+                confirmButtonProps={{ loading: isDeleting }}
+                cancelButtonProps={{ disabled: isDeleting }}
             >
                 <p>
                     Are you sure you want to permanently delete{' '}

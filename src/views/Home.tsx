@@ -62,7 +62,7 @@ const Home = () => {
     dayjs.extend(utc);
     dayjs.extend(timezone);
     const hour = dayjs().tz("Asia/Yangon").hour();
-    console.log(hour, "this is hour")
+    // console.log(hour, "this is hour")
     const greeting =
         hour < 12
             ? 'Good morning'
