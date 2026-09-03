@@ -1,6 +1,8 @@
 import { useNavigate } from 'react-router'
 import type { ReactNode } from 'react'
 import dayjs from 'dayjs'
+import utc from 'dayjs/plugin/utc'
+import timezone from "dayjs/plugin/timezone"
 import { useSessionUser } from '@/store/authStore'
 import { useRestaurantStore } from '@/store/restaurantStore'
 import { useGetRestaurant } from '@/utils/custom-hooks/useRestaurant'
@@ -54,60 +56,63 @@ const Home = () => {
         resolvedRestaurantName && resolvedRestaurantName !== activeRestaurantId
             ? resolvedRestaurantName
             : isRestaurantLoading
-              ? 'Loading restaurant…'
-              : 'Restaurant workspace'
+                ? 'Loading restaurant…'
+                : 'Restaurant workspace'
     const displayName = user.userName?.trim() || 'Manager'
-    const hour = dayjs().hour()
+    dayjs.extend(utc);
+    dayjs.extend(timezone);
+    const hour = dayjs().tz("Asia/Yangon").hour();
+    console.log(hour, "this is hour")
     const greeting =
         hour < 12
             ? 'Good morning'
             : hour < 18
-              ? 'Good afternoon'
-              : 'Good evening'
+                ? 'Good afternoon'
+                : 'Good evening'
     const today = dayjs().format('dddd, DD MMM YYYY')
 
     const roleLabel = isAdmin
         ? 'Administrator'
         : isOwner
-          ? 'Restaurant owner'
-          : isStaff
-            ? 'Restaurant staff'
-            : 'Team member'
+            ? 'Restaurant owner'
+            : isStaff
+                ? 'Restaurant staff'
+                : 'Team member'
 
     const contextActions: QuickAction[] = activeRestaurant
         ? [
-              {
-                  title: 'Orders',
-                  description:
-                      'Review incoming orders and keep service moving.',
-                  path: `/restaurants/${activeRestaurant.id}/orders`,
-                  icon: <TbClipboardList />,
-                  tone: 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400',
-              },
-              {
-                  title: 'Menu & dishes',
-                  description: 'Update dishes, pricing, and menu availability.',
-                  path: `/restaurants/${activeRestaurant.id}/dishes`,
-                  icon: <TbChefHat />,
-                  tone: 'bg-amber-500/10 text-amber-600 dark:text-amber-400',
-              },
-              {
-                  title: 'Reservations',
-                  description: 'Stay ahead of bookings and table planning.',
-                  path: `/restaurants/${activeRestaurant.id}/reservations`,
-                  icon: <TbCalendarEvent />,
-                  tone: 'bg-violet-500/10 text-violet-600 dark:text-violet-400',
-              },
-              {
-                  title: 'Tables',
-                  description: 'Manage your floor plan and table availability.',
-                  path: `/restaurants/${activeRestaurant.id}/tables`,
-                  icon: <TbTable />,
-                  tone: 'bg-sky-500/10 text-sky-600 dark:text-sky-400',
-              },
-          ]
+            {
+                title: 'Orders',
+                description:
+                    'Review incoming orders and keep service moving.',
+                path: `/restaurants/${activeRestaurant.id}/orders`,
+                icon: <TbClipboardList />,
+                tone: 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400',
+            },
+            {
+                title: 'Menu & dishes',
+                description: 'Update dishes, pricing, and menu availability.',
+                path: `/restaurants/${activeRestaurant.id}/dishes`,
+                icon: <TbChefHat />,
+                tone: 'bg-amber-500/10 text-amber-600 dark:text-amber-400',
+            },
+            {
+                title: 'Reservations',
+                description: 'Stay ahead of bookings and table planning.',
+                path: `/restaurants/${activeRestaurant.id}/reservations`,
+                icon: <TbCalendarEvent />,
+                tone: 'bg-violet-500/10 text-violet-600 dark:text-violet-400',
+            },
+            {
+                title: 'Tables',
+                description: 'Manage your floor plan and table availability.',
+                path: `/restaurants/${activeRestaurant.id}/tables`,
+                icon: <TbTable />,
+                tone: 'bg-sky-500/10 text-sky-600 dark:text-sky-400',
+            },
+        ]
         : isOwner
-          ? [
+            ? [
                 {
                     title: 'Choose a restaurant',
                     description:
@@ -117,18 +122,18 @@ const Home = () => {
                     tone: 'bg-primary/10 text-primary',
                 },
             ]
-          : isStaff
-            ? [
-                  {
-                      title: 'Restaurant context required',
-                      description:
-                          'Ask an owner to assign your restaurant before managing operations.',
-                      icon: <TbShieldCheck />,
-                      tone: 'bg-slate-500/10 text-slate-600 dark:text-slate-400',
-                      disabled: true,
-                  },
-              ]
-            : []
+            : isStaff
+                ? [
+                    {
+                        title: 'Restaurant context required',
+                        description:
+                            'Ask an owner to assign your restaurant before managing operations.',
+                        icon: <TbShieldCheck />,
+                        tone: 'bg-slate-500/10 text-slate-600 dark:text-slate-400',
+                        disabled: true,
+                    },
+                ]
+                : []
 
     const adminActions: QuickAction[] = [
         {
@@ -172,13 +177,13 @@ const Home = () => {
     const primaryAction = isAdmin
         ? { label: 'View owner directory', path: '/owners' }
         : activeRestaurant
-          ? {
+            ? {
                 label: 'Open orders',
                 path: `/restaurants/${activeRestaurant.id}/orders`,
             }
-          : isOwner
-            ? { label: 'Open dashboard', path: '/owner/dashboard' }
-            : null
+            : isOwner
+                ? { label: 'Open dashboard', path: '/owner/dashboard' }
+                : null
 
     return (
         <Container>
@@ -202,18 +207,16 @@ const Home = () => {
                             <div className="min-w-0">
                                 <div className="mb-2 flex flex-wrap items-center gap-2">
                                     <span
-                                        className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-semibold ${
-                                            activeRestaurant || isAdmin
-                                                ? 'bg-emerald-500/10 text-emerald-700 dark:text-emerald-400'
-                                                : 'bg-amber-500/10 text-amber-700 dark:text-amber-400'
-                                        }`}
+                                        className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-semibold ${activeRestaurant || isAdmin
+                                            ? 'bg-emerald-500/10 text-emerald-700 dark:text-emerald-400'
+                                            : 'bg-amber-500/10 text-amber-700 dark:text-amber-400'
+                                            }`}
                                     >
                                         <span
-                                            className={`h-1.5 w-1.5 rounded-full ${
-                                                activeRestaurant || isAdmin
-                                                    ? 'bg-emerald-500'
-                                                    : 'bg-amber-500'
-                                            }`}
+                                            className={`h-1.5 w-1.5 rounded-full ${activeRestaurant || isAdmin
+                                                ? 'bg-emerald-500'
+                                                : 'bg-amber-500'
+                                                }`}
                                         />
                                         {activeRestaurant || isAdmin
                                             ? 'Workspace ready'
@@ -230,8 +233,8 @@ const Home = () => {
                                     {isAdmin
                                         ? 'Keep the Royal Plate platform organized and ready for every restaurant team.'
                                         : activeRestaurant
-                                          ? 'Everything you need to keep today’s restaurant operations running smoothly.'
-                                          : 'Start by selecting a workspace, then jump into the tools you use most.'}
+                                            ? 'Everything you need to keep today’s restaurant operations running smoothly.'
+                                            : 'Start by selecting a workspace, then jump into the tools you use most.'}
                                 </p>
                             </div>
                         </div>
@@ -306,8 +309,8 @@ const Home = () => {
                             {activeRestaurant
                                 ? 'Ready for restaurant operations'
                                 : isOwner
-                                  ? 'Select one to get started'
-                                  : 'No restaurant assigned'}
+                                    ? 'Select one to get started'
+                                    : 'No restaurant assigned'}
                         </p>
                     </Card>
 
@@ -322,8 +325,8 @@ const Home = () => {
                                     {isAdmin
                                         ? 'Review owners'
                                         : activeRestaurant
-                                          ? 'Check orders'
-                                          : 'Choose workspace'}
+                                            ? 'Check orders'
+                                            : 'Choose workspace'}
                                 </p>
                             </div>
                             <div className="rounded-xl bg-amber-500/10 p-2.5 text-amber-600 dark:text-amber-400">
@@ -351,8 +354,8 @@ const Home = () => {
                                 {isAdmin
                                     ? 'Focused shortcuts for the areas you manage most.'
                                     : activeRestaurant
-                                      ? `Shortcuts for ${restaurantName}.`
-                                      : 'Your restaurant tools will appear here once a workspace is active.'}
+                                        ? `Shortcuts for ${restaurantName}.`
+                                        : 'Your restaurant tools will appear here once a workspace is active.'}
                             </p>
                         </div>
                     </div>
@@ -363,11 +366,10 @@ const Home = () => {
                         {quickActions.map((action) => (
                             <Card
                                 key={action.title}
-                                className={`group transition-all duration-200 ${
-                                    action.disabled
-                                        ? 'opacity-80'
-                                        : 'hover:-translate-y-0.5 hover:border-primary/40 hover:shadow-lg'
-                                }`}
+                                className={`group transition-all duration-200 ${action.disabled
+                                    ? 'opacity-80'
+                                    : 'hover:-translate-y-0.5 hover:border-primary/40 hover:shadow-lg'
+                                    }`}
                                 bodyClass="p-0"
                             >
                                 <button
