@@ -6,6 +6,7 @@ import { useUpdateOrderStatus } from '@/utils/custom-hooks/useOrder'
 import { useOrderStore } from '@/store/orderStore'
 import type { Order, OrderStatus } from '@/@types/order'
 import OrderStatusBadge from './OrderStatusBadge'
+import OrderDetailModal from './OrderDetailModal'
 import CardSkeleton from '@/components/shared/CardSkeletonGrid'
 import Button from '@/components/ui/Button'
 import Dialog from '@/components/ui/Dialog'
@@ -23,11 +24,14 @@ const OrderListCards = ({ orderList, orderListTotal, isLoading }: Props) => {
     const tableData = useOrderStore((state) => state.tableData)
     const { mutate: updateStatus, isPending: isUpdating } =
         useUpdateOrderStatus()
-    const [statusUpdatingId, setStatusUpdatingId] = useState<string | null>(null)
+    const [statusUpdatingId, setStatusUpdatingId] = useState<string | null>(
+        null,
+    )
     const [statusChangePreview, setStatusChangePreview] = useState<{
         order: Order
         newStatus: OrderStatus
     } | null>(null)
+    const [viewingOrder, setViewingOrder] = useState<Order | null>(null)
 
     const handleStatusChange = (order: Order, newStatus: OrderStatus) => {
         setStatusChangePreview({ order, newStatus })
@@ -54,7 +58,11 @@ const OrderListCards = ({ orderList, orderListTotal, isLoading }: Props) => {
     }
 
     if (orderList.length === 0) {
-        return <div className="py-12 text-center text-gray-500">No orders found.</div>
+        return (
+            <div className="py-12 text-center text-gray-500">
+                No orders found.
+            </div>
+        )
     }
 
     return (
@@ -81,7 +89,9 @@ const OrderListCards = ({ orderList, orderListTotal, isLoading }: Props) => {
                             <OrderStatusBadge
                                 status={order.status}
                                 isLoading={statusUpdatingId === order.id}
-                                onChange={(status) => handleStatusChange(order, status)}
+                                onChange={(status) =>
+                                    handleStatusChange(order, status)
+                                }
                             />
                         </div>
 
@@ -95,7 +105,9 @@ const OrderListCards = ({ orderList, orderListTotal, isLoading }: Props) => {
                             <div className="flex items-center justify-between gap-3">
                                 <span className="text-gray-500">Placed</span>
                                 <span className="font-medium">
-                                    {dayjs(order.created_at).format('DD/MM/YYYY HH:mm')}
+                                    {dayjs(order.created_at).format(
+                                        'DD/MM/YYYY HH:mm',
+                                    )}
                                 </span>
                             </div>
                             <div className="flex items-center justify-between gap-3">
@@ -103,7 +115,9 @@ const OrderListCards = ({ orderList, orderListTotal, isLoading }: Props) => {
                                     <TbCalendarEvent /> Pick up
                                 </span>
                                 <span className="font-medium text-right">
-                                    {dayjs(order.scheduledDate).format('DD/MM/YYYY HH:mm')}
+                                    {dayjs(order.scheduledDate).format(
+                                        'DD/MM/YYYY HH:mm',
+                                    )}
                                 </span>
                             </div>
                         </div>
@@ -138,14 +152,17 @@ const OrderListCards = ({ orderList, orderListTotal, isLoading }: Props) => {
                             <div>
                                 <p className="text-xs text-gray-500">Total</p>
                                 <p className="font-bold text-primary">
-                                    {Number(order.totalPrice || 0).toLocaleString()} MMK
+                                    {Number(
+                                        order.totalPrice || 0,
+                                    ).toLocaleString()}{' '}
+                                    MMK
                                 </p>
                             </div>
                             <Button
                                 size="sm"
                                 variant="plain"
                                 icon={<TbChevronRight />}
-                                onClick={() => navigate(`/orders/${order.id}`)}
+                                onClick={() => setViewingOrder(order)}
                             >
                                 View details
                             </Button>
@@ -159,7 +176,9 @@ const OrderListCards = ({ orderList, orderListTotal, isLoading }: Props) => {
                     pageSize={tableData.pageSize}
                     currentPage={tableData.pageIndex}
                     total={orderListTotal}
-                    onChange={(page) => setTableData((prev) => ({ ...prev, pageIndex: page }))}
+                    onChange={(page) =>
+                        setTableData((prev) => ({ ...prev, pageIndex: page }))
+                    }
                 />
             </div>
 
@@ -189,7 +208,9 @@ const OrderListCards = ({ orderList, orderListTotal, isLoading }: Props) => {
 
                         <div className="shrink-0 rounded-xl bg-gray-50 p-4 dark:bg-gray-800">
                             <div className="flex items-center justify-between gap-3 text-sm">
-                                <span className="text-gray-500">Current status</span>
+                                <span className="text-gray-500">
+                                    Current status
+                                </span>
                                 <OrderStatusBadge
                                     status={statusChangePreview.order.status}
                                     onChange={() => undefined}
@@ -197,7 +218,9 @@ const OrderListCards = ({ orderList, orderListTotal, isLoading }: Props) => {
                             </div>
                             <div className="my-3 border-t border-gray-200 dark:border-gray-700" />
                             <div className="flex items-center justify-between gap-3 text-sm">
-                                <span className="text-gray-500">New status</span>
+                                <span className="text-gray-500">
+                                    New status
+                                </span>
                                 <OrderStatusBadge
                                     status={statusChangePreview.newStatus}
                                     onChange={() => undefined}
@@ -216,35 +239,52 @@ const OrderListCards = ({ orderList, orderListTotal, isLoading }: Props) => {
 
                         <div className="rounded-xl border border-gray-200 p-4 dark:border-gray-700">
                             <p className="mb-3 shrink-0 text-amber-800 text-sm font-semibold">
-                                Order items ({statusChangePreview.order.items?.length || 0})
+                                Order items (
+                                {statusChangePreview.order.items?.length || 0})
                             </p>
                             <div className="max-h-[35vh] space-y-3 overflow-y-auto pb-2">
-                                {(statusChangePreview.order.items || []).length > 0 ? (
-                                    statusChangePreview.order.items.map((item) => (
-                                        <div
-                                            key={item.id}
-                                            className="flex items-center justify-between gap-3 border-b border-gray-100 pb-3 text-sm last:border-b-0 dark:border-gray-700"
-                                        >
-                                            <div className="min-w-0">
-                                                <p className="text-amber-800 truncate font-medium">
-                                                    {item.dish?.name || 'Item'}
-                                                </p>
-                                                {item.note && (
-                                                    <p className="truncate text-xs text-gray-500">
-                                                        {item.note}
+                                {(statusChangePreview.order.items || [])
+                                    .length > 0 ? (
+                                    statusChangePreview.order.items.map(
+                                        (item) => (
+                                            <div
+                                                key={item.id}
+                                                className="flex items-center justify-between gap-3 border-b border-gray-100 pb-3 text-sm last:border-b-0 dark:border-gray-700"
+                                            >
+                                                <div className="min-w-0">
+                                                    <p className="text-amber-800 truncate font-medium">
+                                                        {item.dish?.name ||
+                                                            'Item'}
                                                     </p>
-                                                )}
+                                                    {item.note && (
+                                                        <p className="truncate text-xs text-gray-500">
+                                                            {item.note}
+                                                        </p>
+                                                    )}
+                                                </div>
+                                                <div className="shrink-0 text-right">
+                                                    <p className="font-semibold">
+                                                        x{item.quantity}
+                                                    </p>
+                                                    <p className="text-xs font-semibold text-green-500">
+                                                        {(
+                                                            Number(
+                                                                item.quantity,
+                                                            ) *
+                                                            Number(
+                                                                item.unitPrice,
+                                                            )
+                                                        ).toLocaleString()}{' '}
+                                                        MMK
+                                                    </p>
+                                                </div>
                                             </div>
-                                            <div className="shrink-0 text-right">
-                                                <p className="font-semibold">x{item.quantity}</p>
-                                                <p className="text-xs font-semibold text-green-500">
-                                                    {(Number(item.quantity) * Number(item.unitPrice)).toLocaleString()} MMK
-                                                </p>
-                                            </div>
-                                        </div>
-                                    ))
+                                        ),
+                                    )
                                 ) : (
-                                    <p className="text-sm text-gray-500">No items found.</p>
+                                    <p className="text-sm text-gray-500">
+                                        No items found.
+                                    </p>
                                 )}
                             </div>
                         </div>
@@ -270,6 +310,11 @@ const OrderListCards = ({ orderList, orderListTotal, isLoading }: Props) => {
                     </div>
                 )}
             </Dialog>
+
+            <OrderDetailModal
+                order={viewingOrder}
+                onClose={() => setViewingOrder(null)}
+            />
         </div>
     )
 }
