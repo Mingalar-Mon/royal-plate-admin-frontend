@@ -34,6 +34,14 @@ function App() {
             const body = payload.notification?.body ?? ''
             const image = payload.notification?.image
 
+            const type = payload.data?.type
+
+            if (type === 'order') {
+                queryClient.invalidateQueries({ queryKey: ['orders'] })
+            } else if (type === 'reservation') {
+                queryClient.invalidateQueries({ queryKey: ['reservations'] })
+            }
+
             // Detect event type from the notification title/body for appropriate styling
             const titleLower = title.toLowerCase()
             const bodyLower = body.toLowerCase()
