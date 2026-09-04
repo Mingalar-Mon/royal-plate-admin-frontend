@@ -26,6 +26,20 @@ const queryClient = new QueryClient({
 
 // const notify = () => toast('Here is your toast')
 
+const notificationAudioUrl = '/notification.wav'
+
+const playNotificationSound = () => {
+    try {
+        const audio = new Audio(notificationAudioUrl)
+        audio.volume = 0.6
+        audio.play().catch(() => {
+            // ignore autoplay-block until the user has interacted with the page
+        })
+    } catch {
+        // ignore
+    }
+}
+
 function App() {
     useEffect(() => {
         onMessage(messaging, (payload) => {
@@ -68,6 +82,8 @@ function App() {
                     {body}
                 </Notification>,
             )
+
+            playNotificationSound()
         })
     }, [])
     // useOneSignal() // Initialize OneSignal for the entire app

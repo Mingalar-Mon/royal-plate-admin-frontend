@@ -23,7 +23,9 @@ messaging.onBackgroundMessage((payload) => {
   const notificationTitle = payload.notification.title;
   const notificationOptions = {
     body: payload.notification.body,
-    icon: payload.notification.image
+    icon: payload.notification.image,
+    sound: '/notification.wav',
+    vibrate: [100, 50, 100]
   };
 
   // Update OS/PWA badge if the browser supports it
