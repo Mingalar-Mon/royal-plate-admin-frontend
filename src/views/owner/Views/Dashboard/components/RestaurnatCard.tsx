@@ -78,14 +78,16 @@ const RestaurantCard = ({ restaurant }: RestaurantCardProps) => {
 
             {/* Content */}
             <div className="p-4 flex flex-col flex-1">
-                <h4 className="font-serif font-semibold text-lg mb-2 text-primary">
+                <h4 className="font-serif font-semibold text-lg mb-2 text-primary line-clamp-1">
                     {restaurant.name}
                 </h4>
 
                 {/* Address */}
                 <div className="flex items-start gap-2 text-gray-600 mb-3">
                     <TbMapPin className="mt-0.5 shrink-0" />
-                    <span className="text-sm">{restaurant.address}</span>
+                    <span className="text-sm line-clamp-2 min-h-[2.5rem]">
+                        {restaurant.address}
+                    </span>
                 </div>
 
                 {/* Owner info */}

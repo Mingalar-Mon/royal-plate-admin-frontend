@@ -8,6 +8,7 @@ export interface Blog {
         key: string
         url: string
     }[]
+    // imageUrls: string[]
     restaurantId: string
     authorOwner?: { id: string; name: string }
     authorStaff?: { id: string; name: string; role: string }
