@@ -23,10 +23,6 @@ const ReservationInfo = ({ reservation }: { reservation: Reservation }) => {
                     </span>
                 </div>
                 <div className="flex justify-between">
-                    <span className="font-medium">Reservation ID</span>
-                    <span>{reservation.id}</span>
-                </div>
-                <div className="flex justify-between">
                     <span className="font-medium">Date</span>
                     <span>
                         {dayjs(reservation.reservationDate).format(

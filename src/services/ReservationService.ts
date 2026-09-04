@@ -9,11 +9,14 @@ import { OnSortParam } from '@/components/shared/DataTable'
 
 type TableType = 'family' | 'vip' | 'standard'
 type TableStatus = 'active' | 'inactive' | 'maintenance'
+
+export type ReservationItemDish = Dish & { coverImageUrl?: string }
+
 export type ReservationItem = {
     id: string
     quantity: number
     unitPrice: number
-    dish: Dish
+    dish: ReservationItemDish
 }
 type Table = {
     id: string
@@ -37,8 +40,9 @@ export type GetReservationResponse = {
         endingTime: string
         status: ReservationStatus
         remark: string | null
-        tax?: number
-        totalPrice?: number
+        subTotal?: number | string
+        tax?: number | string
+        totalPrice?: number | string
         created_at: string
         updated_at: string
         confirmed_at: string | null
@@ -50,7 +54,7 @@ export type GetReservationResponse = {
             id: string
             quantity: number
             unitPrice: number
-            dish: Dish
+            dish: ReservationItemDish
         }[]
     }
 }
@@ -63,8 +67,9 @@ export type Reservation = {
     endingTime: string
     status: ReservationStatus
     remark: string | null
-    tax?: number
-    totalPrice?: number
+    subTotal?: number | string
+    tax?: number | string
+    totalPrice?: number | string
     created_at: string
     updated_at: string
     confirmed_at?: string | null
@@ -77,7 +82,7 @@ export type Reservation = {
         id: string
         quantity: number
         unitPrice: number
-        dish: Dish
+        dish: ReservationItemDish
     }[]
 }
 
@@ -92,8 +97,9 @@ export type GetReservationListResponse = {
         endingTime: string
         status: ReservationStatus
         remark: string | null
-        tax?: number
-        totalPrice?: number
+        subTotal?: number | string
+        tax?: number | string
+        totalPrice?: number | string
         created_at: string
         updated_at: string
         user: User
@@ -102,7 +108,7 @@ export type GetReservationListResponse = {
             id: string
             quantity: number
             unitPrice: number
-            dish: Dish
+            dish: ReservationItemDish
         }[]
     }[]
 }

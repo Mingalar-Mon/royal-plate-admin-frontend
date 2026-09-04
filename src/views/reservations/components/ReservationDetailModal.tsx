@@ -2,6 +2,7 @@ import Dialog from '@/components/ui/Dialog'
 import type { Reservation } from '@/services/ReservationService'
 import ReservationInfo from '@/views/reservations/ReservationDetail/components/ReservationInfo'
 import DishesList from '@/views/reservations/ReservationDetail/components/DishList'
+import PaymentSummary from '@/views/reservations/ReservationDetail/components/PaymentSummary'
 import ActivityTimeline from '@/views/reservations/ReservationDetail/components/ActivityTimeline'
 import UserInfo from '@/views/reservations/ReservationDetail/components/UserInfo'
 import TableInfo from '@/views/reservations/ReservationDetail/components/TableInfo'
@@ -33,6 +34,11 @@ const ReservationDetailModal = ({
                             reservationItems={
                                 reservation.reservationItems || []
                             }
+                        />
+                        <PaymentSummary
+                            subTotal={reservation.subTotal}
+                            tax={reservation.tax}
+                            total={reservation.totalPrice}
                         />
                         <ActivityTimeline
                             createdAt={reservation.created_at}
