@@ -36,6 +36,7 @@ const ReservationDetailModal = ({
                             }
                         />
                         <PaymentSummary
+                            tableFee={reservation.table?.tableFee || 0}
                             subTotal={reservation.subTotal}
                             tax={reservation.tax}
                             total={reservation.totalPrice}

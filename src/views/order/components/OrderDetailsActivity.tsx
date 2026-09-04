@@ -81,7 +81,7 @@ const OrderDetailsActivities = ({ order }: OrderDetailsActivitiesProps) => {
                             <Badge
                                 className={classNames(
                                     act.isCurrent &&
-                                        'ring-2 ring-offset-2 ring-primary-500 dark:ring-offset-gray-800',
+                                    'ring-2 ring-offset-2 ring-primary-500 dark:ring-offset-gray-800',
                                 )}
                                 innerClass={
                                     act.completed
@@ -99,14 +99,25 @@ const OrderDetailsActivities = ({ order }: OrderDetailsActivitiesProps) => {
                                 act.isCurrent
                                     ? 'font-bold text-gray-900 dark:text-gray-100'
                                     : act.completed
-                                      ? 'font-semibold text-gray-800 dark:text-gray-200'
-                                      : 'font-medium text-gray-500 dark:text-gray-400',
+                                        ? 'font-semibold text-gray-800 dark:text-gray-200'
+                                        : 'font-medium text-gray-500 dark:text-gray-400',
                             )}
                         >
                             {act.name}
                             {act.isCurrent && (
-                                <span className="ml-2 text-xs font-semibold text-primary-600 dark:text-primary-400 normal-case">
-                                    Current
+                                <span className="ml-2 text-xs font-semibold text-green-600 dark:text-green-400 normal-case">
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        className="h-5 w-5 inline"
+                                        viewBox="0 0 20 20"
+                                        fill="currentColor"
+                                    >
+                                        <path
+                                            fillRule="evenodd"
+                                            d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                                            clipRule="evenodd"
+                                        />
+                                    </svg>
                                 </span>
                             )}
                         </div>

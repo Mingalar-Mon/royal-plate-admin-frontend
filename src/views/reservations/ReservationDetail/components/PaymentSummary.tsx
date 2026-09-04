@@ -4,6 +4,7 @@ import { NumericFormat } from 'react-number-format'
 interface PaymentSummaryProps {
     subTotal?: number | string
     tax?: number | string
+    tableFee?: number | string
     total?: number | string
 }
 
@@ -16,11 +17,20 @@ const formatAmount = (value?: number | string) => (
     />
 )
 
-const PaymentSummary = ({ subTotal, tax, total }: PaymentSummaryProps) => {
+const PaymentSummary = ({
+    subTotal,
+    tax,
+    tableFee,
+    total,
+}: PaymentSummaryProps) => {
     return (
         <Card>
             <h4 className="mb-5">Payment Summary</h4>
             <div className="space-y-3">
+                <div className="flex justify-between text-sm text-gray-600 dark:text-gray-300">
+                    <span>Table Fee</span>
+                    <span>{formatAmount(tableFee)}</span>
+                </div>
                 <div className="flex justify-between text-sm text-gray-600 dark:text-gray-300">
                     <span>Subtotal</span>
                     <span>{formatAmount(subTotal)}</span>
