@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router'
 import { useForm, Controller } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import Container from '@/components/shared/Container'
+import PageLoading from '@/components/shared/PageLoading'
 import Card from '@/components/ui/Card'
 import Button from '@/components/ui/Button'
 import Input from '@/components/ui/Input'
@@ -58,8 +59,10 @@ const RestaurantProfileForm = ({ isEditMode }: RestaurantProfileFormProps) => {
     // console.log('Payment methods: ', paymentMethods)
 
     // const createMutation = useCreateRestaurantProfile()
-    const { mutate: updateRestaurantProfile } = useUpdateRestaurantProfile()
-    const { mutate: createRestaurantProfile } = useCreateRestaurantProfile()
+    const { mutate: updateRestaurantProfile, isPending: isUpdatingProfile } =
+        useUpdateRestaurantProfile()
+    const { mutate: createRestaurantProfile, isPending: isCreatingProfile } =
+        useCreateRestaurantProfile()
 
     const {
         control,
@@ -140,12 +143,7 @@ const RestaurantProfileForm = ({ isEditMode }: RestaurantProfileFormProps) => {
     }
 
     if (isLoadingProfile || isLoadingCuisines || isLoadingPaymentMethods) {
-        return (
-            <div className="flex flex-col items-center justify-center min-h-[60vh]">
-                <div className="animate-spin rounded-full h-20 w-20 border-4 border-primary border-t-transparent mb-4"></div>
-                <p className="text-gray-600 dark:text-gray-300 text-lg">Loading profile...</p>
-            </div>
-        )
+        return <PageLoading label="Loading restaurant profile" />
     }
 
     // Helper to generate 30-min intervals (0 to 1410 minutes)
@@ -209,14 +207,22 @@ const RestaurantProfileForm = ({ isEditMode }: RestaurantProfileFormProps) => {
                         <Button
                             type="submit"
                             variant="solid"
-                            loading={isSubmitting}
+                            loading={isSubmitting || isUpdatingProfile || isCreatingProfile}
                         >
                             {isEditMode ? 'Update Profile' : 'Create Profile'}
                         </Button>
                     </div>
 
                     {/* Form Content */}
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <fieldset
+                        disabled={
+                            isSubmitting ||
+                            isUpdatingProfile ||
+                            isCreatingProfile
+                        }
+                        className="m-0 min-w-0 rounded-none border-0 p-0"
+                    >
+                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                         {/* Left Column */}
                         <div className="space-y-6">
                             {/* Description */}
@@ -474,6 +480,7 @@ const RestaurantProfileForm = ({ isEditMode }: RestaurantProfileFormProps) => {
                             </Card>
                         </div>
                     </div>
+                    </fieldset>
                 </div>
             </Container>
         </form>

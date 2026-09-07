@@ -1,11 +1,12 @@
 import Avatar from '@/components/ui/Avatar'
 import Dropdown from '@/components/ui/Dropdown'
+import { Spinner } from '@/components/ui/Spinner'
 import withHeaderItem from '@/utils/hoc/withHeaderItem'
 import { useSessionUser } from '@/store/authStore'
 import { Link } from 'react-router'
 import { PiUser, PiSignOutDuotone } from 'react-icons/pi'
 import { useAuth } from '@/auth'
-import type { JSX } from 'react'
+import { useState, type JSX } from 'react'
 
 type DropdownList = {
     label: string
@@ -20,8 +21,16 @@ const _UserDropdown = () => {
 
     const { signOut } = useAuth()
 
-    const handleSignOut = () => {
-        signOut()
+    const [isSigningOut, setIsSigningOut] = useState(false)
+
+    const handleSignOut = async () => {
+        if (isSigningOut) return
+        setIsSigningOut(true)
+        try {
+            await signOut()
+        } finally {
+            setIsSigningOut(false)
+        }
     }
 
     const avatarProps = {
@@ -89,14 +98,16 @@ const _UserDropdown = () => {
                 </Dropdown.Item>
             ))}
             <Dropdown.Item
+                preventClose
                 eventKey="Sign Out"
                 className="gap-2"
+                disabled={isSigningOut}
                 onClick={handleSignOut}
             >
                 <span className="text-xl">
-                    <PiSignOutDuotone />
+                    {isSigningOut ? <Spinner /> : <PiSignOutDuotone />}
                 </span>
-                <span>Sign Out</span>
+                <span>{isSigningOut ? 'Signing out...' : 'Sign Out'}</span>
             </Dropdown.Item>
         </Dropdown>
     )

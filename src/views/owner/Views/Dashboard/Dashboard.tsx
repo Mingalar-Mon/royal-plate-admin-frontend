@@ -1,5 +1,4 @@
 import AdaptiveCard from '@/components/shared/AdaptiveCard'
-import PageLoading from '@/components/shared/PageLoading'
 import RestaurantHeader from './components/RestaurantHeader'
 import RestaurantGrid from './components/RestaurantGrid'
 // import { useRestaurantStore } from '../../store/restaurantStore'
@@ -8,6 +7,7 @@ import RestaurantGrid from './components/RestaurantGrid'
 import DialogModal from './components/DialogModel'
 import { useGetRestaurants } from '@/utils/custom-hooks/useRestaurant'
 import { useRestaurantStore } from '@/store/restaurantStore'
+import CardSkeleton from '@/components/shared/CardSkeletonGrid'
 import { useEffect } from 'react'
 
 const RestaurantDashboard = () => {
@@ -59,7 +59,12 @@ const RestaurantDashboard = () => {
             <RestaurantHeader isRefreshing={isFetching} onRefresh={refetch} />
 
             {showSpinner ? (
-                <PageLoading label="Loading your restaurants" />
+                <div className="@container w-full">
+                    <CardSkeleton
+                        count={6}
+                        className="mt-4 grid-cols-1 @[40rem]:grid-cols-2 @[60rem]:grid-cols-3 @[85rem]:grid-cols-4 gap-6"
+                    />
+                </div>
             ) : (
                 <>
                     {/* {console.log(restaurants)} */}

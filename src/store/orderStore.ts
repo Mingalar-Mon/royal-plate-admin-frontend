@@ -3,6 +3,7 @@ import { create } from 'zustand'
 import dayjs from 'dayjs'
 
 export interface OrderQueries {
+    // pickUpDate: string,
     pageIndex: number
     pageSize: number
     query: string
@@ -23,7 +24,7 @@ const today = dayjs().format('YYYY-MM-DD')
 
 const defaultTableData: OrderQueries = {
     pageIndex: 1,
-    pageSize: 10,
+    pageSize: 12,
     status: 'all',
     query: '',
     // pickUpDate: today,

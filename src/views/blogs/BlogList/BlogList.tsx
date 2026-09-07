@@ -2,7 +2,7 @@ import Container from '@/components/shared/Container'
 import AdaptiveCard from '@/components/shared/AdaptiveCard'
 import BlogListActionTools from './components/BlogListActionTools'
 import BlogListTableTools from './components/BlogListTableTools'
-import BlogListTable from './components/BlogListTable'
+import BlogListCards from './components/BlogListCards'
 import { useBlogStore } from '@/store/blogStore'
 import { useGetBlogListQuery } from '@/utils/custom-hooks/useBlog'
 import { useParams } from 'react-router'
@@ -28,7 +28,7 @@ const BlogList = () => {
                         <BlogListActionTools onRefresh={refetch} />
                     </div>
                     <BlogListTableTools />
-                    <BlogListTable
+                    <BlogListCards
                         data={blogsList}
                         total={blogsTotal}
                         loading={isLoading}

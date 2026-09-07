@@ -69,7 +69,7 @@ export const useCreateRestaurant = () => {
 export const useUpdateRestaurant = () => {
     const queryClient = useQueryClient()
     interface updateRequest {
-        id: string | undefined
+        id: string
         data: Partial<Restaurant>
     }
     console.log('IN the useUPdate restaurant')

@@ -10,26 +10,15 @@ import Select from '@/components/ui/Select'
 import Checkbox from '@/components/ui/Checkbox'
 import Input from '@/components/ui/Input'
 import { TbFilter, TbMinus } from 'react-icons/tb'
-import { useDishList } from '@/utils/custom-hooks/useDish'
 
-import { useGetAllCuisines } from '@/views/owner/hooks/useRestaurantProfile'
-import { useGetCuisines } from '@/utils/custom-hooks/useCuisine'
+import { useGetCuisinesByRestaurant } from '@/utils/custom-hooks/useCuisine'
 import { useDishStore } from '@/store/dishStore'
-import { useCuisineStore } from '@/store/cuisineStore'
+import { useRestaurantStore } from '@/store/restaurantStore'
 
 const statusOptions = [
     { value: '', label: 'All' },
     { value: 'available', label: 'Available' },
     { value: 'unavailable', label: 'Unavailable' },
-]
-
-const categoryList = [
-    'Pizza',
-    'Noodles',
-    'Salad',
-    'Curry',
-    'Japanese',
-    'Fast Food',
 ]
 
 const validationSchema = z.object({
@@ -42,9 +31,10 @@ const validationSchema = z.object({
 type FilterFormData = z.infer<typeof validationSchema>
 
 const DishTableFilter = () => {
-    const { tableData } = useCuisineStore()
-    // FIX:
-    const { data: cuisines } = useGetCuisines(tableData)
+    const restaurantId = useRestaurantStore(
+        (state) => state.activeRestaurant?.id,
+    )
+    const { data: cuisines } = useGetCuisinesByRestaurant(restaurantId ?? '')
 
     const { tableData: dishQueries, setTableData: setDishQueries } =
         useDishStore()
@@ -81,7 +71,11 @@ const DishTableFilter = () => {
 
     return (
         <>
-            <Button icon={<TbFilter />} onClick={() => setIsOpen(true)}>
+            <Button
+                className="w-full sm:w-auto"
+                icon={<TbFilter />}
+                onClick={() => setIsOpen(true)}
+            >
                 Filter
             </Button>
             <Drawer
@@ -90,12 +84,12 @@ const DishTableFilter = () => {
                 onClose={() => setIsOpen(false)}
             >
                 <Form
-                    containerClassName="flex flex-col justify-between h-full"
+                    containerClassName="flex h-full flex-col justify-between"
                     onSubmit={handleSubmit(onSubmit)}
                 >
                     <div>
                         <FormItem label="Price range">
-                            <div className="flex items-center gap-2">
+                            <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-2">
                                 <Controller
                                     name="minPrice"
                                     control={control}
@@ -163,7 +157,7 @@ const DishTableFilter = () => {
                             />
                         </FormItem>
                     </div>
-                    <div className="flex gap-2">
+                    <div className="grid grid-cols-2 gap-2 border-t border-gray-200 pt-4 dark:border-gray-700">
                         <Button variant="default" onClick={handleClear}>
                             Clear
                         </Button>

@@ -43,13 +43,19 @@ export async function apiGetOrders({
             status: params.status !== 'all' ? params.status : undefined,
             sortKey: params.sort?.key,
             sortOrder: params.sort?.order,
-            pickUpDate: params.pickUpDate || undefined,
-            fromDate: params.fromDate
-                ? new Date(params.fromDate).toISOString()
-                : undefined,
-            toDate: params.toDate
-                ? new Date(params.toDate).toISOString()
-                : undefined,
+            // pickUpDate: params.pickUpDate || undefined,
+            // fromDate: params.fromDate
+            //     ? new Date(params.fromDate).toISOString()
+            //     : undefined,
+
+            // toDate: params.toDate ? (() => {
+            //     const date = new Date(params.toDate);
+            //     date.setHours(23, 59, 59, 999);
+            //     return date.toISOString();
+            // })() : undefined,
+            fromDate: params.fromDate ? new Date(params.fromDate).toISOString().split('T')[0] : undefined,
+            toDate: params.toDate ? new Date(params.toDate).toISOString().split('T')[0] : undefined,
+
         },
     })
 }

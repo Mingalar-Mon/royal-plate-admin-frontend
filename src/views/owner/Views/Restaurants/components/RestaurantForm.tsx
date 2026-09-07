@@ -26,6 +26,7 @@ interface RestaurantFormProps {
     defaultValues?: RestaurantFormInput
     isNew?: boolean
     useMockStaff?: boolean
+    disabled?: boolean
     children?: React.ReactNode
 }
 
@@ -34,6 +35,7 @@ const RestaurantForm = (props: RestaurantFormProps) => {
         onFormSubmit,
         defaultValues,
         children,
+        disabled = false,
         isNew = false,
         // useMockStaff = true,
     } = props
@@ -100,26 +102,31 @@ const RestaurantForm = (props: RestaurantFormProps) => {
                 </div>
 
                 {/* Two Column Layout */}
-                <div className="flex flex-col xl:flex-row gap-6">
-                    {/* Left Column */}
-                    <div className="flex-1 flex flex-col gap-6">
-                        <BasicInfoSection
-                            control={control}
-                            errors={errors}
-                            isNew={isNew}
-                        />
-                        <PricingSection
-                            control={control}
-                            errors={errors}
-                            getValues={getValues}
-                        />
-                        <LocationSection
-                            control={control}
-                            errors={errors}
-                            isNew={isNew}
-                            setValue={setValue}
-                        />
-                    </div>
+                <fieldset
+                    disabled={disabled}
+                    className="m-0 min-w-0 rounded-none border-0 p-0"
+                >
+                    <div className="flex flex-col xl:flex-row gap-6">
+                        {/* Left Column */}
+                        <div className="flex-1 flex flex-col gap-6">
+                            <BasicInfoSection
+                                control={control}
+                                errors={errors}
+                                isNew={isNew}
+                            />
+                            <PricingSection
+                                control={control}
+                                errors={errors}
+                                getValues={getValues}
+                            />
+                            <LocationSection
+                                control={control}
+                                errors={errors}
+                                isNew={isNew}
+                                setValue={setValue}
+                                disabled={disabled}
+                            />
+                        </div>
 
                     {/* Right Column */}
                     <div className="lg:w-110 flex flex-col gap-6">
@@ -553,7 +560,8 @@ const RestaurantForm = (props: RestaurantFormProps) => {
                             useMockData={useMockStaff}
                         /> */}
                     </div>
-                </div>
+                    </div>
+                </fieldset>
             </Container>
         </Form>
     )

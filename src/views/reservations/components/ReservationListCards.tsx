@@ -1,14 +1,12 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router'
 import dayjs from 'dayjs'
-import {
-    TbCalendarEvent,
-    TbChevronRight,
-    TbClock,
-} from 'react-icons/tb'
+import { TbCalendarEvent, TbChevronRight, TbClock } from 'react-icons/tb'
 import { useUpdateReservationStatus } from '@/utils/custom-hooks/useReservation'
 import { useReservationStore } from '@/store/reservationStore'
 import ReservationStatusBadge from './ReservationStatusBadge'
+import ReservationDetailModal from './ReservationDetailModal'
+import CardSkeleton from '@/components/shared/CardSkeletonGrid'
 import Button from '@/components/ui/Button'
 import Dialog from '@/components/ui/Dialog'
 import Pagination from '@/components/ui/Pagination'
@@ -21,15 +19,12 @@ interface Props {
     isLoading: boolean
 }
 
-const ReservationListCards = ({
-    reservations,
-    total,
-    isLoading,
-}: Props) => {
+const ReservationListCards = ({ reservations, total, isLoading }: Props) => {
     const navigate = useNavigate()
     const tableData = useReservationStore((state) => state.tableData)
     const setTableData = useReservationStore((state) => state.setTableData)
-    const { mutate: updateStatus } = useUpdateReservationStatus()
+    const { mutate: updateStatus, isPending: isUpdating } =
+        useUpdateReservationStatus()
     const [statusUpdatingId, setStatusUpdatingId] = useState<string | null>(
         null,
     )
@@ -37,6 +32,8 @@ const ReservationListCards = ({
         reservation: Reservation
         newStatus: ReservationStatus
     } | null>(null)
+    const [viewingReservation, setViewingReservation] =
+        useState<Reservation | null>(null)
 
     const handleStatusChange = (
         reservation: Reservation,
@@ -49,20 +46,20 @@ const ReservationListCards = ({
         if (!statusChangePreview) return
 
         const { reservation, newStatus } = statusChangePreview
-        setStatusChangePreview(null)
         setStatusUpdatingId(reservation.id)
         updateStatus(
             { reservationId: reservation.id, status: newStatus },
-            { onSettled: () => setStatusUpdatingId(null) },
+            {
+                onSettled: () => {
+                    setStatusUpdatingId(null)
+                    setStatusChangePreview(null)
+                },
+            },
         )
     }
 
     if (isLoading) {
-        return (
-            <div className="py-12 text-center text-gray-500">
-                Loading reservations...
-            </div>
-        )
+        return <CardSkeleton count={6} />
     }
 
     if (reservations.length === 0) {
@@ -102,12 +99,16 @@ const ReservationListCards = ({
                                         Reservation
                                     </p>
                                     <h5 className="text-lg font-bold text-primary hover:underline">
-                                        #{reservation.reservationNumber || reservation.id}
+                                        #
+                                        {reservation.reservationNumber ||
+                                            reservation.id}
                                     </h5>
                                 </button>
                                 <ReservationStatusBadge
                                     status={reservation.status}
-                                    isLoading={statusUpdatingId === reservation.id}
+                                    isLoading={
+                                        statusUpdatingId === reservation.id
+                                    }
                                     onChange={(status) =>
                                         handleStatusChange(reservation, status)
                                     }
@@ -116,14 +117,18 @@ const ReservationListCards = ({
 
                             <div className="mt-4 space-y-2 text-sm">
                                 <div className="flex items-center justify-between gap-3">
-                                    <span className="text-gray-500">Customer</span>
+                                    <span className="text-gray-500">
+                                        Customer
+                                    </span>
                                     <span className="max-w-[60%] truncate text-right font-semibold">
                                         {reservation.user?.name || '-'}
                                     </span>
                                 </div>
                                 {reservation.user?.phone && (
                                     <div className="flex items-center justify-between gap-3">
-                                        <span className="text-gray-500">Phone</span>
+                                        <span className="text-gray-500">
+                                            Phone
+                                        </span>
                                         <span className="text-right font-medium">
                                             {reservation.user.phone}
                                         </span>
@@ -165,8 +170,7 @@ const ReservationListCards = ({
 
                             <div className="mt-4 flex-1 border-t border-gray-100 pt-4 dark:border-gray-700">
                                 <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-gray-500">
-                                    Pre-ordered dishes (
-                                    {items.length})
+                                    Pre-ordered dishes ({items.length})
                                 </p>
                                 <div className="space-y-1.5">
                                     {items.slice(0, 3).map((item) => (
@@ -197,7 +201,9 @@ const ReservationListCards = ({
 
                             <div className="mt-5 flex items-center justify-between border-t border-gray-100 pt-4 dark:border-gray-700">
                                 <div>
-                                    <p className="text-xs text-gray-500">Total</p>
+                                    <p className="text-xs text-gray-500">
+                                        Total
+                                    </p>
                                     <p className="font-bold text-primary">
                                         {Number(
                                             reservation.totalPrice || 0,
@@ -210,9 +216,7 @@ const ReservationListCards = ({
                                     variant="plain"
                                     icon={<TbChevronRight />}
                                     onClick={() =>
-                                        navigate(
-                                            `/reservations/detail/${reservation.id}`,
-                                        )
+                                        setViewingReservation(reservation)
                                     }
                                 >
                                     View details
@@ -239,8 +243,12 @@ const ReservationListCards = ({
 
             <Dialog
                 isOpen={Boolean(statusChangePreview)}
-                onClose={() => setStatusChangePreview(null)}
-                onRequestClose={() => setStatusChangePreview(null)}
+                onClose={() => {
+                    if (!isUpdating) setStatusChangePreview(null)
+                }}
+                onRequestClose={() => {
+                    if (!isUpdating) setStatusChangePreview(null)
+                }}
                 width={480}
                 height="min(90vh, 760px)"
                 contentClassName="flex max-h-[90vh] flex-col overflow-y-auto"
@@ -262,16 +270,22 @@ const ReservationListCards = ({
 
                         <div className="shrink-0 rounded-xl bg-gray-50 p-4 dark:bg-gray-800">
                             <div className="flex items-center justify-between gap-3 text-sm">
-                                <span className="text-gray-500">Current status</span>
+                                <span className="text-gray-500">
+                                    Current status
+                                </span>
                                 <ReservationStatusBadge
-                                    status={statusChangePreview.reservation.status}
+                                    status={
+                                        statusChangePreview.reservation.status
+                                    }
                                     onChange={() => undefined}
                                     readOnly
                                 />
                             </div>
                             <div className="my-3 border-t border-gray-200 dark:border-gray-700" />
                             <div className="flex items-center justify-between gap-3 text-sm">
-                                <span className="text-gray-500">New status</span>
+                                <span className="text-gray-500">
+                                    New status
+                                </span>
                                 <ReservationStatusBadge
                                     status={statusChangePreview.newStatus}
                                     onChange={() => undefined}
@@ -315,7 +329,9 @@ const ReservationListCards = ({
 
                         {statusChangePreview.reservation.remark && (
                             <div className="shrink-0 rounded-xl bg-amber-50 p-4 text-sm text-amber-800 dark:bg-amber-950/30 dark:text-amber-200">
-                                <p className="mb-1 font-semibold">Reservation note</p>
+                                <p className="mb-1 font-semibold">
+                                    Reservation note
+                                </p>
                                 <p className="whitespace-pre-wrap break-words">
                                     {statusChangePreview.reservation.remark}
                                 </p>
@@ -326,7 +342,8 @@ const ReservationListCards = ({
                             <p className="mb-3 shrink-0 text-sm font-semibold text-amber-800">
                                 Pre-ordered dishes (
                                 {statusChangePreview.reservation
-                                    .reservationItems?.length || 0})
+                                    .reservationItems?.length || 0}
+                                )
                             </p>
                             <div className="max-h-[35vh] space-y-3 overflow-y-auto pb-2">
                                 {(
@@ -341,7 +358,8 @@ const ReservationListCards = ({
                                             >
                                                 <div className="min-w-0">
                                                     <p className="truncate font-medium text-amber-800">
-                                                        {item.dish?.name || 'Item'}
+                                                        {item.dish?.name ||
+                                                            'Item'}
                                                     </p>
                                                 </div>
                                                 <div className="shrink-0 text-right">
@@ -350,8 +368,12 @@ const ReservationListCards = ({
                                                     </p>
                                                     <p className="text-xs font-semibold text-green-500">
                                                         {(
-                                                            Number(item.quantity) *
-                                                            Number(item.unitPrice)
+                                                            Number(
+                                                                item.quantity,
+                                                            ) *
+                                                            Number(
+                                                                item.unitPrice,
+                                                            )
                                                         ).toLocaleString()}{' '}
                                                         MMK
                                                     </p>
@@ -371,6 +393,7 @@ const ReservationListCards = ({
                             <Button
                                 type="button"
                                 variant="default"
+                                disabled={isUpdating}
                                 onClick={() => setStatusChangePreview(null)}
                             >
                                 Cancel
@@ -378,6 +401,7 @@ const ReservationListCards = ({
                             <Button
                                 type="button"
                                 variant="solid"
+                                loading={isUpdating}
                                 onClick={confirmStatusChange}
                             >
                                 Change status
@@ -386,6 +410,11 @@ const ReservationListCards = ({
                     </div>
                 )}
             </Dialog>
+
+            <ReservationDetailModal
+                reservation={viewingReservation}
+                onClose={() => setViewingReservation(null)}
+            />
         </div>
     )
 }

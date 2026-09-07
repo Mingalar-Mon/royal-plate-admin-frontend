@@ -14,9 +14,11 @@ const DialogModal = () => {
     const { isDialogOpen, activeRestaurant, closeDialog, dialogView } =
         useRestaurantStore()
 
-    const { mutate: deleteRestaurant } = useDeleteRestaurant()
+    const { mutate: deleteRestaurant, isPending: isDeleting } =
+        useDeleteRestaurant()
 
     const handleClose = () => {
+        if (isDeleting) return
         closeDialog()
     }
 
@@ -31,10 +33,12 @@ const DialogModal = () => {
             navigate(
                 `/restaurant/create-restaurant-profile/${activeRestaurant?.id}`,
             )
+            closeDialog()
         } else if (dialogView == 'DELETE_CONFIRM') {
-            deleteRestaurant(activeRestaurant.id)
+            deleteRestaurant(activeRestaurant.id, {
+                onSettled: () => closeDialog(),
+            })
         }
-        closeDialog()
     }
     const isCreate = dialogView === 'CREATE_PROFILE'
 
@@ -46,6 +50,8 @@ const DialogModal = () => {
                 isCreate ? 'Restaurant Profile Missing' : ' Delete Restaurant'
             }
             confirmText={isCreate ? 'Create' : 'Delete'}
+            confirmButtonProps={{ loading: isDeleting }}
+            cancelButtonProps={{ disabled: isDeleting }}
             onClose={handleClose}
             onRequestClose={handleClose}
             onConfirm={handleOk}

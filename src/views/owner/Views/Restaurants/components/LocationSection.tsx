@@ -29,12 +29,14 @@ interface LocationSectionProps {
     errors: FieldErrors<RestaurantFormInput>
     isNew?: boolean
     setValue: UseFormSetValue<RestaurantFormInput>
+    disabled?: boolean
 }
 
 // Component to handle map clicks
-function LocationMarker({ setPosition, position }: any) {
+function LocationMarker({ setPosition, position, disabled }: any) {
     useMapEvents({
         click(e) {
+            if (disabled) return
             setPosition({
                 lat: e.latlng.lat,
                 lng: e.latlng.lng,
@@ -49,6 +51,7 @@ const LocationSection = ({
     errors,
     isNew = false,
     setValue,
+    disabled = false,
 }: LocationSectionProps) => {
     // const [mapPosition, setMapPosition] = useState<{
     //     lat: number
@@ -102,6 +105,7 @@ const LocationSection = ({
 
     // Get current location
     const getCurrentLocation = () => {
+        if (disabled) return
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(
                 (position) => {
@@ -127,6 +131,7 @@ const LocationSection = ({
 
     // Geocode address to coordinates
     const searchLocation = async () => {
+        if (disabled) return
         if (!searchAddress) return
         try {
             const response = await fetch(
@@ -189,6 +194,7 @@ const LocationSection = ({
                         />
                         <LocationMarker
                             setPosition={updateCoordinates}
+                            disabled={disabled}
                             // setPosition={(pos: {
                             //     lat: number
                             //     lng: number

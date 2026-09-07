@@ -59,8 +59,8 @@ const RestaurantCard = ({ restaurant }: RestaurantCardProps) => {
 
     return (
         <Card
-            className="hover:shadow-lg hover:ring-1 hover:ring-gold transition-all duration-200 w-full cursor-pointer"
-            bodyClass="p-0"
+            className="hover:shadow-lg hover:ring-1 hover:ring-gold transition-all duration-200 w-full h-full flex flex-col cursor-pointer"
+            bodyClass="p-0 flex flex-col flex-1"
             // onClick={handleViewDetails}
         >
             {/* Image */}
@@ -77,15 +77,17 @@ const RestaurantCard = ({ restaurant }: RestaurantCardProps) => {
             </div>
 
             {/* Content */}
-            <div className="p-4">
-                <h4 className="font-serif font-semibold text-lg mb-2 text-primary">
+            <div className="p-4 flex flex-col flex-1">
+                <h4 className="font-serif font-semibold text-lg mb-2 text-primary line-clamp-1">
                     {restaurant.name}
                 </h4>
 
                 {/* Address */}
                 <div className="flex items-start gap-2 text-gray-600 mb-3">
                     <TbMapPin className="mt-0.5 shrink-0" />
-                    <span className="text-sm">{restaurant.address}</span>
+                    <span className="text-sm line-clamp-2 min-h-[2.5rem]">
+                        {restaurant.address}
+                    </span>
                 </div>
 
                 {/* Owner info */}
@@ -94,7 +96,7 @@ const RestaurantCard = ({ restaurant }: RestaurantCardProps) => {
                 </div>
 
                 {/* Action buttons */}
-                <div className="flex gap-2  overflow-scroll">
+                <div className="flex gap-2 items-center overflow-scroll mt-auto">
                     <Button
                         variant="solid"
                         size="sm"

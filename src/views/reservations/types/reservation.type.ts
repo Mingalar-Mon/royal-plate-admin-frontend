@@ -12,6 +12,7 @@ export interface User {
     name: string
     email?: string
     phone?: string
+    profileImage?: string
 }
 
 export interface Table {

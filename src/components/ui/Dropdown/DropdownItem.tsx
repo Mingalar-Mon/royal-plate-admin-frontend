@@ -29,6 +29,7 @@ export interface DropdownItemProps extends CommonProps {
     onSelect?: (eventKey: string, e: SyntheticEvent) => void
     onFocus?: (e: SyntheticEvent) => void
     onClick?: (e: SyntheticEvent) => void
+    preventClose?: boolean
     ref?: Ref<HTMLElement>
     variant?: 'default' | 'header' | 'divider' | 'custom'
 }
@@ -47,6 +48,7 @@ const DropdownItem = (props: DropdownItemProps) => {
         onSelect,
         onClick,
         onFocus,
+        preventClose,
         ref = null,
         variant = DEFAULT,
         ...rest
@@ -82,9 +84,11 @@ const DropdownItem = (props: DropdownItemProps) => {
             }
 
             activate(e)
-            tree?.events.emit('click')
+            if (!preventClose) {
+                tree?.events.emit('click')
+            }
         },
-        [disabled, activate, tree?.events],
+        [disabled, activate, preventClose, tree?.events],
     )
 
     const menuitemEventHandlers = {

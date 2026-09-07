@@ -4,7 +4,6 @@ import ReservationListActionTools from '../components/ReservationListActionTools
 import ReservationListTableTools from '../components/ReservationListTableTools'
 import ReservationListCards from '../components/ReservationListCards'
 import { useParams } from 'react-router'
-import PageLoading from '@/components/shared/PageLoading'
 import { useReservations } from '@/utils/custom-hooks/useReservation'
 import { useReservationStore } from '@/store/reservationStore'
 
@@ -22,10 +21,6 @@ const ReservationList = () => {
         // updateStatus,
         refetch,
     } = useReservations({ restaurantId: restaurantId!, params: tableData })
-
-    if (isLoading) {
-        return <PageLoading label="Loading reservations" />
-    }
 
     return (
         <Container>

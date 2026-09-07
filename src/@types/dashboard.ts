@@ -3,6 +3,10 @@ export type DashboardEDAData = {
     todayComfirmedOrder: number
     todayPendingReservation: number
     todayComfirmedReservation: number
+    todayCompletedOrder: number
+    todayCompletedOrderTotalPrice: number
+    todayCompletedReservation: number
+    todayCompletedReservationTotalPrice: number
 }
 
 export type GetDashboardEDADataResponse = {

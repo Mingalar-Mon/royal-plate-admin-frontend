@@ -229,7 +229,6 @@ function DataTable<T>(props: DataTableProps<T>) {
 
     const table = useReactTable({
         data,
-        // eslint-disable-next-line  @typescript-eslint/no-explicit-any
         columns: finalColumns as ColumnDef<unknown | object | any[], any>[],
         getCoreRowModel: getCoreRowModel(),
         getFilteredRowModel: getFilteredRowModel(),
@@ -373,14 +372,14 @@ function DataTable<T>(props: DataTableProps<T>) {
                     </TBody>
                 )}
             </Table>
-            <div className="flex items-center justify-between mt-4">
+            <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                 <Pagination
                     pageSize={pageSize}
                     currentPage={pageIndex}
                     total={total}
                     onChange={handlePaginationChange}
                 />
-                <div style={{ minWidth: 130 }}>
+                <div className="w-full sm:w-auto" style={{ minWidth: 130 }}>
                     <Select
                         instanceId={instanceId}
                         size="sm"

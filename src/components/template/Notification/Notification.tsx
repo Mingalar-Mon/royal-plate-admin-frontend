@@ -57,16 +57,15 @@ const _Notification = ({ className }: { className?: string }) => {
 
     const onNotificationOpen = async () => {
         if (!restaurantId) return
-        if (notificationList.length === 0) {
-            setLoading(true)
-            try {
-                const resp = await apiGetNotificationList(restaurantId, { limit: 20 })
-                setNotificationList(resp.data)
-            } catch {
-                setNotificationList([])
-            }
-            setLoading(false)
+        refreshCount()
+        setLoading(true)
+        try {
+            const resp = await apiGetNotificationList(restaurantId, { limit: 20 })
+            setNotificationList(resp.data)
+        } catch {
+            setNotificationList([])
         }
+        setLoading(false)
     }
 
     const onMarkAllAsRead = async () => {

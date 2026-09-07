@@ -1,18 +1,19 @@
 import Button from '@/components/ui/Button'
-import { TbCloudDownload, TbPlus, TbRefresh } from 'react-icons/tb'
-import { useNavigate, useParams } from 'react-router'
-import { CSVLink } from 'react-csv'
-import { useDishList } from '@/utils/custom-hooks/useDish'
-import { Cuisine } from '@/@types/restaurant'
-import { Dish } from '@/@types/dish'
+import { TbPlus, TbRefresh } from 'react-icons/tb'
 
-const DishListActionTools = ({ onRefresh }: { onRefresh: () => void }) => {
-    const navigate = useNavigate()
-    const { restaurantId } = useParams()
+type DishListActionToolsProps = {
+    onAdd: () => void
+    onRefresh: () => void
+}
+
+const DishListActionTools = ({
+    onAdd,
+    onRefresh,
+}: DishListActionToolsProps) => {
     // const { dishList } = useDishList()
 
     return (
-        <div className="flex flex-col md:flex-row gap-3">
+        <div className="flex w-full flex-col gap-2 sm:w-auto sm:flex-row">
             {/*             
             <CSVLink filename="menu-list.csv" data={dishList}>
                 <Button icon={<TbCloudDownload className="text-xl" />}>
@@ -21,12 +22,13 @@ const DishListActionTools = ({ onRefresh }: { onRefresh: () => void }) => {
             </CSVLink> */}
             <Button
                 variant="solid"
+                className="w-full sm:w-auto"
                 icon={<TbPlus className="text-xl" />}
-                onClick={() => navigate(`/dishes/create/${restaurantId}`)}
+                onClick={onAdd}
             >
                 Add Dish
             </Button>
-            <Button icon={<TbRefresh />} onClick={onRefresh}>
+            <Button className="w-full sm:w-auto" icon={<TbRefresh />} onClick={onRefresh}>
                 Refresh
             </Button>
         </div>

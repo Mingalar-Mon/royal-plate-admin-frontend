@@ -19,7 +19,7 @@ interface TableStoreState {
 export const useTableStore = create<TableStoreState>((set) => ({
     tableData: {
         pageIndex: 1,
-        pageSize: 10,
+        pageSize: 9,
         query: '',
         type: '',
         status: '',
@@ -33,7 +33,7 @@ export const useTableStore = create<TableStoreState>((set) => ({
         set({
             tableData: {
                 pageIndex: 1,
-                pageSize: 10,
+                pageSize: 9,
                 query: '',
                 type: '',
                 status: '',
