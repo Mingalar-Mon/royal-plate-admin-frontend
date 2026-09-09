@@ -1,13 +1,16 @@
-import { useMemo } from 'react'
-import { useNavigate, useParams } from 'react-router'
+import { useMemo, useState } from 'react'
 import { ColumnDef } from '@tanstack/react-table'
 import DataTable, { OnSortParam } from '@/components/shared/DataTable'
+import ConfirmDialog from '@/components/shared/ConfirmDialog'
+import Notification from '@/components/ui/Notification'
+import toast from '@/components/ui/toast'
 import dayjs from 'dayjs'
 import cloneDeep from 'lodash/cloneDeep'
 import { useDeleteStaff } from '@/utils/custom-hooks/useStaff'
 import StaffRoleBadge from './StaffRoleBadge'
 import ActionColumn from './ActionColumn'
-import type { RestaurantStaff } from '../../types/staff.type'
+import StaffDetailModal from './StaffDetailModal'
+import StaffEditModal from './StaffEditModal'
 import { Staff } from '@/services/RestaurantStaffService'
 import { useStaffStore } from '@/store/staffStore'
 
@@ -24,17 +27,40 @@ const StaffListTable = ({
     // setTableData: Dispatch<SetStateAction<TableQueries>>
     isLoading: boolean
 }) => {
-    const navigate = useNavigate()
-    const { restaurantId } = useParams()
-    // const { staffList, total, tableData, setTableData, isLoading } =
-    //     useStaffList(restaurantId!)
+    const [viewingStaff, setViewingStaff] = useState<Staff | null>(null)
+    const [editingStaff, setEditingStaff] = useState<Staff | null>(null)
+    const [staffToDelete, setStaffToDelete] = useState<Staff | null>(null)
 
     const tableData = useStaffStore((state) => state.tableData)
     const setTableData = useStaffStore((state) => state.setTableData)
 
-    const { mutate: deleteStaff } = useDeleteStaff()
+    const { mutate: deleteStaff, isPending: isDeleting } = useDeleteStaff()
 
-    const columns: ColumnDef<RestaurantStaff>[] = useMemo(
+    const handleDelete = () => {
+        if (!staffToDelete) return
+
+        deleteStaff(staffToDelete.id, {
+            onSuccess: () => {
+                toast.push(
+                    <Notification type="success">Staff deleted</Notification>,
+                    {
+                        placement: 'top-center',
+                    },
+                )
+                setStaffToDelete(null)
+            },
+            onError: () => {
+                toast.push(
+                    <Notification type="danger">
+                        Failed to delete staff
+                    </Notification>,
+                )
+                setStaffToDelete(null)
+            },
+        })
+    }
+
+    const columns: ColumnDef<Staff>[] = useMemo(
         () => [
             {
                 header: 'Name',
@@ -67,22 +93,15 @@ const StaffListTable = ({
                 id: 'action',
                 cell: (props) => (
                     <ActionColumn
-                        onView={() =>
-                            navigate(
-                                `/restaurants/${restaurantId}/staff/detail/${props.row.original.id}`,
-                            )
-                        }
-                        onEdit={() =>
-                            navigate(
-                                `/restaurants/${restaurantId}/staff/edit/${props.row.original.id}`,
-                            )
-                        }
-                        onDelete={() => deleteStaff(props.row.original.id)}
+                        onView={() => setViewingStaff(props.row.original)}
+                        onEdit={() => setEditingStaff(props.row.original)}
+                        onDelete={() => setStaffToDelete(props.row.original)}
+                        isDeleting={isDeleting}
                     />
                 ),
             },
         ],
-        [restaurantId, navigate, deleteStaff],
+        [deleteStaff, isDeleting],
     )
 
     const handlePaginationChange = (page: number) => {
@@ -115,19 +134,52 @@ const StaffListTable = ({
     }
 
     return (
-        <DataTable
-            columns={columns}
-            data={staffList}
-            loading={isLoading}
-            pagingData={{
-                total,
-                pageIndex: tableData.pageIndex,
-                pageSize: tableData.pageSize,
-            }}
-            onPaginationChange={handlePaginationChange}
-            onSelectChange={handleSelectChange}
-            onSort={handleSort}
-        />
+        <>
+            <DataTable
+                columns={columns}
+                data={staffList}
+                loading={isLoading}
+                pagingData={{
+                    total,
+                    pageIndex: tableData.pageIndex,
+                    pageSize: tableData.pageSize,
+                }}
+                onPaginationChange={handlePaginationChange}
+                onSelectChange={handleSelectChange}
+                onSort={handleSort}
+            />
+            <StaffDetailModal
+                staff={viewingStaff}
+                onClose={() => setViewingStaff(null)}
+                onEdit={(staff) => {
+                    setViewingStaff(null)
+                    setEditingStaff(staff)
+                }}
+            />
+            <StaffEditModal
+                staff={editingStaff}
+                onClose={() => setEditingStaff(null)}
+            />
+            <ConfirmDialog
+                isOpen={Boolean(staffToDelete)}
+                type="danger"
+                title="Delete Staff"
+                confirmText="Delete"
+                confirmButtonProps={{ loading: isDeleting }}
+                onClose={() => setStaffToDelete(null)}
+                onRequestClose={() => setStaffToDelete(null)}
+                onCancel={() => setStaffToDelete(null)}
+                onConfirm={handleDelete}
+            >
+                <p>
+                    Are you sure you want to delete{' '}
+                    <span className="font-semibold">
+                        {staffToDelete?.name}
+                    </span>
+                    ? This action cannot be undone.
+                </p>
+            </ConfirmDialog>
+        </>
     )
 }
 

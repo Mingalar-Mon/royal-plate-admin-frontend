@@ -63,7 +63,7 @@ const StaffCreate = () => {
                         variant="plain"
                         icon={<TbArrowNarrowLeft />}
                         onClick={() =>
-                            navigate(`/restaurants/${restaurantId}/staff`)
+                            navigate(`/restaurants/${restaurantId}/staffs`)
                         }
                     >
                         Back to Staff

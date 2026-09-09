@@ -1,13 +1,20 @@
 import { TbEye, TbEdit, TbTrash } from 'react-icons/tb'
 import Tooltip from '@/components/ui/Tooltip'
+import Spinner from '@/components/ui/Spinner'
 
 interface ActionColumnProps {
     onView: () => void
     onEdit?: () => void
     onDelete?: () => void
+    isDeleting?: boolean
 }
 
-const ActionColumn = ({ onView, onEdit, onDelete }: ActionColumnProps) => {
+const ActionColumn = ({
+    onView,
+    onEdit,
+    onDelete,
+    isDeleting = false,
+}: ActionColumnProps) => {
     return (
         <div className="flex items-center justify-end gap-3">
             <Tooltip title="View Details">
@@ -29,12 +36,16 @@ const ActionColumn = ({ onView, onEdit, onDelete }: ActionColumnProps) => {
                 </Tooltip>
             )}
             {onDelete && (
-                <Tooltip title="Delete">
+                <Tooltip title={isDeleting ? 'Deleting...' : 'Delete'}>
                     <div
-                        className="text-xl cursor-pointer text-red-500 hover:text-red-700"
-                        onClick={onDelete}
+                        className={`text-xl ${
+                            isDeleting
+                                ? 'text-gray-400'
+                                : 'cursor-pointer text-red-500 hover:text-red-700'
+                        }`}
+                        onClick={isDeleting ? undefined : onDelete}
                     >
-                        <TbTrash />
+                        {isDeleting ? <Spinner size={20} /> : <TbTrash />}
                     </div>
                 </Tooltip>
             )}
