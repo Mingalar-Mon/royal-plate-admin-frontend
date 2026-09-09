@@ -76,29 +76,31 @@ const OrderListCards = ({ orderList, orderListTotal, isLoading }: Props) => {
                         <div className="flex items-start justify-between gap-3">
                             <button
                                 type="button"
-                                className="text-left"
+                                className="min-w-0 flex-1 text-left"
                                 onClick={() => navigate(`/orders/${order.id}`)}
                             >
                                 <p className="text-xs font-medium uppercase tracking-wide text-gray-500">
                                     Order
                                 </p>
-                                <h5 className="text-lg font-bold text-primary hover:underline">
+                                <h5 className="truncate text-lg font-bold text-primary hover:underline">
                                     #{order.orderNumber}
                                 </h5>
                             </button>
-                            <OrderStatusBadge
-                                status={order.status}
-                                isLoading={statusUpdatingId === order.id}
-                                onChange={(status) =>
-                                    handleStatusChange(order, status)
-                                }
-                            />
+                            <div className="shrink-0">
+                                <OrderStatusBadge
+                                    status={order.status}
+                                    isLoading={statusUpdatingId === order.id}
+                                    onChange={(status) =>
+                                        handleStatusChange(order, status)
+                                    }
+                                />
+                            </div>
                         </div>
 
                         <div className="mt-4 space-y-2 text-sm">
                             <div className="flex items-center justify-between gap-3">
                                 <span className="text-gray-500">Customer</span>
-                                <span className="font-semibold text-right">
+                                <span className="max-w-[60%] truncate text-right font-semibold">
                                     {order.user?.name || '-'}
                                 </span>
                             </div>
