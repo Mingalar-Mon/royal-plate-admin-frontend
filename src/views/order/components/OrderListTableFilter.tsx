@@ -10,7 +10,6 @@ const statusOptions = [
     { value: 'ready', label: 'Ready' },
     { value: 'completed', label: 'Completed' },
     { value: 'rejected', label: 'Rejected' },
-    { value: 'no_show', label: 'No Show' },
     { value: 'canceled', label: 'Canceled' },
 ]
 

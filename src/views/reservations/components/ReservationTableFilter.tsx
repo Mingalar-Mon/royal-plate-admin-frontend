@@ -15,7 +15,6 @@ const statusOptions: { value: ReservationStatus | ''; label: string }[] = [
     { value: 'confirmed', label: 'Confirmed' },
     { value: 'seated', label: 'Seated' },
     { value: 'completed', label: 'Completed' },
-    { value: 'no_show', label: 'No show' },
     { value: 'rejected', label: 'Rejected' },
     { value: 'canceled', label: 'Canceled' },
 ]

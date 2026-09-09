@@ -29,11 +29,6 @@ export const orderStatusColor = {
         textClass: 'text-red-700',
         label: 'Rejected',
     },
-    no_show: {
-        bgClass: 'bg-gray-100',
-        textClass: 'text-gray-700',
-        label: 'No Show',
-    },
     canceled: {
         bgClass: 'bg-red-100',
         textClass: 'text-red-700',

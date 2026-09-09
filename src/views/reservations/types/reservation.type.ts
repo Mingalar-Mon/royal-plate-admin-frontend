@@ -3,7 +3,6 @@ export type ReservationStatus =
     | 'confirmed'
     | 'seated'
     | 'completed'
-    | 'no_show'
     | 'rejected'
     | 'canceled'
 

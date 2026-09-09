@@ -9,7 +9,6 @@ import {
     TbAccessible,
     TbAlarm,
     TbEraserOff,
-    TbUserOff,
 } from 'react-icons/tb'
 import { OrderStatus } from '@/@types/order'
 
@@ -56,12 +55,6 @@ const statusConfig: Record<
         color: 'bg-emerald-100 text-blue-700',
         icon: TbCircleCheck,
     },
-
-    no_show: {
-        label: 'No Show',
-        color: 'bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-400',
-        icon: TbUserOff,
-    },
 }
 
 interface OrderStatusBadgeProps {
@@ -80,13 +73,12 @@ const OrderStatusBadge = ({
         OrderStatus.REJECTED,
         OrderStatus.CANCELED,
         OrderStatus.COMPLETED,
-        OrderStatus.NO_SHOW,
     ]
     const statusTransitions: Partial<Record<OrderStatus, OrderStatus[]>> = {
         [OrderStatus.PENDING]: [OrderStatus.CONFIRMED, OrderStatus.REJECTED],
         [OrderStatus.CONFIRMED]: [OrderStatus.PREPARING],
         [OrderStatus.PREPARING]: [OrderStatus.READY],
-        [OrderStatus.READY]: [OrderStatus.COMPLETED, OrderStatus.NO_SHOW],
+        [OrderStatus.READY]: [OrderStatus.COMPLETED],
     }
 
     const isTerminal = terminalStatuses.includes(status)

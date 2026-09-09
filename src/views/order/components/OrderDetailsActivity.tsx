@@ -26,7 +26,6 @@ const statusLabels: Record<string, string> = {
     completed: 'Completed',
     canceled: 'Canceled',
     rejected: 'Rejected',
-    no_show: 'No show',
 }
 
 const formatLabel = (step: string) =>
@@ -45,7 +44,7 @@ const OrderDetailsActivities = ({ order }: OrderDetailsActivitiesProps) => {
     ]
 
     const isTerminated =
-        status === 'canceled' || status === 'rejected' || status === 'no_show'
+        status === 'canceled' || status === 'rejected'
 
     const displayFlow = isTerminated ? ['pending', status] : standardFlow
     const currentIndex = displayFlow.indexOf(status)
@@ -58,7 +57,6 @@ const OrderDetailsActivities = ({ order }: OrderDetailsActivitiesProps) => {
         completed: order.completed_at,
         canceled: order.terminated_at,
         rejected: order.terminated_at,
-        no_show: order.terminated_at,
     }
 
     const activities = displayFlow.map((step, idx) => ({

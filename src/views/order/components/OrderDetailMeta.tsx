@@ -6,7 +6,7 @@ interface OrderDetailMetaProps {
     order: Order
 }
 
-const terminalStatuses = new Set(['canceled', 'rejected', 'no_show'])
+const terminalStatuses = new Set(['canceled', 'rejected'])
 
 const OrderDetailMeta = ({ order }: OrderDetailMetaProps) => {
     const hasRemark = Boolean(order.remark?.trim())

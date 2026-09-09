@@ -4,7 +4,6 @@ import {
     TbX,
     TbCircleCheck,
     TbArmchair,
-    TbUserOff,
     TbBan,
 } from 'react-icons/tb'
 
@@ -14,7 +13,6 @@ export enum ReservationStatus {
     CANCELED = 'canceled',
     COMPLETED = 'completed',
     SEATED = 'seated',
-    NO_SHOW = 'no_show',
     REJECTED = 'rejected',
 }
 
@@ -43,11 +41,6 @@ export const ReservationStatusColor = {
         label: 'Seated',
         color: 'bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-400',
         icon: TbArmchair,
-    },
-    [ReservationStatus.NO_SHOW]: {
-        label: 'No Show',
-        color: 'bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-400',
-        icon: TbUserOff,
     },
     [ReservationStatus.REJECTED]: {
         label: 'Rejected',

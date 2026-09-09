@@ -21,21 +21,16 @@ const statusTransitions: Partial<
         ReservationStatus.CONFIRMED,
         ReservationStatus.SEATED,
         ReservationStatus.COMPLETED,
-        ReservationStatus.NO_SHOW,
         ReservationStatus.REJECTED,
     ],
     [ReservationStatus.CONFIRMED]: [ReservationStatus.COMPLETED],
-    [ReservationStatus.SEATED]: [
-        ReservationStatus.COMPLETED,
-        ReservationStatus.NO_SHOW,
-    ],
-    [ReservationStatus.COMPLETED]: [ReservationStatus.NO_SHOW],
+    [ReservationStatus.SEATED]: [ReservationStatus.COMPLETED],
 }
 
 const terminalStatuses: ReservationStatusValue[] = [
     ReservationStatus.REJECTED,
     ReservationStatus.CANCELED,
-    ReservationStatus.NO_SHOW,
+    ReservationStatus.COMPLETED,
 ]
 
 const ReservationStatusBadge = ({
