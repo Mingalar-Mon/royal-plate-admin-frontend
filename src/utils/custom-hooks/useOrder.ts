@@ -1,5 +1,7 @@
+import { createElement } from 'react'
 import { normalizeOrderStatus } from '@/@types/order'
 import { OrderQueries, useOrderStore } from '@/store/orderStore'
+import { Notification, toast } from '@/components/ui'
 // import { apiCreateOrder } from '@/services/OrderService'
 import { Order, OrderFormSchema } from '@/views/order/types/order.type'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
@@ -236,11 +238,30 @@ export const useUpdateOrderStatus = () => {
     const queryClient = useQueryClient()
     return useMutation({
         mutationFn: apiUpdateOrderStatus,
-        onSuccess: (_data, variables) => {
+        onSuccess: (response, variables) => {
             queryClient.invalidateQueries({ queryKey: ['orders'] })
             queryClient.invalidateQueries({
                 queryKey: ['order', variables.orderId],
             })
+            toast.push(
+                createElement(
+                    Notification,
+                    { type: 'success', title: 'Order updated' },
+                    response?.message || 'Order status updated successfully.',
+                ),
+                { placement: 'top-center' },
+            )
+        },
+        onError: (error: any) => {
+            toast.push(
+                createElement(
+                    Notification,
+                    { type: 'danger', title: 'Unable to update order' },
+                    error?.response?.data?.message ||
+                        'The order status could not be updated.',
+                ),
+                { placement: 'top-center' },
+            )
         },
     })
 }
