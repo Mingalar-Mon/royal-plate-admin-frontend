@@ -23,7 +23,7 @@ const statusTransitions: Partial<
         ReservationStatus.COMPLETED,
         ReservationStatus.REJECTED,
     ],
-    [ReservationStatus.CONFIRMED]: [ReservationStatus.COMPLETED],
+    [ReservationStatus.CONFIRMED]: [ReservationStatus.SEATED, ReservationStatus.COMPLETED],
     [ReservationStatus.SEATED]: [ReservationStatus.COMPLETED],
 }
 
