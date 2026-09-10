@@ -11,8 +11,9 @@ import {
     TbCalendarMonth,
     TbListDetails,
     TbAlertTriangle,
+    TbCash,
 } from 'react-icons/tb'
-import { apiGetPayoutPreview } from '@/services/TransactionService'
+import { apiGetPayoutPreview, apiPostPayout } from '@/services/TransactionService'
 import TransactionSummaryCards from '@/views/transaction/TransactionList/components/TransactionSummaryCards'
 import TransactionListTable from '@/views/transaction/TransactionList/components/TransactionListTable'
 import AdminRestaurantSelect from '../transactions/components/AdminRestaurantSelect'
@@ -26,6 +27,7 @@ const AdminSettlement = () => {
     const [fromDate, setFromDate] = useState<Date | null>(null)
     const [toDate, setToDate] = useState<Date | null>(null)
     const [loading, setLoading] = useState(false)
+    const [payoutLoading, setPayoutLoading] = useState(false)
     const [transactions, setTransactions] = useState<TransactionItem[]>([])
     const [summary, setSummary] = useState<TransactionSummary | undefined>()
     const [total, setTotal] = useState(0)
@@ -75,6 +77,37 @@ const AdminSettlement = () => {
 
     const handleRefresh = () => {
         fetchData()
+    }
+
+    const handlePayout = async () => {
+        if (!selectedRestaurantId || !fromDate || !toDate || !summary) return
+
+        setPayoutLoading(true)
+        try {
+            await apiPostPayout({
+                restaurantId: selectedRestaurantId,
+                fromDate: dayjs(fromDate).format('YYYY-MM-DD'),
+                toDate: dayjs(toDate).format('YYYY-MM-DD'),
+                totalPrice: summary.totalPrice,
+                subTotal: summary.subTotal,
+                commission_fee: summary.commission_fee,
+                netAmount: summary.netAmount,
+            })
+            toast.push(
+                <Notification type="success" title="Payout completed">
+                    The payout has been completed successfully.
+                </Notification>,
+            )
+            await fetchData()
+        } catch {
+            toast.push(
+                <Notification type="danger" title="Payout failed">
+                    Could not complete the payout. Please try again.
+                </Notification>,
+            )
+        } finally {
+            setPayoutLoading(false)
+        }
     }
 
     return (
@@ -158,6 +191,18 @@ const AdminSettlement = () => {
                                         disabled={!canFetch || alreadySettled}
                                     >
                                         Refresh
+                                    </Button>
+                                    <Button
+                                        size="sm"
+                                        variant="solid"
+                                        icon={<TbCash />}
+                                        onClick={handlePayout}
+                                        disabled={
+                                            !hasFetched || alreadySettled || !summary
+                                        }
+                                        loading={payoutLoading}
+                                    >
+                                        Payout
                                     </Button>
                                 </div>
                             </div>

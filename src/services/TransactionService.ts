@@ -47,3 +47,21 @@ export async function apiGetPayoutPreview(params: GetTransactionsParams) {
         params: { page: 1, limit: 10, ...params },
     })
 }
+
+export type PostPayoutParams = {
+    restaurantId: string
+    fromDate: string
+    toDate: string
+    totalPrice: number
+    subTotal: number
+    commission_fee: number
+    netAmount: number
+}
+
+export async function apiPostPayout(data: PostPayoutParams) {
+    return ApiService.fetchDataWithAxios({
+        url: '/transaction/payout',
+        method: 'post',
+        data,
+    })
+}
