@@ -1,5 +1,6 @@
 import ApiService from './ApiService'
 import type { GetTransactionsResponse } from '@/@types/transaction'
+import type { PayoutBatchesResponse } from '@/@types/payout'
 
 export type GetTransactionsParams = {
     restaurantId: string
@@ -63,5 +64,19 @@ export async function apiPostPayout(data: PostPayoutParams) {
         url: '/transaction/payout',
         method: 'post',
         data,
+    })
+}
+
+export type GetPayoutsParams = {
+    page?: number
+    limit?: number
+    restaurantId?: string
+}
+
+export async function apiGetPayouts(params: GetPayoutsParams) {
+    return ApiService.fetchDataWithAxios<PayoutBatchesResponse>({
+        url: '/transaction/payout',
+        method: 'get',
+        params: { page: 1, limit: 10, ...params },
     })
 }

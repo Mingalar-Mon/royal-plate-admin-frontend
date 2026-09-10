@@ -4,6 +4,7 @@ import {
     useEffect,
     useState,
     useImperativeHandle,
+    Fragment,
 } from 'react'
 import classNames from 'classnames'
 import Table from '@/components/ui/Table'
@@ -16,6 +17,7 @@ import FileNotFound from '@/assets/svg/FileNotFound'
 import {
     useReactTable,
     getCoreRowModel,
+    getExpandedRowModel,
     getFilteredRowModel,
     getPaginationRowModel,
     getSortedRowModel,
@@ -24,6 +26,8 @@ import {
     ColumnSort,
     Row,
     CellContext,
+    ExpandedState,
+    OnChangeFn,
 } from '@tanstack/react-table'
 import type { TableProps } from '@/components/ui/Table'
 import type { SkeletonProps } from '@/components/ui/Skeleton'
@@ -55,6 +59,10 @@ type DataTableProps<T> = {
     }
     checkboxChecked?: (row: T) => boolean
     indeterminateCheckboxChecked?: (row: Row<T>[]) => boolean
+    expanded?: ExpandedState
+    onExpandedChange?: OnChangeFn<ExpandedState>
+    getRowCanExpand?: (row: Row<T>) => boolean
+    renderSubComponent?: (props: { row: Row<T> }) => ReactNode
     ref?: Ref<DataTableResetHandle | HTMLTableElement>
 } & TableProps
 
@@ -133,6 +141,10 @@ function DataTable<T>(props: DataTableProps<T>) {
         indeterminateCheckboxChecked,
         instanceId = 'data-table',
         ref,
+        expanded,
+        onExpandedChange,
+        getRowCanExpand,
+        renderSubComponent,
         ...rest
     } = props
 
@@ -231,16 +243,20 @@ function DataTable<T>(props: DataTableProps<T>) {
         data,
         columns: finalColumns as ColumnDef<unknown | object | any[], any>[],
         getCoreRowModel: getCoreRowModel(),
+        getExpandedRowModel: getExpandedRowModel(),
         getFilteredRowModel: getFilteredRowModel(),
         getPaginationRowModel: getPaginationRowModel(),
         getSortedRowModel: getSortedRowModel(),
         manualPagination: true,
         manualSorting: true,
+        getRowCanExpand: getRowCanExpand as any,
+        onExpandedChange,
         onSortingChange: (sorter) => {
             setSorting(sorter as ColumnSort[])
         },
         state: {
             sorting: sorting as ColumnSort[],
+            expanded,
         },
     })
 
@@ -345,27 +361,44 @@ function DataTable<T>(props: DataTableProps<T>) {
                                 .rows.slice(0, pageSize)
                                 .map((row) => {
                                     return (
-                                        <Tr key={row.id}>
-                                            {row
-                                                .getVisibleCells()
-                                                .map((cell) => {
-                                                    return (
+                                        <Fragment key={row.id}>
+                                            <Tr>
+                                                {row
+                                                    .getVisibleCells()
+                                                    .map((cell) => {
+                                                        return (
+                                                            <Td
+                                                                key={cell.id}
+                                                                style={{
+                                                                    width: cell.column.getSize(),
+                                                                }}
+                                                            >
+                                                                {flexRender(
+                                                                    cell.column
+                                                                        .columnDef
+                                                                        .cell,
+                                                                    cell.getContext(),
+                                                                )}
+                                                            </Td>
+                                                        )
+                                                    })}
+                                            </Tr>
+                                            {row.getIsExpanded() &&
+                                                renderSubComponent && (
+                                                    <Tr>
                                                         <Td
-                                                            key={cell.id}
-                                                            style={{
-                                                                width: cell.column.getSize(),
-                                                            }}
+                                                            className="!border-t !border-gray-100 !bg-gray-50/80 !px-4 !py-3 dark:!border-gray-800 dark:!bg-gray-900/40"
+                                                            colSpan={row
+                                                                .getVisibleCells()
+                                                                .length}
                                                         >
-                                                            {flexRender(
-                                                                cell.column
-                                                                    .columnDef
-                                                                    .cell,
-                                                                cell.getContext(),
-                                                            )}
+                                                            {renderSubComponent({
+                                                                row: row as Row<T>,
+                                                            })}
                                                         </Td>
-                                                    )
-                                                })}
-                                        </Tr>
+                                                    </Tr>
+                                                )}
+                                        </Fragment>
                                     )
                                 })
                         )}

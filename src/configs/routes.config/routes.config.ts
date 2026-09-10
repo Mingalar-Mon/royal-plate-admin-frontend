@@ -156,6 +156,18 @@ export const protectedRoutes: Routes = [
         component: lazy(() => import('@/views/admin/settlement')),
         authority: [ADMIN],
     },
+    {
+        key: 'payout.history',
+        path: '/restaurants/:restaurantId/payouts',
+        component: lazy(() => import('@/views/payouts')),
+        authority: [OWNER],
+    },
+    {
+        key: 'admin.payout.history',
+        path: '/admin/payouts',
+        component: lazy(() => import('@/views/admin/payouts')),
+        authority: [ADMIN],
+    },
     // ================ STAFF ==============
     {
         key: 'staff.create',
