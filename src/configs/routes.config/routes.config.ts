@@ -150,6 +150,12 @@ export const protectedRoutes: Routes = [
         component: lazy(() => import('@/views/admin/transactions')),
         authority: [ADMIN],
     },
+    {
+        key: 'admin.settlement',
+        path: '/admin/settlement',
+        component: lazy(() => import('@/views/admin/settlement')),
+        authority: [ADMIN],
+    },
     // ================ STAFF ==============
     {
         key: 'staff.create',

@@ -224,6 +224,16 @@ const navigationConfig: NavigationTree[] = [
         subMenu: [],
     },
     {
+        key: 'adminSettlement',
+        path: '/admin/settlement',
+        title: 'Settlement',
+        icon: 'transaction',
+        translateKey: 'nav.settlement',
+        type: NAV_ITEM_TYPE_ITEM,
+        authority: [ADMIN],
+        subMenu: [],
+    },
+    {
         key: 'user.list',
         path: '/users',
         title: 'Users',
@@ -429,6 +439,17 @@ const navigationConfig: NavigationTree[] = [
                 authority: [],
                 subMenu: [],
             },
+        ],
+    },
+    {
+        key: 'accounting',
+        path: '',
+        title: 'Accounting',
+        translateKey: 'nav.accounting',
+        icon: 'transaction',
+        type: NAV_ITEM_TYPE_COLLAPSE,
+        authority: [OWNER],
+        subMenu: [
             {
                 key: 'transaction.list',
                 path: '/restaurants/:restaurantId/transactions',

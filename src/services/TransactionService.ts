@@ -39,3 +39,11 @@ export async function apiGetAllTransactions(
 
     return items
 }
+
+export async function apiGetPayoutPreview(params: GetTransactionsParams) {
+    return ApiService.fetchDataWithAxios<GetTransactionsResponse>({
+        url: '/transaction/payout-preview',
+        method: 'get',
+        params: { page: 1, limit: 10, ...params },
+    })
+}
