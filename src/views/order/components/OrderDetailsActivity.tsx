@@ -2,7 +2,7 @@ import Card from '@/components/ui/Card'
 import Timeline from '@/components/ui/Timeline'
 import Badge from '@/components/ui/Badge'
 import classNames from '@/utils/classNames'
-import dayjs from 'dayjs'
+import { toRestaurantTime } from '@/utils/orderDate'
 
 interface OrderDetailsActivitiesProps {
     order: {
@@ -43,8 +43,7 @@ const OrderDetailsActivities = ({ order }: OrderDetailsActivitiesProps) => {
         'completed',
     ]
 
-    const isTerminated =
-        status === 'canceled' || status === 'rejected'
+    const isTerminated = status === 'canceled' || status === 'rejected'
 
     const displayFlow = isTerminated ? ['pending', status] : standardFlow
     const currentIndex = displayFlow.indexOf(status)
@@ -79,7 +78,7 @@ const OrderDetailsActivities = ({ order }: OrderDetailsActivitiesProps) => {
                             <Badge
                                 className={classNames(
                                     act.isCurrent &&
-                                    'ring-2 ring-offset-2 ring-primary-500 dark:ring-offset-gray-800',
+                                        'ring-2 ring-offset-2 ring-primary-500 dark:ring-offset-gray-800',
                                 )}
                                 innerClass={
                                     act.completed
@@ -97,8 +96,8 @@ const OrderDetailsActivities = ({ order }: OrderDetailsActivitiesProps) => {
                                 act.isCurrent
                                     ? 'font-bold text-gray-900 dark:text-gray-100'
                                     : act.completed
-                                        ? 'font-semibold text-gray-800 dark:text-gray-200'
-                                        : 'font-medium text-gray-500 dark:text-gray-400',
+                                      ? 'font-semibold text-gray-800 dark:text-gray-200'
+                                      : 'font-medium text-gray-500 dark:text-gray-400',
                             )}
                         >
                             {act.name}
@@ -121,7 +120,9 @@ const OrderDetailsActivities = ({ order }: OrderDetailsActivitiesProps) => {
                         </div>
                         {act.date ? (
                             <div className="text-xs text-gray-500 mt-0.5">
-                                {dayjs(act.date).format('DD/MM/YYYY HH:mm')}
+                                {toRestaurantTime(act.date)?.format(
+                                    'DD/MM/YYYY HH:mm',
+                                )}
                             </div>
                         ) : (
                             <div className="text-xs text-gray-400 dark:text-gray-500 mt-0.5">

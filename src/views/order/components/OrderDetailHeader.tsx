@@ -1,10 +1,10 @@
 import Card from '@/components/ui/Card'
 import Notification from '@/components/ui/Notification'
 import toast from '@/components/ui/toast'
-import dayjs from 'dayjs'
 import { TbCalendar, TbClock } from 'react-icons/tb'
 import { Order, OrderStatus } from '@/@types/order'
 import { useUpdateOrderStatus } from '@/utils/custom-hooks/useOrder'
+import { toRestaurantTime } from '@/utils/orderDate'
 import OrderStatusBadge from './OrderStatusBadge'
 
 interface OrderDetailHeaderProps {
@@ -55,7 +55,7 @@ const OrderDetailHeader = ({ order }: OrderDetailHeaderProps) => {
                             <span className="inline-flex items-center gap-1.5">
                                 <TbClock className="text-base" />
                                 Created{' '}
-                                {dayjs(order.created_at).format(
+                                {toRestaurantTime(order.created_at)?.format(
                                     'DD/MM/YYYY HH:mm',
                                 )}
                             </span>
@@ -63,7 +63,7 @@ const OrderDetailHeader = ({ order }: OrderDetailHeaderProps) => {
                         {order.updated_at && (
                             <span className="inline-flex items-center gap-1.5">
                                 Updated{' '}
-                                {dayjs(order.updated_at).format(
+                                {toRestaurantTime(order.updated_at)?.format(
                                     'DD/MM/YYYY HH:mm',
                                 )}
                             </span>
@@ -78,7 +78,7 @@ const OrderDetailHeader = ({ order }: OrderDetailHeaderProps) => {
                         </div>
                         <div className="inline-flex items-center gap-1.5 font-semibold text-gray-900 dark:text-gray-100">
                             <TbCalendar className="text-base" />
-                            {dayjs(order.scheduledDate).format(
+                            {toRestaurantTime(order.scheduledDate)?.format(
                                 'DD/MM/YYYY HH:mm',
                             )}
                         </div>

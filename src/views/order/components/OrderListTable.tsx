@@ -4,8 +4,9 @@ import { ColumnDef } from '@tanstack/react-table'
 import DataTable from '@/components/shared/DataTable'
 import ConfirmDialog from '@/components/shared/ConfirmDialog'
 import Dialog from '@/components/ui/Dialog'
-// import { NumericFormat } from 'react-number-format'
+import { toRestaurantTime } from '@/utils/orderDate'
 import dayjs from 'dayjs'
+// import { NumericFormat } from 'react-number-format'
 
 import {
     // OrderTableData,
@@ -120,9 +121,9 @@ const OrderListTable = ({
                 accessorKey: 'created_at',
                 cell: (props) => (
                     <span className="font-semibold">
-                        {dayjs(props.row.original.created_at).format(
-                            'DD/MM/YYYY',
-                        )}
+                        {toRestaurantTime(
+                            props.row.original.created_at,
+                        )?.format('DD/MM/YYYY')}
 
                         {/* {dayjs
                             .unix(props.row.original.created_at)
@@ -185,17 +186,9 @@ const OrderListTable = ({
                 cell: (props) => (
                     <div className="flex items-center gap-1">
                         <span className="capitalize">
-                            {new Date(
+                            {toRestaurantTime(
                                 props.row.original.scheduledDate,
-                            ).toLocaleString('en-GB', {
-                                day: 'numeric',
-                                month: 'numeric',
-                                year: 'numeric',
-                                hour: 'numeric',
-                                minute: 'numeric',
-                                second: 'numeric',
-                                hour12: true,
-                            })}
+                            )?.format('DD/MM/YYYY HH:mm')}
                         </span>
                     </div>
                 ),
@@ -320,62 +313,70 @@ const OrderListTable = ({
                 title="Preview Order Items"
             >
                 {statusChangePreview && (
-                    <div className="p-4">                                <div className="mb-5 rounded-xl bg-gradient-to-r from-primary/10 via-blue-50 to-purple-50 p-4 dark:from-primary/20 dark:via-blue-950/40 dark:to-purple-950/40">
-                        <div className="flex items-center justify-between gap-3">
-                            <div>
-                                <p className="text-xs font-semibold uppercase tracking-wide text-primary">
-                                    Order Preview
-                                </p>
-                                <h5 className="mt-1 text-lg font-bold">
-                                    #{statusChangePreview.order.orderNumber}
-                                </h5>
+                    <div className="p-4">
+                        {' '}
+                        <div className="mb-5 rounded-xl bg-gradient-to-r from-primary/10 via-blue-50 to-purple-50 p-4 dark:from-primary/20 dark:via-blue-950/40 dark:to-purple-950/40">
+                            <div className="flex items-center justify-between gap-3">
+                                <div>
+                                    <p className="text-xs font-semibold uppercase tracking-wide text-primary">
+                                        Order Preview
+                                    </p>
+                                    <h5 className="mt-1 text-lg font-bold">
+                                        #{statusChangePreview.order.orderNumber}
+                                    </h5>
+                                </div>
+                                <OrderStatusBadge
+                                    status={statusChangePreview.newStatus}
+                                    onChange={function (
+                                        status: OrderStatus,
+                                    ): void {
+                                        throw new Error(
+                                            'Function not implemented.',
+                                        )
+                                    }}
+                                />
                             </div>
-                            <OrderStatusBadge
-                                status={statusChangePreview.newStatus} onChange={function (status: OrderStatus): void {
-                                    throw new Error('Function not implemented.')
-                                }} />
-                        </div>
-                        {/* <p className="mt-2 text-sm text-gray-600 dark:text-gray-300">
+                            {/* <p className="mt-2 text-sm text-gray-600 dark:text-gray-300">
                             Review the items before changing the order status.
                         </p> */}
-                    </div>
-
+                        </div>
                         {statusChangePreview.order.remark && (
                             <div className="mb-4 rounded-lg bg-amber-50 px-3 py-2 text-sm text-amber-800 dark:bg-amber-950/30 dark:text-amber-200">
                                 <span className="font-semibold">Remark:</span>{' '}
                                 {statusChangePreview.order.remark}
                             </div>
                         )}
-
                         <div className="max-h-[45vh] overflow-y-auto pr-1">
-
                             {statusChangePreview.order.items.length > 0 ? (
-                                statusChangePreview.order.items.map((item) => (<div
-                                    key={item.id}                                            className="flex items-center justify-between border-b border-gray-200/70 py-3 first:pt-0 last:border-b-0 last:pb-0 dark:border-gray-700"
-
-                                >                                            <div className="min-w-0">
-                                                <div className="font-medium text-primary-700 dark:text-primary-300">
-                                                    {item.dish.name}
-                                                </div>
-                                                {item.note && (
-                                                    <div className="text-xs text-gray-500">
-                                                        Note: {item.note}
-                                                    </div>
-                                                )}
+                                statusChangePreview.order.items.map((item) => (
+                                    <div
+                                        key={item.id}
+                                        className="flex items-center justify-between border-b border-gray-200/70 py-3 first:pt-0 last:border-b-0 last:pb-0 dark:border-gray-700"
+                                    >
+                                        {' '}
+                                        <div className="min-w-0">
+                                            <div className="font-medium text-primary-700 dark:text-primary-300">
+                                                {item.dish.name}
                                             </div>
-
-                                    <div className="text-right">
-                                        <div className="font-semibold text-purple-700 dark:text-purple-300">
-                                            x{item.quantity}
+                                            {item.note && (
+                                                <div className="text-xs text-gray-500">
+                                                    Note: {item.note}
+                                                </div>
+                                            )}
                                         </div>
-                                        <div className="text-sm text-gray-500">
-                                            {(
-                                                item.quantity * item.unitPrice
-                                            ).toLocaleString()}{' '}
-                                            MMK
+                                        <div className="text-right">
+                                            <div className="font-semibold text-purple-700 dark:text-purple-300">
+                                                x{item.quantity}
+                                            </div>
+                                            <div className="text-sm text-gray-500">
+                                                {(
+                                                    item.quantity *
+                                                    item.unitPrice
+                                                ).toLocaleString()}{' '}
+                                                MMK
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
                                 ))
                             ) : (
                                 <p className="py-6 text-center text-gray-500">
@@ -383,7 +384,6 @@ const OrderListTable = ({
                                 </p>
                             )}
                         </div>
-
                         <div className="mt-4 flex justify-end gap-2 border-t border-primary/10 bg-white pt-4 dark:bg-gray-900">
                             <Button
                                 type="button"

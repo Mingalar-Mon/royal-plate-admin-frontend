@@ -1,5 +1,4 @@
 import { useNavigate } from 'react-router'
-import dayjs from 'dayjs'
 import { useState } from 'react'
 import { TbCalendarEvent, TbChevronRight } from 'react-icons/tb'
 import { useUpdateOrderStatus } from '@/utils/custom-hooks/useOrder'
@@ -11,6 +10,7 @@ import CardSkeleton from '@/components/shared/CardSkeletonGrid'
 import Button from '@/components/ui/Button'
 import Dialog from '@/components/ui/Dialog'
 import Pagination from '@/components/ui/Pagination'
+import { toRestaurantTime } from '@/utils/orderDate'
 
 interface Props {
     orderList: Order[]
@@ -107,7 +107,7 @@ const OrderListCards = ({ orderList, orderListTotal, isLoading }: Props) => {
                             <div className="flex items-center justify-between gap-3">
                                 <span className="text-gray-500">Placed</span>
                                 <span className="font-medium">
-                                    {dayjs(order.created_at).format(
+                                    {toRestaurantTime(order.created_at)?.format(
                                         'DD/MM/YYYY HH:mm',
                                     )}
                                 </span>
@@ -117,9 +117,9 @@ const OrderListCards = ({ orderList, orderListTotal, isLoading }: Props) => {
                                     <TbCalendarEvent /> Pick up
                                 </span>
                                 <span className="font-medium text-right">
-                                    {dayjs(order.scheduledDate).format(
-                                        'DD/MM/YYYY HH:mm',
-                                    )}
+                                    {toRestaurantTime(
+                                        order.scheduledDate,
+                                    )?.format('DD/MM/YYYY HH:mm')}
                                 </span>
                             </div>
                         </div>
