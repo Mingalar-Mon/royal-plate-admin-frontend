@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
 import { ColumnDef } from '@tanstack/react-table'
-import dayjs from 'dayjs'
+import classNames from 'classnames'
 import { NumericFormat } from 'react-number-format'
 import DataTable from '@/components/shared/DataTable'
 import { useTransactionStore } from '@/store/transactionStore'
@@ -100,13 +100,30 @@ const TransactionListTable = ({
                 },
             },
             {
-                header: 'Created',
-                accessorKey: 'created_at',
+                header: 'Settlement',
+                accessorKey: 'isSettle',
+                cell: (props) => {
+                    const settled = props.row.original.isSettle
+                    return (
+                        <span
+                            className={classNames(
+                                'inline-flex items-center rounded-full px-2.5 py-1 text-xs font-semibold capitalize',
+                                settled
+                                    ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400'
+                                    : 'bg-orange-500/10 text-orange-600 dark:text-orange-400',
+                            )}
+                        >
+                            {settled ? 'Settled' : 'Unsettled'}
+                        </span>
+                    )
+                },
+            },
+            {
+                header: 'Net amount',
+                accessorKey: 'netAmount',
                 cell: (props) => (
-                    <span className="whitespace-nowrap">
-                        {dayjs(props.row.original.created_at).format(
-                            'DD/MM/YYYY HH:mm',
-                        )}
+                    <span className="font-bold text-gray-900 dark:text-gray-100">
+                        <Money value={props.row.original.netAmount} />
                     </span>
                 ),
             },

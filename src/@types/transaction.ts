@@ -18,12 +18,15 @@ export type TransactionItem = {
     orderNumber?: string // present when type === 'order'
     reservationNumber?: string // present when type === 'reservation'
     created_at: string // ISO 8601
+    isSettle: boolean
+    netAmount: number
 }
 
 export type TransactionSummary = {
     totalPrice: number
     subTotal: number
     commission_fee: number
+    netAmount: number
 }
 
 export type GetTransactionsResponse = {
@@ -42,10 +45,7 @@ export type GetTransactionsResponse = {
 export type TransactionQueries = {
     page: number
     limit: number
-    // Selected period formatted as 'YYYY-MM' (e.g. '2026-09').
-    // Empty string means no date filter (all transactions).
-    month: string
-    // Restaurant the transactions belong to. Set by the admin module after
-    // the admin picks a restaurant; the owner module uses the URL param instead.
+    fromDate: string
+    toDate: string
     restaurantId: string
 }

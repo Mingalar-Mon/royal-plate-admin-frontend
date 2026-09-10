@@ -1,5 +1,4 @@
 import { create } from 'zustand'
-import dayjs from 'dayjs'
 import type { TransactionQueries } from '@/@types/transaction'
 
 interface TransactionStoreState {
@@ -13,7 +12,8 @@ interface TransactionStoreState {
 const defaultTableData: TransactionQueries = {
     page: 1,
     limit: 10,
-    month: dayjs().format('YYYY-MM'),
+    fromDate: '',
+    toDate: '',
     restaurantId: '',
 }
 

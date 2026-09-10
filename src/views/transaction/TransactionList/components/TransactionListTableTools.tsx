@@ -3,13 +3,14 @@ import { useParams } from 'react-router'
 import dayjs from 'dayjs'
 import { CSVLink } from 'react-csv'
 import Button from '@/components/ui/Button'
-import Input from '@/components/ui/Input'
+import DatePicker from '@/components/ui/DatePicker'
 import Notification from '@/components/ui/Notification'
 import toast from '@/components/ui/toast'
-import { TbCloudDownload, TbRefresh, TbX } from 'react-icons/tb'
+import { TbCloudDownload, TbRefresh } from 'react-icons/tb'
 import { useTransactionStore } from '@/store/transactionStore'
 import { apiGetAllTransactions } from '@/services/TransactionService'
 import type { TransactionItem } from '@/@types/transaction'
+import type { DatePickerRangeValue } from '@/components/ui/DatePicker/DatePickerRange'
 
 const exportHeaders = [
     'Reference Number',
@@ -19,6 +20,8 @@ const exportHeaders = [
     'Commission Fee',
     'Commission Batch',
     'Commission %',
+    'Settlement',
+    'Net Amount',
 ]
 
 const mapTransactionToCsvRow = (item: TransactionItem) => ({
@@ -31,6 +34,8 @@ const mapTransactionToCsvRow = (item: TransactionItem) => ({
     'Commission %': item.commissionBatch
         ? Number(item.commissionBatch.percentage)
         : '',
+    'Settlement': item.isSettle ? 'Settled' : 'Unsettled',
+    'Net Amount': item.netAmount,
 })
 
 const TransactionListTableTools = ({
@@ -59,8 +64,14 @@ const TransactionListTableTools = ({
         setExportData(null)
     }, [exportData])
 
-    const handleMonthChange = (value: string) => {
-        setTableData((prev) => ({ ...prev, month: value, page: 1 }))
+    const handleRangeChange = (range: DatePickerRangeValue) => {
+        const [start, end] = range
+        setTableData((prev) => ({
+            ...prev,
+            fromDate: start ? dayjs(start).format('YYYY-MM-DD') : '',
+            toDate: end ? dayjs(end).format('YYYY-MM-DD') : '',
+            page: 1,
+        }))
     }
 
     const handleExport = async () => {
@@ -70,16 +81,8 @@ const TransactionListTableTools = ({
         try {
             const items = await apiGetAllTransactions({
                 restaurantId,
-                ...(tableData.month
-                    ? {
-                          fromDate: dayjs(tableData.month)
-                              .startOf('month')
-                              .format('YYYY-MM-DD'),
-                          toDate: dayjs(tableData.month)
-                              .endOf('month')
-                              .format('YYYY-MM-DD'),
-                      }
-                    : {}),
+                ...(tableData.fromDate ? { fromDate: tableData.fromDate } : {}),
+                ...(tableData.toDate ? { toDate: tableData.toDate } : {}),
             })
             setExportData(items.map(mapTransactionToCsvRow))
         } catch {
@@ -93,9 +96,10 @@ const TransactionListTableTools = ({
         }
     }
 
-    const filename = `transactions-${
-        tableData.month || 'all-time'
-    }.csv`
+    const rangeLabel = [tableData.fromDate, tableData.toDate]
+        .filter(Boolean)
+        .join(' to ')
+    const filename = `transactions-${rangeLabel || 'all-time'}.csv`
 
     return (
         <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
@@ -103,24 +107,25 @@ const TransactionListTableTools = ({
                 <span className="whitespace-nowrap text-sm font-medium text-gray-600 dark:text-gray-300">
                     Period
                 </span>
-                <Input
-                    type="month"
+                <DatePicker.DatePickerRange
                     size="sm"
-                    value={tableData.month}
-                    onChange={(e) => handleMonthChange(e.target.value)}
-                    suffix={
-                        tableData.month ? (
-                            <button
-                                type="button"
-                                aria-label="Clear month filter"
-                                className="flex items-center text-gray-400 transition-colors hover:text-gray-600 dark:hover:text-gray-200"
-                                onClick={() => handleMonthChange('')}
-                            >
-                                <TbX />
-                            </button>
-                        ) : undefined
+                    value={
+                        tableData.fromDate || tableData.toDate
+                            ? [
+                                  tableData.fromDate
+                                      ? dayjs(tableData.fromDate).toDate()
+                                      : null,
+                                  tableData.toDate
+                                      ? dayjs(tableData.toDate).toDate()
+                                      : null,
+                              ]
+                            : [null, null]
                     }
-                    className="w-52"
+                    onChange={handleRangeChange}
+                    maxDate={dayjs().subtract(1, 'day').toDate()}
+                    inputFormat="YYYY-MM-DD"
+                    clearable
+                    className="w-72"
                 />
             </div>
             <div className="flex items-center gap-2">

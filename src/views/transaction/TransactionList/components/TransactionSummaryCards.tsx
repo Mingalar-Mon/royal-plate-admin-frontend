@@ -1,10 +1,10 @@
 import type { ReactNode } from 'react'
 import Card from '@/components/ui/Card'
 import { NumericFormat } from 'react-number-format'
-import { TbCash, TbPercentage, TbReceipt2 } from 'react-icons/tb'
+import { TbCash, TbPercentage, TbReceipt2, TbWallet } from 'react-icons/tb'
 import type { TransactionSummary } from '@/@types/transaction'
 
-type Tone = 'emerald' | 'blue' | 'amber'
+type Tone = 'emerald' | 'blue' | 'amber' | 'violet'
 
 const toneStyles: Record<
     Tone,
@@ -24,6 +24,11 @@ const toneStyles: Record<
         icon: 'bg-amber-500/10 text-amber-600 dark:text-amber-400',
         value: 'text-amber-700 dark:text-amber-300',
         soft: 'bg-amber-500/5',
+    },
+    violet: {
+        icon: 'bg-violet-500/10 text-violet-600 dark:text-violet-400',
+        value: 'text-violet-700 dark:text-violet-300',
+        soft: 'bg-violet-500/5',
     },
 }
 
@@ -92,7 +97,7 @@ const TransactionSummaryCards = ({
     const value = loading ? undefined : summary
 
     return (
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
             <SummaryCard
                 label="Total revenue"
                 description="Sum of total prices for the selected period"
@@ -113,6 +118,13 @@ const TransactionSummaryCards = ({
                 value={value?.commission_fee}
                 icon={<TbPercentage />}
                 tone="amber"
+            />
+            <SummaryCard
+                label="Net amount"
+                description="Net amount after deductions for the selected period"
+                value={value?.netAmount}
+                icon={<TbWallet />}
+                tone="violet"
             />
         </div>
     )
