@@ -25,8 +25,10 @@ const OwnerListTable = ({ data, total, loading }: OwnerListTableProps) => {
             {
                 header: 'Name',
                 accessorKey: 'name',
+                size: 250,
+                minSize: 200,
                 cell: (props) => (
-                    <span className="font-semibold text-gray-900 dark:text-gray-100">
+                    <span className="whitespace-nowrap font-semibold text-gray-900 dark:text-gray-100">
                         {props.row.original.name}
                     </span>
                 ),
@@ -34,6 +36,11 @@ const OwnerListTable = ({ data, total, loading }: OwnerListTableProps) => {
             {
                 header: 'Email',
                 accessorKey: 'email',
+                cell: (props) => (
+                    <span className="font-medium text-gray-700 dark:text-gray-200">
+                        {props.row.original.email}
+                    </span>
+                ),
             },
             {
                 header: 'Phone',
@@ -47,7 +54,7 @@ const OwnerListTable = ({ data, total, loading }: OwnerListTableProps) => {
                 header: 'Owner Code',
                 id: 'code',
                 cell: (props) => (
-                    <span className="font-mono text-xs bg-gray-50 dark:bg-gray-800 px-2 py-1 rounded border dark:border-gray-700">
+                    <span className="font-mono text-xs bg-indigo-50 dark:bg-indigo-950/30 text-indigo-600 dark:text-indigo-400 px-2 py-1 rounded border border-indigo-100 dark:border-indigo-900/40">
                         {props.row.original.code || '—'}
                     </span>
                 ),
@@ -56,7 +63,7 @@ const OwnerListTable = ({ data, total, loading }: OwnerListTableProps) => {
                 header: 'Restaurants Count',
                 id: 'restaurantsCount',
                 cell: (props) => (
-                    <span className="font-bold text-gray-700 dark:text-gray-300">
+                    <span className="inline-flex items-center rounded-full bg-violet-100 px-2.5 py-1 text-xs font-semibold text-violet-700 dark:bg-violet-500/10 dark:text-violet-400">
                         {props.row.original.restaurants.length || 0}
                     </span>
                 ),
@@ -64,8 +71,13 @@ const OwnerListTable = ({ data, total, loading }: OwnerListTableProps) => {
             {
                 header: 'Joined',
                 accessorKey: 'created_at', // ✅ Map straight to your active TypeORM column property metadata
-                cell: (props) =>
-                    dayjs(props.row.original.created_at).format('DD/MM/YYYY'),
+                cell: (props) => (
+                    <span className="whitespace-nowrap text-gray-500 dark:text-gray-400">
+                        {dayjs(props.row.original.created_at).format(
+                            'DD/MM/YYYY',
+                        )}
+                    </span>
+                ),
             },
             {
                 header: '',
@@ -74,6 +86,8 @@ const OwnerListTable = ({ data, total, loading }: OwnerListTableProps) => {
                     <ActionColumn
                         onView={() => setViewingOwner(props.row.original)}
                         onEdit={() => setEditingOwner(props.row.original)}
+                        viewClassName="text-primary-600 hover:text-primary-800 dark:text-primary-400 dark:hover:text-primary-300"
+                        editClassName="text-blue-500 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300"
                     />
                 ),
             },

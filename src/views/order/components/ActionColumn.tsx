@@ -8,23 +8,33 @@ const ActionColumn = ({
     onView,
     onEdit,
     onDelete,
+    viewClassName = 'text-gray-500 hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-200',
+    editClassName = 'text-gray-500 hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-200',
 }: {
     onView: () => void
     onEdit?: () => void
     onDelete?: () => void
+    viewClassName?: string
+    editClassName?: string
 }) => {
     const position = `${onEdit && onDelete ? 'justify-between' : 'justify-start'}`
     return (
         <div className={`  flex items-center justify-start ${position} gap-2`}>
             <Tooltip title="View">
-                <div className="text-xl cursor-pointer" onClick={onView}>
+                <div
+                    className={`text-xl cursor-pointer ${viewClassName}`}
+                    onClick={onView}
+                >
                     <TbEye />
                 </div>
             </Tooltip>
 
             {onEdit && (
                 <Tooltip title="Edit">
-                    <div className="text-xl cursor-pointer" onClick={onEdit}>
+                    <div
+                        className={`text-xl cursor-pointer ${editClassName}`}
+                        onClick={onEdit}
+                    >
                         <TbEdit />
                     </div>
                 </Tooltip>
