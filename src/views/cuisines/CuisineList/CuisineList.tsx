@@ -2,7 +2,7 @@ import Container from '@/components/shared/Container'
 import AdaptiveCard from '@/components/shared/AdaptiveCard'
 import CuisineListActionTools from './components/CuisineListActionTools'
 import CuisineListTableTools from './components/CuisineListTableTools'
-import CuisineListTable from './components/CuisineListTable'
+import CuisineListCards from './components/CuisineListCards'
 import { useCuisineStore } from '@/store/cuisineStore'
 import { useGetCuisines } from '@/utils/custom-hooks/useCuisine'
 
@@ -24,7 +24,7 @@ const CuisineList = () => {
                         <CuisineListActionTools onRefresh={refetch} />
                     </div>
                     <CuisineListTableTools />
-                    <CuisineListTable
+                    <CuisineListCards
                         data={cuisineList}
                         total={cuisineTotal}
                         loading={isLoading}

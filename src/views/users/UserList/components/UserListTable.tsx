@@ -1,10 +1,10 @@
-import { useMemo } from 'react'
-import { useNavigate } from 'react-router'
+import { useMemo, useState } from 'react'
 import { useUserTableStore } from '@/store/userStore'
 import { ColumnDef } from '@tanstack/react-table'
 import Avatar from '@/components/ui/Avatar'
 import DataTable from '@/components/shared/DataTable'
 import ActionColumn from '@/views/order/components/ActionColumn'
+import UserViewModal from './UserViewModal'
 import dayjs from 'dayjs'
 
 interface UserListTableProps {
@@ -26,9 +26,8 @@ const UserVerifiedBadge = ({ isVerified }: { isVerified: boolean }) => (
 )
 
 const UserListTable = ({ data, total, loading }: UserListTableProps) => {
-    const navigate = useNavigate()
+    const [viewingUser, setViewingUser] = useState<any | null>(null)
 
-    // ✅ Tap state variables directly inside the component slot boundaries
     const tableData = useUserTableStore((state) => state.tableData)
     const setTableData = useUserTableStore((state) => state.setTableData)
 
@@ -113,13 +112,13 @@ const UserListTable = ({ data, total, loading }: UserListTableProps) => {
                 cell: (props) => (
                     <ActionColumn
                         onView={() =>
-                            navigate(`/users/${props.row.original.id}`)
+                            setViewingUser(props.row.original)
                         }
                     />
                 ),
             },
         ],
-        [navigate],
+        [],
     )
 
     const handlePaginationChange = (page: number) =>
@@ -130,19 +129,26 @@ const UserListTable = ({ data, total, loading }: UserListTableProps) => {
         setTableData((prev) => ({ ...prev, sort, pageIndex: 1 }))
 
     return (
-        <DataTable
-            columns={columns}
-            data={data}
-            loading={loading}
-            pagingData={{
-                total,
-                pageIndex: tableData.pageIndex,
-                pageSize: tableData.pageSize,
-            }}
-            onPaginationChange={handlePaginationChange}
-            onSelectChange={handleSelectChange}
-            onSort={handleSort}
-        />
+        <>
+            <DataTable
+                columns={columns}
+                data={data}
+                loading={loading}
+                pagingData={{
+                    total,
+                    pageIndex: tableData.pageIndex,
+                    pageSize: tableData.pageSize,
+                }}
+                onPaginationChange={handlePaginationChange}
+                onSelectChange={handleSelectChange}
+                onSort={handleSort}
+            />
+
+            <UserViewModal
+                user={viewingUser}
+                onClose={() => setViewingUser(null)}
+            />
+        </>
     )
 }
 
