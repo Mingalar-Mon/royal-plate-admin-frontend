@@ -1,9 +1,10 @@
-import { useMemo } from 'react'
-import { useNavigate } from 'react-router'
+import { useMemo, useState } from 'react'
 import { useOwnerStore } from '@/store/ownerStore'
 import { ColumnDef } from '@tanstack/react-table'
 import DataTable from '@/components/shared/DataTable'
-import ActionColumn from '@/views/order/components/ActionColumn' // Adjust path if needed
+import ActionColumn from '@/views/order/components/ActionColumn'
+import OwnerViewModal from './OwnerViewModal'
+import OwnerEditModal from './OwnerEditModal'
 import dayjs from 'dayjs'
 
 interface OwnerListTableProps {
@@ -13,7 +14,8 @@ interface OwnerListTableProps {
 }
 
 const OwnerListTable = ({ data, total, loading }: OwnerListTableProps) => {
-    const navigate = useNavigate()
+    const [viewingOwner, setViewingOwner] = useState<any | null>(null)
+    const [editingOwner, setEditingOwner] = useState<any | null>(null)
 
     const tableData = useOwnerStore((state) => state.tableData)
     const setTableData = useOwnerStore((state) => state.setTableData)
@@ -51,7 +53,7 @@ const OwnerListTable = ({ data, total, loading }: OwnerListTableProps) => {
                 ),
             },
             {
-                header: 'Restaurants',
+                header: 'Restaurants Count',
                 id: 'restaurantsCount',
                 cell: (props) => (
                     <span className="font-bold text-gray-700 dark:text-gray-300">
@@ -68,25 +70,15 @@ const OwnerListTable = ({ data, total, loading }: OwnerListTableProps) => {
             {
                 header: '',
                 id: 'action',
-                cell: (props) => {
-                    console.log('PROPS: ', props)
-                    return (
-                        <ActionColumn
-                            onView={() =>
-                                navigate(`/owners/${props.row.original.id}`)
-                            }
-                            onEdit={() => {
-                                console.log('On edit got clicked')
-                                navigate(
-                                    `/owners/edit-owner/${props.row.original.id}`,
-                                )
-                            }}
-                        />
-                    )
-                },
+                cell: (props) => (
+                    <ActionColumn
+                        onView={() => setViewingOwner(props.row.original)}
+                        onEdit={() => setEditingOwner(props.row.original)}
+                    />
+                ),
             },
         ],
-        [navigate],
+        [],
     )
 
     const handlePaginationChange = (page: number) =>
@@ -97,19 +89,29 @@ const OwnerListTable = ({ data, total, loading }: OwnerListTableProps) => {
         setTableData((prev) => ({ ...prev, sort, pageIndex: 1 }))
 
     return (
-        <DataTable
-            columns={columns}
-            data={data}
-            loading={loading}
-            pagingData={{
-                total,
-                pageIndex: tableData.pageIndex,
-                pageSize: tableData.pageSize,
-            }}
-            onPaginationChange={handlePaginationChange}
-            onSelectChange={handleSelectChange}
-            onSort={handleSort}
-        />
+        <>
+            <DataTable
+                columns={columns}
+                data={data}
+                loading={loading}
+                pagingData={{
+                    total,
+                    pageIndex: tableData.pageIndex,
+                    pageSize: tableData.pageSize,
+                }}
+                onPaginationChange={handlePaginationChange}
+                onSelectChange={handleSelectChange}
+                onSort={handleSort}
+            />
+            <OwnerViewModal
+                owner={viewingOwner}
+                onClose={() => setViewingOwner(null)}
+            />
+            <OwnerEditModal
+                owner={editingOwner}
+                onClose={() => setEditingOwner(null)}
+            />
+        </>
     )
 }
 
