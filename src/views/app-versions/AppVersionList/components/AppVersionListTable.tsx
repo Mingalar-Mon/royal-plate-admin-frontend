@@ -8,6 +8,7 @@ import { ActionLink } from '@/components/shared'
 import ActionColumn from '@/views/banners/components/ActionColumn'
 import { useDeleteAppVersionMutation } from '@/utils/custom-hooks/useAppVersion'
 import dayjs from 'dayjs'
+import AppVersionViewModal from './AppVersionViewModal'
 import type { AppVersion } from '@/@types/appVersion'
 
 interface AppVersionListTableProps {
@@ -23,6 +24,9 @@ const AppVersionListTable = ({
 }: AppVersionListTableProps) => {
     const navigate = useNavigate()
     const [deleteTarget, setDeleteTarget] = useState<AppVersion | null>(null)
+    const [viewingVersion, setViewingVersion] = useState<AppVersion | null>(
+        null,
+    )
 
     const tableData = useAppVersionStore((state) => state.tableData)
     const setTableData = useAppVersionStore((state) => state.setTableData)
@@ -102,9 +106,7 @@ const AppVersionListTable = ({
                 id: 'action',
                 cell: (props) => (
                     <ActionColumn
-                        onView={() =>
-                            navigate(`/app-versions/${props.row.original.id}`)
-                        }
+                        onView={() => setViewingVersion(props.row.original)}
                         onEdit={() =>
                             navigate(
                                 `/app-versions/edit/${props.row.original.id}`,
@@ -115,7 +117,7 @@ const AppVersionListTable = ({
                 ),
             },
         ],
-        [navigate],
+        [],
     )
 
     const handlePaginationChange = (page: number) =>
@@ -153,6 +155,10 @@ const AppVersionListTable = ({
                     version? This action cannot be undone.
                 </p>
             </ConfirmDialog>
+            <AppVersionViewModal
+                version={viewingVersion}
+                onClose={() => setViewingVersion(null)}
+            />
         </>
     )
 }
