@@ -1,3 +1,9 @@
+export type CommissionBatch = {
+    id: string
+    code: string
+    percentage: string
+}
+
 export type PayoutSettledReference = {
     id: string
     tax?: string
@@ -6,6 +12,7 @@ export type PayoutSettledReference = {
     commission_fee?: string
     netAmount?: string
     isSettle?: boolean
+    commissionBatch?: CommissionBatch | null
 }
 
 export type PayoutItem = {

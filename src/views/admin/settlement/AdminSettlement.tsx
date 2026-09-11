@@ -14,15 +14,24 @@ import {
     TbCash,
 } from 'react-icons/tb'
 import { apiGetPayoutPreview, apiPostPayout } from '@/services/TransactionService'
+import ConfirmDialog from '@/components/shared/ConfirmDialog'
+import { NumericFormat } from 'react-number-format'
 import TransactionSummaryCards from '@/views/transaction/TransactionList/components/TransactionSummaryCards'
 import TransactionListTable from '@/views/transaction/TransactionList/components/TransactionListTable'
 import AdminRestaurantSelect from '../transactions/components/AdminRestaurantSelect'
 import { useTransactionStore } from '@/store/transactionStore'
+import { useGetRestaurantList } from '@/utils/custom-hooks/useRestaurant'
 import type { TransactionItem, TransactionSummary } from '@/@types/transaction'
 
 const AdminSettlement = () => {
     const tableData = useTransactionStore((state) => state.tableData)
     const selectedRestaurantId = tableData.restaurantId
+
+    const { data: restaurantsResponse } = useGetRestaurantList()
+    const selectedRestaurantName =
+        restaurantsResponse?.data.find(
+            (restaurant) => restaurant.id === selectedRestaurantId,
+        )?.name || ''
 
     const [fromDate, setFromDate] = useState<Date | null>(null)
     const [toDate, setToDate] = useState<Date | null>(null)
@@ -33,6 +42,7 @@ const AdminSettlement = () => {
     const [total, setTotal] = useState(0)
     const [alreadySettled, setAlreadySettled] = useState(false)
     const [hasFetched, setHasFetched] = useState(false)
+    const [confirmOpen, setConfirmOpen] = useState(false)
 
     const canFetch = !!selectedRestaurantId && fromDate && toDate
 
@@ -82,6 +92,7 @@ const AdminSettlement = () => {
     const handlePayout = async () => {
         if (!selectedRestaurantId || !fromDate || !toDate || !summary) return
 
+        setConfirmOpen(false)
         setPayoutLoading(true)
         try {
             await apiPostPayout({
@@ -196,7 +207,7 @@ const AdminSettlement = () => {
                                         size="sm"
                                         variant="solid"
                                         icon={<TbCash />}
-                                        onClick={handlePayout}
+                                        onClick={() => setConfirmOpen(true)}
                                         disabled={
                                             !hasFetched || alreadySettled || !summary
                                         }
@@ -241,6 +252,105 @@ const AdminSettlement = () => {
                         </>
                     )}
                 </div>
+
+                <ConfirmDialog
+                    isOpen={confirmOpen}
+                    type="warning"
+                    title="Confirm payout"
+                    confirmText="Confirm Payout"
+                    onClose={() => setConfirmOpen(false)}
+                    onCancel={() => setConfirmOpen(false)}
+                    onConfirm={handlePayout}
+                    confirmButtonProps={{
+                        loading: payoutLoading,
+                        disabled: payoutLoading,
+                    }}
+                >
+                    <div className="flex flex-col gap-3">
+                        <p className="text-sm text-gray-600 dark:text-gray-300">
+                            You are about to settle the payout for:{' '}
+                            <span className="font-semibold text-gray-900 dark:text-gray-100">
+                                {selectedRestaurantName}
+                            </span>
+                        </p>
+                        <div className="rounded-lg border border-gray-200 bg-gray-50 p-3 text-sm dark:border-gray-700 dark:bg-gray-800/60">
+                            <div className="flex justify-between text-gray-600 dark:text-gray-300">
+                                <span>Period</span>
+                                <span className="font-medium text-gray-900 dark:text-gray-100">
+                                    {fromDate && toDate
+                                        ? `${dayjs(fromDate).format('DD/MM/YYYY')} ~ ${dayjs(toDate).format('DD/MM/YYYY')}`
+                                        : '—'}
+                                </span>
+                            </div>
+                            <div className="mt-1 flex justify-between text-gray-600 dark:text-gray-300">
+                                <span>Transactions</span>
+                                <span className="font-medium text-gray-900 dark:text-gray-100">
+                                    {transactions.length}
+                                </span>
+                            </div>
+                        </div>
+                        <div className="grid grid-cols-2 gap-2">
+                            <div className="rounded-lg border border-gray-200 p-3 dark:border-gray-700">
+                                <p className="text-xs text-gray-500 dark:text-gray-400">
+                                    Total
+                                </p>
+                                <p className="mt-0.5 text-sm font-bold text-gray-900 dark:text-gray-100">
+                                    <NumericFormat
+                                        thousandSeparator
+                                        displayType="text"
+                                        value={Number(summary?.totalPrice ?? 0)}
+                                        prefix="MMK "
+                                    />
+                                </p>
+                            </div>
+                            <div className="rounded-lg border border-gray-200 p-3 dark:border-gray-700">
+                                <p className="text-xs text-gray-500 dark:text-gray-400">
+                                    Sub-total
+                                </p>
+                                <p className="mt-0.5 text-sm font-bold text-gray-900 dark:text-gray-100">
+                                    <NumericFormat
+                                        thousandSeparator
+                                        displayType="text"
+                                        value={Number(summary?.subTotal ?? 0)}
+                                        prefix="MMK "
+                                    />
+                                </p>
+                            </div>
+                            <div className="rounded-lg border border-gray-200 p-3 dark:border-gray-700">
+                                <p className="text-xs text-gray-500 dark:text-gray-400">
+                                    Commission fee
+                                </p>
+                                <p className="mt-0.5 text-sm font-bold text-amber-600 dark:text-amber-400">
+                                    <NumericFormat
+                                        thousandSeparator
+                                        displayType="text"
+                                        value={Number(
+                                            summary?.commission_fee ?? 0,
+                                        )}
+                                        prefix="MMK "
+                                    />
+                                </p>
+                            </div>
+                            <div className="rounded-lg border border-gray-200 p-3 dark:border-gray-700">
+                                <p className="text-xs text-gray-500 dark:text-gray-400">
+                                    Net amount
+                                </p>
+                                <p className="mt-0.5 text-sm font-bold text-violet-600 dark:text-violet-400">
+                                    <NumericFormat
+                                        thousandSeparator
+                                        displayType="text"
+                                        value={Number(summary?.netAmount ?? 0)}
+                                        prefix="MMK "
+                                    />
+                                </p>
+                            </div>
+                        </div>
+                        <p className="text-xs text-gray-500 dark:text-gray-400">
+                            This will settle all listed transactions and cannot
+                            be undone.
+                        </p>
+                    </div>
+                </ConfirmDialog>
             </AdaptiveCard>
         </Container>
     )

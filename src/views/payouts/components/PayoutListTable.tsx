@@ -62,9 +62,10 @@ const PayoutItemDetail = ({ item }: { item: PayoutItem }) => {
     const reference = item.order || item.reservation
     const code =
         item.order?.orderNumber || item.reservation?.reservationNumber || '—'
+    const commissionBatch = reference?.commissionBatch
 
     return (
-        <tr className="bg-white transition-colors hover:bg-gray-50 dark:bg-gray-900 dark:hover:bg-gray-800/60">
+        <tr className="bg-white text-center transition-colors hover:bg-gray-50 dark:bg-gray-900 dark:hover:bg-gray-800/60">
             <td className="px-3 py-2">
                 <TypeBadge type={item.order ? 'Order' : 'Reservation'} />
             </td>
@@ -86,6 +87,18 @@ const PayoutItemDetail = ({ item }: { item: PayoutItem }) => {
             <td className="px-3 py-2">
                 <span className="font-bold text-gray-900 dark:text-gray-100">
                     <Money value={reference?.netAmount} />
+                </span>
+            </td>
+            <td className="px-3 py-2">
+                <span className="text-gray-700 dark:text-gray-200">
+                    {commissionBatch?.percentage
+                        ? `${commissionBatch.percentage}%`
+                        : '—'}
+                </span>
+            </td>
+            <td className="px-3 py-2">
+                <span className="text-gray-700 dark:text-gray-200">
+                    {commissionBatch?.code || '—'}
                 </span>
             </td>
             <td className="px-3 py-2">
@@ -116,6 +129,8 @@ const PayoutItemsSubTable = ({ row }: { row: Row<PayoutBatch> }) => {
                             <th className="px-3 py-2">Sub-total</th>
                             <th className="px-3 py-2">Commission fee</th>
                             <th className="px-3 py-2">Net amount</th>
+                            <th className="px-3 py-2">Commission Batch %</th>
+                            <th className="px-3 py-2">Commission Batch Code</th>
                             <th className="px-3 py-2">Status</th>
                         </tr>
                     </thead>
@@ -123,7 +138,7 @@ const PayoutItemsSubTable = ({ row }: { row: Row<PayoutBatch> }) => {
                         {items.length === 0 ? (
                             <tr>
                                 <td
-                                    colSpan={8}
+                                    colSpan={10}
                                     className="px-3 py-4 text-center text-sm text-gray-500"
                                 >
                                     No payout items.
