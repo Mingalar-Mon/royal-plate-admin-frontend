@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { useNavigate } from 'react-router'
 import { useAuth } from '@/auth'
 import emailOptLogo from '@/assets/logo/emailoptlogo.png'
+import { useGetAppVersions } from '@/utils/custom-hooks/useAppVersion'
 import {
     TbChefHat,
     TbClipboardList,
@@ -32,9 +33,123 @@ import {
     TbCalendarClock,
     TbCalendarCheck,
     TbCircleCheck,
+    TbDownload,
+    TbMapPin,
+    TbPhone,
+    TbClock2,
+    TbDeviceMobile,
+    TbExternalLink,
 } from 'react-icons/tb'
 
 type DemoTab = 'orders' | 'tables' | 'reservations' | 'analytics'
+
+const DownloadAppSection = () => {
+    const { data, isLoading } = useGetAppVersions()
+    const appVersion = data?.data?.[0]
+
+    return (
+        <section className="relative z-10 py-20 bg-[#0d0307]/80 border-t border-white/[0.08]">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                    {/* Left — Copy */}
+                    <div>
+                        <span className="text-xs font-bold uppercase tracking-[0.2em] text-amber-400 bg-amber-500/10 px-3 py-1 rounded-full border border-amber-500/20">
+                            Mobile App
+                        </span>
+                        <h2 className="text-3xl sm:text-4xl font-bold font-serif text-white mt-4">
+                            Order & Reserve from Your Phone
+                        </h2>
+                        <p className="text-zinc-400 text-base mt-4 leading-relaxed">
+                            Guests download the Royal Plate app on iOS or Android, browse menus, place orders, and book reservations — all from their mobile device. No account needed.
+                        </p>
+
+                        {appVersion && (
+                            <div className="mt-4 flex items-center gap-2 text-xs text-zinc-500">
+                                <TbDownload className="text-amber-400" />
+                                <span>Latest: v{appVersion.versionName}</span>
+                                <span className="text-zinc-600">•</span>
+                                <span>{appVersion.title}</span>
+                            </div>
+                        )}
+
+                        <div className="mt-8 flex flex-wrap gap-3">
+                            {appVersion?.iosLink && (
+                                <a
+                                    href={appVersion.iosLink}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="inline-flex items-center gap-2.5 px-5 py-3 rounded-xl bg-white text-zinc-900 font-semibold text-sm hover:bg-zinc-200 transition-colors"
+                                >
+                                    <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z" /></svg>
+                                    Download on App Store
+                                </a>
+                            )}
+                            {appVersion?.playStoreLink && (
+                                <a
+                                    href={appVersion.playStoreLink}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="inline-flex items-center gap-2.5 px-5 py-3 rounded-xl bg-white text-zinc-900 font-semibold text-sm hover:bg-zinc-200 transition-colors"
+                                >
+                                    <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M3.609 1.814L13.792 12 3.61 22.186a.996.996 0 01-.61-.92V2.734a1 1 0 01.609-.92zm10.89 10.893l2.302 2.302-10.937 6.333zm2.302-3.112L5.864 3.292l10.937 6.333zM20.136 12l-3.436 1.99-2.542-2.542 2.542-2.542z" /></svg>
+                                    Get it on Google Play
+                                </a>
+                            )}
+                            {appVersion?.directDownloadLink && (
+                                <a
+                                    href={appVersion.directDownloadLink}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="inline-flex items-center gap-2.5 px-5 py-3 rounded-xl border border-white/20 bg-white/[0.04] hover:bg-white/[0.1] text-white font-medium text-sm transition-colors"
+                                >
+                                    <TbDownload className="text-lg" />
+                                    Direct Download (APK)
+                                </a>
+                            )}
+                        </div>
+                    </div>
+
+                    {/* Right — Phone Mockup */}
+                    <div className="flex justify-center lg:justify-end">
+                        <div className="relative">
+                            <div className="absolute -inset-8 rounded-3xl bg-amber-500/10 blur-3xl" />
+                            <div className="relative w-64 h-[500px] rounded-[2.5rem] border-[3px] border-zinc-700 bg-zinc-900 shadow-2xl overflow-hidden">
+                                {/* Phone notch */}
+                                <div className="absolute top-0 inset-x-0 h-7 bg-black rounded-b-2xl mx-16 z-10" />
+                                {/* Screen content */}
+                                <div className="h-full bg-gradient-to-b from-[#1a0a10] to-[#0d0408] pt-10 px-4">
+                                    <div className="text-center mb-4">
+                                        <div className="inline-flex p-2 rounded-xl bg-amber-500/20 mb-2">
+                                            <TbChefHat className="text-amber-400 text-xl" />
+                                        </div>
+                                        <p className="text-xs font-bold text-white">Royal Plate</p>
+                                        <p className="text-[10px] text-zinc-500">Guest Ordering App</p>
+                                    </div>
+                                    <div className="space-y-2">
+                                        {[1, 2, 3, 4].map((i) => (
+                                            <div key={i} className="p-2.5 rounded-xl bg-white/[0.04] border border-white/[0.06]">
+                                                <div className="flex items-center gap-2">
+                                                    <div className="w-8 h-8 rounded-lg bg-amber-500/10" />
+                                                    <div className="flex-1 space-y-1">
+                                                        <div className="h-2 bg-white/10 rounded w-3/4" />
+                                                        <div className="h-1.5 bg-white/5 rounded w-1/2" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                    <div className="mt-4 p-3 rounded-xl bg-amber-500/20 border border-amber-500/30 text-center">
+                                        <p className="text-[10px] font-bold text-amber-300">Order Now</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    )
+}
 
 const LandingPage = () => {
     const navigate = useNavigate()
@@ -238,6 +353,12 @@ const LandingPage = () => {
                         >
                             FAQ
                         </button>
+                        <button
+                            onClick={() => scrollToSection('contact')}
+                            className="hover:text-amber-300 transition-colors cursor-pointer"
+                        >
+                            Contact Us
+                        </button>
                     </nav>
 
                     {/* Actions */}
@@ -252,11 +373,11 @@ const LandingPage = () => {
                             </button>
                         ) : (
                             <button
-                                onClick={() => navigate('/landing')}
+                                onClick={() => navigate('/sign-in')}
                                 className="px-4 py-2 rounded-xl text-zinc-300 hover:text-white text-sm font-medium border border-white/10 hover:border-amber-400/40 hover:bg-white/[0.04] transition-all flex items-center gap-1.5 cursor-pointer"
                             >
-                                <TbArrowRight className="text-base text-amber-400" />
-                                <span>Back to top</span>
+                                <TbLogin className="text-base text-amber-400" />
+                                <span>Sign In</span>
                             </button>
                         )}
                     </div>
@@ -306,13 +427,19 @@ const LandingPage = () => {
                             >
                                 FAQ
                             </button>
+                            <button
+                                onClick={() => scrollToSection('contact')}
+                                className="text-left text-zinc-300 hover:text-amber-300 py-1"
+                            >
+                                Contact Us
+                            </button>
 
                             <div className="pt-3 border-t border-white/10 flex flex-col gap-2">
                                 <button
-                                    onClick={() => navigate('/landing')}
+                                    onClick={() => navigate('/sign-in')}
                                     className="w-full py-2.5 rounded-xl text-center text-zinc-300 text-sm font-medium border border-white/15"
                                 >
-                                    Back to top
+                                    Sign In
                                 </button>
                             </div>
                         </motion.div>
@@ -1147,6 +1274,9 @@ const LandingPage = () => {
                 </div>
             </section>
 
+            {/* DOWNLOAD APP SECTION */}
+            <DownloadAppSection />
+
             {/* TESTIMONIALS SECTION */}
             <section id="testimonials" className="relative z-10 py-20 bg-[#0f0409]/90 border-t border-white/[0.08]">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -1240,38 +1370,92 @@ const LandingPage = () => {
                 </div>
             </section>
 
-            {/* GRAND CALL TO ACTION BANNER */}
-            <section className="relative z-10 py-24 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="relative rounded-3xl border border-amber-500/30 bg-gradient-to-br from-[#2b0811] via-[#4a0d16] to-[#120509] p-8 sm:p-14 text-center overflow-hidden shadow-2xl">
-                    <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_20%,#e9c66a15,transparent_60%)]" />
+            {/* CONTACT US SECTION */}
+            <section id="contact" className="relative z-10 py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div className="text-center max-w-3xl mx-auto mb-16">
+                    <span className="text-xs font-bold uppercase tracking-[0.2em] text-amber-400 bg-amber-500/10 px-3 py-1 rounded-full border border-amber-500/20">
+                        Get in Touch
+                    </span>
+                    <h2 className="text-3xl sm:text-4xl font-bold font-serif text-white mt-4">
+                        Contact Us
+                    </h2>
+                    <p className="text-zinc-400 text-base mt-3">
+                        Have questions or ready to get started? Reach out to our team.
+                    </p>
+                </div>
 
-                    <div className="relative z-10 max-w-2xl mx-auto">
-                        <div className="inline-flex p-3 rounded-2xl bg-amber-400/10 border border-amber-400/30 text-amber-300 mb-6">
-                            <TbChefHat className="text-3xl" />
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    {/* Address */}
+                    <div className="rounded-2xl border border-white/10 bg-white/[0.02] p-6 flex flex-col items-center text-center">
+                        <div className="p-3 rounded-2xl bg-amber-500/10 text-amber-400 mb-4">
+                            <TbMapPin className="text-2xl" />
                         </div>
-
-                        <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold font-serif text-white tracking-tight">
-                            Ready to Elevate Your Dining Service to Royal Standards?
-                        </h2>
-                        <p className="mt-5 text-base sm:text-lg text-zinc-300">
-                            Join elite restaurants streamlining operations with Royal Plate today. Sign in to your workspace or onboard a new establishment.
+                        <h4 className="font-bold text-white text-sm mb-2">Our Office</h4>
+                        <p className="text-zinc-400 text-sm leading-relaxed">
+                            Building 18, Level 5<br />
+                            MICT Park, Hlaing Township<br />
+                            Yangon, Myanmar
                         </p>
+                    </div>
 
-                        <div className="mt-9 flex flex-col sm:flex-row items-center justify-center gap-4">
-                            <button
-                                onClick={() => navigate('/sign-in')}
-                                className="w-full sm:w-auto px-8 py-4 rounded-xl bg-gradient-to-r from-amber-500 via-amber-400 to-amber-600 text-zinc-950 font-bold text-base hover:shadow-2xl hover:shadow-amber-500/40 transition-all transform hover:-translate-y-0.5 cursor-pointer"
-                            >
-                                Sign In to Restaurant Dashboard
-                            </button>
-                            <button
-                                onClick={() => navigate('/admin/sign-in')}
-                                className="w-full sm:w-auto px-7 py-4 rounded-xl border border-white/20 bg-white/[0.04] hover:bg-white/[0.1] text-white font-medium text-base backdrop-blur-md transition-all cursor-pointer"
-                            >
-                                Platform Admin Portal
-                            </button>
+                    {/* Phone */}
+                    <div className="rounded-2xl border border-white/10 bg-white/[0.02] p-6 flex flex-col items-center text-center">
+                        <div className="p-3 rounded-2xl bg-emerald-500/10 text-emerald-400 mb-4">
+                            <TbPhone className="text-2xl" />
+                        </div>
+                        <h4 className="font-bold text-white text-sm mb-2">Phone</h4>
+                        <a href="tel:+959676779020" className="text-amber-400 text-lg font-bold font-mono hover:text-amber-300 transition-colors">
+                            +95 9 676 779 020
+                        </a>
+                        <p className="text-zinc-500 text-xs mt-2">Available Mon–Fri, 9:00 AM – 6:00 PM (MMT)</p>
+                    </div>
+
+                    {/* Business Hours */}
+                    <div className="rounded-2xl border border-white/10 bg-white/[0.02] p-6 flex flex-col items-center text-center">
+                        <div className="p-3 rounded-2xl bg-purple-500/10 text-purple-400 mb-4">
+                            <TbClock2 className="text-2xl" />
+                        </div>
+                        <h4 className="font-bold text-white text-sm mb-3">Business Hours</h4>
+                        <div className="space-y-2 text-sm w-full">
+                            <div className="flex justify-between">
+                                <span className="text-zinc-400">Monday – Friday</span>
+                                <span className="text-zinc-200 font-medium">9:00 AM – 6:00 PM</span>
+                            </div>
+                            <div className="flex justify-between">
+                                <span className="text-zinc-400">Saturday</span>
+                                <span className="text-zinc-200 font-medium">10:00 AM – 4:00 PM</span>
+                            </div>
+                            <div className="flex justify-between">
+                                <span className="text-zinc-400">Sunday</span>
+                                <span className="text-red-400 font-medium">Closed</span>
+                            </div>
                         </div>
                     </div>
+                </div>
+
+                {/* Map */}
+                <div className="mt-10 rounded-2xl overflow-hidden border border-white/10">
+                    <iframe
+                        title="Royal Plate Office Location"
+                        width="100%"
+                        height="350"
+                        frameBorder="0"
+                        scrolling="no"
+                        src="https://www.openstreetmap.org/export/embed.html?bbox=96.1245%2C16.8466%2C96.1325%2C16.8546&layer=mapnik&marker=16.85055%2C96.1285"
+                        className="w-full"
+                        loading="lazy"
+                        referrerPolicy="no-referrer-when-downgrade"
+                    />
+                </div>
+                <div className="mt-3 text-center">
+                    <a
+                        href="https://www.openstreetmap.org/?mlat=16.85055&mlon=96.1285#map=16/16.85055/96.1285"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-xs text-zinc-500 hover:text-amber-400 transition-colors"
+                    >
+                        Open in OpenStreetMap ↗
+                    </a>
                 </div>
             </section>
 

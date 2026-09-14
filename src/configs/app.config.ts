@@ -13,7 +13,7 @@ const appConfig: AppConfig = {
     // apiPrefix: '/api/proxy/api', // for vercel production
     // apiPrefix: 'https://royal-plate-dev-server-bpcr2.ondigitalocean.app/api',
     authenticatedEntryPath: '/home',
-    unAuthenticatedEntryPath: '/landing',
+    unAuthenticatedEntryPath: '/sign-in',
     locale: 'en',
     accessTokenPersistStrategy: 'localStorage',
     enableMock: false,
