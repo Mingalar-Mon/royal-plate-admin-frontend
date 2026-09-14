@@ -23,6 +23,7 @@ import {
     TbBell,
     TbLogin,
     TbChartBar,
+    TbArrowUp,
 } from 'react-icons/tb'
 
 type DemoTab = 'orders' | 'tables' | 'reservations' | 'analytics'
@@ -32,17 +33,15 @@ const LandingPage = () => {
     const { authenticated } = useAuth()
     const [activeTab, setActiveTab] = useState<DemoTab>('orders')
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-    const [scrolled, setScrolled] = useState(false)
+    const [, setScrolled] = useState(false)
+    const [showBackToTop, setShowBackToTop] = useState(false)
     const [expandedFaq, setExpandedFaq] = useState<number | null>(null)
 
-    // Scroll listener for sticky navbar styling
+    // Keep navbar sticky; no scroll-driven style switch needed
+
     useEffect(() => {
         const handleScroll = () => {
-            if (window.scrollY > 20) {
-                setScrolled(true)
-            } else {
-                setScrolled(false)
-            }
+            setShowBackToTop(window.scrollY > 400)
         }
         window.addEventListener('scroll', handleScroll)
         return () => window.removeEventListener('scroll', handleScroll)
@@ -173,11 +172,7 @@ const LandingPage = () => {
 
             {/* Sticky Navigation Bar */}
             <header
-                className={`sticky top-0 z-50 transition-all duration-300 ${
-                    scrolled
-                        ? 'bg-[#080204]/90 backdrop-blur-xl border-b border-white/[0.08] py-3.5 shadow-2xl shadow-black/60'
-                        : 'bg-transparent py-5'
-                }`}
+                className="sticky top-0 z-50 bg-[#080204]/90 backdrop-blur-xl border-b border-white/[0.08] py-3.5 shadow-2xl shadow-black/60"
             >
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
                     {/* Brand */}
@@ -253,22 +248,13 @@ const LandingPage = () => {
                                 <TbArrowRight className="text-base" />
                             </button>
                         ) : (
-                            <>
-                                <button
-                                    onClick={() => navigate('/sign-in')}
-                                    className="px-4 py-2 rounded-xl text-zinc-300 hover:text-white text-sm font-medium border border-white/10 hover:border-amber-400/40 hover:bg-white/[0.04] transition-all flex items-center gap-1.5 cursor-pointer"
-                                >
-                                    <TbLogin className="text-base text-amber-400" />
-                                    <span>Sign In</span>
-                                </button>
-                                <button
-                                    onClick={() => navigate('/sign-in')}
-                                    className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#6e1423] via-[#8a2a35] to-amber-600 text-white font-semibold text-sm hover:shadow-lg hover:shadow-rose-900/40 border border-amber-400/30 transition-all transform hover:-translate-y-0.5 flex items-center gap-2 cursor-pointer"
-                                >
-                                    <span>Owner Portal</span>
-                                    <TbArrowRight className="text-base" />
-                                </button>
-                            </>
+                            <button
+                                onClick={() => navigate('/landing')}
+                                className="px-4 py-2 rounded-xl text-zinc-300 hover:text-white text-sm font-medium border border-white/10 hover:border-amber-400/40 hover:bg-white/[0.04] transition-all flex items-center gap-1.5 cursor-pointer"
+                            >
+                                <TbArrowRight className="text-base text-amber-400" />
+                                <span>Back to top</span>
+                            </button>
                         )}
                     </div>
 
@@ -325,16 +311,10 @@ const LandingPage = () => {
 
                             <div className="pt-3 border-t border-white/10 flex flex-col gap-2">
                                 <button
-                                    onClick={() => navigate('/sign-in')}
-                                    className="w-full py-2.5 rounded-xl text-center bg-gradient-to-r from-[#6e1423] to-amber-600 font-semibold text-sm text-white"
+                                    onClick={() => navigate('/landing')}
+                                    className="w-full py-2.5 rounded-xl text-center text-zinc-300 text-sm font-medium border border-white/15"
                                 >
-                                    Sign In to Dashboard
-                                </button>
-                                <button
-                                    onClick={() => navigate('/admin/sign-in')}
-                                    className="w-full py-2.5 rounded-xl text-center border border-white/15 text-zinc-300 text-sm font-medium"
-                                >
-                                    Platform Admin Sign In
+                                    Back to top
                                 </button>
                             </div>
                         </motion.div>
@@ -389,13 +369,6 @@ const LandingPage = () => {
                         transition={{ duration: 0.6, delay: 0.3 }}
                         className="mt-9 flex flex-col sm:flex-row items-center justify-center gap-4"
                     >
-                        <button
-                            onClick={() => navigate('/sign-in')}
-                            className="w-full sm:w-auto px-8 py-3.5 rounded-xl bg-gradient-to-r from-amber-500 via-amber-400 to-amber-600 text-zinc-950 font-bold text-base hover:shadow-2xl hover:shadow-amber-500/30 transition-all transform hover:-translate-y-1 flex items-center justify-center gap-3 cursor-pointer group"
-                        >
-                            <span>Launch Restaurant Workspace</span>
-                            <TbArrowRight className="text-lg group-hover:translate-x-1 transition-transform" />
-                        </button>
                         <button
                             onClick={() => scrollToSection('live-demo')}
                             className="w-full sm:w-auto px-7 py-3.5 rounded-xl border border-white/15 bg-white/[0.03] hover:bg-white/[0.08] text-white font-medium text-base backdrop-blur-md transition-all flex items-center justify-center gap-2 cursor-pointer"
@@ -1173,11 +1146,8 @@ const LandingPage = () => {
                         <button onClick={() => scrollToSection('live-demo')} className="hover:text-amber-300">
                             Live Workspace
                         </button>
-                        <button onClick={() => navigate('/sign-in')} className="hover:text-amber-300">
-                            Sign In
-                        </button>
-                        <button onClick={() => navigate('/admin/sign-in')} className="hover:text-amber-300">
-                            Admin Login
+                        <button onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="hover:text-amber-300">
+                            Back to top
                         </button>
                     </div>
 
@@ -1191,6 +1161,23 @@ const LandingPage = () => {
                     </div>
                 </div>
             </footer>
+
+            {/* BACK TO TOP BUTTON */}
+            <AnimatePresence>
+                {showBackToTop && (
+                    <motion.button
+                        initial={{ opacity: 0, scale: 0.8 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        exit={{ opacity: 0, scale: 0.8 }}
+                        transition={{ duration: 0.2 }}
+                        onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+                        className="fixed bottom-6 right-6 z-50 p-3 rounded-full bg-amber-500 text-black shadow-lg shadow-amber-500/30 hover:bg-amber-400 transition-colors cursor-pointer"
+                        aria-label="Back to top"
+                    >
+                        <TbArrowUp className="text-xl" />
+                    </motion.button>
+                )}
+            </AnimatePresence>
         </div>
     )
 }

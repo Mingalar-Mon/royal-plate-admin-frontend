@@ -7,6 +7,8 @@ import {
 import type { NavigationTree } from '@/@types/navigation'
 import { ADMIN, OWNER, STAFF } from '@/constants/roles.constant'
 
+const publicAuth: readonly string[] = []
+
 const navigationConfig: NavigationTree[] = [
     // {
     //     key: 'home',
@@ -547,6 +549,29 @@ const navigationConfig: NavigationTree[] = [
     // },
 ]
 
+navigationConfig.push(
+    {
+        key: 'signIn',
+        path: '/sign-in',
+        title: 'Sign In',
+        translateKey: 'nav.signIn',
+        icon: '',
+        type: NAV_ITEM_TYPE_ITEM,
+        authority: publicAuth,
+        subMenu: [],
+    },
+    {
+        key: 'signInForUser',
+        path: '/admin/sign-in',
+        title: 'Platform Admin Sign In',
+        translateKey: 'nav.signInForUser',
+        icon: '',
+        type: NAV_ITEM_TYPE_ITEM,
+        authority: publicAuth,
+        subMenu: [],
+    },
+)
+
 export default navigationConfig
 
 export const getDashboardOnlyNavigation = (): NavigationTree[] => [
@@ -558,6 +583,26 @@ export const getDashboardOnlyNavigation = (): NavigationTree[] => [
         icon: 'dashboard',
         type: NAV_ITEM_TYPE_ITEM,
         authority: [OWNER],
+        subMenu: [],
+    },
+    {
+        key: 'signIn',
+        path: '/sign-in',
+        title: 'Sign In',
+        translateKey: 'nav.signIn',
+        icon: '',
+        type: NAV_ITEM_TYPE_ITEM,
+        authority: publicAuth,
+        subMenu: [],
+    },
+    {
+        key: 'signInForUser',
+        path: '/admin/sign-in',
+        title: 'Platform Admin Sign In',
+        translateKey: 'nav.signInForUser',
+        icon: '',
+        type: NAV_ITEM_TYPE_ITEM,
+        authority: publicAuth,
         subMenu: [],
     },
 ]

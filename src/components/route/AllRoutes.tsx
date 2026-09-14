@@ -10,6 +10,8 @@ import { useAuth } from '@/auth'
 import { Routes, Route, Navigate } from 'react-router'
 import type { LayoutType } from '@/@types/theme'
 import Login from '@/views/owner/Login/Login'
+import navigationConfig, { getDashboardOnlyNavigation } from '@/configs/navigation.config'
+import { ADMIN } from '@/constants/roles.constant'
 
 interface ViewsProps {
     pageContainerType?: 'default' | 'gutterless' | 'contained'
@@ -22,6 +24,10 @@ const { authenticatedEntryPath } = appConfig
 
 const AllRoutes = (props: AllRoutesProps) => {
     const { user } = useAuth()
+    const navigationTree =
+        user.authority.includes(ADMIN)
+            ? navigationConfig
+            : getDashboardOnlyNavigation()
 
     return (
         <Routes>
@@ -36,6 +42,7 @@ const AllRoutes = (props: AllRoutesProps) => {
                                 routeKey={route.key}
                                 component={route.component}
                                 {...route.meta}
+                                navigationTree={navigationTree}
                             />
                         }
                     />
@@ -60,6 +67,7 @@ const AllRoutes = (props: AllRoutesProps) => {
                                         routeKey={route.key}
                                         component={route.component}
                                         {...route.meta}
+                                        navigationTree={navigationTree}
                                     />
                                 </PageContainer>
                             </AuthorityGuard>
