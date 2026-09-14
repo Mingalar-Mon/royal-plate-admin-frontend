@@ -4,7 +4,15 @@ import othersRoute from './othersRoute'
 import type { Routes } from '@/@types/routes'
 import { ADMIN, OWNER, STAFF } from '@/constants/roles.constant'
 
-export const publicRoutes: Routes = [...authRoute]
+export const publicRoutes: Routes = [
+    ...authRoute,
+    {
+        key: 'landing',
+        path: '/landing',
+        component: lazy(() => import('@/views/landing/LandingPage')),
+        authority: [],
+    },
+]
 
 export const protectedRoutes: Routes = [
     {
