@@ -24,6 +24,14 @@ import {
     TbLogin,
     TbChartBar,
     TbArrowUp,
+    TbAccessible,
+    TbAlarm,
+    TbUsers,
+    TbShoppingBag,
+    TbCoin,
+    TbCalendarClock,
+    TbCalendarCheck,
+    TbCircleCheck,
 } from 'react-icons/tb'
 
 type DemoTab = 'orders' | 'tables' | 'reservations' | 'analytics'
@@ -217,12 +225,7 @@ const LandingPage = () => {
                             <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
                             Live Workspace
                         </button>
-                        <button
-                            onClick={() => scrollToSection('comparison')}
-                            className="hover:text-amber-300 transition-colors cursor-pointer"
-                        >
-                            Why Us
-                        </button>
+
                         <button
                             onClick={() => scrollToSection('testimonials')}
                             className="hover:text-amber-300 transition-colors cursor-pointer"
@@ -290,12 +293,7 @@ const LandingPage = () => {
                                 <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
                                 Live Workspace
                             </button>
-                            <button
-                                onClick={() => scrollToSection('comparison')}
-                                className="text-left text-zinc-300 hover:text-amber-300 py-1"
-                            >
-                                Why Us
-                            </button>
+
                             <button
                                 onClick={() => scrollToSection('testimonials')}
                                 className="text-left text-zinc-300 hover:text-amber-300 py-1"
@@ -450,7 +448,7 @@ const LandingPage = () => {
                                     }`}
                                 >
                                     <TbClipboardList className="text-sm" />
-                                    <span>Active Orders (6)</span>
+                                    <span>Active Orders (3)</span>
                                 </button>
                                 <button
                                     onClick={() => setActiveTab('tables')}
@@ -505,115 +503,166 @@ const LandingPage = () => {
                                     transition={{ duration: 0.3 }}
                                     className="grid grid-cols-1 md:grid-cols-3 gap-4"
                                 >
-                                    {/* Order Card 1 */}
-                                    <div className="rounded-xl border border-amber-500/30 bg-amber-500/[0.04] p-4 flex flex-col justify-between shadow-lg">
+                                    {/* Order Card 1 — Preparing */}
+                                    <div className="rounded-2xl border border-purple-500/30 bg-purple-500/[0.04] p-5 flex flex-col justify-between shadow-lg">
                                         <div>
-                                            <div className="flex items-center justify-between mb-3">
-                                                <div className="flex items-center gap-2">
-                                                    <span className="font-bold text-white font-mono text-base">#ORD-4821</span>
-                                                    <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-500/20 text-amber-400 border border-amber-500/30">
-                                                        COOKING
-                                                    </span>
+                                            <div className="flex items-start justify-between gap-3">
+                                                <div>
+                                                    <p className="text-[10px] font-medium uppercase tracking-wide text-zinc-400">Order</p>
+                                                    <h5 className="text-lg font-bold text-white font-mono">#ORD-4821</h5>
                                                 </div>
-                                                <span className="text-xs font-mono text-zinc-400 flex items-center gap-1">
-                                                    <TbClock className="text-amber-400" /> 8m ago
+                                                <span className="shrink-0 px-2 py-1 rounded-full text-[11px] font-semibold inline-flex items-center gap-1 bg-purple-100 text-purple-700">
+                                                    <TbAccessible size={14} /> Preparing
                                                 </span>
                                             </div>
-                                            <p className="text-xs font-medium text-amber-300 mb-2">Table 04 • 4 Guests</p>
-                                            <ul className="space-y-1.5 text-xs text-zinc-300 border-t border-white/10 pt-2.5">
-                                                <li className="flex justify-between">
-                                                    <span>2x Wagyu Ribeye M5+</span>
-                                                    <span className="font-mono text-zinc-400">Med-Rare</span>
-                                                </li>
-                                                <li className="flex justify-between">
-                                                    <span>1x Truffle Infused Risotto</span>
-                                                    <span className="font-mono text-zinc-400">Extra Parm</span>
-                                                </li>
-                                                <li className="flex justify-between">
-                                                    <span>2x Chateau Margaux 2018</span>
-                                                    <span className="font-mono text-zinc-400">Bottle</span>
-                                                </li>
-                                            </ul>
+                                            <div className="mt-3 space-y-1.5 text-xs">
+                                                <div className="flex items-center justify-between gap-3">
+                                                    <span className="text-zinc-400">Customer</span>
+                                                    <span className="max-w-[60%] truncate text-right font-semibold text-zinc-200">Antoine Laurent</span>
+                                                </div>
+                                                <div className="flex items-center justify-between gap-3">
+                                                    <span className="text-zinc-400">Placed</span>
+                                                    <span className="font-medium text-zinc-300">19:34</span>
+                                                </div>
+                                                <div className="flex items-center justify-between gap-3">
+                                                    <span className="text-zinc-400">Table</span>
+                                                    <span className="font-medium text-zinc-300">Table 04 • 4 Guests</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="mt-4 border-t border-white/10 pt-3">
+                                            <p className="mb-2 text-[10px] font-semibold uppercase tracking-wide text-zinc-400">Items (3)</p>
+                                            <div className="space-y-1.5 text-xs text-zinc-300">
+                                                <div className="flex justify-between">
+                                                    <span className="truncate min-w-0">Wagyu Ribeye M5+</span>
+                                                    <span className="shrink-0 font-semibold text-zinc-400 ml-2">x2</span>
+                                                </div>
+                                                <div className="flex justify-between">
+                                                    <span className="truncate min-w-0">Truffle Risotto</span>
+                                                    <span className="shrink-0 font-semibold text-zinc-400 ml-2">x1</span>
+                                                </div>
+                                                <div className="flex justify-between">
+                                                    <span className="truncate min-w-0">Chateau Margaux 2018</span>
+                                                    <span className="shrink-0 font-semibold text-zinc-400 ml-2">x2</span>
+                                                </div>
+                                            </div>
                                         </div>
                                         <div className="mt-4 pt-3 border-t border-white/10 flex items-center justify-between">
-                                            <span className="font-mono font-bold text-sm text-white">$248.00</span>
-                                            <span className="text-[11px] font-semibold text-emerald-400 bg-emerald-500/10 px-2 py-1 rounded">
-                                                Ready in ~4 mins
+                                            <div>
+                                                <p className="text-[10px] text-zinc-400">Total</p>
+                                                <p className="font-bold text-white">124,000 MMK</p>
+                                            </div>
+                                            <span className="text-[11px] font-semibold text-purple-400 bg-purple-500/10 px-2 py-1 rounded-full">
+                                                Est. 8 min
                                             </span>
                                         </div>
                                     </div>
 
-                                    {/* Order Card 2 */}
-                                    <div className="rounded-xl border border-emerald-500/30 bg-emerald-500/[0.04] p-4 flex flex-col justify-between shadow-lg">
+                                    {/* Order Card 2 — Ready */}
+                                    <div className="rounded-2xl border border-green-500/30 bg-green-500/[0.04] p-5 flex flex-col justify-between shadow-lg">
                                         <div>
-                                            <div className="flex items-center justify-between mb-3">
-                                                <div className="flex items-center gap-2">
-                                                    <span className="font-bold text-white font-mono text-base">#ORD-4820</span>
-                                                    <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
-                                                        READY
-                                                    </span>
+                                            <div className="flex items-start justify-between gap-3">
+                                                <div>
+                                                    <p className="text-[10px] font-medium uppercase tracking-wide text-zinc-400">Order</p>
+                                                    <h5 className="text-lg font-bold text-white font-mono">#ORD-4820</h5>
                                                 </div>
-                                                <span className="text-xs font-mono text-zinc-400 flex items-center gap-1">
-                                                    <TbClock className="text-emerald-400" /> 16m ago
+                                                <span className="shrink-0 px-2 py-1 rounded-full text-[11px] font-semibold inline-flex items-center gap-1 bg-green-100 text-green-700">
+                                                    <TbAlarm size={14} /> Ready
                                                 </span>
                                             </div>
-                                            <p className="text-xs font-medium text-emerald-300 mb-2">Table 09 • Booth VIP</p>
-                                            <ul className="space-y-1.5 text-xs text-zinc-300 border-t border-white/10 pt-2.5">
-                                                <li className="flex justify-between">
-                                                    <span>3x Chilean Sea Bass</span>
-                                                    <span className="font-mono text-zinc-400">Glazed</span>
-                                                </li>
-                                                <li className="flex justify-between">
-                                                    <span>2x Burrata & Heirloom Salad</span>
-                                                    <span className="font-mono text-zinc-400">Standard</span>
-                                                </li>
-                                                <li className="flex justify-between">
-                                                    <span>3x Smoked Old Fashioned</span>
-                                                    <span className="font-mono text-zinc-400">Bar</span>
-                                                </li>
-                                            </ul>
+                                            <div className="mt-3 space-y-1.5 text-xs">
+                                                <div className="flex items-center justify-between gap-3">
+                                                    <span className="text-zinc-400">Customer</span>
+                                                    <span className="max-w-[60%] truncate text-right font-semibold text-zinc-200">Thuzar Myint</span>
+                                                </div>
+                                                <div className="flex items-center justify-between gap-3">
+                                                    <span className="text-zinc-400">Placed</span>
+                                                    <span className="font-medium text-zinc-300">19:26</span>
+                                                </div>
+                                                <div className="flex items-center justify-between gap-3">
+                                                    <span className="text-zinc-400">Table</span>
+                                                    <span className="font-medium text-zinc-300">Table 09 • Booth VIP</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="mt-4 border-t border-white/10 pt-3">
+                                            <p className="mb-2 text-[10px] font-semibold uppercase tracking-wide text-zinc-400">Items (3)</p>
+                                            <div className="space-y-1.5 text-xs text-zinc-300">
+                                                <div className="flex justify-between">
+                                                    <span className="truncate min-w-0">Chilean Sea Bass</span>
+                                                    <span className="shrink-0 font-semibold text-zinc-400 ml-2">x3</span>
+                                                </div>
+                                                <div className="flex justify-between">
+                                                    <span className="truncate min-w-0">Burrata & Heirloom Salad</span>
+                                                    <span className="shrink-0 font-semibold text-zinc-400 ml-2">x2</span>
+                                                </div>
+                                                <div className="flex justify-between">
+                                                    <span className="truncate min-w-0">Smoked Old Fashioned</span>
+                                                    <span className="shrink-0 font-semibold text-zinc-400 ml-2">x3</span>
+                                                </div>
+                                            </div>
                                         </div>
                                         <div className="mt-4 pt-3 border-t border-white/10 flex items-center justify-between">
-                                            <span className="font-mono font-bold text-sm text-white">$315.50</span>
-                                            <span className="text-[11px] font-semibold text-amber-400 bg-amber-500/10 px-2 py-1 rounded flex items-center gap-1">
-                                                <TbBell className="animate-bounce" /> Bell Server
+                                            <div>
+                                                <p className="text-[10px] text-zinc-400">Total</p>
+                                                <p className="font-bold text-white">157,750 MMK</p>
+                                            </div>
+                                            <span className="text-[11px] font-semibold text-amber-400 bg-amber-500/10 px-2 py-1 rounded-full flex items-center gap-1">
+                                                <TbBell className="animate-bounce" size={14} /> Bell Server
                                             </span>
                                         </div>
                                     </div>
 
-                                    {/* Order Card 3 */}
-                                    <div className="rounded-xl border border-rose-500/30 bg-rose-500/[0.04] p-4 flex flex-col justify-between shadow-lg">
+                                    {/* Order Card 3 — Pending */}
+                                    <div className="rounded-2xl border border-yellow-500/30 bg-yellow-500/[0.04] p-5 flex flex-col justify-between shadow-lg">
                                         <div>
-                                            <div className="flex items-center justify-between mb-3">
-                                                <div className="flex items-center gap-2">
-                                                    <span className="font-bold text-white font-mono text-base">#ORD-4824</span>
-                                                    <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-rose-500/20 text-rose-400 border border-rose-500/30">
-                                                        NEW TICKET
-                                                    </span>
+                                            <div className="flex items-start justify-between gap-3">
+                                                <div>
+                                                    <p className="text-[10px] font-medium uppercase tracking-wide text-zinc-400">Order</p>
+                                                    <h5 className="text-lg font-bold text-white font-mono">#ORD-4824</h5>
                                                 </div>
-                                                <span className="text-xs font-mono text-rose-400 flex items-center gap-1 font-bold">
-                                                    JUST NOW
+                                                <span className="shrink-0 px-2 py-1 rounded-full text-[11px] font-semibold inline-flex items-center gap-1 bg-yellow-100 text-yellow-700">
+                                                    <TbClock size={14} /> Pending
                                                 </span>
                                             </div>
-                                            <p className="text-xs font-medium text-rose-300 mb-2">Table 02 • Window Terrace</p>
-                                            <ul className="space-y-1.5 text-xs text-zinc-300 border-t border-white/10 pt-2.5">
-                                                <li className="flex justify-between">
-                                                    <span>1x Royal Seafood Platter</span>
-                                                    <span className="font-mono text-zinc-400">Chef Special</span>
-                                                </li>
-                                                <li className="flex justify-between">
-                                                    <span>1x Lobster Thermidor</span>
-                                                    <span className="font-mono text-zinc-400">Split</span>
-                                                </li>
-                                                <li className="flex justify-between">
-                                                    <span>2x Champagne Brut</span>
-                                                    <span className="font-mono text-zinc-400">Chilled</span>
-                                                </li>
-                                            </ul>
+                                            <div className="mt-3 space-y-1.5 text-xs">
+                                                <div className="flex items-center justify-between gap-3">
+                                                    <span className="text-zinc-400">Customer</span>
+                                                    <span className="max-w-[60%] truncate text-right font-semibold text-zinc-200">Clara Dupont</span>
+                                                </div>
+                                                <div className="flex items-center justify-between gap-3">
+                                                    <span className="text-zinc-400">Placed</span>
+                                                    <span className="font-medium text-zinc-300">19:42</span>
+                                                </div>
+                                                <div className="flex items-center justify-between gap-3">
+                                                    <span className="text-zinc-400">Table</span>
+                                                    <span className="font-medium text-zinc-300">Table 02 • Window Terrace</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="mt-4 border-t border-white/10 pt-3">
+                                            <p className="mb-2 text-[10px] font-semibold uppercase tracking-wide text-zinc-400">Items (3)</p>
+                                            <div className="space-y-1.5 text-xs text-zinc-300">
+                                                <div className="flex justify-between">
+                                                    <span className="truncate min-w-0">Royal Seafood Platter</span>
+                                                    <span className="shrink-0 font-semibold text-zinc-400 ml-2">x1</span>
+                                                </div>
+                                                <div className="flex justify-between">
+                                                    <span className="truncate min-w-0">Lobster Thermidor</span>
+                                                    <span className="shrink-0 font-semibold text-zinc-400 ml-2">x1</span>
+                                                </div>
+                                                <div className="flex justify-between">
+                                                    <span className="truncate min-w-0">Champagne Brut</span>
+                                                    <span className="shrink-0 font-semibold text-zinc-400 ml-2">x2</span>
+                                                </div>
+                                            </div>
                                         </div>
                                         <div className="mt-4 pt-3 border-t border-white/10 flex items-center justify-between">
-                                            <span className="font-mono font-bold text-sm text-white">$390.00</span>
-                                            <button className="text-[11px] font-bold text-zinc-950 bg-amber-400 px-3 py-1 rounded hover:bg-amber-300 transition-colors">
+                                            <div>
+                                                <p className="text-[10px] text-zinc-400">Total</p>
+                                                <p className="font-bold text-white">195,000 MMK</p>
+                                            </div>
+                                            <button className="text-[11px] font-bold text-zinc-950 bg-amber-400 px-3 py-1.5 rounded-lg hover:bg-amber-300 transition-colors">
                                                 Accept to KDS
                                             </button>
                                         </div>
@@ -631,51 +680,85 @@ const LandingPage = () => {
                                     className="space-y-4"
                                 >
                                     <div className="flex items-center justify-between text-xs text-zinc-400 border-b border-white/10 pb-3">
-                                        <span>Floor: Main Dining Hall & Patio</span>
+                                        <span>Floor: Main Dining Hall</span>
                                         <div className="flex items-center gap-4">
                                             <span className="flex items-center gap-1.5">
-                                                <span className="h-2.5 w-2.5 rounded-full bg-emerald-500" /> Available (6)
+                                                <span className="h-2.5 w-2.5 rounded-full bg-green-500" /> Active (8)
                                             </span>
                                             <span className="flex items-center gap-1.5">
-                                                <span className="h-2.5 w-2.5 rounded-full bg-amber-500" /> Dining (14)
+                                                <span className="h-2.5 w-2.5 rounded-full bg-red-500" /> Inactive (2)
                                             </span>
                                             <span className="flex items-center gap-1.5">
-                                                <span className="h-2.5 w-2.5 rounded-full bg-purple-500" /> Reserved (4)
+                                                <span className="h-2.5 w-2.5 rounded-full bg-orange-500" /> Maintenance (1)
                                             </span>
                                         </div>
                                     </div>
 
-                                    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 pt-2">
+                                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2">
                                         {[
-                                            { id: 'T-01', cap: '4p', status: 'dining', bill: '$184', time: '38m' },
-                                            { id: 'T-02', cap: '2p', status: 'dining', bill: '$390', time: '12m' },
-                                            { id: 'T-03', cap: '6p', status: 'available', bill: '$0', time: 'Ready' },
-                                            { id: 'T-04', cap: '4p', status: 'dining', bill: '$248', time: '52m' },
-                                            { id: 'VIP-1', cap: '8p', status: 'reserved', bill: 'Deposit', time: '20:15' },
-                                            { id: 'VIP-2', cap: '6p', status: 'dining', bill: '$610', time: '1h 10m' },
-                                            { id: 'T-07', cap: '2p', status: 'available', bill: '$0', time: 'Ready' },
-                                            { id: 'T-08', cap: '4p', status: 'dining', bill: '$140', time: '24m' },
-                                            { id: 'T-09', cap: '4p', status: 'dining', bill: '$315', time: '40m' },
-                                            { id: 'T-10', cap: '2p', status: 'available', bill: '$0', time: 'Ready' },
-                                            { id: 'PAT-1', cap: '4p', status: 'reserved', bill: '7:45 PM', time: 'Booked' },
-                                            { id: 'PAT-2', cap: '4p', status: 'dining', bill: '$210', time: '18m' },
-                                        ].map((t) => (
+                                            { type: 'standard', status: 'active' as const, capacity: 4, duration: 45, gap: 15, fee: 5000, services: ['WiFi', 'Power'] },
+                                            { type: 'vip', status: 'active' as const, capacity: 8, duration: 60, gap: 20, fee: 25000, services: ['Private', 'WiFi', 'Minibar'] },
+                                            { type: 'family', status: 'active' as const, capacity: 6, duration: 50, gap: 15, fee: 10000, services: ['WiFi', 'Kids Menu'] },
+                                        ].map((t, idx) => (
                                             <div
-                                                key={t.id}
-                                                className={`rounded-xl p-3 border transition-all ${
-                                                    t.status === 'dining'
-                                                        ? 'border-amber-500/40 bg-amber-500/[0.07]'
-                                                        : t.status === 'reserved'
-                                                        ? 'border-purple-500/40 bg-purple-500/[0.07]'
-                                                        : 'border-emerald-500/30 bg-emerald-500/[0.05]'
-                                                }`}
+                                                key={idx}
+                                                className="rounded-2xl border border-white/10 bg-white/[0.02] p-5 flex flex-col justify-between shadow-lg hover:shadow-xl transition-shadow"
                                             >
-                                                <div className="flex items-center justify-between mb-1.5">
-                                                    <span className="font-bold text-white text-sm">{t.id}</span>
-                                                    <span className="text-[10px] text-zinc-400">{t.cap}</span>
+                                                <div>
+                                                    <div className="flex items-start justify-between gap-3">
+                                                        <div>
+                                                            <p className="text-[10px] font-medium uppercase tracking-wide text-zinc-400">Table</p>
+                                                            <h5 className="text-lg font-bold capitalize text-white">{t.type}</h5>
+                                                        </div>
+                                                        <span className={`shrink-0 px-2 py-1 rounded-full text-[11px] font-semibold ${
+                                                            t.status === 'active'
+                                                                ? 'bg-green-100 text-green-700'
+                                                                : t.status === 'maintenance'
+                                                                ? 'bg-orange-100 text-orange-700'
+                                                                : 'bg-red-100 text-red-700'
+                                                        }`}>
+                                                            {t.status.charAt(0).toUpperCase() + t.status.slice(1)}
+                                                        </span>
+                                                    </div>
+                                                    <div className="mt-2">
+                                                        <span className="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-blue-100 text-blue-700">
+                                                            {t.type.charAt(0).toUpperCase() + t.type.slice(1)}
+                                                        </span>
+                                                    </div>
+                                                    <div className="mt-3 grid grid-cols-2 gap-2 text-xs">
+                                                        <div className="rounded-lg bg-white/[0.04] p-2.5">
+                                                            <div className="flex items-center gap-1 text-zinc-400">
+                                                                <TbUsers /> Capacity
+                                                            </div>
+                                                            <p className="mt-1 font-semibold text-zinc-200">{t.capacity} persons</p>
+                                                        </div>
+                                                        <div className="rounded-lg bg-white/[0.04] p-2.5">
+                                                            <div className="flex items-center gap-1 text-zinc-400">
+                                                                <TbClock /> Duration
+                                                            </div>
+                                                            <p className="mt-1 font-semibold text-zinc-200">{t.duration} min</p>
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                                <p className="text-xs font-mono font-semibold text-zinc-200">{t.bill}</p>
-                                                <p className="text-[10px] text-zinc-400 mt-1">{t.time}</p>
+                                                <div className="mt-3 space-y-1.5 text-xs">
+                                                    <div className="flex justify-between gap-3">
+                                                        <span className="text-zinc-400">Gap</span>
+                                                        <span className="font-medium text-zinc-300">{t.gap} min</span>
+                                                    </div>
+                                                    <div className="flex justify-between gap-3">
+                                                        <span className="text-zinc-400">Table fee</span>
+                                                        <span className="font-semibold text-zinc-200">{t.fee > 0 ? `${t.fee.toLocaleString()} MMK` : '—'}</span>
+                                                    </div>
+                                                </div>
+                                                {t.services.length > 0 && (
+                                                    <div className="mt-3 flex flex-wrap gap-1.5">
+                                                        {t.services.map((s) => (
+                                                            <span key={s} className="px-2 py-0.5 rounded-full text-[10px] font-medium bg-amber-500/10 text-amber-400 border border-amber-500/20">
+                                                                {s}
+                                                            </span>
+                                                        ))}
+                                                    </div>
+                                                )}
                                             </div>
                                         ))}
                                     </div>
@@ -689,110 +772,251 @@ const LandingPage = () => {
                                     initial={{ opacity: 0, scale: 0.98 }}
                                     animate={{ opacity: 1, scale: 1 }}
                                     transition={{ duration: 0.3 }}
-                                    className="space-y-3"
+                                    className="grid grid-cols-1 md:grid-cols-3 gap-4"
                                 >
                                     {[
                                         {
-                                            name: 'Ambassador H. E. Sterling',
-                                            party: '6 Guests',
-                                            table: 'VIP Salon #1',
-                                            time: '20:15 Tonight',
-                                            notes: 'Birthday Celebration • Champagne on arrival • Seafood allergy',
-                                            status: 'CONFIRMED',
+                                            resNumber: 'RES-1024',
+                                            status: 'confirmed' as const,
+                                            customer: 'Ambassador H. E. Sterling',
+                                            date: '14/09/2026',
+                                            startTime: '20:15',
+                                            endTime: '22:00',
+                                            table: { type: 'vip', capacity: 6 },
+                                            dishes: [
+                                                { name: 'Wagyu Steak', qty: 2 },
+                                                { name: 'Truffle Risotto', qty: 1 },
+                                                { name: 'Chateau Margaux', qty: 2 },
+                                            ],
+                                            total: 320000,
+                                            remark: 'Birthday Celebration',
                                         },
                                         {
-                                            name: 'Dr. Kenneth Tan & Family',
-                                            party: '4 Guests',
-                                            table: 'Patio #1 (Garden View)',
-                                            time: '20:30 Tonight',
-                                            notes: 'Prefers quiet corner • Wine pairing requested',
-                                            status: 'CONFIRMED',
+                                            resNumber: 'RES-1025',
+                                            status: 'pending' as const,
+                                            customer: 'Dr. Kenneth Tan',
+                                            date: '14/09/2026',
+                                            startTime: '20:30',
+                                            endTime: '22:15',
+                                            table: { type: 'standard', capacity: 4 },
+                                            dishes: [],
+                                            total: 0,
+                                            remark: null,
                                         },
                                         {
-                                            name: 'Ms. Clara Dupont',
-                                            party: '2 Guests',
-                                            table: 'Window Terrace T-02',
-                                            time: '21:00 Tonight',
-                                            notes: 'Anniversary Dinner • Pre-selected Tasting Menu',
-                                            status: 'SEATED EARLY',
+                                            resNumber: 'RES-1026',
+                                            status: 'seated' as const,
+                                            customer: 'Ms. Clara Dupont',
+                                            date: '14/09/2026',
+                                            startTime: '19:00',
+                                            endTime: '21:00',
+                                            table: { type: 'standard', capacity: 2 },
+                                            dishes: [
+                                                { name: 'Seafood Platter', qty: 1 },
+                                                { name: 'Champagne Brut', qty: 2 },
+                                            ],
+                                            total: 185000,
+                                            remark: 'Anniversary Dinner',
                                         },
                                     ].map((r, idx) => (
                                         <div
                                             key={idx}
-                                            className="p-4 rounded-xl border border-white/10 bg-white/[0.02] flex flex-col sm:flex-row sm:items-center justify-between gap-3"
+                                            className="rounded-2xl border border-white/10 bg-white/[0.02] p-5 flex flex-col justify-between shadow-lg hover:shadow-xl transition-shadow"
                                         >
-                                            <div className="flex items-start gap-3">
-                                                <div className="h-10 w-10 rounded-full bg-purple-500/20 text-purple-300 font-bold flex items-center justify-center border border-purple-500/30 shrink-0">
-                                                    {r.name.charAt(0)}
-                                                </div>
-                                                <div>
-                                                    <div className="flex items-center gap-2">
-                                                        <h4 className="font-bold text-white text-sm">{r.name}</h4>
-                                                        <span className="text-xs text-amber-300 font-medium">
-                                                            ({r.party})
-                                                        </span>
+                                            <div>
+                                                <div className="flex items-start justify-between gap-3">
+                                                    <div>
+                                                        <p className="text-[10px] font-medium uppercase tracking-wide text-zinc-400">Reservation</p>
+                                                        <h5 className="text-lg font-bold text-white font-mono">#{r.resNumber}</h5>
                                                     </div>
-                                                    <p className="text-xs text-zinc-400 mt-0.5">
-                                                        Assigned: <span className="text-zinc-200">{r.table}</span> • Time:{' '}
-                                                        <span className="text-amber-400 font-mono font-medium">{r.time}</span>
-                                                    </p>
-                                                    <p className="text-[11px] text-zinc-400 italic mt-1 bg-white/[0.03] px-2 py-0.5 rounded inline-block">
-                                                        📌 {r.notes}
-                                                    </p>
+                                                    <span className={`shrink-0 px-2 py-1 rounded-full text-[11px] font-semibold inline-flex items-center gap-1 ${
+                                                        r.status === 'confirmed'
+                                                            ? 'bg-green-100 text-green-700'
+                                                            : r.status === 'seated'
+                                                            ? 'bg-purple-100 text-purple-700'
+                                                            : 'bg-yellow-100 text-yellow-700'
+                                                    }`}>
+                                                        {r.status.charAt(0).toUpperCase() + r.status.slice(1)}
+                                                    </span>
+                                                </div>
+                                                <div className="mt-3 space-y-1.5 text-xs">
+                                                    <div className="flex items-center justify-between gap-3">
+                                                        <span className="text-zinc-400">Customer</span>
+                                                        <span className="max-w-[60%] truncate text-right font-semibold text-zinc-200">{r.customer}</span>
+                                                    </div>
+                                                    <div className="flex items-center justify-between gap-3">
+                                                        <span className="text-zinc-400">Date</span>
+                                                        <span className="font-medium text-zinc-300">{r.date}</span>
+                                                    </div>
+                                                    <div className="flex items-center justify-between gap-3">
+                                                        <span className="text-zinc-400">Time</span>
+                                                        <span className="font-medium text-zinc-300">{r.startTime} - {r.endTime}</span>
+                                                    </div>
+                                                    <div className="flex items-center justify-between gap-3">
+                                                        <span className="text-zinc-400">Table</span>
+                                                        <span className="font-medium text-zinc-300">{r.table.type.charAt(0).toUpperCase() + r.table.type.slice(1)} (cap. {r.table.capacity})</span>
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <span className="self-start sm:self-center px-2.5 py-1 rounded text-[11px] font-bold bg-purple-500/20 text-purple-300 border border-purple-500/30">
-                                                {r.status}
-                                            </span>
+                                            {r.dishes.length > 0 && (
+                                                <div className="mt-4 border-t border-white/10 pt-3">
+                                                    <p className="mb-2 text-[10px] font-semibold uppercase tracking-wide text-zinc-400">Pre-ordered dishes ({r.dishes.length})</p>
+                                                    <div className="space-y-1.5 text-xs text-zinc-300">
+                                                        {r.dishes.map((d, di) => (
+                                                            <div key={di} className="flex justify-between">
+                                                                <span className="truncate min-w-0">{d.name}</span>
+                                                                <span className="shrink-0 font-semibold text-zinc-400 ml-2">x{d.qty}</span>
+                                                            </div>
+                                                        ))}
+                                                    </div>
+                                                </div>
+                                            )}
+                                            <div className="mt-4 pt-3 border-t border-white/10 flex items-center justify-between">
+                                                <div>
+                                                    <p className="text-[10px] text-zinc-400">Total</p>
+                                                    <p className="font-bold text-white">{r.total > 0 ? `${r.total.toLocaleString()} MMK` : '—'}</p>
+                                                </div>
+                                                {r.remark && (
+                                                    <span className="text-[11px] text-zinc-400 italic bg-white/[0.03] px-2 py-1 rounded-full">
+                                                        📌 {r.remark}
+                                                    </span>
+                                                )}
+                                            </div>
                                         </div>
                                     ))}
                                 </motion.div>
                             )}
 
-                            {/* TAB 4: ANALYTICS */}
+                            {/* TAB 4: ANALYTICS — EDA Dashboard Style */}
                             {activeTab === 'analytics' && (
                                 <motion.div
                                     key="analytics"
                                     initial={{ opacity: 0, scale: 0.98 }}
                                     animate={{ opacity: 1, scale: 1 }}
                                     transition={{ duration: 0.3 }}
-                                    className="grid grid-cols-1 md:grid-cols-4 gap-4"
+                                    className="space-y-4"
                                 >
-                                    <div className="rounded-xl border border-white/10 bg-white/[0.02] p-4">
-                                        <p className="text-xs text-zinc-400 uppercase tracking-wider font-semibold">
-                                            Today's Gross Sales
-                                        </p>
-                                        <p className="text-2xl font-bold font-mono text-white mt-1.5">$8,640.50</p>
-                                        <p className="text-xs text-emerald-400 mt-2 flex items-center gap-1 font-medium">
-                                            <TbTrendingUp /> +24% vs last Tuesday
-                                        </p>
+                                    {/* Hero banner */}
+                                    <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-amber-500/15 via-amber-500/5 to-transparent p-5 sm:p-6">
+                                        <div className="pointer-events-none absolute -right-16 -top-16 h-48 w-48 rounded-full bg-amber-500/10 blur-3xl" />
+                                        <div className="relative flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+                                            <div>
+                                                <div className="mb-2 inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1 text-[11px] font-semibold text-amber-300">
+                                                    <TbSparkles /> Today's performance
+                                                </div>
+                                                <h3 className="text-lg font-bold text-white">Le Cordon Royal</h3>
+                                                <p className="mt-1 text-xs text-zinc-400">Wednesday, 14 Sep 2026 — Peak Dinner Shift</p>
+                                            </div>
+                                            <div className="grid w-full max-w-xs grid-cols-2 gap-3">
+                                                <div className="rounded-xl bg-white/[0.06] px-3 py-2.5 border border-white/10">
+                                                    <p className="text-[10px] font-semibold uppercase tracking-wider text-zinc-400">Total orders</p>
+                                                    <p className="mt-1 text-xl font-bold text-white">42</p>
+                                                </div>
+                                                <div className="rounded-xl bg-white/[0.06] px-3 py-2.5 border border-white/10">
+                                                    <p className="text-[10px] font-semibold uppercase tracking-wider text-zinc-400">Reservations</p>
+                                                    <p className="mt-1 text-xl font-bold text-white">18</p>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div className="rounded-xl border border-white/10 bg-white/[0.02] p-4">
-                                        <p className="text-xs text-zinc-400 uppercase tracking-wider font-semibold">
-                                            Avg Table Ticket
-                                        </p>
-                                        <p className="text-2xl font-bold font-mono text-white mt-1.5">$182.20</p>
-                                        <p className="text-xs text-amber-400 mt-2 flex items-center gap-1 font-medium">
-                                            <span>⭐ Top Wine Pairing</span>
-                                        </p>
-                                    </div>
-                                    <div className="rounded-xl border border-white/10 bg-white/[0.02] p-4">
-                                        <p className="text-xs text-zinc-400 uppercase tracking-wider font-semibold">
-                                            Tables Turned
-                                        </p>
-                                        <p className="text-2xl font-bold font-mono text-white mt-1.5">54 Parties</p>
-                                        <p className="text-xs text-sky-400 mt-2 flex items-center gap-1 font-medium">
-                                            <span>⚡ 42m Avg Duration</span>
-                                        </p>
-                                    </div>
-                                    <div className="rounded-xl border border-white/10 bg-white/[0.02] p-4">
-                                        <p className="text-xs text-zinc-400 uppercase tracking-wider font-semibold">
-                                            Kitchen Latency
-                                        </p>
-                                        <p className="text-2xl font-bold font-mono text-emerald-400 mt-1.5">14m 20s</p>
-                                        <p className="text-xs text-zinc-400 mt-2">
-                                            Target: &lt; 18 mins
-                                        </p>
+
+                                    {/* 8 Stat Cards — matching EdaDashboard tone system */}
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+                                        {/* Pending orders */}
+                                        <div className="rounded-xl border border-white/10 bg-amber-500/[0.04] p-4 transition-all hover:-translate-y-0.5 hover:shadow-md border-t-[3px] border-t-amber-500">
+                                            <div className="flex items-start justify-between gap-3">
+                                                <div className="min-w-0">
+                                                    <p className="text-[10px] font-semibold uppercase tracking-[0.12em] text-zinc-400">Pending orders</p>
+                                                    <p className="mt-2 text-2xl font-bold text-amber-400">6</p>
+                                                </div>
+                                                <div className="shrink-0 rounded-2xl p-2.5 bg-amber-500/10 text-amber-400"><TbClock className="text-lg" /></div>
+                                            </div>
+                                            <p className="mt-2 text-[11px] text-zinc-400">Waiting for action</p>
+                                        </div>
+
+                                        {/* Confirmed orders */}
+                                        <div className="rounded-xl border border-white/10 bg-blue-500/[0.04] p-4 transition-all hover:-translate-y-0.5 hover:shadow-md border-t-[3px] border-t-blue-500">
+                                            <div className="flex items-start justify-between gap-3">
+                                                <div className="min-w-0">
+                                                    <p className="text-[10px] font-semibold uppercase tracking-[0.12em] text-zinc-400">Confirmed orders</p>
+                                                    <p className="mt-2 text-2xl font-bold text-blue-400">14</p>
+                                                </div>
+                                                <div className="shrink-0 rounded-2xl p-2.5 bg-blue-500/10 text-blue-400"><TbShoppingBag className="text-lg" /></div>
+                                            </div>
+                                            <p className="mt-2 text-[11px] text-zinc-400">Ready for fulfillment</p>
+                                        </div>
+
+                                        {/* Completed orders */}
+                                        <div className="rounded-xl border border-white/10 bg-emerald-500/[0.04] p-4 transition-all hover:-translate-y-0.5 hover:shadow-md border-t-[3px] border-t-emerald-500">
+                                            <div className="flex items-start justify-between gap-3">
+                                                <div className="min-w-0">
+                                                    <p className="text-[10px] font-semibold uppercase tracking-[0.12em] text-zinc-400">Completed orders</p>
+                                                    <p className="mt-2 text-2xl font-bold text-emerald-400">22</p>
+                                                </div>
+                                                <div className="shrink-0 rounded-2xl p-2.5 bg-emerald-500/10 text-emerald-400"><TbCircleCheck className="text-lg" /></div>
+                                            </div>
+                                            <p className="mt-2 text-[11px] text-zinc-400">Orders completed today</p>
+                                        </div>
+
+                                        {/* Order revenue */}
+                                        <div className="rounded-xl border border-white/10 bg-emerald-500/[0.04] p-4 transition-all hover:-translate-y-0.5 hover:shadow-md border-t-[3px] border-t-emerald-500">
+                                            <div className="flex items-start justify-between gap-3">
+                                                <div className="min-w-0">
+                                                    <p className="text-[10px] font-semibold uppercase tracking-[0.12em] text-zinc-400">Order revenue</p>
+                                                    <p className="mt-2 text-2xl font-bold text-emerald-400">10,800,000 <span className="text-sm font-semibold">MMK</span></p>
+                                                </div>
+                                                <div className="shrink-0 rounded-2xl p-2.5 bg-emerald-500/10 text-emerald-400"><TbCoin className="text-lg" /></div>
+                                            </div>
+                                            <p className="mt-2 text-[11px] text-zinc-400">Completed order value</p>
+                                        </div>
+
+                                        {/* Pending reservations */}
+                                        <div className="rounded-xl border border-white/10 bg-orange-500/[0.04] p-4 transition-all hover:-translate-y-0.5 hover:shadow-md border-t-[3px] border-t-orange-500">
+                                            <div className="flex items-start justify-between gap-3">
+                                                <div className="min-w-0">
+                                                    <p className="text-[10px] font-semibold uppercase tracking-[0.12em] text-zinc-400">Pending reservations</p>
+                                                    <p className="mt-2 text-2xl font-bold text-orange-400">3</p>
+                                                </div>
+                                                <div className="shrink-0 rounded-2xl p-2.5 bg-orange-500/10 text-orange-400"><TbCalendarClock className="text-lg" /></div>
+                                            </div>
+                                            <p className="mt-2 text-[11px] text-zinc-400">Reservations to review</p>
+                                        </div>
+
+                                        {/* Confirmed reservations */}
+                                        <div className="rounded-xl border border-white/10 bg-violet-500/[0.04] p-4 transition-all hover:-translate-y-0.5 hover:shadow-md border-t-[3px] border-t-violet-500">
+                                            <div className="flex items-start justify-between gap-3">
+                                                <div className="min-w-0">
+                                                    <p className="text-[10px] font-semibold uppercase tracking-[0.12em] text-zinc-400">Confirmed reservations</p>
+                                                    <p className="mt-2 text-2xl font-bold text-violet-400">9</p>
+                                                </div>
+                                                <div className="shrink-0 rounded-2xl p-2.5 bg-violet-500/10 text-violet-400"><TbCalendarCheck className="text-lg" /></div>
+                                            </div>
+                                            <p className="mt-2 text-[11px] text-zinc-400">Confirmed for today</p>
+                                        </div>
+
+                                        {/* Completed reservations */}
+                                        <div className="rounded-xl border border-white/10 bg-emerald-500/[0.04] p-4 transition-all hover:-translate-y-0.5 hover:shadow-md border-t-[3px] border-t-emerald-500">
+                                            <div className="flex items-start justify-between gap-3">
+                                                <div className="min-w-0">
+                                                    <p className="text-[10px] font-semibold uppercase tracking-[0.12em] text-zinc-400">Completed reservations</p>
+                                                    <p className="mt-2 text-2xl font-bold text-emerald-400">6</p>
+                                                </div>
+                                                <div className="shrink-0 rounded-2xl p-2.5 bg-emerald-500/10 text-emerald-400"><TbCircleCheck className="text-lg" /></div>
+                                            </div>
+                                            <p className="mt-2 text-[11px] text-zinc-400">Reservations completed today</p>
+                                        </div>
+
+                                        {/* Reservation revenue */}
+                                        <div className="rounded-xl border border-white/10 bg-emerald-500/[0.04] p-4 transition-all hover:-translate-y-0.5 hover:shadow-md border-t-[3px] border-t-emerald-500">
+                                            <div className="flex items-start justify-between gap-3">
+                                                <div className="min-w-0">
+                                                    <p className="text-[10px] font-semibold uppercase tracking-[0.12em] text-zinc-400">Reservation revenue</p>
+                                                    <p className="mt-2 text-2xl font-bold text-emerald-400">4,200,000 <span className="text-sm font-semibold">MMK</span></p>
+                                                </div>
+                                                <div className="shrink-0 rounded-2xl p-2.5 bg-emerald-500/10 text-emerald-400"><TbCoin className="text-lg" /></div>
+                                            </div>
+                                            <p className="mt-2 text-[11px] text-zinc-400">Completed reservation value</p>
+                                        </div>
                                     </div>
                                 </motion.div>
                             )}
@@ -882,13 +1106,13 @@ const LandingPage = () => {
                         <div className="rounded-2xl border border-white/10 bg-white/[0.02] p-8 relative">
                             <span className="font-serif text-5xl font-bold text-amber-500/30">01</span>
                             <h3 className="text-xl font-bold text-white mt-4 font-serif">
-                                Table QR or Server Tablet
+                                Guest Orders via Mobile App
                             </h3>
                             <p className="text-zinc-400 text-sm mt-2 leading-relaxed">
-                                Guests scan the elegant table QR or staff punch dishes into mobile handhelds. Modifiers and seat assignments are locked in seconds.
+                                Guests download the Royal Plate app on iOS or Android, browse the menu, and place orders or book reservations straight from their phone. Available via App Store, Google Play, and direct download link.
                             </p>
                             <div className="mt-6 p-3 rounded-xl bg-amber-500/10 border border-amber-500/20 text-xs text-amber-300 flex items-center gap-2">
-                                <TbCheck className="text-sm font-bold" /> Instant dish validation & allergens
+                                <TbCheck className="text-sm font-bold" /> iOS, Android & direct download — no restrictions
                             </div>
                         </div>
 
@@ -896,13 +1120,13 @@ const LandingPage = () => {
                         <div className="rounded-2xl border border-amber-500/30 bg-amber-500/[0.04] p-8 relative shadow-xl shadow-amber-500/5">
                             <span className="font-serif text-5xl font-bold text-amber-400/50">02</span>
                             <h3 className="text-xl font-bold text-white mt-4 font-serif">
-                                Instant Kitchen KDS Dispatch
+                                Staff Receives & Processes Orders
                             </h3>
                             <p className="text-zinc-400 text-sm mt-2 leading-relaxed">
-                                Orders appear instantaneously on kitchen line displays with audio bells, cooking order priority, and synchronized timer tracking.
+                                Restaurant owner and staff receive instant push notifications for every new order or reservation. They update status step by step — from Pending to Confirmed, Preparing, Ready, and Completed — all in real time.
                             </p>
                             <div className="mt-6 p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-xs text-emerald-300 flex items-center gap-2">
-                                <TbCheck className="text-sm font-bold" /> Sub-second Firebase cloud audio alert
+                                <TbCheck className="text-sm font-bold" /> Instant push notifications & real-time status flow
                             </div>
                         </div>
 
@@ -910,85 +1134,16 @@ const LandingPage = () => {
                         <div className="rounded-2xl border border-white/10 bg-white/[0.02] p-8 relative">
                             <span className="font-serif text-5xl font-bold text-amber-500/30">03</span>
                             <h3 className="text-xl font-bold text-white mt-4 font-serif">
-                                One-Click Bill & Revenue Payout
+                                Admin Settlement & Revenue Payout
                             </h3>
                             <p className="text-zinc-400 text-sm mt-2 leading-relaxed">
-                                Settle receipts via digital payment or cash, free the table on the live grid, and audit automatic daily commissions and owner settlements.
+                                Once orders are completed, restaurant admins reconcile commissions, process owner settlements, and manage revenue payouts — all from a single financial dashboard.
                             </p>
                             <div className="mt-6 p-3 rounded-xl bg-purple-500/10 border border-purple-500/20 text-xs text-purple-300 flex items-center gap-2">
-                                <TbCheck className="text-sm font-bold" /> Automated ledgers & tax compliance
+                                <TbCheck className="text-sm font-bold" /> Automated commission tracking & admin payouts
                             </div>
                         </div>
                     </div>
-                </div>
-            </section>
-
-            {/* COMPARISON TABLE: ROYAL PLATE VS LEGACY POS */}
-            <section id="comparison" className="relative z-10 py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="text-center max-w-3xl mx-auto mb-16">
-                    <span className="text-xs font-bold uppercase tracking-[0.2em] text-amber-400 bg-amber-500/10 px-3 py-1 rounded-full border border-amber-500/20">
-                        The Decisive Difference
-                    </span>
-                    <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold font-serif text-white mt-4">
-                        Why Premier Restaurateurs Switch to Royal Plate
-                    </h2>
-                </div>
-
-                <div className="overflow-x-auto">
-                    <table className="w-full text-left border-collapse rounded-2xl overflow-hidden border border-white/10 bg-white/[0.02] backdrop-blur-xl">
-                        <thead>
-                            <tr className="border-b border-white/10 bg-white/[0.04]">
-                                <th className="p-4 sm:p-6 text-sm font-semibold text-zinc-300">Feature Capabilities</th>
-                                <th className="p-4 sm:p-6 text-sm font-bold text-amber-300 bg-amber-500/10 border-x border-amber-500/20">
-                                    👑 Royal Plate OS
-                                </th>
-                                <th className="p-4 sm:p-6 text-sm font-medium text-zinc-400">Legacy Hardwired POS</th>
-                                <th className="p-4 sm:p-6 text-sm font-medium text-zinc-400">Third-Party Aggregators</th>
-                            </tr>
-                        </thead>
-                        <tbody className="divide-y divide-white/[0.07] text-sm">
-                            <tr>
-                                <td className="p-4 sm:p-6 font-medium text-white">Hardware Lock-In</td>
-                                <td className="p-4 sm:p-6 font-bold text-emerald-400 bg-amber-500/[0.04] border-x border-amber-500/20">
-                                    Zero (Any browser/tablet)
-                                </td>
-                                <td className="p-4 sm:p-6 text-zinc-400">$3,000+ proprietary terminals</td>
-                                <td className="p-4 sm:p-6 text-zinc-400">Clunky rented tablets</td>
-                            </tr>
-                            <tr>
-                                <td className="p-4 sm:p-6 font-medium text-white">Order Commission Squeeze</td>
-                                <td className="p-4 sm:p-6 font-bold text-emerald-400 bg-amber-500/[0.04] border-x border-amber-500/20">
-                                    0% per-order extortion
-                                </td>
-                                <td className="p-4 sm:p-6 text-zinc-400">High monthly subscription</td>
-                                <td className="p-4 sm:p-6 text-rose-400">20% - 35% cut per order</td>
-                            </tr>
-                            <tr>
-                                <td className="p-4 sm:p-6 font-medium text-white">Real-Time Kitchen KDS Sync</td>
-                                <td className="p-4 sm:p-6 font-bold text-emerald-400 bg-amber-500/[0.04] border-x border-amber-500/20">
-                                    Sub-second audio alerts
-                                </td>
-                                <td className="p-4 sm:p-6 text-zinc-400">Paper thermal roll jams</td>
-                                <td className="p-4 sm:p-6 text-zinc-400">Separate tablet chimes</td>
-                            </tr>
-                            <tr>
-                                <td className="p-4 sm:p-6 font-medium text-white">Interactive Table Floor Grid</td>
-                                <td className="p-4 sm:p-6 font-bold text-emerald-400 bg-amber-500/[0.04] border-x border-amber-500/20">
-                                    Integrated visual designer
-                                </td>
-                                <td className="p-4 sm:p-6 text-zinc-400">Static table numbers only</td>
-                                <td className="p-4 sm:p-6 text-zinc-400">Not supported (takeout only)</td>
-                            </tr>
-                            <tr>
-                                <td className="p-4 sm:p-6 font-medium text-white">Multi-Role Security (RBAC)</td>
-                                <td className="p-4 sm:p-6 font-bold text-emerald-400 bg-amber-500/[0.04] border-x border-amber-500/20">
-                                    Admin / Owner / Chef / Staff
-                                </td>
-                                <td className="p-4 sm:p-6 text-zinc-400">Shared manager 4-digit PIN</td>
-                                <td className="p-4 sm:p-6 text-zinc-400">Single shared password</td>
-                            </tr>
-                        </tbody>
-                    </table>
                 </div>
             </section>
 
