@@ -97,11 +97,16 @@ const OwnerEditModal = ({ owner, onClose }: OwnerEditModalProps) => {
         <Dialog
             isOpen={Boolean(owner)}
             width={520}
+            contentClassName="flex max-h-[90vh] flex-col !p-0 overflow-hidden"
             onClose={onClose}
             onRequestClose={isUpdating ? () => {} : onClose}
         >
-            <Form onSubmit={handleSubmit(handleSave)}>
-                <div className="p-6">
+            <Form
+                onSubmit={handleSubmit(handleSave)}
+                className="flex flex-1 flex-col min-h-0"
+                containerClassName="flex flex-1 flex-col min-h-0"
+            >
+                <div className="flex-1 overflow-y-auto p-6">
                     <h3 className="mb-1 text-lg font-bold text-gray-900 dark:text-gray-100">
                         Edit Merchant Account
                     </h3>
@@ -185,7 +190,7 @@ const OwnerEditModal = ({ owner, onClose }: OwnerEditModalProps) => {
                         </div>
                     </div>
                 </div>
-                <div className="flex items-center justify-end gap-2 rounded-b-2xl bg-gray-100 px-6 py-3 dark:bg-gray-700">
+                <div className="flex shrink-0 items-center justify-end gap-2 rounded-b-2xl border-t border-gray-200 bg-gray-100 px-6 py-3 dark:border-gray-700 dark:bg-gray-700">
                     <Button
                         size="sm"
                         onClick={onClose}
