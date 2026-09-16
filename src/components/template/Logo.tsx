@@ -1,5 +1,6 @@
 import classNames from 'classnames'
 import { APP_NAME } from '@/constants/app.constant'
+import emailOptLogo from '@/assets/logo/emailoptlogo.png'
 import type { CommonProps } from '@/@types/common'
 
 interface LogoProps extends CommonProps {
@@ -29,12 +30,20 @@ const Logo = (props: LogoProps) => {
                 ...{ width: logoWidth },
             }}
         >
-            <h4 className="text-primary dark:text-primary-mild">Royal Plate</h4>
-            {/* <img
-                className={imgClass}
-                src={`${LOGO_SRC_PATH}logo-${mode}-${type}.png`}
-                alt={`${APP_NAME} logo`}
-            /> */}
+            {type === 'streamline' ? (
+                <img
+                    src={emailOptLogo}
+                    alt={`${APP_NAME} logo`}
+                    className={classNames(
+                        'mx-auto rounded-3xl object-contain',
+                        imgClass || 'max-h-8 w-8',
+                    )}
+                />
+            ) : (
+                <h4 className="text-primary dark:text-primary-mild whitespace-nowrap">
+                    Royal Plate
+                </h4>
+            )}
         </div>
     )
 }
