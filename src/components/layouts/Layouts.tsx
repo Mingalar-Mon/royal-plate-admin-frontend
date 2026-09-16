@@ -6,11 +6,13 @@ import { useThemeStore } from '@/store/themeStore'
 import { useLocation } from 'react-router'
 import PostLoginLayout from './PostLoginLayout'
 import PreLoginLayout from './PreLoginLayout'
+import authRoute from '@/configs/routes.config/authRoute'
 
 const Layout = ({ children }: CommonProps) => {
     const layoutType = useThemeStore((state) => state.layout.type)
     const location = useLocation()
     const isLanding = location.pathname === '/landing'
+    const isAuthPath = authRoute.some((route) => route.path === location.pathname)
 
     const { authenticated } = useAuth()
 
@@ -22,7 +24,7 @@ const Layout = ({ children }: CommonProps) => {
                 </div>
             }
         >
-            {authenticated && !isLanding ? (
+            {authenticated && !isLanding && !isAuthPath ? (
                 <PostLoginLayout layoutType={layoutType}>
                     {children}
                 </PostLoginLayout>

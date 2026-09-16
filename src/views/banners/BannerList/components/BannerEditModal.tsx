@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import Dialog from '@/components/ui/Dialog'
@@ -48,6 +48,7 @@ const BannerEditModal = ({ banner, onClose }: BannerEditModalProps) => {
         control,
         watch,
         setValue,
+        reset,
         formState: { errors },
     } = useForm<BannerFormData>({
         defaultValues: {
@@ -57,6 +58,17 @@ const BannerEditModal = ({ banner, onClose }: BannerEditModalProps) => {
         },
         resolver: zodResolver(bannerValidationSchema),
     })
+
+    useEffect(() => {
+        setImageFile(null)
+        if (banner) {
+            reset({
+                image: banner.image?.url || '',
+                linkToRestaurant: banner.linkToRestaurant || '',
+                type: banner.type || 'in_app',
+            })
+        }
+    }, [banner, reset])
 
     const currentBannerType = watch('type')
 

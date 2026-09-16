@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
@@ -34,6 +35,7 @@ const OwnerEditModal = ({ owner, onClose }: OwnerEditModalProps) => {
     const {
         handleSubmit,
         control,
+        reset,
         formState: { errors },
     } = useForm<OwnerEditFormData>({
         defaultValues: {
@@ -44,6 +46,17 @@ const OwnerEditModal = ({ owner, onClose }: OwnerEditModalProps) => {
         },
         resolver: zodResolver(ownerEditSchema),
     })
+
+    useEffect(() => {
+        if (owner) {
+            reset({
+                name: owner.name || '',
+                email: owner.email || '',
+                phone: owner.phone || '',
+                password: '',
+            })
+        }
+    }, [owner, reset])
 
     if (!owner) return null
 
