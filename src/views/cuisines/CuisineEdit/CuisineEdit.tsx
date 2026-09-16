@@ -47,9 +47,6 @@ const CuisineEdit = () => {
         // Only append file streams if a brand-new image was explicitly uploaded
         if (data.image instanceof File) {
             body.append('image', data.image)
-        } else {
-            // Otherwise preserve your existing S3 string url reference token
-            body.append('existingImageUrl', data.image as string)
         }
 
         updateCuisine(

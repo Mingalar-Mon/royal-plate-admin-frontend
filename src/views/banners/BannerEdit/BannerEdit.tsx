@@ -53,11 +53,6 @@ const BannerEdit = () => {
         if (formData.image instanceof File) {
             body.append('bannerImage', formData.image)
         }
-        // else {
-        // Otherwise preserve your existing database string reference path token
-        // body.append('existingImageUrl', formData.image as string)
-        // }
-
         updateBanner(
             { id: id!, data: body },
             {
