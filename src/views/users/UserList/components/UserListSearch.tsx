@@ -17,7 +17,7 @@ const UserListSearch = ({
     return (
         <Input
             placeholder="Search by name, email or phone"
-            suffix={<TbSearch className="text-lg" />}
+            prefix={<TbSearch className="text-lg" />}
             onChange={handleChange}
         />
     )

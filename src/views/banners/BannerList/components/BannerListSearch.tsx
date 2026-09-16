@@ -17,7 +17,7 @@ const BannerListSearch = ({
     return (
         <Input
             placeholder="Search by linked restaurant ID"
-            suffix={<TbSearch className="text-lg" />}
+            prefix={<TbSearch className="text-lg" />}
             onChange={handleChange}
         />
     )

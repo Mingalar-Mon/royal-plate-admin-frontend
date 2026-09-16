@@ -17,7 +17,7 @@ const AppVersionListSearch = ({
     return (
         <Input
             placeholder="Search by title or version name"
-            suffix={<TbSearch className="text-lg" />}
+            prefix={<TbSearch className="text-lg" />}
             onChange={handleChange}
         />
     )

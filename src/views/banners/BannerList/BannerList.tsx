@@ -2,7 +2,6 @@ import { useBannerStore } from '@/store/bannerStore'
 import { useBannerListQuery } from '@/utils/custom-hooks/useBanner'
 import Container from '@/components/shared/Container'
 import AdaptiveCard from '@/components/shared/AdaptiveCard'
-import BannerListActionTools from './components/BannerListActionTools'
 import BannerListTableTools from './components/BannerListTableTools'
 import BannerListTable from './components/BannerListTable'
 
@@ -22,9 +21,8 @@ const BannerList = () => {
                 <div className="flex flex-col gap-4">
                     <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-2">
                         <h3>Banners</h3>
-                        <BannerListActionTools data={bannersList} />
                     </div>
-                    <BannerListTableTools />
+                    <BannerListTableTools data={bannersList} />
                     <BannerListTable
                         data={bannersList}
                         total={bannersTotal}

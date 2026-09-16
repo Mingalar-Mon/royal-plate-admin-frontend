@@ -1,9 +1,10 @@
 import BannerListSearch from './BannerListSearch'
 import BannerFilter from './BannerFilter'
+import BannerListActionTools from './BannerListActionTools'
 
 import { useBannerStore } from '@/store/bannerStore'
 
-const BannerListTableTools = () => {
+const BannerListTableTools = ({ data }: { data: any[] }) => {
     const setTableData = useBannerStore((state) => state.setTableData)
 
     const handleSearch = (val: string) => {
@@ -18,6 +19,7 @@ const BannerListTableTools = () => {
     return (
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-2">
             <BannerListSearch onSearch={handleSearch} />
+            <BannerListActionTools data={data} />
             {/* <BannerFilter /> */}
         </div>
     )

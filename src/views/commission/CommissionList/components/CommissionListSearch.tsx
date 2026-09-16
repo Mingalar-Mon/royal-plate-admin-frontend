@@ -17,7 +17,7 @@ const CommissionListSearch = ({
     return (
         <Input
             placeholder="Search commissions"
-            suffix={<TbSearch className="text-lg" />}
+            prefix={<TbSearch className="text-lg" />}
             onChange={handleChange}
         />
     )

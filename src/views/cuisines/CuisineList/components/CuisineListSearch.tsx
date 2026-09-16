@@ -17,7 +17,7 @@ const CuisineListSearch = ({
     return (
         <Input
             placeholder="Search by name"
-            suffix={<TbSearch className="text-lg" />}
+            prefix={<TbSearch className="text-lg" />}
             onChange={handleChange}
         />
     )
