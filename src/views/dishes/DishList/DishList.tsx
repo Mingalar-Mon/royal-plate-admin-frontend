@@ -35,7 +35,7 @@ const DishList = () => {
         body.append('name', data.name)
         body.append('price', String(data.price))
         body.append('availableForOrder', String(data.available))
-        body.append('cuisineId', data.category)
+        // body.append('cuisineId', data.category)
         body.append('preparationTime', String(data.preparationTime || 0))
         if (data.description) body.append('description', data.description)
 

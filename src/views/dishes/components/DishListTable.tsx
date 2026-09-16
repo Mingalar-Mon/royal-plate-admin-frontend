@@ -1,5 +1,5 @@
 import { useState, useMemo } from 'react'
-import type { FormEvent } from 'react'
+import { useParams } from 'react-router'
 import { ColumnDef } from '@tanstack/react-table'
 import DataTable, {
     OnSortParam,
@@ -13,7 +13,8 @@ import {
     TbEdit,
     TbPhotoOff,
 } from 'react-icons/tb'
-import { useDeleteDish, useUpdateDish } from '@/utils/custom-hooks/useDish'
+import { useDeleteDish, useUpdateDish, useUpdateDishBasic } from '@/utils/custom-hooks/useDish'
+import { useGetCuisinesByRestaurant } from '@/utils/custom-hooks/useCuisine'
 import DishColumn from './DishColumn'
 import ActionColumn from './ActionColumn'
 import { Dish } from '@/@types/dish'
@@ -24,19 +25,14 @@ import DishAvailableStatusBadge from './DishAvailableStatusBadge'
 import Dialog from '@/components/ui/Dialog'
 import Card from '@/components/ui/Card'
 import Button from '@/components/ui/Button'
-import Input from '@/components/ui/Input'
+import Notification from '@/components/ui/Notification'
+import toast from '@/components/ui/toast'
+import DishForm from './DishForm'
+import type { DishFormOutput, DishFormInput } from '../types/dish.type'
 import { LightboxModal } from './LightboxModal'
 
 type DishStatus = 'available' | 'unavailable'
 type DishRow = Dish & { cuisine: Cuisine }
-
-type DishEditForm = {
-    name: string
-    description: string
-    price: string
-    preparationTime: string
-    availableForOrder: boolean
-}
 
 const DishListTable = ({
     dishList,
@@ -47,14 +43,7 @@ const DishListTable = ({
     dishListTotal: number
     isLoading: boolean
 }) => {
-    // const {
-    //     dishList,
-    //     dishListTotal,
-    //     // tableData,
-    //     // setTableData,
-    //     isLoading,
-    //     // deleteMutation,
-    // } = useDishList()
+    const { restaurantId } = useParams()
     const tableData = useDishStore((state) => state.tableData)
     const setTableData = useDishStore((state) => state.setTableData)
     const [deleteConfirmationOpen, setDeleteConfirmationOpen] = useState(false)
@@ -65,54 +54,108 @@ const DishListTable = ({
 
     const [viewingDish, setViewingDish] = useState<DishRow | null>(null)
     const [editingDish, setEditingDish] = useState<DishRow | null>(null)
-    const [editForm, setEditForm] = useState<DishEditForm>({
-        name: '',
-        description: '',
-        price: '',
-        preparationTime: '',
-        availableForOrder: true,
-    })
-    const [isUpdatingDish, setIsUpdatingDish] = useState(false)
     const [isLightboxOpen, setIsLightboxOpen] = useState(false)
     const [currentImageIndex, setCurrentImageIndex] = useState(0)
 
     const { mutate: deleteDish } = useDeleteDish()
     const { mutate: updateDish } = useUpdateDish()
+    const { mutate: updateDishBasic, isPending: isUpdatingDish } =
+        useUpdateDishBasic()
+
+    const { data: cuisinesData } = useGetCuisinesByRestaurant(
+        restaurantId ?? '',
+    )
+
+    const cuisineOptions =
+        cuisinesData?.data.map((c) => ({
+            value: c.id,
+            label: c.name,
+        })) || []
+
+    const editingDefaultValues: DishFormInput | undefined = editingDish
+        ? {
+              name: editingDish.name,
+              price: editingDish.price,
+              description: editingDish.description || '',
+              category: editingDish.cuisine?.id || '',
+              coverImage: editingDish.coverImage as any,
+              detailImages: (editingDish.detailImages as any) || [],
+              available: editingDish.availableForOrder,
+              preparationTime: editingDish.preparationTime || 0,
+              deletedImageKeys: [],
+          }
+        : undefined
 
     const openEditDialog = (dish: DishRow) => {
         setViewingDish(null)
         setEditingDish(dish)
-        setEditForm({
-            name: dish.name,
-            description: dish.description || '',
-            price: String(dish.price),
-            preparationTime: String(dish.preparationTime || ''),
-            availableForOrder: dish.availableForOrder,
-        })
     }
 
-    const handleEditSubmit = (event: FormEvent<HTMLFormElement>) => {
-        event.preventDefault()
-        if (!editingDish || !editForm.name.trim()) return
+    const handleUpdateDishBasic = (data: DishFormOutput) => {
+        if (!editingDish) return
 
-        setIsUpdatingDish(true)
-        updateDish(
-            {
-                dishId: editingDish.id,
-                data: {
-                    name: editForm.name.trim(),
-                    description: editForm.description.trim(),
-                    price: Number(editForm.price),
-                    preparationTime: Number(editForm.preparationTime) || 0,
-                    availableForOrder: editForm.availableForOrder,
-                },
-            },
+        const formData = new FormData()
+        // Scalars - send only when present (at least one required by .min(1))
+        // Always send core fields to ensure update, but trimmed/validated
+        if (data.name?.trim()) formData.append('name', data.name.trim())
+        if (data.price != null) formData.append('price', String(data.price))
+        if (data.description !== undefined) {
+            // allow empty to clear description (nullable)
+            formData.append('description', data.description ?? '')
+        }
+        if (data.preparationTime != null) {
+            formData.append(
+                'preparationTime',
+                String(data.preparationTime ?? 0),
+            )
+        }
+        // boolean coerced to string for multipart (true/false)
+        formData.append('availableForOrder', String(data.available))
+        if (data.category) formData.append('cuisineId', data.category)
+
+        if (data.coverImage instanceof File) {
+            formData.append('coverImage', data.coverImage)
+        }
+
+        if (data.detailImages && data.detailImages.length > 0) {
+            data.detailImages.forEach((img: any) => {
+                if (img instanceof File) {
+                    formData.append('detailImages[]', img)
+                }
+            })
+        }
+
+        if (
+            (data as any).deletedImageKeys &&
+            (data as any).deletedImageKeys.length > 0
+        ) {
+            ;(data as any).deletedImageKeys.forEach((key: string) => {
+                // spec says `deletedImageKeys` (string array); also support `deletedImageKeys[]` for compatibility
+                formData.append('deletedImageKeys', key)
+                formData.append('deletedImageKeys[]', key)
+            })
+        }
+
+        updateDishBasic(
+            { dishId: editingDish.id, data: formData },
             {
                 onSuccess: () => {
+                    toast.push(
+                        <Notification type="success">
+                            Dish updated successfully
+                        </Notification>,
+                        { placement: 'top-center' },
+                    )
                     setEditingDish(null)
-                    setIsUpdatingDish(false)
                 },
-                onError: () => setIsUpdatingDish(false),
+                onError: (error: any) => {
+                    toast.push(
+                        <Notification type="danger">
+                            {error?.response?.data?.message ||
+                                'Failed to update dish'}
+                        </Notification>,
+                    )
+                },
             },
         )
     }
@@ -121,12 +164,6 @@ const DishListTable = ({
         deleteDish(toDeleteId!)
         setDeleteConfirmationOpen(false)
         setToDeleteId(null)
-
-        // if (toDeleteId) {
-        //     // deleteMutation.mutate(toDeleteId)
-        //     setDeleteConfirmationOpen(false)
-        //     setToDeleteId(null)
-        // }
     }
 
     const columns: ColumnDef<DishRow>[] = useMemo(() => {
@@ -216,7 +253,6 @@ const DishListTable = ({
                     <ActionColumn
                         onView={() => handleView(props.row.original)}
                         onEdit={() => handleEdit(props.row.original)}
-                        // onDelete={() => handleDelete(props.row.original.id)}
                     />
                 ),
             },
@@ -409,138 +445,39 @@ const DishListTable = ({
 
             <Dialog
                 isOpen={Boolean(editingDish)}
-                closable={false}
-                width={560}
-                contentClassName="max-h-[90vh] overflow-y-auto"
-                title="Edit Dish"
+                closable={true}
+                width={900}
+                contentClassName="flex max-h-[92vh] flex-col overflow-y-auto"
                 onClose={() => setEditingDish(null)}
                 onRequestClose={() => setEditingDish(null)}
             >
-                <form className="space-y-5 p-4 sm:p-6" onSubmit={handleEditSubmit}>
-                    <div className="rounded-xl bg-primary-subtle p-3">
-                        <p className="text-xs font-semibold uppercase tracking-wide text-primary">
-                            Editing menu item
-                        </p>
-                        <p className="mt-1 text-sm text-content-secondary">
-                            Update the dish information below. The current category remains unchanged.
-                        </p>
-                    </div>
-
-                    <div className="space-y-4">
-                        <label className="block">
-                            <span className="mb-2 block text-sm font-semibold text-gray-700 dark:text-gray-200">
-                                Dish name
-                            </span>
-                            <Input
-                                value={editForm.name}
-                                placeholder="Dish name"
-                                invalid={!editForm.name.trim()}
-                                onChange={(event) =>
-                                    setEditForm((prev) => ({
-                                        ...prev,
-                                        name: event.target.value,
-                                    }))
-                                }
-                            />
-                        </label>
-
-                        <label className="block">
-                            <span className="mb-2 block text-sm font-semibold text-gray-700 dark:text-gray-200">
-                                Description
-                            </span>
-                            <Input
-                                textArea
-                                rows={4}
-                                value={editForm.description}
-                                placeholder="Describe the dish"
-                                onChange={(event) =>
-                                    setEditForm((prev) => ({
-                                        ...prev,
-                                        description: event.target.value,
-                                    }))
-                                }
-                            />
-                        </label>
-
-                        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                            <label className="block">
-                                <span className="mb-2 block text-sm font-semibold text-gray-700 dark:text-gray-200">
-                                    Price (MMK)
-                                </span>
-                                <Input
-                                    type="number"
-                                    min={1}
-                                    value={editForm.price}
-                                    onChange={(event) =>
-                                        setEditForm((prev) => ({
-                                            ...prev,
-                                            price: event.target.value,
-                                        }))
-                                    }
-                                />
-                            </label>
-
-                            <label className="block">
-                                <span className="mb-2 block text-sm font-semibold text-gray-700 dark:text-gray-200">
-                                    Preparation time (minutes)
-                                </span>
-                                <Input
-                                    type="number"
-                                    min={0}
-                                    value={editForm.preparationTime}
-                                    onChange={(event) =>
-                                        setEditForm((prev) => ({
-                                            ...prev,
-                                            preparationTime: event.target.value,
-                                        }))
-                                    }
-                                />
-                            </label>
+                {editingDish && editingDefaultValues && (
+                    <DishForm
+                        key={editingDish.id}
+                        isNew={false}
+                        categories={cuisineOptions}
+                        defaultValues={editingDefaultValues}
+                        disabled={isUpdatingDish}
+                        onFormSubmit={handleUpdateDishBasic}
+                    >
+                        <div className="flex flex-col-reverse gap-2 sm:flex-row sm:items-center sm:justify-between">
+                            <Button
+                                type="button"
+                                variant="plain"
+                                onClick={() => setEditingDish(null)}
+                            >
+                                Cancel
+                            </Button>
+                            <Button
+                                type="submit"
+                                variant="solid"
+                                loading={isUpdatingDish}
+                            >
+                                Save Changes
+                            </Button>
                         </div>
-
-                        <div className="flex items-center justify-between rounded-xl border border-gray-200 p-3 dark:border-gray-700">
-                            <div>
-                                <p className="text-sm font-semibold text-content-primary">
-                                    Available for ordering
-                                </p>
-                                <p className="mt-1 text-xs text-content-muted">
-                                    Customers can order this dish when enabled.
-                                </p>
-                            </div>
-                            <input
-                                type="checkbox"
-                                checked={editForm.availableForOrder}
-                                className="h-5 w-5 accent-primary"
-                                onChange={(event) =>
-                                    setEditForm((prev) => ({
-                                        ...prev,
-                                        availableForOrder: event.target.checked,
-                                    }))
-                                }
-                            />
-                        </div>
-                    </div>
-
-                    <div className="flex flex-col-reverse gap-2 border-t border-gray-200 pt-4 sm:flex-row sm:justify-end dark:border-gray-700">
-                        <Button
-                            type="button"
-                            onClick={() => setEditingDish(null)}
-                        >
-                            Cancel
-                        </Button>
-                        <Button
-                            type="submit"
-                            variant="solid"
-                            loading={isUpdatingDish}
-                            disabled={
-                                !editForm.name.trim() ||
-                                Number(editForm.price) < 1
-                            }
-                        >
-                            Save Changes
-                        </Button>
-                    </div>
-                </form>
+                    </DishForm>
+                )}
             </Dialog>
         </>
     )

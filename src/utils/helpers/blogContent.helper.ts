@@ -75,3 +75,40 @@ export function linkifyUrlsInHtml(html: string): string {
     // Fallback regex path for non-browser (SSR / Node test) environments.
     return fallbackLinkify(html)
 }
+
+/**
+ * Strips all HTML tags from a string and decodes entities, returning plain text.
+ * Used for card previews where raw `<p>`, `<a>` etc should not be shown.
+ */
+export function stripHtmlTags(html: string): string {
+    if (!html || typeof html !== 'string') return ''
+
+    // Replace tags with a space to keep word boundaries between block elements
+    // e.g. "<p>Hello</p><p>World</p>" -> "Hello World" not "HelloWorld"
+    const withSpaces = html.replace(/<[^>]*>/g, ' ')
+
+    // Use DOM to decode HTML entities (&amp;, &nbsp;, etc.) when available
+    if (typeof document !== 'undefined') {
+        const textarea = document.createElement('textarea')
+        textarea.innerHTML = withSpaces
+        return textarea.value.replace(/\s+/g, ' ').trim()
+    }
+
+    if (typeof DOMParser !== 'undefined') {
+        const doc = new DOMParser().parseFromString(withSpaces, 'text/html')
+        const text = doc.body.textContent || ''
+        return text.replace(/\s+/g, ' ').trim()
+    }
+
+    // Non-browser fallback: decode common entities manually
+    return withSpaces
+        .replace(/&nbsp;/gi, ' ')
+        .replace(/&amp;/gi, '&')
+        .replace(/&lt;/gi, '<')
+        .replace(/&gt;/gi, '>')
+        .replace(/&quot;/gi, '"')
+        .replace(/&#39;/gi, "'")
+        .replace(/&#x27;/gi, "'")
+        .replace(/\s+/g, ' ')
+        .trim()
+}

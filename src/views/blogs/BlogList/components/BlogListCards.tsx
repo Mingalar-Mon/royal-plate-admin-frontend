@@ -19,7 +19,7 @@ import {
 } from '@/utils/custom-hooks/useBlog'
 import { useGetDishes } from '@/utils/custom-hooks/useDish'
 import type { Blog, BlogFormData } from '../../types/blog.type'
-import { linkifyUrlsInHtml } from '@/utils/helpers/blogContent.helper'
+import { linkifyUrlsInHtml, stripHtmlTags } from '@/utils/helpers/blogContent.helper'
 import BlogForm from '../../components/BlogForm'
 import Button from '@/components/ui/Button'
 import Dialog from '@/components/ui/Dialog'
@@ -101,10 +101,10 @@ const BlogListCards = ({ data, total, loading }: Props) => {
             formData.imageUrls.forEach((img) => {
                 if (img instanceof File) {
                     body.append('blogImages', img)
-                } else if (typeof img === 'string') {
-                    body.append('existingImageUrls[]', img)
-                } else if (img?.url) {
-                    body.append('existingImageUrls[]', img.url)
+                    // } else if (typeof img === 'string') {
+                    //     body.append('existingImageUrls[]', img)
+                    // } else if (img?.url) {
+                    //     body.append('existingImageUrls[]', img.url)
                 }
             })
         }
@@ -113,7 +113,7 @@ const BlogListCards = ({ data, total, loading }: Props) => {
             (formData as any).deletedImageKeys &&
             (formData as any).deletedImageKeys.length > 0
         ) {
-            ;(formData as any).deletedImageKeys.forEach((key: string) => {
+            ; (formData as any).deletedImageKeys.forEach((key: string) => {
                 body.append('deletedImageKeys[]', key)
             })
         }
@@ -157,12 +157,12 @@ const BlogListCards = ({ data, total, loading }: Props) => {
     const editingDefaultValues: Partial<BlogFormData> | undefined =
         editingBlog
             ? {
-                  title: editingBlog.title,
-                  content: editingBlog.content,
-                  imageUrls: editingBlog.image || [],
-                  linkedDishId: editingBlog.linkedDish?.id || undefined,
-                  deletedImageKeys: [],
-              }
+                title: editingBlog.title,
+                content: editingBlog.content,
+                imageUrls: editingBlog.image || [],
+                linkedDishId: editingBlog.linkedDish?.id || undefined,
+                deletedImageKeys: [],
+            }
             : undefined
 
     const viewingImages = viewingBlog?.image || []
@@ -176,8 +176,8 @@ const BlogListCards = ({ data, total, loading }: Props) => {
                         const author = blog.authorOwner
                             ? blog.authorOwner.name
                             : blog.authorStaff
-                              ? `${blog.authorStaff.name} (${blog.authorStaff.role})`
-                              : '—'
+                                ? `${blog.authorStaff.name} (${blog.authorStaff.role})`
+                                : '—'
 
                         return (
                             <div
@@ -231,7 +231,7 @@ const BlogListCards = ({ data, total, loading }: Props) => {
                                     </div>
 
                                     <p className="mt-3 line-clamp-3 flex-1 text-sm leading-6 text-gray-600 dark:text-gray-400">
-                                        {blog.content}
+                                        {stripHtmlTags(blog.content)}
                                     </p>
 
                                     <div className="mt-4 flex items-center justify-between text-xs text-gray-500 dark:text-gray-400">
@@ -383,8 +383,8 @@ const BlogListCards = ({ data, total, loading }: Props) => {
                                     {viewingBlog.authorOwner
                                         ? viewingBlog.authorOwner.name
                                         : viewingBlog.authorStaff
-                                          ? `${viewingBlog.authorStaff.name} (${viewingBlog.authorStaff.role})`
-                                          : '—'}
+                                            ? `${viewingBlog.authorStaff.name} (${viewingBlog.authorStaff.role})`
+                                            : '—'}
                                 </span>
                             </div>
                             {viewingBlog.linkedDish && (

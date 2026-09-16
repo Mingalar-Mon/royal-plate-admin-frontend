@@ -73,6 +73,20 @@ export async function apiUpdateDish({
     })
 }
 
+export async function apiUpdateDishBasic({
+    dishId,
+    data,
+}: {
+    dishId: string
+    data: FormData
+}) {
+    return ApiService.fetchDataWithAxios({
+        url: `/dish/update-dish-basic/${dishId}`,
+        method: 'patch',
+        data,
+    })
+}
+
 export async function apiGetDish(dishId: string) {
     return ApiService.fetchDataWithAxios<GetDishResponse>({
         url: `/dish/get-dish/${dishId}`,

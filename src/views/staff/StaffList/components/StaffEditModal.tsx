@@ -63,6 +63,7 @@ const StaffEditModal = ({ staff, onClose }: StaffEditModalProps) => {
         <Dialog
             isOpen={Boolean(staff)}
             width={640}
+            contentClassName="flex max-h-[90vh] flex-col overflow-y-auto"
             onClose={onClose}
             onRequestClose={onClose}
         >

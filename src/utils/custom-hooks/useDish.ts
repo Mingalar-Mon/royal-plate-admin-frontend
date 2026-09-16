@@ -4,6 +4,7 @@ import {
     apiGetDish,
     apiGetDishes,
     apiUpdateDish,
+    apiUpdateDishBasic,
 } from '@/services/DishService'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { delay } from '../helpers/mock.helper'
@@ -171,6 +172,21 @@ export const useUpdateDish = () => {
     const queryClient = useQueryClient()
     return useMutation({
         mutationFn: apiUpdateDish,
+        onSuccess: (_, variables) => {
+            return (
+                queryClient.invalidateQueries({ queryKey: ['dishes'] }),
+                queryClient.invalidateQueries({
+                    queryKey: ['dish', variables.dishId],
+                })
+            )
+        },
+    })
+}
+
+export const useUpdateDishBasic = () => {
+    const queryClient = useQueryClient()
+    return useMutation({
+        mutationFn: apiUpdateDishBasic,
         onSuccess: (_, variables) => {
             return (
                 queryClient.invalidateQueries({ queryKey: ['dishes'] }),
