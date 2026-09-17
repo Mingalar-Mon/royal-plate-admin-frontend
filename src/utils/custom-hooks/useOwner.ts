@@ -6,6 +6,8 @@ import {
     apiUpdateOwnerDetail,
     CreateOwnerPayload,
     apiCreateOwner,
+    apiSoftDeleteOwner,
+    apiReactivateOwner,
 } from '@/services/OwnerService'
 
 export const useOwnerListQuery = (params: any) => {
@@ -39,6 +41,26 @@ export const useCreateOwner = () => {
     const queryClient = useQueryClient()
     return useMutation({
         mutationFn: (payload: CreateOwnerPayload) => apiCreateOwner(payload),
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['owners'] })
+        },
+    })
+}
+
+export const useSoftDeleteOwner = () => {
+    const queryClient = useQueryClient()
+    return useMutation({
+        mutationFn: (ownerId: string) => apiSoftDeleteOwner(ownerId),
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['owners'] })
+        },
+    })
+}
+
+export const useReactivateOwner = () => {
+    const queryClient = useQueryClient()
+    return useMutation({
+        mutationFn: (ownerId: string) => apiReactivateOwner(ownerId),
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['owners'] })
         },

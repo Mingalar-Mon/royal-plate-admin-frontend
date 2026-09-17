@@ -1,6 +1,7 @@
 import { useOwnerStore } from '@/store/ownerStore'
 import OwnerListSearch from './OwnerListSearch' // Your input layout path
 import OwnerListActionTools from './OwnerListActionTools'
+import OwnerListStatusFilter from './OwnerListStatusFilter'
 
 const OwnerListTableTools = () => {
     const setTableData = useOwnerStore((state) => state.setTableData)
@@ -15,9 +16,12 @@ const OwnerListTableTools = () => {
     }
 
     return (
-        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-2">
+        <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
             <OwnerListSearch onSearch={handleSearch} />
-            <OwnerListActionTools />
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
+                <OwnerListStatusFilter />
+                <OwnerListActionTools />
+            </div>
         </div>
     )
 }

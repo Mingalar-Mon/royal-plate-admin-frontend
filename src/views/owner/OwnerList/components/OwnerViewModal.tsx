@@ -1,4 +1,5 @@
 import Dialog from '@/components/ui/Dialog'
+import Tag from '@/components/ui/Tag'
 import dayjs from 'dayjs'
 import {
     TbBuildingStore,
@@ -6,6 +7,8 @@ import {
     TbId,
     TbMail,
     TbPhone,
+    TbLockOff,
+    TbLockOpen,
 } from 'react-icons/tb'
 
 interface OwnerViewModalProps {
@@ -13,8 +16,14 @@ interface OwnerViewModalProps {
     onClose: () => void
 }
 
+const isDeleted = (o: any) =>
+    Boolean(o?.deletedAt ?? o?.deleted_at)
+
 const OwnerViewModal = ({ owner, onClose }: OwnerViewModalProps) => {
     if (!owner) return null
+
+    const deleted = isDeleted(owner)
+    const deletedAt = owner.deletedAt ?? owner.deleted_at
 
     return (
         <Dialog
@@ -25,9 +34,29 @@ const OwnerViewModal = ({ owner, onClose }: OwnerViewModalProps) => {
         >
             <div className="p-6">
                 <div className="border-b border-gray-100 pb-4 dark:border-gray-800">
-                    <h1 className="text-xl font-bold text-gray-900 dark:text-gray-100">
-                        {owner.name}
-                    </h1>
+                    <div className="flex items-start justify-between gap-3">
+                        <h1 className="text-xl font-bold text-gray-900 dark:text-gray-100">
+                            {owner.name}
+                        </h1>
+                        {deleted ? (
+                            <Tag className="bg-red-50 text-red-600 border-red-100 dark:bg-red-500/10 dark:text-red-400 shrink-0 gap-1">
+                                <TbLockOff />
+                                Deactivated
+                            </Tag>
+                        ) : (
+                            <Tag className="bg-emerald-50 text-emerald-700 border-emerald-100 dark:bg-emerald-500/10 dark:text-emerald-400 shrink-0 gap-1">
+                                <TbLockOpen />
+                                Active
+                            </Tag>
+                        )}
+                    </div>
+                    {deleted && deletedAt && (
+                        <p className="mt-2 text-xs text-red-500 dark:text-red-400">
+                            Deactivated on{' '}
+                            {dayjs(deletedAt).format('DD MMM YYYY HH:mm')}
+                            {' — '}owner and staff cannot log in until reactivated.
+                        </p>
+                    )}
                     {/* <p className="mt-1 select-all font-mono text-xs text-gray-400">
                         Owner ID: {owner.id}
                     </p> */}

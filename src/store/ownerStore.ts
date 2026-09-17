@@ -1,9 +1,12 @@
 import { create } from 'zustand'
 
+export type OwnerStatus = 'active' | 'inactive' | 'all'
+
 export interface TableQueries {
     pageIndex: number
     pageSize: number
     query: string
+    status: OwnerStatus
     sort?: {
         key: string
         order: 'asc' | 'desc'
@@ -21,6 +24,7 @@ export const useOwnerStore = create<OwnerStoreState>((set) => ({
         pageIndex: 1,
         pageSize: 10,
         query: '',
+        status: 'all',
         sort: { key: 'created_at', order: 'desc' },
     },
     setTableData: (updater) =>
@@ -33,6 +37,7 @@ export const useOwnerStore = create<OwnerStoreState>((set) => ({
                 pageIndex: 1,
                 pageSize: 10,
                 query: '',
+                status: 'all',
                 sort: { key: 'created_at', order: 'desc' },
             },
         }),

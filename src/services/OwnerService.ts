@@ -10,6 +10,7 @@ export async function apiGetOwnerList(params: any) {
             search: params.query || undefined,
             sortOrder: params.sort?.order,
             sortKey: params.sort?.key,
+            status: params.status || 'all',
         },
     })
 }
@@ -54,5 +55,19 @@ export async function apiCreateOwner({ data }: CreateOwnerPayload) {
         url: `/owner/create-owner`,
         method: 'post',
         data,
+    })
+}
+
+export async function apiSoftDeleteOwner(ownerId: string) {
+    return ApiService.fetchDataWithAxios<any>({
+        url: `/owner/soft-delete-owner/${ownerId}`,
+        method: 'patch',
+    })
+}
+
+export async function apiReactivateOwner(ownerId: string) {
+    return ApiService.fetchDataWithAxios<any>({
+        url: `/owner/reactivate-owner/${ownerId}`,
+        method: 'patch',
     })
 }
