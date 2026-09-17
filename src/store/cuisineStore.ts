@@ -1,10 +1,13 @@
 import { OnSortParam } from '@/components/shared/DataTable'
 import { create } from 'zustand'
 
+export type CuisineStatus = 'active' | 'inactive' | 'all'
+
 export interface CuisineQueries {
     pageIndex: number
     pageSize: number
     query: string
+    status: CuisineStatus
     sort?: OnSortParam
 }
 
@@ -19,6 +22,7 @@ export const useCuisineStore = create<CuisineStoreState>((set) => ({
         pageIndex: 1,
         pageSize: 10,
         query: '',
+        status: 'all',
         sort: { key: 'created_at', order: 'asc' },
     },
     setTableData: (updater) =>
@@ -31,6 +35,7 @@ export const useCuisineStore = create<CuisineStoreState>((set) => ({
                 pageIndex: 1,
                 pageSize: 10,
                 query: '',
+                status: 'all',
                 sort: { key: '', order: '' },
             },
         }),

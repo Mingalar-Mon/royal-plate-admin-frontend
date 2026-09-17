@@ -4,6 +4,8 @@ export interface Cuisine {
     description: string
     created_at: string
     updated_at: string
+    deletedAt?: string | null
+    deleted_at?: string | null
     image: {
         key: string
         url: string

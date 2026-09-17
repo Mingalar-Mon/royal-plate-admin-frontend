@@ -6,6 +6,8 @@ import {
     apiCreateCuisine,
     apiDeleteCuisine,
     apiUpdateCuisine,
+    apiSoftDeleteCuisine,
+    apiReactivateCuisine,
 } from '@/services/CuisineService'
 
 import { useState } from 'react'
@@ -68,6 +70,26 @@ export const useDeleteCuisineMutation = () => {
     const queryClient = useQueryClient()
     return useMutation({
         mutationFn: apiDeleteCuisine,
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['cuisines'] })
+        },
+    })
+}
+
+export const useSoftDeleteCuisineMutation = () => {
+    const queryClient = useQueryClient()
+    return useMutation({
+        mutationFn: (id: string) => apiSoftDeleteCuisine(id),
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['cuisines'] })
+        },
+    })
+}
+
+export const useReactivateCuisineMutation = () => {
+    const queryClient = useQueryClient()
+    return useMutation({
+        mutationFn: (id: string) => apiReactivateCuisine(id),
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['cuisines'] })
         },

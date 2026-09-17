@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useMemo } from 'react'
 import { useParams, useNavigate } from 'react-router'
 import { useForm, Controller } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -49,9 +49,14 @@ const RestaurantProfileForm = ({ isEditMode }: RestaurantProfileFormProps) => {
     const { data: existingProfile, isLoading: isLoadingProfile } =
         useGetRestaurantProfile(isEditMode ? restaurantId : '')
 
-    // Fetch cuisines and payment methods (use mock or real API)
+    // Fetch only active cuisines for restaurant profile — decoupled from CuisineList filter
+    // Always calls api/cuisines/get-cuisines?status=active so deactivated cuisines are hidden
+    const activeCuisineParams = useMemo(
+        () => ({ ...tableData, status: 'active' as const, pageSize: 100 }),
+        [tableData],
+    )
     const { data: cuisines, isLoading: isLoadingCuisines } =
-        useGetCuisines(tableData)
+        useGetCuisines(activeCuisineParams)
 
     const { data: paymentMethods, isLoading: isLoadingPaymentMethods } =
         useGetPaymentMethods()

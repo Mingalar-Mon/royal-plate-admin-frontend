@@ -1,10 +1,8 @@
 import { useCuisineStore } from '@/store/cuisineStore'
 import CuisineListSearch from './CuisineListSearch'
-import { useCuisineList } from '@/utils/custom-hooks/useCuisine'
-import cloneDeep from 'lodash/cloneDeep'
+import CuisineListStatusFilter from './CuisineListStatusFilter'
 
 const CuisineListTableTools = () => {
-    // const { tableData, setTableData } = useCuisineList()
     const setTableData = useCuisineStore((state) => state.setTableData)
 
     const handleSearch = (val: string) => {
@@ -16,8 +14,11 @@ const CuisineListTableTools = () => {
     }
 
     return (
-        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-2">
+        <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
             <CuisineListSearch onSearch={handleSearch} />
+            <div className="flex items-center gap-2">
+                <CuisineListStatusFilter />
+            </div>
         </div>
     )
 }

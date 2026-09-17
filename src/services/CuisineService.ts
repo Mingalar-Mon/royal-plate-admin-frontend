@@ -18,6 +18,7 @@ export async function apiGetCuisines(params: CuisineQueries) {
             search: params.query || undefined,
             sortOrder: params.sort?.order,
             sortKey: params.sort?.key,
+            status: params.status || 'all',
         },
     })
 }
@@ -64,5 +65,19 @@ export async function apiDeleteCuisine(id: string) {
     return ApiService.fetchDataWithAxios<any>({
         url: `/cuisines/delete-cuisine/${id}`,
         method: 'delete',
+    })
+}
+
+export async function apiSoftDeleteCuisine(id: string) {
+    return ApiService.fetchDataWithAxios<any>({
+        url: `/cuisines/soft-delete-cuisine/${id}`,
+        method: 'patch',
+    })
+}
+
+export async function apiReactivateCuisine(id: string) {
+    return ApiService.fetchDataWithAxios<any>({
+        url: `/cuisines/reactivate-cuisine/${id}`,
+        method: 'patch',
     })
 }
