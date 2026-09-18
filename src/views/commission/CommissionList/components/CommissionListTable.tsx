@@ -146,6 +146,15 @@ const CommissionListTable = ({
     const columns: ColumnDef<Commission>[] = useMemo(
         () => [
             {
+                header: 'Batch Code',
+                accessorKey: 'code',
+                cell: (props) => (
+                    <span className="whitespace-nowrap font-semibold text-gray-900 dark:text-gray-100">
+                        {props.row.original.code || '—'}
+                    </span>
+                ),
+            },
+            {
                 header: 'Restaurant',
                 id: 'restaurant',
                 cell: (props) => (

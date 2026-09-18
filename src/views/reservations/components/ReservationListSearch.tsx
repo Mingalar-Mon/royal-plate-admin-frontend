@@ -16,7 +16,7 @@ const ReservationListSearch = ({
 
     return (
         <Input
-            placeholder="Search by name, email or phone"
+            placeholder="Search by name or reservation number"
             suffix={<TbSearch className="text-lg" />}
             onChange={handleChange}
         />

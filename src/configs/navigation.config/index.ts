@@ -118,6 +118,16 @@ const navigationConfig: NavigationTree[] = [
                 authority: [OWNER, STAFF],
                 subMenu: [],
             },
+            {
+                key: 'rating.list',
+                path: '/restaurants/:restaurantId/ratings',
+                title: 'Guest Ratings',
+                icon: 'comments',
+                translateKey: 'rating.list',
+                type: NAV_ITEM_TYPE_ITEM,
+                authority: [OWNER, STAFF],
+                subMenu: [],
+            },
         ],
     },
     {

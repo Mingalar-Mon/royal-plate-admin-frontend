@@ -2,7 +2,8 @@ import { z } from 'zod'
 
 export interface Commission {
     id: string
-    percentage: number
+    code: string
+    percentage: number | string
     is_active?: boolean
     restaurantId?: string
     restaurantName?: string
