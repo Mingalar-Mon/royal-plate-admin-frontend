@@ -1,8 +1,5 @@
 import TableListSearch from './TableListSearch'
 import TableFilter from './TableFilter'
-
-import { useParams } from 'react-router'
-import cloneDeep from 'lodash/cloneDeep'
 import { useTableStore } from '@/store/tableStore'
 
 const TableListTableTools = () => {
@@ -18,7 +15,7 @@ const TableListTableTools = () => {
     return (
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-2">
             <TableListSearch onSearch={handleSearch} />
-            {/* <TableFilter /> */}
+            <TableFilter />
         </div>
     )
 }

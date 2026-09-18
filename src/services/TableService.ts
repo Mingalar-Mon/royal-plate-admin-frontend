@@ -5,7 +5,7 @@ import { PASSWORD, USER_NAME } from '@/constants/api.constant'
 
 export async function apiGetTableList(restaurantId: string, params: any) {
     return ApiService.fetchDataWithAxios<any>({
-        url: `/table/get-tables/${restaurantId}`,
+        url: `/table/owner-tables/${restaurantId}`,
         method: 'get',
         params: {
             page: params.pageIndex,
@@ -15,10 +15,6 @@ export async function apiGetTableList(restaurantId: string, params: any) {
             status: params.status !== '' ? params.status : undefined,
             sortKey: params.sort?.key,
             sortOrder: params.sort?.order,
-        },
-        auth: {
-            username: USER_NAME,
-            password: PASSWORD,
         },
     })
 }

@@ -6,8 +6,6 @@ import { Form, FormItem } from '@/components/ui/Form'
 
 import Select from '@/components/ui/Select'
 import { TbFilter } from 'react-icons/tb'
-import { useTableListQuery } from '@/utils/custom-hooks/useTable'
-import { useParams } from 'react-router'
 import { useTableStore } from '@/store/tableStore'
 
 const typeOptions = [
@@ -25,8 +23,6 @@ const statusOptions = [
 ]
 
 const TableFilter = () => {
-    const { restaurantId } = useParams()
-    // const { tableData, setTableData } = useTableListQuery(restaurantId!)
     const tableData = useTableStore((state) => state.tableData)
     const setTableData = useTableStore((state) => state.setTableData)
     const [isOpen, setIsOpen] = useState(false)
@@ -38,13 +34,13 @@ const TableFilter = () => {
     })
 
     const onSubmit = (values: any) => {
-        setTableData({ ...tableData, ...values, pageIndex: 1 })
+        setTableData((prev) => ({ ...prev, ...values, pageIndex: 1 }))
         setIsOpen(false)
     }
 
     const handleClear = () => {
         reset({ type: '', status: '' })
-        setTableData({ ...tableData, type: '', status: '', pageIndex: 1 })
+        setTableData((prev) => ({ ...prev, type: '', status: '', pageIndex: 1 }))
         setIsOpen(false)
     }
 
