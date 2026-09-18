@@ -19,6 +19,30 @@ export type Rating = {
     }
 }
 
+export const normalizeRating = (raw: any): Rating => {
+    if (!raw || typeof raw !== 'object') return raw as Rating
+    return {
+        id: raw.id,
+        score: raw.score,
+        review: raw.review,
+        ownerResponse:
+            raw.ownerResponse ??
+            raw.owner_response ??
+            raw.ownerResponseText ??
+            raw.owner_response_text ??
+            null,
+        ownerRespondedAt:
+            raw.ownerRespondedAt ??
+            raw.owner_responded_at ??
+            raw.ownerResponded_at ??
+            raw.owner_response_at ??
+            null,
+        created_at: raw.created_at ?? raw.createdAt ?? raw.created_at,
+        updated_at: raw.updated_at ?? raw.updatedAt ?? raw.updated_at,
+        user: raw.user,
+    } as Rating
+}
+
 type RatingListResponse = {
     status: string
     data: Rating[]

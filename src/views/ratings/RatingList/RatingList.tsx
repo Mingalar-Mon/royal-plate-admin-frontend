@@ -213,7 +213,7 @@ const RatingList = () => {
                                             <th className="w-[25%] px-4 py-3">Review</th>
                                             <th className="w-[28%] px-4 py-3">Response</th>
                                             <th className="w-[17%] px-4 py-3">Dates</th>
-                                            <th className="w-[12%] px-4 py-3 text-right">Action</th>
+                                            <th className="w-[14%] min-w-[140px] px-4 py-3 text-right">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody className="divide-y divide-gray-100 dark:divide-gray-700">
@@ -290,9 +290,19 @@ const RatingList = () => {
 }
 
 const ResponseActions = ({ rating, onEdit, onDelete }: { rating: Rating; onEdit: (rating: Rating) => void; onDelete: (rating: Rating) => void }) => (
-    <div className="flex w-full items-center justify-start gap-2 whitespace-nowrap">
+    <div className="flex w-full items-center justify-end gap-2 whitespace-nowrap">
         <Button size="xs" variant={rating.ownerResponse ? 'default' : 'solid'} icon={rating.ownerResponse ? <TbEdit /> : <TbMessageCircle />} iconAlignment="end" onClick={() => onEdit(rating)}>{rating.ownerResponse ? 'Edit' : 'Reply'}</Button>
-        {rating.ownerResponse && <Button size="xs" variant="plain" icon={<TbTrash />} aria-label="Remove response" onClick={() => onDelete(rating)} />}
+        {rating.ownerResponse && (
+            <Button
+                size="xs"
+                variant="default"
+                icon={<TbTrash />}
+                aria-label="Remove response"
+                title="Remove response"
+                className="!px-2 !text-red-500 hover:!border-red-200 hover:!bg-red-50 hover:!text-red-600 dark:hover:!bg-red-950/30"
+                onClick={() => onDelete(rating)}
+            />
+        )}
     </div>
 )
 

@@ -5,6 +5,7 @@ import {
     apiDeleteRatingOwnerResponse,
     apiGetRatings,
     apiSaveRatingOwnerResponse,
+    normalizeRating,
 } from '@/services/RatingService'
 import type { RatingQueries } from '@/store/ratingStore'
 
@@ -31,7 +32,7 @@ export const useRatings = ({
     })
 
     return {
-        ratings: query.data?.data || [],
+        ratings: (query.data?.data || []).map((item: any) => normalizeRating(item)),
         total: query.data?.paginator?.totalItems || 0,
         isLoading: query.isLoading,
         isFetching: query.isFetching,
