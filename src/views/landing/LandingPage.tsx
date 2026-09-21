@@ -2427,13 +2427,13 @@ const LandingPage = () => {
                             Phone
                         </h4>
                         <a
-                            href="tel:+959676779020"
+                            href="tel:+959676767676"
                             className={`text-base sm:text-lg font-bold font-mono transition-colors ${isDark
                                 ? 'text-amber-400 hover:text-amber-300'
                                 : 'text-primary hover:text-primary-mild'
                                 }`}
                         >
-                            +95 9 676 779 020
+                            +95 9 676 767 676
                         </a>
                         <p className={`text-[11px] sm:text-xs mt-1.5 sm:mt-2 ${isDark ? 'text-zinc-500' : 'text-gray-500'}`}>
                             Available Mon–Fri, 9:00 AM – 6:00 PM (MMT)
