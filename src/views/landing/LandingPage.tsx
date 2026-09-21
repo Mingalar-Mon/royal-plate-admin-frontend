@@ -63,45 +63,40 @@ const DownloadAppSection = ({ isDark }: { isDark: boolean }) => {
 
     return (
         <section
-            className={`relative z-10 py-14 sm:py-20 transition-colors ${
-                isDark
-                    ? 'bg-[#0d0307]/80 border-t border-white/[0.08]'
-                    : 'bg-[#f4efe8] border-t border-[#e2d9cd]'
-            }`}
+            className={`relative z-10 py-14 sm:py-20 transition-colors ${isDark
+                ? 'bg-[#0d0307]/80 border-t border-white/[0.08]'
+                : 'bg-[#f4efe8] border-t border-[#e2d9cd]'
+                }`}
         >
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-12 items-center">
                     {/* Left — Copy */}
                     <div className="text-center lg:text-left">
                         <span
-                            className={`text-xs font-bold uppercase tracking-[0.2em] px-3 py-1 rounded-full border ${
-                                isDark
-                                    ? 'text-amber-400 bg-amber-500/10 border-amber-500/20'
-                                    : 'text-primary bg-primary/10 border-primary/20'
-                            }`}
+                            className={`text-xs font-bold uppercase tracking-[0.2em] px-3 py-1 rounded-full border ${isDark
+                                ? 'text-amber-400 bg-amber-500/10 border-amber-500/20'
+                                : 'text-primary bg-primary/10 border-primary/20'
+                                }`}
                         >
                             Mobile App
                         </span>
                         <h2
-                            className={`text-2xl sm:text-3xl lg:text-4xl font-bold font-sans mt-4 ${
-                                isDark ? 'text-white' : 'text-gray-900'
-                            }`}
+                            className={`text-2xl sm:text-3xl lg:text-4xl font-bold font-sans mt-4 ${isDark ? 'text-white' : 'text-gray-900'
+                                }`}
                         >
                             Order & Reserve from Your Phone
                         </h2>
                         <p
-                            className={`text-sm sm:text-base mt-4 leading-relaxed max-w-xl mx-auto lg:mx-0 ${
-                                isDark ? 'text-zinc-400' : 'text-gray-600'
-                            }`}
+                            className={`text-sm sm:text-base mt-4 leading-relaxed max-w-xl mx-auto lg:mx-0 ${isDark ? 'text-zinc-400' : 'text-gray-600'
+                                }`}
                         >
                             Guests download the Royal Plate app on iOS or Android, browse menus, place orders, and book reservations — all from their mobile device.
                         </p>
 
                         {appVersion && (
                             <div
-                                className={`mt-4 flex items-center justify-center lg:justify-start gap-2 text-xs ${
-                                    isDark ? 'text-zinc-500' : 'text-gray-500'
-                                }`}
+                                className={`mt-4 flex items-center justify-center lg:justify-start gap-2 text-xs ${isDark ? 'text-zinc-500' : 'text-gray-500'
+                                    }`}
                             >
                                 <TbDownload className={isDark ? 'text-amber-400' : 'text-primary'} />
                                 <span>Latest: v{appVersion.versionName}</span>
@@ -116,11 +111,10 @@ const DownloadAppSection = ({ isDark }: { isDark: boolean }) => {
                                     href={appVersion.iosLink}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className={`inline-flex items-center justify-center gap-2.5 px-5 py-3 rounded-xl font-semibold text-sm transition-colors ${
-                                        isDark
-                                            ? 'bg-white text-zinc-900 hover:bg-zinc-200'
-                                            : 'bg-gray-900 text-white hover:bg-gray-800 shadow-sm'
-                                    }`}
+                                    className={`inline-flex items-center justify-center gap-2.5 px-5 py-3 rounded-xl font-semibold text-sm transition-colors ${isDark
+                                        ? 'bg-white text-zinc-900 hover:bg-zinc-200'
+                                        : 'bg-gray-900 text-white hover:bg-gray-800 shadow-sm'
+                                        }`}
                                 >
                                     <svg className="w-5 h-5 shrink-0" viewBox="0 0 24 24" fill="currentColor">
                                         <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z" />
@@ -133,11 +127,10 @@ const DownloadAppSection = ({ isDark }: { isDark: boolean }) => {
                                     href={appVersion.playStoreLink}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className={`inline-flex items-center justify-center gap-2.5 px-5 py-3 rounded-xl font-semibold text-sm transition-colors ${
-                                        isDark
-                                            ? 'bg-white text-zinc-900 hover:bg-zinc-200'
-                                            : 'bg-gray-900 text-white hover:bg-gray-800 shadow-sm'
-                                    }`}
+                                    className={`inline-flex items-center justify-center gap-2.5 px-5 py-3 rounded-xl font-semibold text-sm transition-colors ${isDark
+                                        ? 'bg-white text-zinc-900 hover:bg-zinc-200'
+                                        : 'bg-gray-900 text-white hover:bg-gray-800 shadow-sm'
+                                        }`}
                                 >
                                     <svg className="w-5 h-5 shrink-0" viewBox="0 0 24 24" fill="currentColor">
                                         <path d="M3.609 1.814L13.792 12 3.61 22.186a.996.996 0 01-.61-.92V2.734a1 1 0 01.609-.92zm10.89 10.893l2.302 2.302-10.937 6.333zm2.302-3.112L5.864 3.292l10.937 6.333zM20.136 12l-3.436 1.99-2.542-2.542 2.542-2.542z" />
@@ -147,14 +140,13 @@ const DownloadAppSection = ({ isDark }: { isDark: boolean }) => {
                             )}
                             {appVersion?.directDownloadLink && (
                                 <a
-                                    href={appVersion.directDownloadLink}
+                                    href={`https://drive.google.com/file/d/1bqfSTc4TYCS6a7a5mQ5ORNcEveMPF4ft/view?usp=share_link`}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className={`inline-flex items-center justify-center gap-2.5 px-5 py-3 rounded-xl border text-sm font-medium transition-colors ${
-                                        isDark
-                                            ? 'border-white/20 bg-white/[0.04] hover:bg-white/[0.1] text-white'
-                                            : 'border-gray-300 bg-white hover:bg-gray-100 text-gray-800 shadow-sm'
-                                    }`}
+                                    className={`inline-flex items-center justify-center gap-2.5 px-5 py-3 rounded-xl border text-sm font-medium transition-colors ${isDark
+                                        ? 'border-white/20 bg-white/[0.04] hover:bg-white/[0.1] text-white'
+                                        : 'border-gray-300 bg-white hover:bg-gray-100 text-gray-800 shadow-sm'
+                                        }`}
                                 >
                                     <TbDownload className={`text-lg shrink-0 ${isDark ? '' : 'text-primary'}`} />
                                     <span>Direct Download (APK)</span>
@@ -167,9 +159,8 @@ const DownloadAppSection = ({ isDark }: { isDark: boolean }) => {
                     <div className="flex justify-center lg:justify-end mt-4 lg:mt-0">
                         <div className="relative">
                             <div
-                                className={`absolute -inset-6 sm:-inset-8 rounded-3xl blur-3xl ${
-                                    isDark ? 'bg-amber-500/10' : 'bg-primary/10'
-                                }`}
+                                className={`absolute -inset-6 sm:-inset-8 rounded-3xl blur-3xl ${isDark ? 'bg-amber-500/10' : 'bg-primary/10'
+                                    }`}
                             />
                             <div className="relative w-56 sm:w-64 h-[450px] sm:h-[500px] rounded-[2.2rem] sm:rounded-[2.5rem] border-[3px] border-zinc-700 bg-zinc-900 shadow-2xl overflow-hidden">
                                 {/* Phone notch */}
@@ -346,48 +337,42 @@ const LandingPage = () => {
 
     return (
         <div
-            className={`min-h-screen w-full font-sans relative overflow-x-hidden transition-colors duration-300 ${
-                isDark
-                    ? 'bg-[#080204] text-slate-100 selection:bg-amber-500 selection:text-black'
-                    : 'bg-[#faf7f2] text-gray-900 selection:bg-primary/20 selection:text-primary'
-            }`}
+            className={`min-h-screen w-full font-sans relative overflow-x-hidden transition-colors duration-300 ${isDark
+                ? 'bg-[#080204] text-slate-100 selection:bg-amber-500 selection:text-black'
+                : 'bg-[#faf7f2] text-gray-900 selection:bg-primary/20 selection:text-primary'
+                }`}
         >
             {/* Ambient Background Glows */}
             <div className="pointer-events-none fixed inset-0 z-0 overflow-hidden">
                 <div
-                    className={`absolute -top-40 left-1/2 -translate-x-1/2 h-[350px] sm:h-[550px] w-[90vw] sm:w-[850px] rounded-full blur-[100px] sm:blur-[120px] transition-all duration-500 ${
-                        isDark
-                            ? 'bg-gradient-to-b from-[#6e1423]/35 via-[#4a0d16]/20 to-transparent'
-                            : 'bg-gradient-to-b from-[#6e1423]/10 via-[#c9a227]/5 to-transparent'
-                    }`}
+                    className={`absolute -top-40 left-1/2 -translate-x-1/2 h-[350px] sm:h-[550px] w-[90vw] sm:w-[850px] rounded-full blur-[100px] sm:blur-[120px] transition-all duration-500 ${isDark
+                        ? 'bg-gradient-to-b from-[#6e1423]/35 via-[#4a0d16]/20 to-transparent'
+                        : 'bg-gradient-to-b from-[#6e1423]/10 via-[#c9a227]/5 to-transparent'
+                        }`}
                 />
                 <div
-                    className={`absolute top-[35%] -left-32 h-[300px] sm:h-[450px] w-[300px] sm:w-[450px] rounded-full blur-[100px] sm:blur-[130px] transition-all duration-500 ${
-                        isDark ? 'bg-amber-500/10' : 'bg-primary/5'
-                    }`}
+                    className={`absolute top-[35%] -left-32 h-[300px] sm:h-[450px] w-[300px] sm:w-[450px] rounded-full blur-[100px] sm:blur-[130px] transition-all duration-500 ${isDark ? 'bg-amber-500/10' : 'bg-primary/5'
+                        }`}
                 />
                 <div
-                    className={`absolute top-[65%] -right-32 h-[350px] sm:h-[500px] w-[350px] sm:w-[500px] rounded-full blur-[110px] sm:blur-[140px] transition-all duration-500 ${
-                        isDark ? 'bg-[#6e1423]/25' : 'bg-[#c9a227]/8'
-                    }`}
+                    className={`absolute top-[65%] -right-32 h-[350px] sm:h-[500px] w-[350px] sm:w-[500px] rounded-full blur-[110px] sm:blur-[140px] transition-all duration-500 ${isDark ? 'bg-[#6e1423]/25' : 'bg-[#c9a227]/8'
+                        }`}
                 />
                 {/* Subtle Luxury Pattern Overlay */}
                 <div
-                    className={`absolute inset-0 bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] transition-opacity duration-500 ${
-                        isDark
-                            ? 'bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] opacity-70'
-                            : 'bg-[linear-gradient(to_right,#00000006_1px,transparent_1px),linear-gradient(to_bottom,#00000006_1px,transparent_1px)] opacity-60'
-                    }`}
+                    className={`absolute inset-0 bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] transition-opacity duration-500 ${isDark
+                        ? 'bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] opacity-70'
+                        : 'bg-[linear-gradient(to_right,#00000006_1px,transparent_1px),linear-gradient(to_bottom,#00000006_1px,transparent_1px)] opacity-60'
+                        }`}
                 />
             </div>
 
             {/* Sticky Navigation Bar */}
             <header
-                className={`sticky top-0 z-50 backdrop-blur-xl border-b py-3 sm:py-3.5 shadow-2xl transition-colors duration-300 ${
-                    isDark
-                        ? 'bg-[#080204]/90 border-white/[0.08] shadow-black/60'
-                        : 'bg-[#faf7f2]/90 border-[#e5ded5] shadow-stone-200/50'
-                }`}
+                className={`sticky top-0 z-50 backdrop-blur-xl border-b py-3 sm:py-3.5 shadow-2xl transition-colors duration-300 ${isDark
+                    ? 'bg-[#080204]/90 border-white/[0.08] shadow-black/60'
+                    : 'bg-[#faf7f2]/90 border-[#e5ded5] shadow-stone-200/50'
+                    }`}
             >
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between gap-2">
                     {/* Brand */}
@@ -396,11 +381,10 @@ const LandingPage = () => {
                         className="flex items-center gap-2 sm:gap-3 cursor-pointer group shrink-0"
                     >
                         <div
-                            className={`relative h-9 w-9 sm:h-10 sm:w-10 rounded-full overflow-hidden ring-2 shadow-lg transition-all ${
-                                isDark
-                                    ? 'ring-amber-400/60 shadow-amber-500/20 group-hover:ring-amber-400'
-                                    : 'ring-primary/60 shadow-primary/20 group-hover:ring-primary'
-                            }`}
+                            className={`relative h-9 w-9 sm:h-10 sm:w-10 rounded-full overflow-hidden ring-2 shadow-lg transition-all ${isDark
+                                ? 'ring-amber-400/60 shadow-amber-500/20 group-hover:ring-amber-400'
+                                : 'ring-primary/60 shadow-primary/20 group-hover:ring-primary'
+                                }`}
                         >
                             <img
                                 src={emailOptLogo}
@@ -411,28 +395,25 @@ const LandingPage = () => {
                         <div className="flex flex-col">
                             <div className="flex items-center gap-1.5">
                                 <span
-                                    className={`text-lg sm:text-xl font-bold tracking-tight font-sans transition-colors ${
-                                        isDark
-                                            ? 'text-white group-hover:text-amber-300'
-                                            : 'text-gray-900 group-hover:text-primary'
-                                    }`}
+                                    className={`text-lg sm:text-xl font-bold tracking-tight font-sans transition-colors ${isDark
+                                        ? 'text-white group-hover:text-amber-300'
+                                        : 'text-gray-900 group-hover:text-primary'
+                                        }`}
                                 >
                                     Royal Plate
                                 </span>
                                 <span
-                                    className={`text-[9px] sm:text-[10px] uppercase font-bold tracking-widest px-1.5 py-0.5 rounded border ${
-                                        isDark
-                                            ? 'bg-gradient-to-r from-amber-500/20 to-amber-600/20 text-amber-300 border-amber-500/30'
-                                            : 'bg-primary/10 text-primary border-primary/25'
-                                    }`}
+                                    className={`text-[9px] sm:text-[10px] uppercase font-bold tracking-widest px-1.5 py-0.5 rounded border ${isDark
+                                        ? 'bg-gradient-to-r from-amber-500/20 to-amber-600/20 text-amber-300 border-amber-500/30'
+                                        : 'bg-primary/10 text-primary border-primary/25'
+                                        }`}
                                 >
                                     OS
                                 </span>
                             </div>
                             <span
-                                className={`text-[10px] sm:text-[11px] tracking-wider font-medium hidden xs:inline-block ${
-                                    isDark ? 'text-zinc-400' : 'text-gray-500'
-                                }`}
+                                className={`text-[10px] sm:text-[11px] tracking-wider font-medium hidden xs:inline-block ${isDark ? 'text-zinc-400' : 'text-gray-500'
+                                    }`}
                             >
                                 Restaurant Intelligence
                             </span>
@@ -441,23 +422,20 @@ const LandingPage = () => {
 
                     {/* Desktop Navigation Links */}
                     <nav
-                        className={`hidden md:flex items-center gap-6 lg:gap-8 text-sm font-medium ${
-                            isDark ? 'text-zinc-300' : 'text-gray-600'
-                        }`}
+                        className={`hidden md:flex items-center gap-6 lg:gap-8 text-sm font-medium ${isDark ? 'text-zinc-300' : 'text-gray-600'
+                            }`}
                     >
                         <button
                             onClick={() => scrollToSection('features')}
-                            className={`transition-colors cursor-pointer ${
-                                isDark ? 'hover:text-amber-300' : 'hover:text-primary'
-                            }`}
+                            className={`transition-colors cursor-pointer ${isDark ? 'hover:text-amber-300' : 'hover:text-primary'
+                                }`}
                         >
                             Features
                         </button>
                         <button
                             onClick={() => scrollToSection('live-demo')}
-                            className={`transition-colors cursor-pointer flex items-center gap-1.5 ${
-                                isDark ? 'hover:text-amber-300' : 'hover:text-primary'
-                            }`}
+                            className={`transition-colors cursor-pointer flex items-center gap-1.5 ${isDark ? 'hover:text-amber-300' : 'hover:text-primary'
+                                }`}
                         >
                             <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
                             Live Workspace
@@ -465,25 +443,22 @@ const LandingPage = () => {
 
                         <button
                             onClick={() => scrollToSection('testimonials')}
-                            className={`transition-colors cursor-pointer ${
-                                isDark ? 'hover:text-amber-300' : 'hover:text-primary'
-                            }`}
+                            className={`transition-colors cursor-pointer ${isDark ? 'hover:text-amber-300' : 'hover:text-primary'
+                                }`}
                         >
                             Restaurateurs
                         </button>
                         <button
                             onClick={() => scrollToSection('faq')}
-                            className={`transition-colors cursor-pointer ${
-                                isDark ? 'hover:text-amber-300' : 'hover:text-primary'
-                            }`}
+                            className={`transition-colors cursor-pointer ${isDark ? 'hover:text-amber-300' : 'hover:text-primary'
+                                }`}
                         >
                             FAQ
                         </button>
                         <button
                             onClick={() => scrollToSection('contact')}
-                            className={`transition-colors cursor-pointer ${
-                                isDark ? 'hover:text-amber-300' : 'hover:text-primary'
-                            }`}
+                            className={`transition-colors cursor-pointer ${isDark ? 'hover:text-amber-300' : 'hover:text-primary'
+                                }`}
                         >
                             Contact Us
                         </button>
@@ -494,11 +469,10 @@ const LandingPage = () => {
                         {/* Light / Dark Mode Toggle Button */}
                         <button
                             onClick={() => setIsDark(!isDark)}
-                            className={`p-2 sm:px-3 sm:py-2 rounded-xl border text-sm font-medium transition-all flex items-center gap-1.5 cursor-pointer ${
-                                isDark
-                                    ? 'border-white/10 bg-white/5 text-amber-300 hover:bg-white/10 hover:border-amber-400/40'
-                                    : 'border-gray-300 bg-white text-gray-700 hover:bg-gray-100 hover:border-primary/40 shadow-sm'
-                            }`}
+                            className={`p-2 sm:px-3 sm:py-2 rounded-xl border text-sm font-medium transition-all flex items-center gap-1.5 cursor-pointer ${isDark
+                                ? 'border-white/10 bg-white/5 text-amber-300 hover:bg-white/10 hover:border-amber-400/40'
+                                : 'border-gray-300 bg-white text-gray-700 hover:bg-gray-100 hover:border-primary/40 shadow-sm'
+                                }`}
                             aria-label="Toggle theme"
                             title={isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
                         >
@@ -520,11 +494,10 @@ const LandingPage = () => {
                             {authenticated ? (
                                 <button
                                     onClick={() => navigate('/home')}
-                                    className={`px-4 lg:px-5 py-2.5 rounded-xl font-semibold text-sm transition-all transform hover:-translate-y-0.5 flex items-center gap-2 cursor-pointer ${
-                                        isDark
-                                            ? 'bg-gradient-to-r from-amber-500 via-amber-400 to-amber-600 text-zinc-950 hover:shadow-lg hover:shadow-amber-500/25'
-                                            : 'bg-primary hover:bg-primary-mild text-white shadow-md shadow-primary/20'
-                                    }`}
+                                    className={`px-4 lg:px-5 py-2.5 rounded-xl font-semibold text-sm transition-all transform hover:-translate-y-0.5 flex items-center gap-2 cursor-pointer ${isDark
+                                        ? 'bg-gradient-to-r from-amber-500 via-amber-400 to-amber-600 text-zinc-950 hover:shadow-lg hover:shadow-amber-500/25'
+                                        : 'bg-primary hover:bg-primary-mild text-white shadow-md shadow-primary/20'
+                                        }`}
                                 >
                                     <span>Go to Dashboard</span>
                                     <TbArrowRight className="text-base" />
@@ -532,11 +505,10 @@ const LandingPage = () => {
                             ) : (
                                 <button
                                     onClick={() => navigate('/sign-in')}
-                                    className={`px-4 py-2 rounded-xl text-sm font-medium border transition-all flex items-center gap-1.5 cursor-pointer ${
-                                        isDark
-                                            ? 'text-zinc-300 hover:text-white border-white/10 hover:border-amber-400/40 hover:bg-white/[0.04]'
-                                            : 'text-gray-700 hover:text-primary border-gray-300 hover:border-primary/40 hover:bg-white shadow-sm'
-                                    }`}
+                                    className={`px-4 py-2 rounded-xl text-sm font-medium border transition-all flex items-center gap-1.5 cursor-pointer ${isDark
+                                        ? 'text-zinc-300 hover:text-white border-white/10 hover:border-amber-400/40 hover:bg-white/[0.04]'
+                                        : 'text-gray-700 hover:text-primary border-gray-300 hover:border-primary/40 hover:bg-white shadow-sm'
+                                        }`}
                                 >
                                     <TbLogin className={`text-base ${isDark ? 'text-amber-400' : 'text-primary'}`} />
                                     <span>Sign In</span>
@@ -547,11 +519,10 @@ const LandingPage = () => {
                         {/* Mobile Hamburger Button */}
                         <button
                             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                            className={`md:hidden p-2 rounded-lg border transition-colors ${
-                                isDark
-                                    ? 'text-zinc-300 hover:text-white hover:bg-white/5 border-white/10'
-                                    : 'text-gray-700 hover:text-gray-900 hover:bg-black/5 border-gray-300'
-                            }`}
+                            className={`md:hidden p-2 rounded-lg border transition-colors ${isDark
+                                ? 'text-zinc-300 hover:text-white hover:bg-white/5 border-white/10'
+                                : 'text-gray-700 hover:text-gray-900 hover:bg-black/5 border-gray-300'
+                                }`}
                             aria-label="Toggle Menu"
                         >
                             {mobileMenuOpen ? <TbX className="text-xl" /> : <TbMenu2 className="text-xl" />}
@@ -566,25 +537,22 @@ const LandingPage = () => {
                             initial={{ opacity: 0, height: 0 }}
                             animate={{ opacity: 1, height: 'auto' }}
                             exit={{ opacity: 0, height: 0 }}
-                            className={`md:hidden border-b px-5 sm:px-6 py-4 sm:py-5 flex flex-col gap-3.5 ${
-                                isDark
-                                    ? 'bg-[#0c0407] border-white/10'
-                                    : 'bg-white border-gray-200 shadow-xl'
-                            }`}
+                            className={`md:hidden border-b px-5 sm:px-6 py-4 sm:py-5 flex flex-col gap-3.5 ${isDark
+                                ? 'bg-[#0c0407] border-white/10'
+                                : 'bg-white border-gray-200 shadow-xl'
+                                }`}
                         >
                             <button
                                 onClick={() => scrollToSection('features')}
-                                className={`text-left py-1 text-sm font-medium ${
-                                    isDark ? 'text-zinc-300 hover:text-amber-300' : 'text-gray-700 hover:text-primary'
-                                }`}
+                                className={`text-left py-1 text-sm font-medium ${isDark ? 'text-zinc-300 hover:text-amber-300' : 'text-gray-700 hover:text-primary'
+                                    }`}
                             >
                                 Features
                             </button>
                             <button
                                 onClick={() => scrollToSection('live-demo')}
-                                className={`text-left py-1 text-sm font-medium flex items-center gap-2 ${
-                                    isDark ? 'text-zinc-300 hover:text-amber-300' : 'text-gray-700 hover:text-primary'
-                                }`}
+                                className={`text-left py-1 text-sm font-medium flex items-center gap-2 ${isDark ? 'text-zinc-300 hover:text-amber-300' : 'text-gray-700 hover:text-primary'
+                                    }`}
                             >
                                 <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
                                 Live Workspace
@@ -592,43 +560,38 @@ const LandingPage = () => {
 
                             <button
                                 onClick={() => scrollToSection('testimonials')}
-                                className={`text-left py-1 text-sm font-medium ${
-                                    isDark ? 'text-zinc-300 hover:text-amber-300' : 'text-gray-700 hover:text-primary'
-                                }`}
+                                className={`text-left py-1 text-sm font-medium ${isDark ? 'text-zinc-300 hover:text-amber-300' : 'text-gray-700 hover:text-primary'
+                                    }`}
                             >
                                 Restaurateurs
                             </button>
                             <button
                                 onClick={() => scrollToSection('faq')}
-                                className={`text-left py-1 text-sm font-medium ${
-                                    isDark ? 'text-zinc-300 hover:text-amber-300' : 'text-gray-700 hover:text-primary'
-                                }`}
+                                className={`text-left py-1 text-sm font-medium ${isDark ? 'text-zinc-300 hover:text-amber-300' : 'text-gray-700 hover:text-primary'
+                                    }`}
                             >
                                 FAQ
                             </button>
                             <button
                                 onClick={() => scrollToSection('contact')}
-                                className={`text-left py-1 text-sm font-medium ${
-                                    isDark ? 'text-zinc-300 hover:text-amber-300' : 'text-gray-700 hover:text-primary'
-                                }`}
+                                className={`text-left py-1 text-sm font-medium ${isDark ? 'text-zinc-300 hover:text-amber-300' : 'text-gray-700 hover:text-primary'
+                                    }`}
                             >
                                 Contact Us
                             </button>
 
                             {/* Theme Quick Switcher in Mobile Drawer */}
                             <div
-                                className={`pt-3 border-t flex items-center justify-between text-xs ${
-                                    isDark ? 'border-white/10 text-zinc-400' : 'border-gray-200 text-gray-500'
-                                }`}
+                                className={`pt-3 border-t flex items-center justify-between text-xs ${isDark ? 'border-white/10 text-zinc-400' : 'border-gray-200 text-gray-500'
+                                    }`}
                             >
                                 <span>Display Theme</span>
                                 <button
                                     onClick={() => setIsDark(!isDark)}
-                                    className={`px-3 py-1.5 rounded-lg border flex items-center gap-1.5 font-semibold text-xs transition-colors ${
-                                        isDark
-                                            ? 'border-white/15 bg-white/5 text-amber-300'
-                                            : 'border-gray-300 bg-stone-50 text-gray-800'
-                                    }`}
+                                    className={`px-3 py-1.5 rounded-lg border flex items-center gap-1.5 font-semibold text-xs transition-colors ${isDark
+                                        ? 'border-white/15 bg-white/5 text-amber-300'
+                                        : 'border-gray-300 bg-stone-50 text-gray-800'
+                                        }`}
                                 >
                                     {isDark ? <TbSun /> : <TbMoon />}
                                     <span>{isDark ? 'Light Theme' : 'Dark Theme'}</span>
@@ -636,18 +599,16 @@ const LandingPage = () => {
                             </div>
 
                             <div
-                                className={`pt-2 border-t flex flex-col gap-2 ${
-                                    isDark ? 'border-white/10' : 'border-gray-200'
-                                }`}
+                                className={`pt-2 border-t flex flex-col gap-2 ${isDark ? 'border-white/10' : 'border-gray-200'
+                                    }`}
                             >
                                 {authenticated ? (
                                     <button
                                         onClick={() => navigate('/home')}
-                                        className={`w-full py-2.5 rounded-xl text-center text-sm font-semibold flex items-center justify-center gap-2 ${
-                                            isDark
-                                                ? 'bg-amber-500 text-zinc-950'
-                                                : 'bg-primary text-white'
-                                        }`}
+                                        className={`w-full py-2.5 rounded-xl text-center text-sm font-semibold flex items-center justify-center gap-2 ${isDark
+                                            ? 'bg-amber-500 text-zinc-950'
+                                            : 'bg-primary text-white'
+                                            }`}
                                     >
                                         <span>Go to Dashboard</span>
                                         <TbArrowRight />
@@ -655,11 +616,10 @@ const LandingPage = () => {
                                 ) : (
                                     <button
                                         onClick={() => navigate('/sign-in')}
-                                        className={`w-full py-2.5 rounded-xl text-center text-sm font-medium border ${
-                                            isDark
-                                                ? 'text-zinc-300 border-white/15 hover:bg-white/5'
-                                                : 'text-gray-700 border-gray-300 hover:bg-gray-50'
-                                        }`}
+                                        className={`w-full py-2.5 rounded-xl text-center text-sm font-medium border ${isDark
+                                            ? 'text-zinc-300 border-white/15 hover:bg-white/5'
+                                            : 'text-gray-700 border-gray-300 hover:bg-gray-50'
+                                            }`}
                                     >
                                         Sign In
                                     </button>
@@ -678,22 +638,19 @@ const LandingPage = () => {
                         initial={{ opacity: 0, y: 15 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.5 }}
-                        className={`inline-flex items-center gap-1.5 sm:gap-2 px-3 py-1.5 sm:px-3.5 sm:py-1.5 rounded-full border backdrop-blur-md shadow-inner mb-5 sm:mb-6 max-w-full ${
-                            isDark
-                                ? 'bg-white/[0.05] border-amber-400/30'
-                                : 'bg-primary/5 border-primary/20'
-                        }`}
+                        className={`inline-flex items-center gap-1.5 sm:gap-2 px-3 py-1.5 sm:px-3.5 sm:py-1.5 rounded-full border backdrop-blur-md shadow-inner mb-5 sm:mb-6 max-w-full ${isDark
+                            ? 'bg-white/[0.05] border-amber-400/30'
+                            : 'bg-primary/5 border-primary/20'
+                            }`}
                     >
                         <TbSparkles
-                            className={`text-sm shrink-0 animate-spin ${
-                                isDark ? 'text-amber-400' : 'text-primary'
-                            }`}
+                            className={`text-sm shrink-0 animate-spin ${isDark ? 'text-amber-400' : 'text-primary'
+                                }`}
                             style={{ animationDuration: '8s' }}
                         />
                         <span
-                            className={`text-[11px] sm:text-xs font-semibold uppercase tracking-wider truncate sm:whitespace-normal ${
-                                isDark ? 'text-amber-300' : 'text-primary'
-                            }`}
+                            className={`text-[11px] sm:text-xs font-semibold uppercase tracking-wider truncate sm:whitespace-normal ${isDark ? 'text-amber-300' : 'text-primary'
+                                }`}
                         >
                             The Next-Gen Restaurant Operating System
                         </span>
@@ -705,17 +662,15 @@ const LandingPage = () => {
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.6, delay: 0.1 }}
-                        className={`text-3xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold tracking-tight font-sans leading-[1.15] sm:leading-[1.12] ${
-                            isDark ? 'text-white' : 'text-gray-900'
-                        }`}
+                        className={`text-3xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold tracking-tight font-sans leading-[1.15] sm:leading-[1.12] ${isDark ? 'text-white' : 'text-gray-900'
+                            }`}
                     >
                         Run Your Restaurant with{' '}
                         <span
-                            className={`bg-clip-text text-transparent italic ${
-                                isDark
-                                    ? 'bg-gradient-to-r from-amber-200 via-amber-400 to-amber-500'
-                                    : 'bg-gradient-to-r from-primary via-[#8a2a35] to-gold'
-                            }`}
+                            className={`bg-clip-text text-transparent italic ${isDark
+                                ? 'bg-gradient-to-r from-amber-200 via-amber-400 to-amber-500'
+                                : 'bg-gradient-to-r from-primary via-[#8a2a35] to-gold'
+                                }`}
                         >
                             Royal Precision.
                         </span>
@@ -726,9 +681,8 @@ const LandingPage = () => {
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.6, delay: 0.2 }}
-                        className={`mt-4 sm:mt-6 text-sm sm:text-lg md:text-xl max-w-2xl mx-auto leading-relaxed px-2 sm:px-0 ${
-                            isDark ? 'text-zinc-400' : 'text-gray-600'
-                        }`}
+                        className={`mt-4 sm:mt-6 text-sm sm:text-lg md:text-xl max-w-2xl mx-auto leading-relaxed px-2 sm:px-0 ${isDark ? 'text-zinc-400' : 'text-gray-600'
+                            }`}
                     >
                         Synchronize kitchen tickets in real-time, master your dining floor plan, automate table bookings, and monitor multi-branch revenue from a singular, royal command center.
                     </motion.p>
@@ -742,11 +696,10 @@ const LandingPage = () => {
                     >
                         <button
                             onClick={() => scrollToSection('live-demo')}
-                            className={`w-full sm:w-auto px-6 sm:px-7 py-3 sm:py-3.5 rounded-xl border font-medium text-sm sm:text-base backdrop-blur-md transition-all flex items-center justify-center gap-2 cursor-pointer ${
-                                isDark
-                                    ? 'border-white/15 bg-white/[0.03] hover:bg-white/[0.08] text-white'
-                                    : 'border-gray-300 bg-white hover:bg-gray-100 text-gray-800 shadow-sm'
-                            }`}
+                            className={`w-full sm:w-auto px-6 sm:px-7 py-3 sm:py-3.5 rounded-xl border font-medium text-sm sm:text-base backdrop-blur-md transition-all flex items-center justify-center gap-2 cursor-pointer ${isDark
+                                ? 'border-white/15 bg-white/[0.03] hover:bg-white/[0.08] text-white'
+                                : 'border-gray-300 bg-white hover:bg-gray-100 text-gray-800 shadow-sm'
+                                }`}
                         >
                             <TbFlame className={isDark ? 'text-amber-400 text-lg' : 'text-primary text-lg'} />
                             <span>Interactive Preview</span>
@@ -758,11 +711,10 @@ const LandingPage = () => {
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         transition={{ duration: 0.8, delay: 0.45 }}
-                        className={`mt-8 sm:mt-12 pt-6 sm:pt-8 border-t flex flex-wrap items-center justify-center gap-4 sm:gap-10 text-xs ${
-                            isDark
-                                ? 'border-white/[0.08] text-zinc-400'
-                                : 'border-gray-200 text-gray-500'
-                        }`}
+                        className={`mt-8 sm:mt-12 pt-6 sm:pt-8 border-t flex flex-wrap items-center justify-center gap-4 sm:gap-10 text-xs ${isDark
+                            ? 'border-white/[0.08] text-zinc-400'
+                            : 'border-gray-200 text-gray-500'
+                            }`}
                     >
                         <div className="flex items-center gap-2">
                             <div className="flex text-amber-400">
@@ -795,37 +747,33 @@ const LandingPage = () => {
                 >
                     {/* Ambient Glow behind frame */}
                     <div
-                        className={`absolute -inset-1 rounded-3xl blur-2xl transition-all duration-500 ${
-                            isDark
-                                ? 'bg-gradient-to-r from-amber-500/20 via-[#6e1423]/40 to-amber-600/20 opacity-60'
-                                : 'bg-gradient-to-r from-primary/10 via-[#c9a227]/15 to-primary/10 opacity-70'
-                        }`}
+                        className={`absolute -inset-1 rounded-3xl blur-2xl transition-all duration-500 ${isDark
+                            ? 'bg-gradient-to-r from-amber-500/20 via-[#6e1423]/40 to-amber-600/20 opacity-60'
+                            : 'bg-gradient-to-r from-primary/10 via-[#c9a227]/15 to-primary/10 opacity-70'
+                            }`}
                     />
 
                     {/* Window Frame */}
                     <div
-                        className={`relative rounded-2xl md:rounded-3xl border backdrop-blur-2xl shadow-2xl overflow-hidden transition-colors duration-300 ${
-                            isDark
-                                ? 'border-white/15 bg-[#12060b]/90 shadow-2xl'
-                                : 'border-gray-200 bg-white/95 shadow-2xl shadow-stone-300/40'
-                        }`}
+                        className={`relative rounded-2xl md:rounded-3xl border backdrop-blur-2xl shadow-2xl overflow-hidden transition-colors duration-300 ${isDark
+                            ? 'border-white/15 bg-[#12060b]/90 shadow-2xl'
+                            : 'border-gray-200 bg-white/95 shadow-2xl shadow-stone-300/40'
+                            }`}
                     >
                         {/* Mockup OS Topbar */}
                         <div
-                            className={`px-3.5 sm:px-5 py-2.5 sm:py-3.5 border-b flex items-center justify-between gap-2 transition-colors ${
-                                isDark
-                                    ? 'border-white/10 bg-white/[0.02]'
-                                    : 'border-gray-100 bg-stone-50/80'
-                            }`}
+                            className={`px-3.5 sm:px-5 py-2.5 sm:py-3.5 border-b flex items-center justify-between gap-2 transition-colors ${isDark
+                                ? 'border-white/10 bg-white/[0.02]'
+                                : 'border-gray-100 bg-stone-50/80'
+                                }`}
                         >
                             <div className="flex items-center gap-2">
                                 <span className="h-2.5 w-2.5 sm:h-3 sm:w-3 rounded-full bg-rose-500/80" />
                                 <span className="h-2.5 w-2.5 sm:h-3 sm:w-3 rounded-full bg-amber-500/80" />
                                 <span className="h-2.5 w-2.5 sm:h-3 sm:w-3 rounded-full bg-emerald-500/80" />
                                 <span
-                                    className={`ml-2 sm:ml-3 text-[11px] sm:text-xs font-mono hidden md:inline-block truncate ${
-                                        isDark ? 'text-zinc-400' : 'text-gray-500'
-                                    }`}
+                                    className={`ml-2 sm:ml-3 text-[11px] sm:text-xs font-mono hidden md:inline-block truncate ${isDark ? 'text-zinc-400' : 'text-gray-500'
+                                        }`}
                                 >
                                     royal-plate.app/workspace/le-cordon-royal
                                 </span>
@@ -838,11 +786,10 @@ const LandingPage = () => {
                                     <span className="sm:hidden">Live</span>
                                 </span>
                                 <div
-                                    className={`h-5 w-5 sm:h-6 sm:w-6 rounded-full flex items-center justify-center text-[10px] sm:text-xs font-bold border ${
-                                        isDark
-                                            ? 'bg-amber-500/20 text-amber-400 border-amber-500/30'
-                                            : 'bg-primary/10 text-primary border-primary/25'
-                                    }`}
+                                    className={`h-5 w-5 sm:h-6 sm:w-6 rounded-full flex items-center justify-center text-[10px] sm:text-xs font-bold border ${isDark
+                                        ? 'bg-amber-500/20 text-amber-400 border-amber-500/30'
+                                        : 'bg-primary/10 text-primary border-primary/25'
+                                        }`}
                                 >
                                     RP
                                 </div>
@@ -851,69 +798,64 @@ const LandingPage = () => {
 
                         {/* Interactive Tabs Header inside Mockup (Horizontally scrollable on mobile!) */}
                         <div
-                            className={`px-3 sm:px-6 pt-3 sm:pt-5 pb-2.5 sm:pb-3 border-b flex items-center justify-between gap-3 overflow-hidden transition-colors ${
-                                isDark
-                                    ? 'border-white/[0.07] bg-white/[0.01]'
-                                    : 'border-gray-100 bg-stone-50/50'
-                            }`}
+                            className={`px-3 sm:px-6 pt-3 sm:pt-5 pb-2.5 sm:pb-3 border-b flex items-center justify-between gap-3 overflow-hidden transition-colors ${isDark
+                                ? 'border-white/[0.07] bg-white/[0.01]'
+                                : 'border-gray-100 bg-stone-50/50'
+                                }`}
                         >
                             <div className="flex items-center gap-1.5 sm:gap-2 overflow-x-auto no-scrollbar py-0.5 max-w-full">
                                 <button
                                     onClick={() => setActiveTab('orders')}
-                                    className={`px-3 sm:px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all flex items-center gap-1.5 sm:gap-2 cursor-pointer shrink-0 whitespace-nowrap ${
-                                        activeTab === 'orders'
-                                            ? isDark
-                                                ? 'bg-amber-500/20 text-amber-300 border border-amber-500/40 shadow-sm'
-                                                : 'bg-primary/10 text-primary border border-primary/30 shadow-sm'
-                                            : isDark
+                                    className={`px-3 sm:px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all flex items-center gap-1.5 sm:gap-2 cursor-pointer shrink-0 whitespace-nowrap ${activeTab === 'orders'
+                                        ? isDark
+                                            ? 'bg-amber-500/20 text-amber-300 border border-amber-500/40 shadow-sm'
+                                            : 'bg-primary/10 text-primary border border-primary/30 shadow-sm'
+                                        : isDark
                                             ? 'text-zinc-400 hover:text-zinc-200'
                                             : 'text-gray-500 hover:text-gray-800'
-                                    }`}
+                                        }`}
                                 >
                                     <TbClipboardList className="text-sm" />
                                     <span>Active Orders (3)</span>
                                 </button>
                                 <button
                                     onClick={() => setActiveTab('tables')}
-                                    className={`px-3 sm:px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all flex items-center gap-1.5 sm:gap-2 cursor-pointer shrink-0 whitespace-nowrap ${
-                                        activeTab === 'tables'
-                                            ? isDark
-                                                ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 shadow-sm'
-                                                : 'bg-emerald-600/10 text-emerald-700 border border-emerald-500/30 shadow-sm'
-                                            : isDark
+                                    className={`px-3 sm:px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all flex items-center gap-1.5 sm:gap-2 cursor-pointer shrink-0 whitespace-nowrap ${activeTab === 'tables'
+                                        ? isDark
+                                            ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 shadow-sm'
+                                            : 'bg-emerald-600/10 text-emerald-700 border border-emerald-500/30 shadow-sm'
+                                        : isDark
                                             ? 'text-zinc-400 hover:text-zinc-200'
                                             : 'text-gray-500 hover:text-gray-800'
-                                    }`}
+                                        }`}
                                 >
                                     <TbTable className="text-sm" />
                                     <span>Floor Grid (18/24)</span>
                                 </button>
                                 <button
                                     onClick={() => setActiveTab('reservations')}
-                                    className={`px-3 sm:px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all flex items-center gap-1.5 sm:gap-2 cursor-pointer shrink-0 whitespace-nowrap ${
-                                        activeTab === 'reservations'
-                                            ? isDark
-                                                ? 'bg-purple-500/20 text-purple-300 border border-purple-500/40 shadow-sm'
-                                                : 'bg-purple-600/10 text-purple-700 border border-purple-500/30 shadow-sm'
-                                            : isDark
+                                    className={`px-3 sm:px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all flex items-center gap-1.5 sm:gap-2 cursor-pointer shrink-0 whitespace-nowrap ${activeTab === 'reservations'
+                                        ? isDark
+                                            ? 'bg-purple-500/20 text-purple-300 border border-purple-500/40 shadow-sm'
+                                            : 'bg-purple-600/10 text-purple-700 border border-purple-500/30 shadow-sm'
+                                        : isDark
                                             ? 'text-zinc-400 hover:text-zinc-200'
                                             : 'text-gray-500 hover:text-gray-800'
-                                    }`}
+                                        }`}
                                 >
                                     <TbCalendarEvent className="text-sm" />
                                     <span>Today's Bookings</span>
                                 </button>
                                 <button
                                     onClick={() => setActiveTab('analytics')}
-                                    className={`px-3 sm:px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all flex items-center gap-1.5 sm:gap-2 cursor-pointer shrink-0 whitespace-nowrap ${
-                                        activeTab === 'analytics'
-                                            ? isDark
-                                                ? 'bg-sky-500/20 text-sky-300 border border-sky-500/40 shadow-sm'
-                                                : 'bg-sky-600/10 text-sky-700 border border-sky-500/30 shadow-sm'
-                                            : isDark
+                                    className={`px-3 sm:px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all flex items-center gap-1.5 sm:gap-2 cursor-pointer shrink-0 whitespace-nowrap ${activeTab === 'analytics'
+                                        ? isDark
+                                            ? 'bg-sky-500/20 text-sky-300 border border-sky-500/40 shadow-sm'
+                                            : 'bg-sky-600/10 text-sky-700 border border-sky-500/30 shadow-sm'
+                                        : isDark
                                             ? 'text-zinc-400 hover:text-zinc-200'
                                             : 'text-gray-500 hover:text-gray-800'
-                                    }`}
+                                        }`}
                                 >
                                     <TbChartBar className="text-sm" />
                                     <span>Sales Velocity</span>
@@ -921,14 +863,12 @@ const LandingPage = () => {
                             </div>
 
                             <div
-                                className={`hidden lg:flex items-center gap-2 text-xs shrink-0 ${
-                                    isDark ? 'text-zinc-400' : 'text-gray-500'
-                                }`}
+                                className={`hidden lg:flex items-center gap-2 text-xs shrink-0 ${isDark ? 'text-zinc-400' : 'text-gray-500'
+                                    }`}
                             >
                                 <span
-                                    className={`font-semibold font-mono ${
-                                        isDark ? 'text-amber-400' : 'text-primary'
-                                    }`}
+                                    className={`font-semibold font-mono ${isDark ? 'text-amber-400' : 'text-primary'
+                                        }`}
                                 >
                                     19:42:15
                                 </span>
@@ -939,9 +879,8 @@ const LandingPage = () => {
 
                         {/* Interactive Tab Panels */}
                         <div
-                            className={`p-3 sm:p-6 lg:p-8 min-h-[350px] sm:min-h-[380px] transition-colors ${
-                                isDark ? 'bg-[#0d0408]/60' : 'bg-[#fcfaf7]'
-                            }`}
+                            className={`p-3 sm:p-6 lg:p-8 min-h-[350px] sm:min-h-[380px] transition-colors ${isDark ? 'bg-[#0d0408]/60' : 'bg-[#fcfaf7]'
+                                }`}
                         >
                             {/* TAB 1: LIVE ORDERS */}
                             {activeTab === 'orders' && (
@@ -954,26 +893,23 @@ const LandingPage = () => {
                                 >
                                     {/* Order Card 1 — Preparing */}
                                     <div
-                                        className={`rounded-2xl p-4 sm:p-5 flex flex-col justify-between shadow-lg transition-colors ${
-                                            isDark
-                                                ? 'border border-purple-500/30 bg-purple-500/[0.04]'
-                                                : 'border border-purple-200 bg-white shadow-sm'
-                                        }`}
+                                        className={`rounded-2xl p-4 sm:p-5 flex flex-col justify-between shadow-lg transition-colors ${isDark
+                                            ? 'border border-purple-500/30 bg-purple-500/[0.04]'
+                                            : 'border border-purple-200 bg-white shadow-sm'
+                                            }`}
                                     >
                                         <div>
                                             <div className="flex items-start justify-between gap-3">
                                                 <div>
                                                     <p
-                                                        className={`text-[10px] font-medium uppercase tracking-wide ${
-                                                            isDark ? 'text-zinc-400' : 'text-gray-500'
-                                                        }`}
+                                                        className={`text-[10px] font-medium uppercase tracking-wide ${isDark ? 'text-zinc-400' : 'text-gray-500'
+                                                            }`}
                                                     >
                                                         Order
                                                     </p>
                                                     <h5
-                                                        className={`text-base sm:text-lg font-bold font-mono ${
-                                                            isDark ? 'text-white' : 'text-gray-900'
-                                                        }`}
+                                                        className={`text-base sm:text-lg font-bold font-mono ${isDark ? 'text-white' : 'text-gray-900'
+                                                            }`}
                                                     >
                                                         #ORD-4821
                                                     </h5>
@@ -988,9 +924,8 @@ const LandingPage = () => {
                                                         Customer
                                                     </span>
                                                     <span
-                                                        className={`max-w-[60%] truncate text-right font-semibold ${
-                                                            isDark ? 'text-zinc-200' : 'text-gray-800'
-                                                        }`}
+                                                        className={`max-w-[60%] truncate text-right font-semibold ${isDark ? 'text-zinc-200' : 'text-gray-800'
+                                                            }`}
                                                     >
                                                         Antoine Laurent
                                                     </span>
@@ -1000,9 +935,8 @@ const LandingPage = () => {
                                                         Placed
                                                     </span>
                                                     <span
-                                                        className={`font-medium ${
-                                                            isDark ? 'text-zinc-300' : 'text-gray-700'
-                                                        }`}
+                                                        className={`font-medium ${isDark ? 'text-zinc-300' : 'text-gray-700'
+                                                            }`}
                                                     >
                                                         19:34
                                                     </span>
@@ -1012,9 +946,8 @@ const LandingPage = () => {
                                                         Table
                                                     </span>
                                                     <span
-                                                        className={`font-medium ${
-                                                            isDark ? 'text-zinc-300' : 'text-gray-700'
-                                                        }`}
+                                                        className={`font-medium ${isDark ? 'text-zinc-300' : 'text-gray-700'
+                                                            }`}
                                                     >
                                                         Table 04 • 4 Guests
                                                     </span>
@@ -1022,28 +955,24 @@ const LandingPage = () => {
                                             </div>
                                         </div>
                                         <div
-                                            className={`mt-4 pt-3 border-t ${
-                                                isDark ? 'border-white/10' : 'border-gray-100'
-                                            }`}
+                                            className={`mt-4 pt-3 border-t ${isDark ? 'border-white/10' : 'border-gray-100'
+                                                }`}
                                         >
                                             <p
-                                                className={`mb-2 text-[10px] font-semibold uppercase tracking-wide ${
-                                                    isDark ? 'text-zinc-400' : 'text-gray-500'
-                                                }`}
+                                                className={`mb-2 text-[10px] font-semibold uppercase tracking-wide ${isDark ? 'text-zinc-400' : 'text-gray-500'
+                                                    }`}
                                             >
                                                 Items (3)
                                             </p>
                                             <div
-                                                className={`space-y-1.5 text-xs ${
-                                                    isDark ? 'text-zinc-300' : 'text-gray-700'
-                                                }`}
+                                                className={`space-y-1.5 text-xs ${isDark ? 'text-zinc-300' : 'text-gray-700'
+                                                    }`}
                                             >
                                                 <div className="flex justify-between">
                                                     <span className="truncate min-w-0">Wagyu Ribeye M5+</span>
                                                     <span
-                                                        className={`shrink-0 font-semibold ml-2 ${
-                                                            isDark ? 'text-zinc-400' : 'text-gray-500'
-                                                        }`}
+                                                        className={`shrink-0 font-semibold ml-2 ${isDark ? 'text-zinc-400' : 'text-gray-500'
+                                                            }`}
                                                     >
                                                         x2
                                                     </span>
@@ -1051,9 +980,8 @@ const LandingPage = () => {
                                                 <div className="flex justify-between">
                                                     <span className="truncate min-w-0">Truffle Risotto</span>
                                                     <span
-                                                        className={`shrink-0 font-semibold ml-2 ${
-                                                            isDark ? 'text-zinc-400' : 'text-gray-500'
-                                                        }`}
+                                                        className={`shrink-0 font-semibold ml-2 ${isDark ? 'text-zinc-400' : 'text-gray-500'
+                                                            }`}
                                                     >
                                                         x1
                                                     </span>
@@ -1061,9 +989,8 @@ const LandingPage = () => {
                                                 <div className="flex justify-between">
                                                     <span className="truncate min-w-0">Chateau Margaux 2018</span>
                                                     <span
-                                                        className={`shrink-0 font-semibold ml-2 ${
-                                                            isDark ? 'text-zinc-400' : 'text-gray-500'
-                                                        }`}
+                                                        className={`shrink-0 font-semibold ml-2 ${isDark ? 'text-zinc-400' : 'text-gray-500'
+                                                            }`}
                                                     >
                                                         x2
                                                     </span>
@@ -1071,9 +998,8 @@ const LandingPage = () => {
                                             </div>
                                         </div>
                                         <div
-                                            className={`mt-4 pt-3 border-t flex items-center justify-between ${
-                                                isDark ? 'border-white/10' : 'border-gray-100'
-                                            }`}
+                                            className={`mt-4 pt-3 border-t flex items-center justify-between ${isDark ? 'border-white/10' : 'border-gray-100'
+                                                }`}
                                         >
                                             <div>
                                                 <p className={`text-[10px] ${isDark ? 'text-zinc-400' : 'text-gray-500'}`}>
@@ -1091,26 +1017,23 @@ const LandingPage = () => {
 
                                     {/* Order Card 2 — Ready */}
                                     <div
-                                        className={`rounded-2xl p-4 sm:p-5 flex flex-col justify-between shadow-lg transition-colors ${
-                                            isDark
-                                                ? 'border border-green-500/30 bg-green-500/[0.04]'
-                                                : 'border border-green-200 bg-white shadow-sm'
-                                        }`}
+                                        className={`rounded-2xl p-4 sm:p-5 flex flex-col justify-between shadow-lg transition-colors ${isDark
+                                            ? 'border border-green-500/30 bg-green-500/[0.04]'
+                                            : 'border border-green-200 bg-white shadow-sm'
+                                            }`}
                                     >
                                         <div>
                                             <div className="flex items-start justify-between gap-3">
                                                 <div>
                                                     <p
-                                                        className={`text-[10px] font-medium uppercase tracking-wide ${
-                                                            isDark ? 'text-zinc-400' : 'text-gray-500'
-                                                        }`}
+                                                        className={`text-[10px] font-medium uppercase tracking-wide ${isDark ? 'text-zinc-400' : 'text-gray-500'
+                                                            }`}
                                                     >
                                                         Order
                                                     </p>
                                                     <h5
-                                                        className={`text-base sm:text-lg font-bold font-mono ${
-                                                            isDark ? 'text-white' : 'text-gray-900'
-                                                        }`}
+                                                        className={`text-base sm:text-lg font-bold font-mono ${isDark ? 'text-white' : 'text-gray-900'
+                                                            }`}
                                                     >
                                                         #ORD-4820
                                                     </h5>
@@ -1125,9 +1048,8 @@ const LandingPage = () => {
                                                         Customer
                                                     </span>
                                                     <span
-                                                        className={`max-w-[60%] truncate text-right font-semibold ${
-                                                            isDark ? 'text-zinc-200' : 'text-gray-800'
-                                                        }`}
+                                                        className={`max-w-[60%] truncate text-right font-semibold ${isDark ? 'text-zinc-200' : 'text-gray-800'
+                                                            }`}
                                                     >
                                                         Thuzar Myint
                                                     </span>
@@ -1137,9 +1059,8 @@ const LandingPage = () => {
                                                         Placed
                                                     </span>
                                                     <span
-                                                        className={`font-medium ${
-                                                            isDark ? 'text-zinc-300' : 'text-gray-700'
-                                                        }`}
+                                                        className={`font-medium ${isDark ? 'text-zinc-300' : 'text-gray-700'
+                                                            }`}
                                                     >
                                                         19:26
                                                     </span>
@@ -1149,9 +1070,8 @@ const LandingPage = () => {
                                                         Table
                                                     </span>
                                                     <span
-                                                        className={`font-medium ${
-                                                            isDark ? 'text-zinc-300' : 'text-gray-700'
-                                                        }`}
+                                                        className={`font-medium ${isDark ? 'text-zinc-300' : 'text-gray-700'
+                                                            }`}
                                                     >
                                                         Table 09 • Booth VIP
                                                     </span>
@@ -1159,28 +1079,24 @@ const LandingPage = () => {
                                             </div>
                                         </div>
                                         <div
-                                            className={`mt-4 pt-3 border-t ${
-                                                isDark ? 'border-white/10' : 'border-gray-100'
-                                            }`}
+                                            className={`mt-4 pt-3 border-t ${isDark ? 'border-white/10' : 'border-gray-100'
+                                                }`}
                                         >
                                             <p
-                                                className={`mb-2 text-[10px] font-semibold uppercase tracking-wide ${
-                                                    isDark ? 'text-zinc-400' : 'text-gray-500'
-                                                }`}
+                                                className={`mb-2 text-[10px] font-semibold uppercase tracking-wide ${isDark ? 'text-zinc-400' : 'text-gray-500'
+                                                    }`}
                                             >
                                                 Items (3)
                                             </p>
                                             <div
-                                                className={`space-y-1.5 text-xs ${
-                                                    isDark ? 'text-zinc-300' : 'text-gray-700'
-                                                }`}
+                                                className={`space-y-1.5 text-xs ${isDark ? 'text-zinc-300' : 'text-gray-700'
+                                                    }`}
                                             >
                                                 <div className="flex justify-between">
                                                     <span className="truncate min-w-0">Chilean Sea Bass</span>
                                                     <span
-                                                        className={`shrink-0 font-semibold ml-2 ${
-                                                            isDark ? 'text-zinc-400' : 'text-gray-500'
-                                                        }`}
+                                                        className={`shrink-0 font-semibold ml-2 ${isDark ? 'text-zinc-400' : 'text-gray-500'
+                                                            }`}
                                                     >
                                                         x3
                                                     </span>
@@ -1188,9 +1104,8 @@ const LandingPage = () => {
                                                 <div className="flex justify-between">
                                                     <span className="truncate min-w-0">Burrata Salad</span>
                                                     <span
-                                                        className={`shrink-0 font-semibold ml-2 ${
-                                                            isDark ? 'text-zinc-400' : 'text-gray-500'
-                                                        }`}
+                                                        className={`shrink-0 font-semibold ml-2 ${isDark ? 'text-zinc-400' : 'text-gray-500'
+                                                            }`}
                                                     >
                                                         x2
                                                     </span>
@@ -1198,9 +1113,8 @@ const LandingPage = () => {
                                                 <div className="flex justify-between">
                                                     <span className="truncate min-w-0">Smoked Old Fashioned</span>
                                                     <span
-                                                        className={`shrink-0 font-semibold ml-2 ${
-                                                            isDark ? 'text-zinc-400' : 'text-gray-500'
-                                                        }`}
+                                                        className={`shrink-0 font-semibold ml-2 ${isDark ? 'text-zinc-400' : 'text-gray-500'
+                                                            }`}
                                                     >
                                                         x3
                                                     </span>
@@ -1208,9 +1122,8 @@ const LandingPage = () => {
                                             </div>
                                         </div>
                                         <div
-                                            className={`mt-4 pt-3 border-t flex items-center justify-between ${
-                                                isDark ? 'border-white/10' : 'border-gray-100'
-                                            }`}
+                                            className={`mt-4 pt-3 border-t flex items-center justify-between ${isDark ? 'border-white/10' : 'border-gray-100'
+                                                }`}
                                         >
                                             <div>
                                                 <p className={`text-[10px] ${isDark ? 'text-zinc-400' : 'text-gray-500'}`}>
@@ -1221,11 +1134,10 @@ const LandingPage = () => {
                                                 </p>
                                             </div>
                                             <span
-                                                className={`text-[11px] font-semibold px-2 py-1 rounded-full flex items-center gap-1 ${
-                                                    isDark
-                                                        ? 'text-amber-400 bg-amber-500/10'
-                                                        : 'text-amber-700 bg-amber-100'
-                                                }`}
+                                                className={`text-[11px] font-semibold px-2 py-1 rounded-full flex items-center gap-1 ${isDark
+                                                    ? 'text-amber-400 bg-amber-500/10'
+                                                    : 'text-amber-700 bg-amber-100'
+                                                    }`}
                                             >
                                                 <TbBell className="animate-bounce" size={14} /> Bell Server
                                             </span>
@@ -1234,26 +1146,23 @@ const LandingPage = () => {
 
                                     {/* Order Card 3 — Pending */}
                                     <div
-                                        className={`rounded-2xl p-4 sm:p-5 flex flex-col justify-between shadow-lg transition-colors md:col-span-2 lg:col-span-1 ${
-                                            isDark
-                                                ? 'border border-yellow-500/30 bg-yellow-500/[0.04]'
-                                                : 'border border-amber-200 bg-white shadow-sm'
-                                        }`}
+                                        className={`rounded-2xl p-4 sm:p-5 flex flex-col justify-between shadow-lg transition-colors md:col-span-2 lg:col-span-1 ${isDark
+                                            ? 'border border-yellow-500/30 bg-yellow-500/[0.04]'
+                                            : 'border border-amber-200 bg-white shadow-sm'
+                                            }`}
                                     >
                                         <div>
                                             <div className="flex items-start justify-between gap-3">
                                                 <div>
                                                     <p
-                                                        className={`text-[10px] font-medium uppercase tracking-wide ${
-                                                            isDark ? 'text-zinc-400' : 'text-gray-500'
-                                                        }`}
+                                                        className={`text-[10px] font-medium uppercase tracking-wide ${isDark ? 'text-zinc-400' : 'text-gray-500'
+                                                            }`}
                                                     >
                                                         Order
                                                     </p>
                                                     <h5
-                                                        className={`text-base sm:text-lg font-bold font-mono ${
-                                                            isDark ? 'text-white' : 'text-gray-900'
-                                                        }`}
+                                                        className={`text-base sm:text-lg font-bold font-mono ${isDark ? 'text-white' : 'text-gray-900'
+                                                            }`}
                                                     >
                                                         #ORD-4824
                                                     </h5>
@@ -1268,9 +1177,8 @@ const LandingPage = () => {
                                                         Customer
                                                     </span>
                                                     <span
-                                                        className={`max-w-[60%] truncate text-right font-semibold ${
-                                                            isDark ? 'text-zinc-200' : 'text-gray-800'
-                                                        }`}
+                                                        className={`max-w-[60%] truncate text-right font-semibold ${isDark ? 'text-zinc-200' : 'text-gray-800'
+                                                            }`}
                                                     >
                                                         Clara Dupont
                                                     </span>
@@ -1280,9 +1188,8 @@ const LandingPage = () => {
                                                         Placed
                                                     </span>
                                                     <span
-                                                        className={`font-medium ${
-                                                            isDark ? 'text-zinc-300' : 'text-gray-700'
-                                                        }`}
+                                                        className={`font-medium ${isDark ? 'text-zinc-300' : 'text-gray-700'
+                                                            }`}
                                                     >
                                                         19:42
                                                     </span>
@@ -1292,9 +1199,8 @@ const LandingPage = () => {
                                                         Table
                                                     </span>
                                                     <span
-                                                        className={`font-medium ${
-                                                            isDark ? 'text-zinc-300' : 'text-gray-700'
-                                                        }`}
+                                                        className={`font-medium ${isDark ? 'text-zinc-300' : 'text-gray-700'
+                                                            }`}
                                                     >
                                                         Table 02 • Window Terrace
                                                     </span>
@@ -1302,28 +1208,24 @@ const LandingPage = () => {
                                             </div>
                                         </div>
                                         <div
-                                            className={`mt-4 pt-3 border-t ${
-                                                isDark ? 'border-white/10' : 'border-gray-100'
-                                            }`}
+                                            className={`mt-4 pt-3 border-t ${isDark ? 'border-white/10' : 'border-gray-100'
+                                                }`}
                                         >
                                             <p
-                                                className={`mb-2 text-[10px] font-semibold uppercase tracking-wide ${
-                                                    isDark ? 'text-zinc-400' : 'text-gray-500'
-                                                }`}
+                                                className={`mb-2 text-[10px] font-semibold uppercase tracking-wide ${isDark ? 'text-zinc-400' : 'text-gray-500'
+                                                    }`}
                                             >
                                                 Items (3)
                                             </p>
                                             <div
-                                                className={`space-y-1.5 text-xs ${
-                                                    isDark ? 'text-zinc-300' : 'text-gray-700'
-                                                }`}
+                                                className={`space-y-1.5 text-xs ${isDark ? 'text-zinc-300' : 'text-gray-700'
+                                                    }`}
                                             >
                                                 <div className="flex justify-between">
                                                     <span className="truncate min-w-0">Royal Seafood Platter</span>
                                                     <span
-                                                        className={`shrink-0 font-semibold ml-2 ${
-                                                            isDark ? 'text-zinc-400' : 'text-gray-500'
-                                                        }`}
+                                                        className={`shrink-0 font-semibold ml-2 ${isDark ? 'text-zinc-400' : 'text-gray-500'
+                                                            }`}
                                                     >
                                                         x1
                                                     </span>
@@ -1331,9 +1233,8 @@ const LandingPage = () => {
                                                 <div className="flex justify-between">
                                                     <span className="truncate min-w-0">Lobster Thermidor</span>
                                                     <span
-                                                        className={`shrink-0 font-semibold ml-2 ${
-                                                            isDark ? 'text-zinc-400' : 'text-gray-500'
-                                                        }`}
+                                                        className={`shrink-0 font-semibold ml-2 ${isDark ? 'text-zinc-400' : 'text-gray-500'
+                                                            }`}
                                                     >
                                                         x1
                                                     </span>
@@ -1341,9 +1242,8 @@ const LandingPage = () => {
                                                 <div className="flex justify-between">
                                                     <span className="truncate min-w-0">Champagne Brut</span>
                                                     <span
-                                                        className={`shrink-0 font-semibold ml-2 ${
-                                                            isDark ? 'text-zinc-400' : 'text-gray-500'
-                                                        }`}
+                                                        className={`shrink-0 font-semibold ml-2 ${isDark ? 'text-zinc-400' : 'text-gray-500'
+                                                            }`}
                                                     >
                                                         x2
                                                     </span>
@@ -1351,9 +1251,8 @@ const LandingPage = () => {
                                             </div>
                                         </div>
                                         <div
-                                            className={`mt-4 pt-3 border-t flex items-center justify-between ${
-                                                isDark ? 'border-white/10' : 'border-gray-100'
-                                            }`}
+                                            className={`mt-4 pt-3 border-t flex items-center justify-between ${isDark ? 'border-white/10' : 'border-gray-100'
+                                                }`}
                                         >
                                             <div>
                                                 <p className={`text-[10px] ${isDark ? 'text-zinc-400' : 'text-gray-500'}`}>
@@ -1364,11 +1263,10 @@ const LandingPage = () => {
                                                 </p>
                                             </div>
                                             <button
-                                                className={`text-[11px] font-bold px-3 py-1.5 rounded-lg transition-colors cursor-pointer ${
-                                                    isDark
-                                                        ? 'text-zinc-950 bg-amber-400 hover:bg-amber-300'
-                                                        : 'text-white bg-primary hover:bg-primary-mild'
-                                                }`}
+                                                className={`text-[11px] font-bold px-3 py-1.5 rounded-lg transition-colors cursor-pointer ${isDark
+                                                    ? 'text-zinc-950 bg-amber-400 hover:bg-amber-300'
+                                                    : 'text-white bg-primary hover:bg-primary-mild'
+                                                    }`}
                                             >
                                                 Accept to KDS
                                             </button>
@@ -1387,11 +1285,10 @@ const LandingPage = () => {
                                     className="space-y-4"
                                 >
                                     <div
-                                        className={`flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 text-xs border-b pb-3 ${
-                                            isDark
-                                                ? 'text-zinc-400 border-white/10'
-                                                : 'text-gray-500 border-gray-200'
-                                        }`}
+                                        className={`flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 text-xs border-b pb-3 ${isDark
+                                            ? 'text-zinc-400 border-white/10'
+                                            : 'text-gray-500 border-gray-200'
+                                            }`}
                                     >
                                         <span className="font-medium">Floor: Main Dining Hall</span>
                                         <div className="flex flex-wrap items-center gap-3 sm:gap-4">
@@ -1439,38 +1336,34 @@ const LandingPage = () => {
                                         ].map((t, idx) => (
                                             <div
                                                 key={idx}
-                                                className={`rounded-2xl p-4 sm:p-5 flex flex-col justify-between shadow-lg hover:shadow-xl transition-shadow ${
-                                                    isDark
-                                                        ? 'border border-white/10 bg-white/[0.02]'
-                                                        : 'border border-gray-200 bg-white shadow-sm'
-                                                }`}
+                                                className={`rounded-2xl p-4 sm:p-5 flex flex-col justify-between shadow-lg hover:shadow-xl transition-shadow ${isDark
+                                                    ? 'border border-white/10 bg-white/[0.02]'
+                                                    : 'border border-gray-200 bg-white shadow-sm'
+                                                    }`}
                                             >
                                                 <div>
                                                     <div className="flex items-start justify-between gap-3">
                                                         <div>
                                                             <p
-                                                                className={`text-[10px] font-medium uppercase tracking-wide ${
-                                                                    isDark ? 'text-zinc-400' : 'text-gray-500'
-                                                                }`}
+                                                                className={`text-[10px] font-medium uppercase tracking-wide ${isDark ? 'text-zinc-400' : 'text-gray-500'
+                                                                    }`}
                                                             >
                                                                 Table
                                                             </p>
                                                             <h5
-                                                                className={`text-base sm:text-lg font-bold capitalize ${
-                                                                    isDark ? 'text-white' : 'text-gray-900'
-                                                                }`}
+                                                                className={`text-base sm:text-lg font-bold capitalize ${isDark ? 'text-white' : 'text-gray-900'
+                                                                    }`}
                                                             >
                                                                 {t.type}
                                                             </h5>
                                                         </div>
                                                         <span
-                                                            className={`shrink-0 px-2 py-0.5 sm:py-1 rounded-full text-[10px] sm:text-[11px] font-semibold ${
-                                                                t.status === 'active'
-                                                                    ? 'bg-green-100 text-green-700'
-                                                                    : t.status === 'maintenance'
+                                                            className={`shrink-0 px-2 py-0.5 sm:py-1 rounded-full text-[10px] sm:text-[11px] font-semibold ${t.status === 'active'
+                                                                ? 'bg-green-100 text-green-700'
+                                                                : t.status === 'maintenance'
                                                                     ? 'bg-orange-100 text-orange-700'
                                                                     : 'bg-red-100 text-red-700'
-                                                            }`}
+                                                                }`}
                                                         >
                                                             {t.status.charAt(0).toUpperCase() + t.status.slice(1)}
                                                         </span>
@@ -1482,41 +1375,35 @@ const LandingPage = () => {
                                                     </div>
                                                     <div className="mt-3 grid grid-cols-2 gap-2 text-xs">
                                                         <div
-                                                            className={`rounded-lg p-2 sm:p-2.5 ${
-                                                                isDark ? 'bg-white/[0.04]' : 'bg-stone-50 border border-gray-100'
-                                                            }`}
+                                                            className={`rounded-lg p-2 sm:p-2.5 ${isDark ? 'bg-white/[0.04]' : 'bg-stone-50 border border-gray-100'
+                                                                }`}
                                                         >
                                                             <div
-                                                                className={`flex items-center gap-1 ${
-                                                                    isDark ? 'text-zinc-400' : 'text-gray-500'
-                                                                }`}
+                                                                className={`flex items-center gap-1 ${isDark ? 'text-zinc-400' : 'text-gray-500'
+                                                                    }`}
                                                             >
                                                                 <TbUsers /> Capacity
                                                             </div>
                                                             <p
-                                                                className={`mt-1 font-semibold ${
-                                                                    isDark ? 'text-zinc-200' : 'text-gray-800'
-                                                                }`}
+                                                                className={`mt-1 font-semibold ${isDark ? 'text-zinc-200' : 'text-gray-800'
+                                                                    }`}
                                                             >
                                                                 {t.capacity} persons
                                                             </p>
                                                         </div>
                                                         <div
-                                                            className={`rounded-lg p-2 sm:p-2.5 ${
-                                                                isDark ? 'bg-white/[0.04]' : 'bg-stone-50 border border-gray-100'
-                                                            }`}
+                                                            className={`rounded-lg p-2 sm:p-2.5 ${isDark ? 'bg-white/[0.04]' : 'bg-stone-50 border border-gray-100'
+                                                                }`}
                                                         >
                                                             <div
-                                                                className={`flex items-center gap-1 ${
-                                                                    isDark ? 'text-zinc-400' : 'text-gray-500'
-                                                                }`}
+                                                                className={`flex items-center gap-1 ${isDark ? 'text-zinc-400' : 'text-gray-500'
+                                                                    }`}
                                                             >
                                                                 <TbClock /> Duration
                                                             </div>
                                                             <p
-                                                                className={`mt-1 font-semibold ${
-                                                                    isDark ? 'text-zinc-200' : 'text-gray-800'
-                                                                }`}
+                                                                className={`mt-1 font-semibold ${isDark ? 'text-zinc-200' : 'text-gray-800'
+                                                                    }`}
                                                             >
                                                                 {t.duration} min
                                                             </p>
@@ -1529,9 +1416,8 @@ const LandingPage = () => {
                                                             Gap
                                                         </span>
                                                         <span
-                                                            className={`font-medium ${
-                                                                isDark ? 'text-zinc-300' : 'text-gray-700'
-                                                            }`}
+                                                            className={`font-medium ${isDark ? 'text-zinc-300' : 'text-gray-700'
+                                                                }`}
                                                         >
                                                             {t.gap} min
                                                         </span>
@@ -1541,9 +1427,8 @@ const LandingPage = () => {
                                                             Table fee
                                                         </span>
                                                         <span
-                                                            className={`font-semibold ${
-                                                                isDark ? 'text-zinc-200' : 'text-gray-800'
-                                                            }`}
+                                                            className={`font-semibold ${isDark ? 'text-zinc-200' : 'text-gray-800'
+                                                                }`}
                                                         >
                                                             {t.fee > 0 ? `${t.fee.toLocaleString()} MMK` : '—'}
                                                         </span>
@@ -1554,11 +1439,10 @@ const LandingPage = () => {
                                                         {t.services.map((s) => (
                                                             <span
                                                                 key={s}
-                                                                className={`px-2 py-0.5 rounded-full text-[10px] font-medium border ${
-                                                                    isDark
-                                                                        ? 'bg-amber-500/10 text-amber-400 border-amber-500/20'
-                                                                        : 'bg-primary/10 text-primary border-primary/20'
-                                                                }`}
+                                                                className={`px-2 py-0.5 rounded-full text-[10px] font-medium border ${isDark
+                                                                    ? 'bg-amber-500/10 text-amber-400 border-amber-500/20'
+                                                                    : 'bg-primary/10 text-primary border-primary/20'
+                                                                    }`}
                                                             >
                                                                 {s}
                                                             </span>
@@ -1627,38 +1511,34 @@ const LandingPage = () => {
                                     ].map((r, idx) => (
                                         <div
                                             key={idx}
-                                            className={`rounded-2xl p-4 sm:p-5 flex flex-col justify-between shadow-lg hover:shadow-xl transition-shadow ${
-                                                isDark
-                                                    ? 'border border-white/10 bg-white/[0.02]'
-                                                    : 'border border-gray-200 bg-white shadow-sm'
-                                            }`}
+                                            className={`rounded-2xl p-4 sm:p-5 flex flex-col justify-between shadow-lg hover:shadow-xl transition-shadow ${isDark
+                                                ? 'border border-white/10 bg-white/[0.02]'
+                                                : 'border border-gray-200 bg-white shadow-sm'
+                                                }`}
                                         >
                                             <div>
                                                 <div className="flex items-start justify-between gap-3">
                                                     <div>
                                                         <p
-                                                            className={`text-[10px] font-medium uppercase tracking-wide ${
-                                                                isDark ? 'text-zinc-400' : 'text-gray-500'
-                                                            }`}
+                                                            className={`text-[10px] font-medium uppercase tracking-wide ${isDark ? 'text-zinc-400' : 'text-gray-500'
+                                                                }`}
                                                         >
                                                             Reservation
                                                         </p>
                                                         <h5
-                                                            className={`text-base sm:text-lg font-bold font-mono ${
-                                                                isDark ? 'text-white' : 'text-gray-900'
-                                                            }`}
+                                                            className={`text-base sm:text-lg font-bold font-mono ${isDark ? 'text-white' : 'text-gray-900'
+                                                                }`}
                                                         >
                                                             #{r.resNumber}
                                                         </h5>
                                                     </div>
                                                     <span
-                                                        className={`shrink-0 px-2 py-0.5 sm:py-1 rounded-full text-[10px] sm:text-[11px] font-semibold inline-flex items-center gap-1 ${
-                                                            r.status === 'confirmed'
-                                                                ? 'bg-green-100 text-green-700'
-                                                                : r.status === 'seated'
+                                                        className={`shrink-0 px-2 py-0.5 sm:py-1 rounded-full text-[10px] sm:text-[11px] font-semibold inline-flex items-center gap-1 ${r.status === 'confirmed'
+                                                            ? 'bg-green-100 text-green-700'
+                                                            : r.status === 'seated'
                                                                 ? 'bg-purple-100 text-purple-700'
                                                                 : 'bg-yellow-100 text-yellow-800'
-                                                        }`}
+                                                            }`}
                                                     >
                                                         {r.status.charAt(0).toUpperCase() + r.status.slice(1)}
                                                     </span>
@@ -1669,9 +1549,8 @@ const LandingPage = () => {
                                                             Customer
                                                         </span>
                                                         <span
-                                                            className={`max-w-[60%] truncate text-right font-semibold ${
-                                                                isDark ? 'text-zinc-200' : 'text-gray-800'
-                                                            }`}
+                                                            className={`max-w-[60%] truncate text-right font-semibold ${isDark ? 'text-zinc-200' : 'text-gray-800'
+                                                                }`}
                                                         >
                                                             {r.customer}
                                                         </span>
@@ -1681,9 +1560,8 @@ const LandingPage = () => {
                                                             Date
                                                         </span>
                                                         <span
-                                                            className={`font-medium ${
-                                                                isDark ? 'text-zinc-300' : 'text-gray-700'
-                                                            }`}
+                                                            className={`font-medium ${isDark ? 'text-zinc-300' : 'text-gray-700'
+                                                                }`}
                                                         >
                                                             {r.date}
                                                         </span>
@@ -1693,9 +1571,8 @@ const LandingPage = () => {
                                                             Time
                                                         </span>
                                                         <span
-                                                            className={`font-medium ${
-                                                                isDark ? 'text-zinc-300' : 'text-gray-700'
-                                                            }`}
+                                                            className={`font-medium ${isDark ? 'text-zinc-300' : 'text-gray-700'
+                                                                }`}
                                                         >
                                                             {r.startTime} - {r.endTime}
                                                         </span>
@@ -1705,9 +1582,8 @@ const LandingPage = () => {
                                                             Table
                                                         </span>
                                                         <span
-                                                            className={`font-medium ${
-                                                                isDark ? 'text-zinc-300' : 'text-gray-700'
-                                                            }`}
+                                                            className={`font-medium ${isDark ? 'text-zinc-300' : 'text-gray-700'
+                                                                }`}
                                                         >
                                                             {r.table.type.charAt(0).toUpperCase() + r.table.type.slice(1)} (cap. {r.table.capacity})
                                                         </span>
@@ -1716,29 +1592,25 @@ const LandingPage = () => {
                                             </div>
                                             {r.dishes.length > 0 && (
                                                 <div
-                                                    className={`mt-4 pt-3 border-t ${
-                                                        isDark ? 'border-white/10' : 'border-gray-100'
-                                                    }`}
+                                                    className={`mt-4 pt-3 border-t ${isDark ? 'border-white/10' : 'border-gray-100'
+                                                        }`}
                                                 >
                                                     <p
-                                                        className={`mb-2 text-[10px] font-semibold uppercase tracking-wide ${
-                                                            isDark ? 'text-zinc-400' : 'text-gray-500'
-                                                        }`}
+                                                        className={`mb-2 text-[10px] font-semibold uppercase tracking-wide ${isDark ? 'text-zinc-400' : 'text-gray-500'
+                                                            }`}
                                                     >
                                                         Pre-ordered dishes ({r.dishes.length})
                                                     </p>
                                                     <div
-                                                        className={`space-y-1.5 text-xs ${
-                                                            isDark ? 'text-zinc-300' : 'text-gray-700'
-                                                        }`}
+                                                        className={`space-y-1.5 text-xs ${isDark ? 'text-zinc-300' : 'text-gray-700'
+                                                            }`}
                                                     >
                                                         {r.dishes.map((d, di) => (
                                                             <div key={di} className="flex justify-between">
                                                                 <span className="truncate min-w-0">{d.name}</span>
                                                                 <span
-                                                                    className={`shrink-0 font-semibold ml-2 ${
-                                                                        isDark ? 'text-zinc-400' : 'text-gray-500'
-                                                                    }`}
+                                                                    className={`shrink-0 font-semibold ml-2 ${isDark ? 'text-zinc-400' : 'text-gray-500'
+                                                                        }`}
                                                                 >
                                                                     x{d.qty}
                                                                 </span>
@@ -1748,9 +1620,8 @@ const LandingPage = () => {
                                                 </div>
                                             )}
                                             <div
-                                                className={`mt-4 pt-3 border-t flex items-center justify-between ${
-                                                    isDark ? 'border-white/10' : 'border-gray-100'
-                                                }`}
+                                                className={`mt-4 pt-3 border-t flex items-center justify-between ${isDark ? 'border-white/10' : 'border-gray-100'
+                                                    }`}
                                             >
                                                 <div>
                                                     <p className={`text-[10px] ${isDark ? 'text-zinc-400' : 'text-gray-500'}`}>
@@ -1762,11 +1633,10 @@ const LandingPage = () => {
                                                 </div>
                                                 {r.remark && (
                                                     <span
-                                                        className={`text-[11px] italic px-2 py-1 rounded-full ${
-                                                            isDark
-                                                                ? 'text-zinc-400 bg-white/[0.03]'
-                                                                : 'text-gray-600 bg-stone-100'
-                                                        }`}
+                                                        className={`text-[11px] italic px-2 py-1 rounded-full ${isDark
+                                                            ? 'text-zinc-400 bg-white/[0.03]'
+                                                            : 'text-gray-600 bg-stone-100'
+                                                            }`}
                                                     >
                                                         📌 {r.remark}
                                                     </span>
@@ -1788,84 +1658,73 @@ const LandingPage = () => {
                                 >
                                     {/* Hero banner */}
                                     <div
-                                        className={`relative overflow-hidden rounded-2xl p-4 sm:p-6 transition-colors ${
-                                            isDark
-                                                ? 'bg-gradient-to-br from-amber-500/15 via-amber-500/5 to-transparent'
-                                                : 'bg-gradient-to-br from-primary/10 via-gold/10 to-transparent border border-primary/15'
-                                        }`}
+                                        className={`relative overflow-hidden rounded-2xl p-4 sm:p-6 transition-colors ${isDark
+                                            ? 'bg-gradient-to-br from-amber-500/15 via-amber-500/5 to-transparent'
+                                            : 'bg-gradient-to-br from-primary/10 via-gold/10 to-transparent border border-primary/15'
+                                            }`}
                                     >
                                         <div
-                                            className={`pointer-events-none absolute -right-16 -top-16 h-48 w-48 rounded-full blur-3xl ${
-                                                isDark ? 'bg-amber-500/10' : 'bg-primary/10'
-                                            }`}
+                                            className={`pointer-events-none absolute -right-16 -top-16 h-48 w-48 rounded-full blur-3xl ${isDark ? 'bg-amber-500/10' : 'bg-primary/10'
+                                                }`}
                                         />
                                         <div className="relative flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
                                             <div>
                                                 <div
-                                                    className={`mb-2 inline-flex items-center gap-2 rounded-full px-3 py-1 text-[11px] font-semibold ${
-                                                        isDark
-                                                            ? 'bg-white/10 text-amber-300'
-                                                            : 'bg-primary/10 text-primary'
-                                                    }`}
+                                                    className={`mb-2 inline-flex items-center gap-2 rounded-full px-3 py-1 text-[11px] font-semibold ${isDark
+                                                        ? 'bg-white/10 text-amber-300'
+                                                        : 'bg-primary/10 text-primary'
+                                                        }`}
                                                 >
                                                     <TbSparkles /> Today's performance
                                                 </div>
                                                 <h3
-                                                    className={`text-base sm:text-lg font-bold ${
-                                                        isDark ? 'text-white' : 'text-gray-900'
-                                                    }`}
+                                                    className={`text-base sm:text-lg font-bold ${isDark ? 'text-white' : 'text-gray-900'
+                                                        }`}
                                                 >
                                                     Le Cordon Royal
                                                 </h3>
                                                 <p
-                                                    className={`mt-1 text-xs ${
-                                                        isDark ? 'text-zinc-400' : 'text-gray-500'
-                                                    }`}
+                                                    className={`mt-1 text-xs ${isDark ? 'text-zinc-400' : 'text-gray-500'
+                                                        }`}
                                                 >
                                                     Wednesday, 14 Sep 2026 — Peak Dinner Shift
                                                 </p>
                                             </div>
                                             <div className="grid w-full sm:max-w-xs grid-cols-2 gap-2.5 sm:gap-3">
                                                 <div
-                                                    className={`rounded-xl px-3 py-2 sm:py-2.5 border ${
-                                                        isDark
-                                                            ? 'bg-white/[0.06] border-white/10'
-                                                            : 'bg-white/80 border-gray-200 shadow-sm'
-                                                    }`}
+                                                    className={`rounded-xl px-3 py-2 sm:py-2.5 border ${isDark
+                                                        ? 'bg-white/[0.06] border-white/10'
+                                                        : 'bg-white/80 border-gray-200 shadow-sm'
+                                                        }`}
                                                 >
                                                     <p
-                                                        className={`text-[10px] font-semibold uppercase tracking-wider ${
-                                                            isDark ? 'text-zinc-400' : 'text-gray-500'
-                                                        }`}
+                                                        className={`text-[10px] font-semibold uppercase tracking-wider ${isDark ? 'text-zinc-400' : 'text-gray-500'
+                                                            }`}
                                                     >
                                                         Total orders
                                                     </p>
                                                     <p
-                                                        className={`mt-1 text-lg sm:text-xl font-bold ${
-                                                            isDark ? 'text-white' : 'text-gray-900'
-                                                        }`}
+                                                        className={`mt-1 text-lg sm:text-xl font-bold ${isDark ? 'text-white' : 'text-gray-900'
+                                                            }`}
                                                     >
                                                         42
                                                     </p>
                                                 </div>
                                                 <div
-                                                    className={`rounded-xl px-3 py-2 sm:py-2.5 border ${
-                                                        isDark
-                                                            ? 'bg-white/[0.06] border-white/10'
-                                                            : 'bg-white/80 border-gray-200 shadow-sm'
-                                                    }`}
+                                                    className={`rounded-xl px-3 py-2 sm:py-2.5 border ${isDark
+                                                        ? 'bg-white/[0.06] border-white/10'
+                                                        : 'bg-white/80 border-gray-200 shadow-sm'
+                                                        }`}
                                                 >
                                                     <p
-                                                        className={`text-[10px] font-semibold uppercase tracking-wider ${
-                                                            isDark ? 'text-zinc-400' : 'text-gray-500'
-                                                        }`}
+                                                        className={`text-[10px] font-semibold uppercase tracking-wider ${isDark ? 'text-zinc-400' : 'text-gray-500'
+                                                            }`}
                                                     >
                                                         Reservations
                                                     </p>
                                                     <p
-                                                        className={`mt-1 text-lg sm:text-xl font-bold ${
-                                                            isDark ? 'text-white' : 'text-gray-900'
-                                                        }`}
+                                                        className={`mt-1 text-lg sm:text-xl font-bold ${isDark ? 'text-white' : 'text-gray-900'
+                                                            }`}
                                                     >
                                                         18
                                                     </p>
@@ -1878,18 +1737,16 @@ const LandingPage = () => {
                                     <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-3">
                                         {/* Pending orders */}
                                         <div
-                                            className={`rounded-xl p-3.5 sm:p-4 transition-all hover:-translate-y-0.5 hover:shadow-md border-t-[3px] border-t-amber-500 ${
-                                                isDark
-                                                    ? 'border border-white/10 bg-amber-500/[0.04]'
-                                                    : 'border border-gray-200 bg-white shadow-sm'
-                                            }`}
+                                            className={`rounded-xl p-3.5 sm:p-4 transition-all hover:-translate-y-0.5 hover:shadow-md border-t-[3px] border-t-amber-500 ${isDark
+                                                ? 'border border-white/10 bg-amber-500/[0.04]'
+                                                : 'border border-gray-200 bg-white shadow-sm'
+                                                }`}
                                         >
                                             <div className="flex items-start justify-between gap-3">
                                                 <div className="min-w-0">
                                                     <p
-                                                        className={`text-[10px] font-semibold uppercase tracking-[0.12em] ${
-                                                            isDark ? 'text-zinc-400' : 'text-gray-500'
-                                                        }`}
+                                                        className={`text-[10px] font-semibold uppercase tracking-[0.12em] ${isDark ? 'text-zinc-400' : 'text-gray-500'
+                                                            }`}
                                                     >
                                                         Pending orders
                                                     </p>
@@ -1906,18 +1763,16 @@ const LandingPage = () => {
 
                                         {/* Confirmed orders */}
                                         <div
-                                            className={`rounded-xl p-3.5 sm:p-4 transition-all hover:-translate-y-0.5 hover:shadow-md border-t-[3px] border-t-blue-500 ${
-                                                isDark
-                                                    ? 'border border-white/10 bg-blue-500/[0.04]'
-                                                    : 'border border-gray-200 bg-white shadow-sm'
-                                            }`}
+                                            className={`rounded-xl p-3.5 sm:p-4 transition-all hover:-translate-y-0.5 hover:shadow-md border-t-[3px] border-t-blue-500 ${isDark
+                                                ? 'border border-white/10 bg-blue-500/[0.04]'
+                                                : 'border border-gray-200 bg-white shadow-sm'
+                                                }`}
                                         >
                                             <div className="flex items-start justify-between gap-3">
                                                 <div className="min-w-0">
                                                     <p
-                                                        className={`text-[10px] font-semibold uppercase tracking-[0.12em] ${
-                                                            isDark ? 'text-zinc-400' : 'text-gray-500'
-                                                        }`}
+                                                        className={`text-[10px] font-semibold uppercase tracking-[0.12em] ${isDark ? 'text-zinc-400' : 'text-gray-500'
+                                                            }`}
                                                     >
                                                         Confirmed orders
                                                     </p>
@@ -1934,18 +1789,16 @@ const LandingPage = () => {
 
                                         {/* Completed orders */}
                                         <div
-                                            className={`rounded-xl p-3.5 sm:p-4 transition-all hover:-translate-y-0.5 hover:shadow-md border-t-[3px] border-t-emerald-500 ${
-                                                isDark
-                                                    ? 'border border-white/10 bg-emerald-500/[0.04]'
-                                                    : 'border border-gray-200 bg-white shadow-sm'
-                                            }`}
+                                            className={`rounded-xl p-3.5 sm:p-4 transition-all hover:-translate-y-0.5 hover:shadow-md border-t-[3px] border-t-emerald-500 ${isDark
+                                                ? 'border border-white/10 bg-emerald-500/[0.04]'
+                                                : 'border border-gray-200 bg-white shadow-sm'
+                                                }`}
                                         >
                                             <div className="flex items-start justify-between gap-3">
                                                 <div className="min-w-0">
                                                     <p
-                                                        className={`text-[10px] font-semibold uppercase tracking-[0.12em] ${
-                                                            isDark ? 'text-zinc-400' : 'text-gray-500'
-                                                        }`}
+                                                        className={`text-[10px] font-semibold uppercase tracking-[0.12em] ${isDark ? 'text-zinc-400' : 'text-gray-500'
+                                                            }`}
                                                     >
                                                         Completed orders
                                                     </p>
@@ -1962,18 +1815,16 @@ const LandingPage = () => {
 
                                         {/* Order revenue */}
                                         <div
-                                            className={`rounded-xl p-3.5 sm:p-4 transition-all hover:-translate-y-0.5 hover:shadow-md border-t-[3px] border-t-emerald-500 ${
-                                                isDark
-                                                    ? 'border border-white/10 bg-emerald-500/[0.04]'
-                                                    : 'border border-gray-200 bg-white shadow-sm'
-                                            }`}
+                                            className={`rounded-xl p-3.5 sm:p-4 transition-all hover:-translate-y-0.5 hover:shadow-md border-t-[3px] border-t-emerald-500 ${isDark
+                                                ? 'border border-white/10 bg-emerald-500/[0.04]'
+                                                : 'border border-gray-200 bg-white shadow-sm'
+                                                }`}
                                         >
                                             <div className="flex items-start justify-between gap-3">
                                                 <div className="min-w-0">
                                                     <p
-                                                        className={`text-[10px] font-semibold uppercase tracking-[0.12em] ${
-                                                            isDark ? 'text-zinc-400' : 'text-gray-500'
-                                                        }`}
+                                                        className={`text-[10px] font-semibold uppercase tracking-[0.12em] ${isDark ? 'text-zinc-400' : 'text-gray-500'
+                                                            }`}
                                                     >
                                                         Order revenue
                                                     </p>
@@ -1992,18 +1843,16 @@ const LandingPage = () => {
 
                                         {/* Pending reservations */}
                                         <div
-                                            className={`rounded-xl p-3.5 sm:p-4 transition-all hover:-translate-y-0.5 hover:shadow-md border-t-[3px] border-t-orange-500 ${
-                                                isDark
-                                                    ? 'border border-white/10 bg-orange-500/[0.04]'
-                                                    : 'border border-gray-200 bg-white shadow-sm'
-                                            }`}
+                                            className={`rounded-xl p-3.5 sm:p-4 transition-all hover:-translate-y-0.5 hover:shadow-md border-t-[3px] border-t-orange-500 ${isDark
+                                                ? 'border border-white/10 bg-orange-500/[0.04]'
+                                                : 'border border-gray-200 bg-white shadow-sm'
+                                                }`}
                                         >
                                             <div className="flex items-start justify-between gap-3">
                                                 <div className="min-w-0">
                                                     <p
-                                                        className={`text-[10px] font-semibold uppercase tracking-[0.12em] ${
-                                                            isDark ? 'text-zinc-400' : 'text-gray-500'
-                                                        }`}
+                                                        className={`text-[10px] font-semibold uppercase tracking-[0.12em] ${isDark ? 'text-zinc-400' : 'text-gray-500'
+                                                            }`}
                                                     >
                                                         Pending reservations
                                                     </p>
@@ -2020,18 +1869,16 @@ const LandingPage = () => {
 
                                         {/* Confirmed reservations */}
                                         <div
-                                            className={`rounded-xl p-3.5 sm:p-4 transition-all hover:-translate-y-0.5 hover:shadow-md border-t-[3px] border-t-violet-500 ${
-                                                isDark
-                                                    ? 'border border-white/10 bg-violet-500/[0.04]'
-                                                    : 'border border-gray-200 bg-white shadow-sm'
-                                            }`}
+                                            className={`rounded-xl p-3.5 sm:p-4 transition-all hover:-translate-y-0.5 hover:shadow-md border-t-[3px] border-t-violet-500 ${isDark
+                                                ? 'border border-white/10 bg-violet-500/[0.04]'
+                                                : 'border border-gray-200 bg-white shadow-sm'
+                                                }`}
                                         >
                                             <div className="flex items-start justify-between gap-3">
                                                 <div className="min-w-0">
                                                     <p
-                                                        className={`text-[10px] font-semibold uppercase tracking-[0.12em] ${
-                                                            isDark ? 'text-zinc-400' : 'text-gray-500'
-                                                        }`}
+                                                        className={`text-[10px] font-semibold uppercase tracking-[0.12em] ${isDark ? 'text-zinc-400' : 'text-gray-500'
+                                                            }`}
                                                     >
                                                         Confirmed reservations
                                                     </p>
@@ -2048,18 +1895,16 @@ const LandingPage = () => {
 
                                         {/* Completed reservations */}
                                         <div
-                                            className={`rounded-xl p-3.5 sm:p-4 transition-all hover:-translate-y-0.5 hover:shadow-md border-t-[3px] border-t-emerald-500 ${
-                                                isDark
-                                                    ? 'border border-white/10 bg-emerald-500/[0.04]'
-                                                    : 'border border-gray-200 bg-white shadow-sm'
-                                            }`}
+                                            className={`rounded-xl p-3.5 sm:p-4 transition-all hover:-translate-y-0.5 hover:shadow-md border-t-[3px] border-t-emerald-500 ${isDark
+                                                ? 'border border-white/10 bg-emerald-500/[0.04]'
+                                                : 'border border-gray-200 bg-white shadow-sm'
+                                                }`}
                                         >
                                             <div className="flex items-start justify-between gap-3">
                                                 <div className="min-w-0">
                                                     <p
-                                                        className={`text-[10px] font-semibold uppercase tracking-[0.12em] ${
-                                                            isDark ? 'text-zinc-400' : 'text-gray-500'
-                                                        }`}
+                                                        className={`text-[10px] font-semibold uppercase tracking-[0.12em] ${isDark ? 'text-zinc-400' : 'text-gray-500'
+                                                            }`}
                                                     >
                                                         Completed reservations
                                                     </p>
@@ -2076,18 +1921,16 @@ const LandingPage = () => {
 
                                         {/* Reservation revenue */}
                                         <div
-                                            className={`rounded-xl p-3.5 sm:p-4 transition-all hover:-translate-y-0.5 hover:shadow-md border-t-[3px] border-t-emerald-500 ${
-                                                isDark
-                                                    ? 'border border-white/10 bg-emerald-500/[0.04]'
-                                                    : 'border border-gray-200 bg-white shadow-sm'
-                                            }`}
+                                            className={`rounded-xl p-3.5 sm:p-4 transition-all hover:-translate-y-0.5 hover:shadow-md border-t-[3px] border-t-emerald-500 ${isDark
+                                                ? 'border border-white/10 bg-emerald-500/[0.04]'
+                                                : 'border border-gray-200 bg-white shadow-sm'
+                                                }`}
                                         >
                                             <div className="flex items-start justify-between gap-3">
                                                 <div className="min-w-0">
                                                     <p
-                                                        className={`text-[10px] font-semibold uppercase tracking-[0.12em] ${
-                                                            isDark ? 'text-zinc-400' : 'text-gray-500'
-                                                        }`}
+                                                        className={`text-[10px] font-semibold uppercase tracking-[0.12em] ${isDark ? 'text-zinc-400' : 'text-gray-500'
+                                                            }`}
                                                     >
                                                         Reservation revenue
                                                     </p>
@@ -2113,41 +1956,36 @@ const LandingPage = () => {
 
             {/* LIVE METRICS STATS RIBBON */}
             <section
-                className={`relative z-10 py-8 sm:py-12 border-y backdrop-blur-lg transition-colors duration-300 ${
-                    isDark
-                        ? 'border-white/[0.08] bg-[#100408]/80'
-                        : 'border-[#e2d9cd] bg-[#f4efe8]'
-                }`}
+                className={`relative z-10 py-8 sm:py-12 border-y backdrop-blur-lg transition-colors duration-300 ${isDark
+                    ? 'border-white/[0.08] bg-[#100408]/80'
+                    : 'border-[#e2d9cd] bg-[#f4efe8]'
+                    }`}
             >
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
                         {stats.map((stat, i) => (
                             <div
                                 key={i}
-                                className={`text-center sm:text-left ${
-                                    i > 0 && i % 2 === 0 ? 'border-t sm:border-t-0 pt-4 sm:pt-0' : ''
-                                } ${isDark ? 'border-white/[0.08]' : 'border-[#e2d9cd]'}`}
+                                className={`text-center sm:text-left ${i > 0 && i % 2 === 0 ? 'border-t sm:border-t-0 pt-4 sm:pt-0' : ''
+                                    } ${isDark ? 'border-white/[0.08]' : 'border-[#e2d9cd]'}`}
                             >
                                 <p
-                                    className={`text-2xl sm:text-4xl lg:text-5xl font-bold font-sans bg-clip-text text-transparent ${
-                                        isDark
-                                            ? 'bg-gradient-to-r from-amber-200 via-amber-400 to-amber-500'
-                                            : 'bg-gradient-to-r from-primary via-[#8a2a35] to-gold'
-                                    }`}
+                                    className={`text-2xl sm:text-4xl lg:text-5xl font-bold font-sans bg-clip-text text-transparent ${isDark
+                                        ? 'bg-gradient-to-r from-amber-200 via-amber-400 to-amber-500'
+                                        : 'bg-gradient-to-r from-primary via-[#8a2a35] to-gold'
+                                        }`}
                                 >
                                     {stat.value}
                                 </p>
                                 <p
-                                    className={`text-xs sm:text-sm font-semibold mt-1 sm:mt-2 ${
-                                        isDark ? 'text-white' : 'text-gray-900'
-                                    }`}
+                                    className={`text-xs sm:text-sm font-semibold mt-1 sm:mt-2 ${isDark ? 'text-white' : 'text-gray-900'
+                                        }`}
                                 >
                                     {stat.label}
                                 </p>
                                 <p
-                                    className={`text-[11px] sm:text-xs mt-0.5 ${
-                                        isDark ? 'text-zinc-400' : 'text-gray-500'
-                                    }`}
+                                    className={`text-[11px] sm:text-xs mt-0.5 ${isDark ? 'text-zinc-400' : 'text-gray-500'
+                                        }`}
                                 >
                                     {stat.sub}
                                 </p>
@@ -2161,25 +1999,22 @@ const LandingPage = () => {
             <section id="features" className="relative z-10 py-16 sm:py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="text-center max-w-3xl mx-auto mb-12 sm:mb-16">
                     <span
-                        className={`text-xs font-bold uppercase tracking-[0.2em] px-3 py-1 rounded-full border ${
-                            isDark
-                                ? 'text-amber-400 bg-amber-500/10 border-amber-500/20'
-                                : 'text-primary bg-primary/10 border-primary/20'
-                        }`}
+                        className={`text-xs font-bold uppercase tracking-[0.2em] px-3 py-1 rounded-full border ${isDark
+                            ? 'text-amber-400 bg-amber-500/10 border-amber-500/20'
+                            : 'text-primary bg-primary/10 border-primary/20'
+                            }`}
                     >
                         Operational Excellence
                     </span>
                     <h2
-                        className={`text-2xl sm:text-4xl lg:text-5xl font-bold font-sans mt-3 sm:mt-4 ${
-                            isDark ? 'text-white' : 'text-gray-900'
-                        }`}
+                        className={`text-2xl sm:text-4xl lg:text-5xl font-bold font-sans mt-3 sm:mt-4 ${isDark ? 'text-white' : 'text-gray-900'
+                            }`}
                     >
                         Engineered for High-Pressure Dining Rooms
                     </h2>
                     <p
-                        className={`text-sm sm:text-base lg:text-lg mt-3 sm:mt-4 ${
-                            isDark ? 'text-zinc-400' : 'text-gray-600'
-                        }`}
+                        className={`text-sm sm:text-base lg:text-lg mt-3 sm:mt-4 ${isDark ? 'text-zinc-400' : 'text-gray-600'
+                            }`}
                     >
                         Everything needed to streamline customer flow, kitchen production, front-of-house service, and owner accountability.
                     </p>
@@ -2191,11 +2026,10 @@ const LandingPage = () => {
                             key={index}
                             whileHover={{ y: -6 }}
                             transition={{ duration: 0.2 }}
-                            className={`rounded-2xl p-5 sm:p-7 backdrop-blur-xl relative overflow-hidden group transition-all shadow-xl ${
-                                isDark
-                                    ? 'border border-white/10 bg-gradient-to-b from-white/[0.04] to-transparent hover:border-amber-400/40'
-                                    : 'border border-gray-200 bg-white hover:border-primary/40 hover:shadow-lg'
-                            }`}
+                            className={`rounded-2xl p-5 sm:p-7 backdrop-blur-xl relative overflow-hidden group transition-all shadow-xl ${isDark
+                                ? 'border border-white/10 bg-gradient-to-b from-white/[0.04] to-transparent hover:border-amber-400/40'
+                                : 'border border-gray-200 bg-white hover:border-primary/40 hover:shadow-lg'
+                                }`}
                         >
                             {/* Subtle Ambient Radial Highlight on Hover */}
                             <div
@@ -2204,38 +2038,34 @@ const LandingPage = () => {
 
                             <div className="flex items-center justify-between mb-4 sm:mb-5">
                                 <div
-                                    className={`p-2.5 sm:p-3 rounded-xl border transition-colors ${
-                                        isDark
-                                            ? 'bg-white/[0.06] border-white/10 group-hover:border-amber-400/40'
-                                            : 'bg-stone-50 border-gray-200 group-hover:border-primary/40'
-                                    }`}
+                                    className={`p-2.5 sm:p-3 rounded-xl border transition-colors ${isDark
+                                        ? 'bg-white/[0.06] border-white/10 group-hover:border-amber-400/40'
+                                        : 'bg-stone-50 border-gray-200 group-hover:border-primary/40'
+                                        }`}
                                 >
                                     {feat.icon}
                                 </div>
                                 <span
-                                    className={`text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full border ${
-                                        isDark
-                                            ? 'bg-white/[0.05] text-zinc-300 border-white/10'
-                                            : 'bg-gray-100 text-gray-600 border-gray-200'
-                                    }`}
+                                    className={`text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full border ${isDark
+                                        ? 'bg-white/[0.05] text-zinc-300 border-white/10'
+                                        : 'bg-gray-100 text-gray-600 border-gray-200'
+                                        }`}
                                 >
                                     {feat.badge}
                                 </span>
                             </div>
 
                             <h3
-                                className={`text-lg sm:text-xl font-bold font-sans transition-colors ${
-                                    isDark
-                                        ? 'text-white group-hover:text-amber-300'
-                                        : 'text-gray-900 group-hover:text-primary'
-                                }`}
+                                className={`text-lg sm:text-xl font-bold font-sans transition-colors ${isDark
+                                    ? 'text-white group-hover:text-amber-300'
+                                    : 'text-gray-900 group-hover:text-primary'
+                                    }`}
                             >
                                 {feat.title}
                             </h3>
                             <p
-                                className={`mt-2 sm:mt-3 text-xs sm:text-sm leading-relaxed ${
-                                    isDark ? 'text-zinc-400' : 'text-gray-600'
-                                }`}
+                                className={`mt-2 sm:mt-3 text-xs sm:text-sm leading-relaxed ${isDark ? 'text-zinc-400' : 'text-gray-600'
+                                    }`}
                             >
                                 {feat.description}
                             </p>
@@ -2247,27 +2077,24 @@ const LandingPage = () => {
             {/* HOW IT WORKS / STEP BY STEP VISUAL */}
             <section
                 id="live-demo"
-                className={`relative z-10 py-14 sm:py-20 transition-colors duration-300 ${
-                    isDark
-                        ? 'bg-[#0d0307]/80 border-t border-white/[0.08]'
-                        : 'bg-[#f4efe8] border-t border-[#e2d9cd]'
-                }`}
+                className={`relative z-10 py-14 sm:py-20 transition-colors duration-300 ${isDark
+                    ? 'bg-[#0d0307]/80 border-t border-white/[0.08]'
+                    : 'bg-[#f4efe8] border-t border-[#e2d9cd]'
+                    }`}
             >
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="text-center max-w-2xl mx-auto mb-12 sm:mb-16">
                         <span
-                            className={`text-xs font-bold uppercase tracking-[0.2em] px-3 py-1 rounded-full border ${
-                                isDark
-                                    ? 'text-amber-400 bg-amber-500/10 border-amber-500/20'
-                                    : 'text-primary bg-primary/10 border-primary/20'
-                            }`}
+                            className={`text-xs font-bold uppercase tracking-[0.2em] px-3 py-1 rounded-full border ${isDark
+                                ? 'text-amber-400 bg-amber-500/10 border-amber-500/20'
+                                : 'text-primary bg-primary/10 border-primary/20'
+                                }`}
                         >
                             Smooth Frictionless Flow
                         </span>
                         <h2
-                            className={`text-2xl sm:text-3xl lg:text-4xl font-bold font-sans mt-3 sm:mt-4 ${
-                                isDark ? 'text-white' : 'text-gray-900'
-                            }`}
+                            className={`text-2xl sm:text-3xl lg:text-4xl font-bold font-sans mt-3 sm:mt-4 ${isDark ? 'text-white' : 'text-gray-900'
+                                }`}
                         >
                             From Guest Order to Settled Bill in 3 Steps
                         </h2>
@@ -2276,39 +2103,34 @@ const LandingPage = () => {
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-5 sm:gap-8 relative">
                         {/* Step 1 */}
                         <div
-                            className={`rounded-2xl p-5 sm:p-8 relative transition-colors ${
-                                isDark
-                                    ? 'border border-white/10 bg-white/[0.02]'
-                                    : 'border border-gray-200 bg-white shadow-sm'
-                            }`}
+                            className={`rounded-2xl p-5 sm:p-8 relative transition-colors ${isDark
+                                ? 'border border-white/10 bg-white/[0.02]'
+                                : 'border border-gray-200 bg-white shadow-sm'
+                                }`}
                         >
                             <span
-                                className={`font-sans text-4xl sm:text-5xl font-bold ${
-                                    isDark ? 'text-amber-500/30' : 'text-primary/25'
-                                }`}
+                                className={`font-sans text-4xl sm:text-5xl font-bold ${isDark ? 'text-amber-500/30' : 'text-primary/25'
+                                    }`}
                             >
                                 01
                             </span>
                             <h3
-                                className={`text-lg sm:text-xl font-bold mt-3 sm:mt-4 font-sans ${
-                                    isDark ? 'text-white' : 'text-gray-900'
-                                }`}
+                                className={`text-lg sm:text-xl font-bold mt-3 sm:mt-4 font-sans ${isDark ? 'text-white' : 'text-gray-900'
+                                    }`}
                             >
                                 Guest Orders via Mobile App
                             </h3>
                             <p
-                                className={`text-xs sm:text-sm mt-2 leading-relaxed ${
-                                    isDark ? 'text-zinc-400' : 'text-gray-600'
-                                }`}
+                                className={`text-xs sm:text-sm mt-2 leading-relaxed ${isDark ? 'text-zinc-400' : 'text-gray-600'
+                                    }`}
                             >
                                 Guests download the Royal Plate app on iOS or Android, browse the menu, and place orders or book reservations straight from their phone. Available via App Store, Google Play, and direct download link.
                             </p>
                             <div
-                                className={`mt-5 sm:mt-6 p-2.5 sm:p-3 rounded-xl border text-xs flex items-center gap-2 ${
-                                    isDark
-                                        ? 'bg-amber-500/10 border-amber-500/20 text-amber-300'
-                                        : 'bg-amber-50 border-amber-200 text-amber-800'
-                                }`}
+                                className={`mt-5 sm:mt-6 p-2.5 sm:p-3 rounded-xl border text-xs flex items-center gap-2 ${isDark
+                                    ? 'bg-amber-500/10 border-amber-500/20 text-amber-300'
+                                    : 'bg-amber-50 border-amber-200 text-amber-800'
+                                    }`}
                             >
                                 <TbCheck className="text-sm font-bold shrink-0" />
                                 <span>iOS, Android & direct download</span>
@@ -2317,39 +2139,34 @@ const LandingPage = () => {
 
                         {/* Step 2 */}
                         <div
-                            className={`rounded-2xl p-5 sm:p-8 relative shadow-xl transition-colors ${
-                                isDark
-                                    ? 'border border-amber-500/30 bg-amber-500/[0.04] shadow-amber-500/5'
-                                    : 'border border-primary/30 bg-white shadow-primary/5'
-                            }`}
+                            className={`rounded-2xl p-5 sm:p-8 relative shadow-xl transition-colors ${isDark
+                                ? 'border border-amber-500/30 bg-amber-500/[0.04] shadow-amber-500/5'
+                                : 'border border-primary/30 bg-white shadow-primary/5'
+                                }`}
                         >
                             <span
-                                className={`font-sans text-4xl sm:text-5xl font-bold ${
-                                    isDark ? 'text-amber-400/50' : 'text-primary/40'
-                                }`}
+                                className={`font-sans text-4xl sm:text-5xl font-bold ${isDark ? 'text-amber-400/50' : 'text-primary/40'
+                                    }`}
                             >
                                 02
                             </span>
                             <h3
-                                className={`text-lg sm:text-xl font-bold mt-3 sm:mt-4 font-sans ${
-                                    isDark ? 'text-white' : 'text-gray-900'
-                                }`}
+                                className={`text-lg sm:text-xl font-bold mt-3 sm:mt-4 font-sans ${isDark ? 'text-white' : 'text-gray-900'
+                                    }`}
                             >
                                 Staff Receives & Processes Orders
                             </h3>
                             <p
-                                className={`text-xs sm:text-sm mt-2 leading-relaxed ${
-                                    isDark ? 'text-zinc-400' : 'text-gray-600'
-                                }`}
+                                className={`text-xs sm:text-sm mt-2 leading-relaxed ${isDark ? 'text-zinc-400' : 'text-gray-600'
+                                    }`}
                             >
                                 Restaurant owner and staff receive instant push notifications for every new order or reservation. They update status step by step — from Pending to Confirmed, Preparing, Ready, and Completed — all in real time.
                             </p>
                             <div
-                                className={`mt-5 sm:mt-6 p-2.5 sm:p-3 rounded-xl border text-xs flex items-center gap-2 ${
-                                    isDark
-                                        ? 'bg-emerald-500/10 border-emerald-500/20 text-emerald-300'
-                                        : 'bg-emerald-50 border-emerald-200 text-emerald-800'
-                                }`}
+                                className={`mt-5 sm:mt-6 p-2.5 sm:p-3 rounded-xl border text-xs flex items-center gap-2 ${isDark
+                                    ? 'bg-emerald-500/10 border-emerald-500/20 text-emerald-300'
+                                    : 'bg-emerald-50 border-emerald-200 text-emerald-800'
+                                    }`}
                             >
                                 <TbCheck className="text-sm font-bold shrink-0" />
                                 <span>Instant notifications & real-time sync</span>
@@ -2358,39 +2175,34 @@ const LandingPage = () => {
 
                         {/* Step 3 */}
                         <div
-                            className={`rounded-2xl p-5 sm:p-8 relative transition-colors ${
-                                isDark
-                                    ? 'border border-white/10 bg-white/[0.02]'
-                                    : 'border border-gray-200 bg-white shadow-sm'
-                            }`}
+                            className={`rounded-2xl p-5 sm:p-8 relative transition-colors ${isDark
+                                ? 'border border-white/10 bg-white/[0.02]'
+                                : 'border border-gray-200 bg-white shadow-sm'
+                                }`}
                         >
                             <span
-                                className={`font-sans text-4xl sm:text-5xl font-bold ${
-                                    isDark ? 'text-amber-500/30' : 'text-primary/25'
-                                }`}
+                                className={`font-sans text-4xl sm:text-5xl font-bold ${isDark ? 'text-amber-500/30' : 'text-primary/25'
+                                    }`}
                             >
                                 03
                             </span>
                             <h3
-                                className={`text-lg sm:text-xl font-bold mt-3 sm:mt-4 font-sans ${
-                                    isDark ? 'text-white' : 'text-gray-900'
-                                }`}
+                                className={`text-lg sm:text-xl font-bold mt-3 sm:mt-4 font-sans ${isDark ? 'text-white' : 'text-gray-900'
+                                    }`}
                             >
                                 Admin Settlement & Revenue Payout
                             </h3>
                             <p
-                                className={`text-xs sm:text-sm mt-2 leading-relaxed ${
-                                    isDark ? 'text-zinc-400' : 'text-gray-600'
-                                }`}
+                                className={`text-xs sm:text-sm mt-2 leading-relaxed ${isDark ? 'text-zinc-400' : 'text-gray-600'
+                                    }`}
                             >
                                 Once orders are completed, restaurant admins reconcile commissions, process owner settlements, and manage revenue payouts — all from a single financial dashboard.
                             </p>
                             <div
-                                className={`mt-5 sm:mt-6 p-2.5 sm:p-3 rounded-xl border text-xs flex items-center gap-2 ${
-                                    isDark
-                                        ? 'bg-purple-500/10 border-purple-500/20 text-purple-300'
-                                        : 'bg-purple-50 border-purple-200 text-purple-800'
-                                }`}
+                                className={`mt-5 sm:mt-6 p-2.5 sm:p-3 rounded-xl border text-xs flex items-center gap-2 ${isDark
+                                    ? 'bg-purple-500/10 border-purple-500/20 text-purple-300'
+                                    : 'bg-purple-50 border-purple-200 text-purple-800'
+                                    }`}
                             >
                                 <TbCheck className="text-sm font-bold shrink-0" />
                                 <span>Automated commission & payouts</span>
@@ -2406,27 +2218,24 @@ const LandingPage = () => {
             {/* TESTIMONIALS SECTION */}
             <section
                 id="testimonials"
-                className={`relative z-10 py-14 sm:py-20 transition-colors duration-300 ${
-                    isDark
-                        ? 'bg-[#0f0409]/90 border-t border-white/[0.08]'
-                        : 'bg-[#faf7f2] border-t border-[#e2d9cd]'
-                }`}
+                className={`relative z-10 py-14 sm:py-20 transition-colors duration-300 ${isDark
+                    ? 'bg-[#0f0409]/90 border-t border-white/[0.08]'
+                    : 'bg-[#faf7f2] border-t border-[#e2d9cd]'
+                    }`}
             >
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="text-center max-w-3xl mx-auto mb-12 sm:mb-16">
                         <span
-                            className={`text-xs font-bold uppercase tracking-[0.2em] px-3 py-1 rounded-full border ${
-                                isDark
-                                    ? 'text-amber-400 bg-amber-500/10 border-amber-500/20'
-                                    : 'text-primary bg-primary/10 border-primary/20'
-                            }`}
+                            className={`text-xs font-bold uppercase tracking-[0.2em] px-3 py-1 rounded-full border ${isDark
+                                ? 'text-amber-400 bg-amber-500/10 border-amber-500/20'
+                                : 'text-primary bg-primary/10 border-primary/20'
+                                }`}
                         >
                             Voices of the Trade
                         </span>
                         <h2
-                            className={`text-2xl sm:text-3xl lg:text-4xl font-bold font-sans mt-3 sm:mt-4 ${
-                                isDark ? 'text-white' : 'text-gray-900'
-                            }`}
+                            className={`text-2xl sm:text-3xl lg:text-4xl font-bold font-sans mt-3 sm:mt-4 ${isDark ? 'text-white' : 'text-gray-900'
+                                }`}
                         >
                             Trusted by Distinguished Restaurateurs
                         </h2>
@@ -2436,11 +2245,10 @@ const LandingPage = () => {
                         {testimonials.map((item, idx) => (
                             <div
                                 key={idx}
-                                className={`rounded-2xl p-5 sm:p-7 backdrop-blur-md flex flex-col justify-between transition-colors ${
-                                    isDark
-                                        ? 'border border-white/10 bg-white/[0.03]'
-                                        : 'border border-gray-200 bg-white shadow-sm'
-                                }`}
+                                className={`rounded-2xl p-5 sm:p-7 backdrop-blur-md flex flex-col justify-between transition-colors ${isDark
+                                    ? 'border border-white/10 bg-white/[0.03]'
+                                    : 'border border-gray-200 bg-white shadow-sm'
+                                    }`}
                             >
                                 <div>
                                     <div className="flex text-amber-400 mb-3 sm:mb-4">
@@ -2449,40 +2257,35 @@ const LandingPage = () => {
                                         ))}
                                     </div>
                                     <p
-                                        className={`text-xs sm:text-sm italic leading-relaxed ${
-                                            isDark ? 'text-zinc-300' : 'text-gray-600'
-                                        }`}
+                                        className={`text-xs sm:text-sm italic leading-relaxed ${isDark ? 'text-zinc-300' : 'text-gray-600'
+                                            }`}
                                     >
                                         "{item.quote}"
                                     </p>
                                 </div>
                                 <div
-                                    className={`mt-5 sm:mt-6 pt-4 sm:pt-5 border-t flex items-center gap-3 ${
-                                        isDark ? 'border-white/10' : 'border-gray-100'
-                                    }`}
+                                    className={`mt-5 sm:mt-6 pt-4 sm:pt-5 border-t flex items-center gap-3 ${isDark ? 'border-white/10' : 'border-gray-100'
+                                        }`}
                                 >
                                     <div className="h-9 w-9 sm:h-10 sm:w-10 rounded-full bg-gradient-to-br from-amber-400 to-[#6e1423] flex items-center justify-center font-bold text-white text-sm shadow shrink-0">
                                         {item.author.charAt(0)}
                                     </div>
                                     <div className="min-w-0">
                                         <h4
-                                            className={`font-bold text-xs sm:text-sm truncate ${
-                                                isDark ? 'text-white' : 'text-gray-900'
-                                            }`}
+                                            className={`font-bold text-xs sm:text-sm truncate ${isDark ? 'text-white' : 'text-gray-900'
+                                                }`}
                                         >
                                             {item.author}
                                         </h4>
                                         <p
-                                            className={`text-[11px] sm:text-xs truncate ${
-                                                isDark ? 'text-amber-300' : 'text-primary font-medium'
-                                            }`}
+                                            className={`text-[11px] sm:text-xs truncate ${isDark ? 'text-amber-300' : 'text-primary font-medium'
+                                                }`}
                                         >
                                             {item.role}
                                         </p>
                                         <p
-                                            className={`text-[10px] sm:text-[11px] truncate ${
-                                                isDark ? 'text-zinc-500' : 'text-gray-400'
-                                            }`}
+                                            className={`text-[10px] sm:text-[11px] truncate ${isDark ? 'text-zinc-500' : 'text-gray-400'
+                                                }`}
                                         >
                                             {item.venue}
                                         </p>
@@ -2498,18 +2301,16 @@ const LandingPage = () => {
             <section id="faq" className="relative z-10 py-16 sm:py-24 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="text-center mb-12 sm:mb-16">
                     <span
-                        className={`text-xs font-bold uppercase tracking-[0.2em] px-3 py-1 rounded-full border ${
-                            isDark
-                                ? 'text-amber-400 bg-amber-500/10 border-amber-500/20'
-                                : 'text-primary bg-primary/10 border-primary/20'
-                        }`}
+                        className={`text-xs font-bold uppercase tracking-[0.2em] px-3 py-1 rounded-full border ${isDark
+                            ? 'text-amber-400 bg-amber-500/10 border-amber-500/20'
+                            : 'text-primary bg-primary/10 border-primary/20'
+                            }`}
                     >
                         Got Questions?
                     </span>
                     <h2
-                        className={`text-2xl sm:text-3xl lg:text-4xl font-bold font-sans mt-3 sm:mt-4 ${
-                            isDark ? 'text-white' : 'text-gray-900'
-                        }`}
+                        className={`text-2xl sm:text-3xl lg:text-4xl font-bold font-sans mt-3 sm:mt-4 ${isDark ? 'text-white' : 'text-gray-900'
+                            }`}
                     >
                         Frequently Asked Questions
                     </h2>
@@ -2521,29 +2322,25 @@ const LandingPage = () => {
                         return (
                             <div
                                 key={index}
-                                className={`rounded-xl border overflow-hidden transition-colors ${
-                                    isDark
-                                        ? 'border-white/10 bg-white/[0.02]'
-                                        : 'border-gray-200 bg-white shadow-sm'
-                                }`}
+                                className={`rounded-xl border overflow-hidden transition-colors ${isDark
+                                    ? 'border-white/10 bg-white/[0.02]'
+                                    : 'border-gray-200 bg-white shadow-sm'
+                                    }`}
                             >
                                 <button
                                     onClick={() => setExpandedFaq(isOpen ? null : index)}
-                                    className={`w-full p-4 sm:p-5 text-left flex items-center justify-between gap-3 sm:gap-4 cursor-pointer transition-colors ${
-                                        isDark ? 'hover:bg-white/[0.02]' : 'hover:bg-stone-50'
-                                    }`}
+                                    className={`w-full p-4 sm:p-5 text-left flex items-center justify-between gap-3 sm:gap-4 cursor-pointer transition-colors ${isDark ? 'hover:bg-white/[0.02]' : 'hover:bg-stone-50'
+                                        }`}
                                 >
                                     <span
-                                        className={`font-bold text-sm sm:text-base font-sans ${
-                                            isDark ? 'text-white' : 'text-gray-900'
-                                        }`}
+                                        className={`font-bold text-sm sm:text-base font-sans ${isDark ? 'text-white' : 'text-gray-900'
+                                            }`}
                                     >
                                         {faq.q}
                                     </span>
                                     <TbChevronDown
-                                        className={`text-base sm:text-lg transition-transform duration-300 shrink-0 ${
-                                            isDark ? 'text-amber-400' : 'text-primary'
-                                        } ${isOpen ? 'rotate-180' : ''}`}
+                                        className={`text-base sm:text-lg transition-transform duration-300 shrink-0 ${isDark ? 'text-amber-400' : 'text-primary'
+                                            } ${isOpen ? 'rotate-180' : ''}`}
                                     />
                                 </button>
                                 <AnimatePresence>
@@ -2553,11 +2350,10 @@ const LandingPage = () => {
                                             animate={{ height: 'auto', opacity: 1 }}
                                             exit={{ height: 0, opacity: 0 }}
                                             transition={{ duration: 0.2 }}
-                                            className={`px-4 sm:px-5 pb-4 sm:pb-5 text-xs sm:text-sm leading-relaxed border-t pt-3 ${
-                                                isDark
-                                                    ? 'text-zinc-400 border-white/[0.06]'
-                                                    : 'text-gray-600 border-gray-100'
-                                            }`}
+                                            className={`px-4 sm:px-5 pb-4 sm:pb-5 text-xs sm:text-sm leading-relaxed border-t pt-3 ${isDark
+                                                ? 'text-zinc-400 border-white/[0.06]'
+                                                : 'text-gray-600 border-gray-100'
+                                                }`}
                                         >
                                             {faq.a}
                                         </motion.div>
@@ -2573,18 +2369,16 @@ const LandingPage = () => {
             <section id="contact" className="relative z-10 py-16 sm:py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="text-center max-w-3xl mx-auto mb-12 sm:mb-16">
                     <span
-                        className={`text-xs font-bold uppercase tracking-[0.2em] px-3 py-1 rounded-full border ${
-                            isDark
-                                ? 'text-amber-400 bg-amber-500/10 border-amber-500/20'
-                                : 'text-primary bg-primary/10 border-primary/20'
-                        }`}
+                        className={`text-xs font-bold uppercase tracking-[0.2em] px-3 py-1 rounded-full border ${isDark
+                            ? 'text-amber-400 bg-amber-500/10 border-amber-500/20'
+                            : 'text-primary bg-primary/10 border-primary/20'
+                            }`}
                     >
                         Get in Touch
                     </span>
                     <h2
-                        className={`text-2xl sm:text-3xl lg:text-4xl font-bold font-sans mt-3 sm:mt-4 ${
-                            isDark ? 'text-white' : 'text-gray-900'
-                        }`}
+                        className={`text-2xl sm:text-3xl lg:text-4xl font-bold font-sans mt-3 sm:mt-4 ${isDark ? 'text-white' : 'text-gray-900'
+                            }`}
                     >
                         Contact Us
                     </h2>
@@ -2596,18 +2390,16 @@ const LandingPage = () => {
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6">
                     {/* Address */}
                     <div
-                        className={`rounded-2xl p-5 sm:p-6 flex flex-col items-center text-center transition-colors ${
-                            isDark
-                                ? 'border border-white/10 bg-white/[0.02]'
-                                : 'border border-gray-200 bg-white shadow-sm'
-                        }`}
+                        className={`rounded-2xl p-5 sm:p-6 flex flex-col items-center text-center transition-colors ${isDark
+                            ? 'border border-white/10 bg-white/[0.02]'
+                            : 'border border-gray-200 bg-white shadow-sm'
+                            }`}
                     >
                         <div
-                            className={`p-3 rounded-2xl mb-3 sm:mb-4 ${
-                                isDark
-                                    ? 'bg-amber-500/10 text-amber-400'
-                                    : 'bg-primary/10 text-primary'
-                            }`}
+                            className={`p-3 rounded-2xl mb-3 sm:mb-4 ${isDark
+                                ? 'bg-amber-500/10 text-amber-400'
+                                : 'bg-primary/10 text-primary'
+                                }`}
                         >
                             <TbMapPin className="text-2xl" />
                         </div>
@@ -2623,11 +2415,10 @@ const LandingPage = () => {
 
                     {/* Phone */}
                     <div
-                        className={`rounded-2xl p-5 sm:p-6 flex flex-col items-center text-center transition-colors ${
-                            isDark
-                                ? 'border border-white/10 bg-white/[0.02]'
-                                : 'border border-gray-200 bg-white shadow-sm'
-                        }`}
+                        className={`rounded-2xl p-5 sm:p-6 flex flex-col items-center text-center transition-colors ${isDark
+                            ? 'border border-white/10 bg-white/[0.02]'
+                            : 'border border-gray-200 bg-white shadow-sm'
+                            }`}
                     >
                         <div className="p-3 rounded-2xl bg-emerald-500/10 text-emerald-500 mb-3 sm:mb-4">
                             <TbPhone className="text-2xl" />
@@ -2637,11 +2428,10 @@ const LandingPage = () => {
                         </h4>
                         <a
                             href="tel:+959676779020"
-                            className={`text-base sm:text-lg font-bold font-mono transition-colors ${
-                                isDark
-                                    ? 'text-amber-400 hover:text-amber-300'
-                                    : 'text-primary hover:text-primary-mild'
-                            }`}
+                            className={`text-base sm:text-lg font-bold font-mono transition-colors ${isDark
+                                ? 'text-amber-400 hover:text-amber-300'
+                                : 'text-primary hover:text-primary-mild'
+                                }`}
                         >
                             +95 9 676 779 020
                         </a>
@@ -2652,11 +2442,10 @@ const LandingPage = () => {
 
                     {/* Business Hours */}
                     <div
-                        className={`rounded-2xl p-5 sm:p-6 flex flex-col items-center text-center transition-colors sm:col-span-2 md:col-span-1 ${
-                            isDark
-                                ? 'border border-white/10 bg-white/[0.02]'
-                                : 'border border-gray-200 bg-white shadow-sm'
-                        }`}
+                        className={`rounded-2xl p-5 sm:p-6 flex flex-col items-center text-center transition-colors sm:col-span-2 md:col-span-1 ${isDark
+                            ? 'border border-white/10 bg-white/[0.02]'
+                            : 'border border-gray-200 bg-white shadow-sm'
+                            }`}
                     >
                         <div className="p-3 rounded-2xl bg-purple-500/10 text-purple-500 mb-3 sm:mb-4">
                             <TbClock2 className="text-2xl" />
@@ -2697,9 +2486,8 @@ const LandingPage = () => {
 
                 {/* Map */}
                 <div
-                    className={`mt-8 sm:mt-10 rounded-2xl overflow-hidden border ${
-                        isDark ? 'border-white/10' : 'border-gray-200 shadow-sm'
-                    }`}
+                    className={`mt-8 sm:mt-10 rounded-2xl overflow-hidden border ${isDark ? 'border-white/10' : 'border-gray-200 shadow-sm'
+                        }`}
                 >
                     <MapContainer
                         center={[16.85055, 96.1285]}
@@ -2722,11 +2510,10 @@ const LandingPage = () => {
                         href="https://www.openstreetmap.org/?mlat=16.85055&mlon=96.1285#map=16/16.85055/96.1285"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className={`text-xs transition-colors ${
-                            isDark
-                                ? 'text-zinc-500 hover:text-amber-400'
-                                : 'text-gray-500 hover:text-primary'
-                        }`}
+                        className={`text-xs transition-colors ${isDark
+                            ? 'text-zinc-500 hover:text-amber-400'
+                            : 'text-gray-500 hover:text-primary'
+                            }`}
                     >
                         Open in OpenStreetMap ↗
                     </a>
@@ -2784,11 +2571,10 @@ const LandingPage = () => {
                         exit={{ opacity: 0, scale: 0.8 }}
                         transition={{ duration: 0.2 }}
                         onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-                        className={`fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50 p-2.5 sm:p-3 rounded-full shadow-lg transition-colors cursor-pointer ${
-                            isDark
-                                ? 'bg-amber-500 text-black shadow-amber-500/30 hover:bg-amber-400'
-                                : 'bg-primary text-white shadow-primary/30 hover:bg-primary-mild'
-                        }`}
+                        className={`fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50 p-2.5 sm:p-3 rounded-full shadow-lg transition-colors cursor-pointer ${isDark
+                            ? 'bg-amber-500 text-black shadow-amber-500/30 hover:bg-amber-400'
+                            : 'bg-primary text-white shadow-primary/30 hover:bg-primary-mild'
+                            }`}
                         aria-label="Back to top"
                     >
                         <TbArrowUp className="text-lg sm:text-xl" />
