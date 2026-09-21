@@ -54,7 +54,7 @@ function AuthProvider({ children }: AuthProviderProps) {
     const navigatorRef = useRef<IsolatedNavigatorRef>(null)
 
     // bmk changes
-    const { activeRestaurant, setActiveRestaurant } = useRestaurantStore()
+    const { setActiveRestaurant } = useRestaurantStore()
 
     const redirect = (currentUser?: User) => {
         const search = window.location.search
@@ -84,10 +84,8 @@ function AuthProvider({ children }: AuthProviderProps) {
                 navigatorRef.current?.navigate('/owner/dashboard')
                 break
             case 'STAFF':
-                navigatorRef.current?.navigate(
-                    `/restaurants/${activeRestaurant?.id}/dashboard`,
-                )
-                // navigatorRef.current?.navigate('/staff/dashboard')
+                console.log('Navigating to staff workspace...')
+                navigatorRef.current?.navigate(appConfig.authenticatedEntryPath)
                 break
             default:
                 console.log(`Navigating to home since Role: ${role}`)
@@ -148,12 +146,12 @@ function AuthProvider({ children }: AuthProviderProps) {
                     authority: user.role ? [user.role.name] : [],
                 }
 
-                // if (user.role?.name === STAFF && user.restaurant) {
-                //     setActiveRestaurant({
-                //         id: user.restaurant.id,
-                //         name: user.restaurant.name,
-                //     })
-                // }
+                if (user.role?.name === STAFF && user.restaurant) {
+                    setActiveRestaurant({
+                        id: user.restaurant.id,
+                        name: user.restaurant.name,
+                    })
+                }
 
                 console.log(normalizedUser)
 
