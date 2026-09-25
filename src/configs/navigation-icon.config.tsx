@@ -17,6 +17,7 @@ import {
     PiStorefrontDuotone, // Restaurant / Storefront for Profile
     PiDeviceMobileDuotone, // Perfect for App Version management
     PiReceiptDuotone, // Perfect for Transactions / Statements
+    PiSlidersHorizontalDuotone, // Perfect for App Settings / Config management
 } from 'react-icons/pi'
 import type { JSX } from 'react'
 
@@ -42,6 +43,7 @@ const navigationIcon: NavigationIcons = {
     blogs: <PiArticleDuotone />,
     profile: <PiStorefrontDuotone />,
     appVersion: <PiDeviceMobileDuotone />,
+    appSettings: <PiSlidersHorizontalDuotone />,
     commission: <PiBagSimpleDuotone />,
     transaction: <PiReceiptDuotone />,
 }

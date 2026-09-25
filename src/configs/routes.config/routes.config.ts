@@ -347,6 +347,32 @@ export const protectedRoutes: Routes = [
         authority: [ADMIN],
     },
 
+    // App Settings
+    {
+        key: 'appSetting.list',
+        path: '/settings',
+        component: lazy(() => import('@/views/app-settings/AppSettingList')),
+        authority: [ADMIN],
+    },
+    {
+        key: 'appSetting.create',
+        path: '/settings/create',
+        component: lazy(() => import('@/views/app-settings/AppSettingCreate')),
+        authority: [ADMIN],
+    },
+    {
+        key: 'appSetting.edit',
+        path: '/settings/edit/:id',
+        component: lazy(() => import('@/views/app-settings/AppSettingEdit')),
+        authority: [ADMIN],
+    },
+    {
+        key: 'appSetting.detail',
+        path: '/settings/:id',
+        component: lazy(() => import('@/views/app-settings/AppSettingDetail')),
+        authority: [ADMIN],
+    },
+
     // User
     {
         key: 'user.list',
