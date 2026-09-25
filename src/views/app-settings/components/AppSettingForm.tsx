@@ -14,6 +14,7 @@ import type { AppSettingFormData, AppSettingType } from '@/@types/appSetting'
 const typeOptions: { value: AppSettingType; label: string }[] = [
     { value: 'TEXT', label: 'Text' },
     { value: 'PHONE', label: 'Phone' },
+    { value: 'URL', label: 'URL' },
     { value: 'HTML', label: 'HTML (Rich Content)' },
 ]
 

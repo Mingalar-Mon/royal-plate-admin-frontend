@@ -1,7 +1,7 @@
 import { z } from 'zod'
 
 // =========== APP SETTING ENTITY ===========
-export type AppSettingType = 'TEXT' | 'PHONE' | 'HTML'
+export type AppSettingType = 'TEXT' | 'PHONE' | 'URL' | 'HTML'
 
 export interface AppSetting {
     id: string
@@ -31,9 +31,9 @@ export const appSettingValidationSchema = z.object({
             message:
                 'Use camelCase / kebab-case (letters, numbers and hyphens only), e.g. termsAndConditions',
         }),
-    // value can be plain text, a phone number, or HTML — "" is allowed
+    // value can be plain text, a phone number, a URL, or HTML — "" is allowed
     value: z.string(),
-    type: z.enum(['TEXT', 'PHONE', 'HTML']),
+    type: z.enum(['TEXT', 'PHONE', 'URL', 'HTML']),
     isActive: z.boolean(),
 })
 
@@ -42,7 +42,7 @@ export const appSettingValidationSchema = z.object({
 export const appSettingUpdateSchema = z
     .object({
         value: z.string().optional(),
-        type: z.enum(['TEXT', 'PHONE', 'HTML']).optional(),
+        type: z.enum(['TEXT', 'PHONE', 'URL', 'HTML']).optional(),
         isActive: z.boolean().optional(),
     })
     .refine((data) => Object.keys(data).length > 0, {
