@@ -140,7 +140,7 @@ const DownloadAppSection = ({ isDark }: { isDark: boolean }) => {
                             )}
                             {appVersion?.directDownloadLink && (
                                 <a
-                                    href={`https://drive.google.com/file/d/1ZZMbQdiLnRQvIWZPx6Mk_SLpAE30w3Dz/view?usp=share_link`}
+                                    href={`https://drive.google.com/file/d/1ivZ6VYLIjc8WR29ai4xMeP1sogiwl2hQ/view?usp=share_link`}
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className={`inline-flex items-center justify-center gap-2.5 px-5 py-3 rounded-xl border text-sm font-medium transition-colors ${isDark
