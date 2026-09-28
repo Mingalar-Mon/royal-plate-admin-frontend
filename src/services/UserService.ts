@@ -23,3 +23,23 @@ export async function apiGetUserDetail(userId: string) {
         method: 'get',
     })
 }
+
+// ✅ Reversibly deactivates any user: sets `status = inactive` and stamps
+// `deletedAt`, leaving the profile and avatar intact so reactivate can restore
+// it. Super admin only. NOTE: this endpoint is DELETE, unlike the owner
+// equivalent which is PATCH.
+export async function apiSoftDeleteUser(userId: string) {
+    return ApiService.fetchDataWithAxios<any>({
+        url: `/user/soft-delete-user/${userId}`,
+        method: 'delete',
+    })
+}
+
+// ✅ Restores a soft-deleted user: clears deletedAt and flips status back to
+// `active`. Super admin only — there is no self-service path for users.
+export async function apiReactivateUser(userId: string) {
+    return ApiService.fetchDataWithAxios<any>({
+        url: `/user/reactivate-user/${userId}`,
+        method: 'patch',
+    })
+}

@@ -14,7 +14,12 @@ const UserList = () => {
     const { data, isLoading } = useUserListQuery(tableData)
 
     const usersList = data?.data || []
-    const usersTotal = data?.paginator?.totalItems || 0
+    // ✅ `get-users` nests the count under `pagination.total`; every other list
+    // endpoint in the app uses `paginator.totalItems`. Read both so the pager
+    // gets a real total either way (0 would make `Pagination` compute a page
+    // count of 0 and permanently disable the next button).
+    const usersTotal =
+        data?.pagination?.total ?? data?.paginator?.totalItems ?? 0
 
     return (
         <Container>
