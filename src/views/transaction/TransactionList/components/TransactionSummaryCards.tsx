@@ -6,36 +6,35 @@ import type { TransactionSummary } from '@/@types/transaction'
 
 type Tone = 'emerald' | 'blue' | 'amber' | 'violet'
 
-const toneStyles: Record<
-    Tone,
-    { icon: string; value: string; soft: string }
-> = {
-    emerald: {
-        icon: 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400',
-        value: 'text-emerald-700 dark:text-emerald-300',
-        soft: 'bg-emerald-500/5',
-    },
-    blue: {
-        icon: 'bg-blue-500/10 text-blue-600 dark:text-blue-400',
-        value: 'text-blue-700 dark:text-blue-300',
-        soft: 'bg-blue-500/5',
-    },
-    amber: {
-        icon: 'bg-amber-500/10 text-amber-600 dark:text-amber-400',
-        value: 'text-amber-700 dark:text-amber-300',
-        soft: 'bg-amber-500/5',
-    },
-    violet: {
-        icon: 'bg-violet-500/10 text-violet-600 dark:text-violet-400',
-        value: 'text-violet-700 dark:text-violet-300',
-        soft: 'bg-violet-500/5',
-    },
-}
+const toneStyles: Record<Tone, { icon: string; value: string; soft: string }> =
+    {
+        emerald: {
+            icon: 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400',
+            value: 'text-emerald-700 dark:text-emerald-300',
+            soft: 'bg-emerald-500/5',
+        },
+        blue: {
+            icon: 'bg-blue-500/10 text-blue-600 dark:text-blue-400',
+            value: 'text-blue-700 dark:text-blue-300',
+            soft: 'bg-blue-500/5',
+        },
+        amber: {
+            icon: 'bg-amber-500/10 text-amber-600 dark:text-amber-400',
+            value: 'text-amber-700 dark:text-amber-300',
+            soft: 'bg-amber-500/5',
+        },
+        violet: {
+            icon: 'bg-violet-500/10 text-violet-600 dark:text-violet-400',
+            value: 'text-violet-700 dark:text-violet-300',
+            soft: 'bg-violet-500/5',
+        },
+    }
 
 type SummaryCardProps = {
     label: string
     description: string
-    value?: number
+    /** Decimals arrive as JSON strings. */
+    value?: string | null
     icon: ReactNode
     tone: Tone
 }
@@ -62,7 +61,7 @@ const SummaryCard = ({
                     <p
                         className={`mt-3 text-2xl font-bold tracking-tight ${styles.value}`}
                     >
-                        {value === undefined ? (
+                        {value === undefined || value === null ? (
                             <span className="text-gray-400">—</span>
                         ) : (
                             <NumericFormat

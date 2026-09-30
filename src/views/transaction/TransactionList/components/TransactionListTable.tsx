@@ -7,8 +7,9 @@ import { useTransactionStore } from '@/store/transactionStore'
 import TransactionTypeBadge from './TransactionTypeBadge'
 import type { TransactionItem } from '@/@types/transaction'
 
-const Money = ({ value }: { value: number | null | undefined }) => {
-    if (value === null || value === undefined) {
+/** Decimals arrive as JSON strings, so coerce before formatting. */
+const Money = ({ value }: { value: string | number | null | undefined }) => {
+    if (value === null || value === undefined || value === '') {
         return <span>—</span>
     }
     return (
@@ -54,13 +55,14 @@ const CommissionCell = ({ item }: { item: TransactionItem }) => {
     }
 
     const rate = formatRate(commissionRate)
-    const isReservation = type === 'reservation'
-    // The scope flag decides whether a rate applied; the basis decides the base.
-    const scopeEnabled = isReservation
-        ? commissionBatch.perReservation
-        : commissionBatch.perOrder
+    // commissionRate is the only reliable signal here: the list endpoint may
+    // return the batch as `{ id, code }` alone, so its flags cannot be relied
+    // on. A null or zero rate means this scope wasn't charged.
+    const scopeCharged = rate !== null && rate !== '0%'
+    // The basis only matters for reservations, and may be absent entirely.
     const basisLabel =
-        isReservation && commissionBatch.reservationBasis === 'TABLE_FEE_ONLY'
+        type === 'reservation' &&
+        commissionBatch.reservationBasis === 'TABLE_FEE_ONLY'
             ? 'table fee'
             : 'subtotal'
 
@@ -68,7 +70,7 @@ const CommissionCell = ({ item }: { item: TransactionItem }) => {
         <div className="whitespace-nowrap">
             <div className="font-semibold">{commissionBatch.code}</div>
             <div className="text-xs text-gray-500">
-                {scopeEnabled && rate
+                {scopeCharged && rate
                     ? `${rate} of the ${basisLabel}`
                     : 'No fee'}
             </div>
