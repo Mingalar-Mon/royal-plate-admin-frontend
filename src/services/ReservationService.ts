@@ -70,6 +70,12 @@ export type Reservation = {
     subTotal?: number | string
     tax?: number | string
     totalPrice?: number | string
+    commission_fee?: number | string
+    /** The amount the reservation commission rate was applied to. */
+    commissionBase?: number | string | null
+    /** The rate as a fraction — 0.1 means 10%. */
+    commissionRate?: number | string | null
+    netAmount?: number | string
     created_at: string
     updated_at: string
     confirmed_at?: string | null

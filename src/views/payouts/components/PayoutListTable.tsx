@@ -1,16 +1,8 @@
 import { useMemo, useState } from 'react'
 import dayjs from 'dayjs'
-import {
-    ColumnDef,
-    Row,
-    ExpandedState,
-} from '@tanstack/react-table'
+import { ColumnDef, Row, ExpandedState } from '@tanstack/react-table'
 import { NumericFormat } from 'react-number-format'
-import {
-    TbChevronDown,
-    TbChevronRight,
-    TbListDetails,
-} from 'react-icons/tb'
+import { TbChevronDown, TbChevronRight, TbListDetails } from 'react-icons/tb'
 import classNames from 'classnames'
 import DataTable from '@/components/shared/DataTable'
 import { usePayoutStore } from '@/store/payoutStore'
@@ -30,6 +22,14 @@ const Money = ({ value }: { value: string | number | null | undefined }) => {
             />
         </span>
     )
+}
+
+/** The stored rate is a fraction, so 0.1 renders as 10%. */
+const formatRatePercent = (rate?: string | null) => {
+    if (rate === null || rate === undefined || rate === '') return null
+    const parsed = Number(rate)
+    if (!Number.isFinite(parsed)) return null
+    return `${Number((parsed * 100).toFixed(2))}%`
 }
 
 const TypeBadge = ({ type }: { type: 'Order' | 'Reservation' }) => (
@@ -91,15 +91,16 @@ const PayoutItemDetail = ({ item }: { item: PayoutItem }) => {
             </td>
             <td className="px-3 py-2">
                 <span className="text-gray-700 dark:text-gray-200">
-                    {commissionBatch?.percentage
-                        ? `${commissionBatch.percentage}%`
-                        : '—'}
+                    {formatRatePercent(reference?.commissionRate) ?? '—'}
                 </span>
             </td>
             <td className="px-3 py-2">
                 <span className="text-gray-700 dark:text-gray-200">
                     {commissionBatch?.code || '—'}
                 </span>
+            </td>
+            <td className="px-3 py-2">
+                <Money value={reference?.commissionBase} />
             </td>
             <td className="px-3 py-2">
                 <StatusBadge isSettle={reference?.isSettle} />
@@ -129,8 +130,9 @@ const PayoutItemsSubTable = ({ row }: { row: Row<PayoutBatch> }) => {
                             <th className="px-3 py-2">Sub-total</th>
                             <th className="px-3 py-2">Commission fee</th>
                             <th className="px-3 py-2">Net amount</th>
-                            <th className="px-3 py-2">Commission Batch %</th>
-                            <th className="px-3 py-2">Commission Batch Code</th>
+                            <th className="px-3 py-2">Commission Rate</th>
+                            <th className="px-3 py-2">Commission Batch</th>
+                            <th className="px-3 py-2">Commission Base</th>
                             <th className="px-3 py-2">Status</th>
                         </tr>
                     </thead>
@@ -138,7 +140,7 @@ const PayoutItemsSubTable = ({ row }: { row: Row<PayoutBatch> }) => {
                         {items.length === 0 ? (
                             <tr>
                                 <td
-                                    colSpan={10}
+                                    colSpan={11}
                                     className="px-3 py-4 text-center text-sm text-gray-500"
                                 >
                                     No payout items.
@@ -162,11 +164,7 @@ interface PayoutListTableProps {
     loading: boolean
 }
 
-const PayoutListTable = ({
-    data,
-    total,
-    loading,
-}: PayoutListTableProps) => {
+const PayoutListTable = ({ data, total, loading }: PayoutListTableProps) => {
     const tableData = usePayoutStore((state) => state.tableData)
     const setTableData = usePayoutStore((state) => state.setTableData)
     const [expanded, setExpanded] = useState<ExpandedState>({})
@@ -177,8 +175,7 @@ const PayoutListTable = ({
                 id: 'expand',
                 header: '',
                 cell: (props) => {
-                    const canExpand =
-                        props.row.original.payoutItems.length > 0
+                    const canExpand = props.row.original.payoutItems.length > 0
                     if (!canExpand) {
                         return null
                     }
@@ -297,7 +294,6 @@ const PayoutListTable = ({
             data={data}
             loading={loading}
             expanded={expanded}
-            onExpandedChange={setExpanded}
             getRowCanExpand={(row) => row.original.payoutItems.length > 0}
             renderSubComponent={(props) => (
                 <PayoutItemsSubTable row={props.row} />
@@ -307,6 +303,7 @@ const PayoutListTable = ({
                 pageIndex: tableData.page,
                 pageSize: tableData.limit,
             }}
+            onExpandedChange={setExpanded}
             onPaginationChange={handlePaginationChange}
             onSelectChange={handleSelectChange}
         />

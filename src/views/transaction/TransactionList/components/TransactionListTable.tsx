@@ -1,5 +1,5 @@
 import { useMemo } from 'react'
-import { ColumnDef } from '@tanstack/react-table'
+import type { ColumnDef } from '@tanstack/react-table'
 import classNames from 'classnames'
 import { NumericFormat } from 'react-number-format'
 import DataTable from '@/components/shared/DataTable'
@@ -20,6 +20,64 @@ const Money = ({ value }: { value: number | null | undefined }) => {
                 prefix="MMK "
             />
         </span>
+    )
+}
+
+/**
+ * The rate is stored as a fraction, so 0.1 renders as 10%.
+ */
+const formatRate = (rate: string | null | undefined) => {
+    if (rate === null || rate === undefined || rate === '') return null
+    const parsed = Number(rate)
+    if (!Number.isFinite(parsed)) return null
+    return `${Number((parsed * 100).toFixed(2))}%`
+}
+
+/**
+ * Explains the fee without the reader re-deriving the basis: which rate, and
+ * what it was applied to.
+ */
+const CommissionCell = ({ item }: { item: TransactionItem }) => {
+    const { commissionBatch, commissionRate, commissionBase, type } = item
+
+    if (!commissionBatch) {
+        return (
+            <div className="whitespace-nowrap">
+                <span className="text-sm text-gray-500 dark:text-gray-400">
+                    No fee
+                </span>
+                <div className="text-xs text-gray-400 dark:text-gray-500">
+                    No active batch
+                </div>
+            </div>
+        )
+    }
+
+    const rate = formatRate(commissionRate)
+    const isReservation = type === 'reservation'
+    // The scope flag decides whether a rate applied; the basis decides the base.
+    const scopeEnabled = isReservation
+        ? commissionBatch.perReservation
+        : commissionBatch.perOrder
+    const basisLabel =
+        isReservation && commissionBatch.reservationBasis === 'TABLE_FEE_ONLY'
+            ? 'table fee'
+            : 'subtotal'
+
+    return (
+        <div className="whitespace-nowrap">
+            <div className="font-semibold">{commissionBatch.code}</div>
+            <div className="text-xs text-gray-500">
+                {scopeEnabled && rate
+                    ? `${rate} of the ${basisLabel}`
+                    : 'No fee'}
+            </div>
+            {commissionBase !== null && commissionBase !== undefined && (
+                <div className="text-xs text-gray-400 dark:text-gray-500">
+                    base <Money value={Number(commissionBase)} />
+                </div>
+            )}
+        </div>
     )
 }
 
@@ -84,20 +142,7 @@ const TransactionListTable = ({
             {
                 header: 'Commission batch',
                 id: 'commissionBatch',
-                cell: (props) => {
-                    const batch = props.row.original.commissionBatch
-                    if (!batch) {
-                        return <span>—</span>
-                    }
-                    return (
-                        <div className="whitespace-nowrap">
-                            <div className="font-semibold">{batch.code}</div>
-                            <div className="text-xs text-gray-500">
-                                {Number(batch.percentage)}%
-                            </div>
-                        </div>
-                    )
-                },
+                cell: (props) => <CommissionCell item={props.row.original} />,
             },
             {
                 header: 'Settlement',

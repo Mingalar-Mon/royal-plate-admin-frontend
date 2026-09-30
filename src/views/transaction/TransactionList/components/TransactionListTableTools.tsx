@@ -19,22 +19,30 @@ const exportHeaders = [
     'Total Price',
     'Commission Fee',
     'Commission Batch',
-    'Commission %',
+    'Commission Rate %',
+    'Commission Base',
     'Settlement',
     'Net Amount',
 ]
 
+/** The rate is a fraction, so 0.1 exports as 10. */
+const toRatePercent = (rate: string | null | undefined) => {
+    if (rate === null || rate === undefined || rate === '') return ''
+    const parsed = Number(rate)
+    if (!Number.isFinite(parsed)) return ''
+    return Number((parsed * 100).toFixed(2))
+}
+
 const mapTransactionToCsvRow = (item: TransactionItem) => ({
     'Reference Number': item.orderNumber || item.reservationNumber || '—',
-    'Type': item.type,
+    Type: item.type,
     'Sub-total': item.subTotal ?? '',
     'Total Price': item.totalPrice,
     'Commission Fee': item.commission_fee ?? '',
     'Commission Batch': item.commissionBatch?.code ?? '',
-    'Commission %': item.commissionBatch
-        ? Number(item.commissionBatch.percentage)
-        : '',
-    'Settlement': item.isSettle ? 'Settled' : 'Unsettled',
+    'Commission Rate %': toRatePercent(item.commissionRate),
+    'Commission Base': item.commissionBase ?? '',
+    Settlement: item.isSettle ? 'Settled' : 'Unsettled',
     'Net Amount': item.netAmount,
 })
 
@@ -108,6 +116,7 @@ const TransactionListTableTools = ({
                     Period
                 </span>
                 <DatePicker.DatePickerRange
+                    clearable
                     size="sm"
                     value={
                         tableData.fromDate || tableData.toDate
@@ -121,11 +130,10 @@ const TransactionListTableTools = ({
                               ]
                             : [null, null]
                     }
-                    onChange={handleRangeChange}
                     maxDate={dayjs().subtract(1, 'day').toDate()}
                     inputFormat="YYYY-MM-DD"
-                    clearable
                     className="w-72"
+                    onChange={handleRangeChange}
                 />
             </div>
             <div className="flex items-center gap-2">

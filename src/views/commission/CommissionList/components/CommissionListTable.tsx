@@ -1,25 +1,61 @@
-import { useMemo, useState } from 'react'
-import { ColumnDef } from '@tanstack/react-table'
+import { useCallback, useMemo, useState } from 'react'
+import type { ColumnDef } from '@tanstack/react-table'
 import dayjs from 'dayjs'
 import DataTable from '@/components/shared/DataTable'
-import Tag from '@/components/ui/Tag'
+import type { OnSortParam } from '@/components/shared/DataTable'
+import ConfirmDialog from '@/components/shared/ConfirmDialog'
 import Button from '@/components/ui/Button'
-import Dialog from '@/components/ui/Dialog'
-import Input from '@/components/ui/Input'
-import Switcher from '@/components/ui/Switcher'
 import Notification from '@/components/ui/Notification'
+import Switcher from '@/components/ui/Switcher'
 import toast from '@/components/ui/toast'
-import { FormItem } from '@/components/ui/Form'
-import { TbPencil } from 'react-icons/tb'
+import { TbEye } from 'react-icons/tb'
 import { useCommissionStore } from '@/store/commissionStore'
+import { getCommissionErrorMessage } from '@/services/CommissionService'
+import { useUpdateCommissionStatus } from '@/utils/custom-hooks/useCommission'
+import CommissionBatchDetailModal from './CommissionBatchDetailModal'
 import {
-    useUpdateCommissionPercentage,
-    useUpdateCommissionStatus,
-} from '@/utils/custom-hooks/useCommission'
-import {
-    commissionValidationSchema,
+    commissionBasisShortLabels,
+    formatCommissionPercent,
     type Commission,
+    type CommissionSortKey,
 } from '@/@types/commission'
+
+const validSortKeys = new Set<CommissionSortKey>([
+    'id',
+    'code',
+    'perOrder',
+    'perReservation',
+    'orderPercent',
+    'reservationPercent',
+    'reservationBasis',
+    'is_active',
+    'deactivated_date',
+    'created_at',
+    'updated_at',
+])
+
+/** A scope that is switched off, or has no rate yet, reads as "Not charged". */
+const RateCell = ({
+    enabled,
+    percent,
+}: {
+    enabled: boolean
+    percent: string | null
+}) => {
+    if (!enabled) {
+        return (
+            <span className="text-xs text-gray-400 dark:text-gray-500">
+                Not charged
+            </span>
+        )
+    }
+
+    return (
+        <span className="font-semibold text-gray-900 dark:text-gray-100">
+            {formatCommissionPercent(percent) ?? '0%'}
+        </span>
+    )
+}
 
 interface CommissionListTableProps {
     data: Commission[]
@@ -35,109 +71,83 @@ const CommissionListTable = ({
     const tableData = useCommissionStore((state) => state.tableData)
     const setTableData = useCommissionStore((state) => state.setTableData)
 
-    const { mutate: updateStatus, isPending: statusPending } =
-        useUpdateCommissionStatus()
-    const { mutate: updatePercentage, isPending: percentagePending } =
-        useUpdateCommissionPercentage()
+    const { mutate: updateStatus } = useUpdateCommissionStatus()
 
     const [updatingStatusId, setUpdatingStatusId] = useState<string | null>(
         null,
     )
-    const [editingCommission, setEditingCommission] =
-        useState<Commission | null>(null)
-    const [percentageInput, setPercentageInput] = useState('')
-    const [percentageError, setPercentageError] = useState<
-        string | undefined
-    >()
+    const [viewingBatch, setViewingBatch] = useState<Commission | null>(null)
+    // A status change is always a confirm: deactivating strands the restaurant
+    // at 0%, and activating silently retires whatever is live today.
+    const [pendingStatusChange, setPendingStatusChange] = useState<{
+        batch: Commission
+        nextStatus: boolean
+        retiredCode?: string
+    } | null>(null)
 
-    const getRestaurantLabel = (commission: Commission) =>
-        commission.restaurantName ||
-        commission.restaurant?.name ||
-        commission.restaurantId ||
-        'All Restaurants'
+    // The switch is optimistic-looking but nothing is applied until confirmed.
+    const requestStatusChange = useCallback(
+        (batch: Commission, nextStatus: boolean) => {
+            if (nextStatus === batch.is_active) return
 
-    const handleStatusToggle = (
-        commission: Commission,
-        nextStatus: boolean,
-    ) => {
-        setUpdatingStatusId(commission.id)
+            // The batch this one will displace, so the confirm can name it.
+            const currentActive = data.find(
+                (item) =>
+                    item.id !== batch.id &&
+                    item.is_active &&
+                    item.restaurant?.id === batch.restaurant?.id,
+            )
+
+            setPendingStatusChange({
+                batch,
+                nextStatus,
+                retiredCode: nextStatus ? currentActive?.code : undefined,
+            })
+        },
+        [data],
+    )
+
+    const confirmStatusChange = () => {
+        if (!pendingStatusChange) return
+
+        const { batch, nextStatus, retiredCode } = pendingStatusChange
+        setUpdatingStatusId(batch.id)
+
         updateStatus(
-            { id: commission.id, status: nextStatus },
-            {
-                onSuccess: () => {
-                    toast.push(
-                        <Notification type="success" title="Status updated">
-                            Commission status has been updated successfully.
-                        </Notification>,
-                    )
-                },
-                onError: () => {
-                    const isDeactivation =
-                        commission.is_active === true && nextStatus === false
-
-                    toast.push(
-                        <Notification
-                            type="danger"
-                            title="Status update failed"
-                        >
-                            {isDeactivation
-                                ? 'At least one commission batch must remain active.'
-                                : 'Could not update commission status. Please try again.'}
-                        </Notification>,
-                    )
-                },
-                onSettled: () => setUpdatingStatusId(null),
-            },
-        )
-    }
-
-    const openPercentageDialog = (commission: Commission) => {
-        setEditingCommission(commission)
-        setPercentageInput(String(commission.percentage))
-        setPercentageError(undefined)
-    }
-
-    const closePercentageDialog = () => {
-        setEditingCommission(null)
-        setPercentageError(undefined)
-    }
-
-    const handleSavePercentage = () => {
-        if (!editingCommission) return
-
-        const result = commissionValidationSchema.safeParse({
-            percentage: percentageInput,
-        })
-        if (!result.success) {
-            setPercentageError(result.error.issues[0]?.message)
-            return
-        }
-
-        updatePercentage(
-            {
-                id: editingCommission.id,
-                percentage: result.data.percentage,
-            },
+            { id: batch.id, status: nextStatus },
             {
                 onSuccess: () => {
                     toast.push(
                         <Notification
                             type="success"
-                            title="Percentage updated"
+                            title={
+                                nextStatus ? 'Batch activated' : 'Batch retired'
+                            }
                         >
-                            Commission percentage has been updated
-                            successfully.
+                            {nextStatus
+                                ? retiredCode
+                                    ? `${batch.code} is now active. ${retiredCode} was retired.`
+                                    : `${batch.code} is now active.`
+                                : `${batch.code} is no longer charging commission.`}
                         </Notification>,
                     )
-                    closePercentageDialog()
                 },
-                onError: () => {
+                onError: (error) => {
                     toast.push(
-                        <Notification type="danger" title="Update failed">
-                            Could not update commission percentage. Please try
-                            again.
+                        <Notification
+                            type="danger"
+                            title="Status update failed"
+                        >
+                            {getCommissionErrorMessage(
+                                error,
+                                'Could not update commission status. Please try again.',
+                            )}
                         </Notification>,
                     )
+                },
+                onSettled: () => {
+                    setUpdatingStatusId(null)
+                    setPendingStatusChange(null)
                 },
             },
         )
@@ -157,52 +167,67 @@ const CommissionListTable = ({
             {
                 header: 'Restaurant',
                 id: 'restaurant',
+                enableSorting: false,
                 cell: (props) => (
                     <div>
                         <span className="font-semibold">
-                            {getRestaurantLabel(props.row.original)}
+                            {props.row.original.restaurant?.name || '—'}
                         </span>
-                        {props.row.original.restaurantId &&
-                            !props.row.original.restaurantName &&
-                            !props.row.original.restaurant?.name && (
-                                <div className="text-xs text-gray-500">
-                                    {props.row.original.restaurantId}
-                                </div>
-                            )}
+                        {!props.row.original.restaurant?.name && (
+                            <div className="text-xs text-gray-500">
+                                {props.row.original.restaurant?.id}
+                            </div>
+                        )}
                     </div>
                 ),
             },
             {
-                header: 'Percentage',
-                accessorKey: 'percentage',
+                header: 'Order Rate',
+                accessorKey: 'orderPercent',
                 cell: (props) => (
-                    <div className="flex items-center gap-1.5">
-                        <span className="font-semibold">
-                            {props.row.original.percentage}%
-                        </span>
-                        <Button
-                            size="xs"
-                            variant="plain"
-                            icon={<TbPencil />}
-                            onClick={() =>
-                                openPercentageDialog(props.row.original)
-                            }
-                        />
-                    </div>
+                    <RateCell
+                        enabled={props.row.original.perOrder}
+                        percent={props.row.original.orderPercent}
+                    />
                 ),
+            },
+            {
+                header: 'Reservation Rate',
+                accessorKey: 'reservationPercent',
+                cell: (props) => (
+                    <RateCell
+                        enabled={props.row.original.perReservation}
+                        percent={props.row.original.reservationPercent}
+                    />
+                ),
+            },
+            {
+                header: 'Reservation Basis',
+                accessorKey: 'reservationBasis',
+                cell: (props) => {
+                    const batch = props.row.original
+                    if (!batch.perReservation) {
+                        return (
+                            <span className="text-xs text-gray-400 dark:text-gray-500">
+                                —
+                            </span>
+                        )
+                    }
+                    return (
+                        <span className="whitespace-nowrap text-gray-700 dark:text-gray-200">
+                            {commissionBasisShortLabels[batch.reservationBasis]}
+                        </span>
+                    )
+                },
             },
             {
                 header: 'Status',
                 accessorKey: 'is_active',
                 cell: (props) => {
-                    const commission = props.row.original
-                    const isActive = commission.is_active
-                    if (isActive === undefined) {
-                        return '—'
-                    }
+                    const batch = props.row.original
                     return (
                         <Switcher
-                            checked={isActive}
+                            checked={batch.is_active}
                             checkedContent={
                                 <span className="inline-block w-16 text-xs font-semibold">
                                     Active
@@ -213,9 +238,9 @@ const CommissionListTable = ({
                                     Inactive
                                 </span>
                             }
-                            isLoading={updatingStatusId === commission.id}
+                            isLoading={updatingStatusId === batch.id}
                             onChange={(checked) =>
-                                handleStatusToggle(commission, checked)
+                                requestStatusChange(batch, checked)
                             }
                         />
                     )
@@ -223,40 +248,49 @@ const CommissionListTable = ({
             },
             {
                 header: 'Created',
-                id: 'createdAt',
-                cell: (props) => {
-                    const date =
-                        props.row.original.createdAt ||
-                        props.row.original.created_at
-                    return date ? dayjs(date).format('DD/MM/YYYY') : '—'
-                },
+                accessorKey: 'created_at',
+                cell: (props) => (
+                    <span className="whitespace-nowrap">
+                        {dayjs(props.row.original.created_at).format(
+                            'DD/MM/YYYY',
+                        )}
+                    </span>
+                ),
             },
             {
-                header: 'Updated',
-                id: 'updatedAt',
+                header: 'Retired',
+                accessorKey: 'deactivated_date',
                 cell: (props) => {
-                    const date =
-                        props.row.original.updatedAt ||
-                        props.row.original.updated_at
-                    return date ? dayjs(date).format('DD/MM/YYYY') : '—'
-                },
-            },
-            {
-                header: 'Deactivated Date',
-                id: 'deactivatedAt',
-                cell: (props) => {
-                    const commission = props.row.original
-                    if (commission.is_active === true) {
-                        return '—'
+                    const batch = props.row.original
+                    if (!batch.deactivated_date) {
+                        return (
+                            <span className="text-gray-400 dark:text-gray-500">
+                                —
+                            </span>
+                        )
                     }
-                    const date =
-                        commission.deactivated_date ||
-                        commission.deactivatedAt
-                    return date ? dayjs(date).format('DD/MM/YYYY') : '—'
+                    return (
+                        <span className="whitespace-nowrap">
+                            {dayjs(batch.deactivated_date).format('DD/MM/YYYY')}
+                        </span>
+                    )
                 },
+            },
+            {
+                header: '',
+                id: 'actions',
+                enableSorting: false,
+                cell: (props) => (
+                    <Button
+                        size="xs"
+                        variant="plain"
+                        icon={<TbEye />}
+                        onClick={() => setViewingBatch(props.row.original)}
+                    />
+                ),
             },
         ],
-        [statusPending, updatingStatusId],
+        [requestStatusChange, updatingStatusId],
     )
 
     const handlePaginationChange = (page: number) => {
@@ -267,14 +301,19 @@ const CommissionListTable = ({
         setTableData((prev) => ({ ...prev, limit, page: 1 }))
     }
 
-    const handleSort = (sort: { key: string | number; order: 'asc' | 'desc' | '' }) => {
+    const handleSort = (sort: OnSortParam) => {
+        const sortKey = String(sort.key) as CommissionSortKey
+        if (!validSortKeys.has(sortKey)) return
+
         setTableData((prev) => ({
             ...prev,
-            sortKey: String(sort.key),
-            sortOrder: sort.order || 'DESC',
+            sortKey,
+            sortOrder: sort.order === 'asc' ? 'ASC' : 'DESC',
             page: 1,
         }))
     }
+
+    const deactivating = pendingStatusChange?.nextStatus === false
 
     return (
         <>
@@ -291,58 +330,50 @@ const CommissionListTable = ({
                 onSelectChange={handleSelectChange}
                 onSort={handleSort}
             />
-            <Dialog
-                isOpen={Boolean(editingCommission)}
-                onClose={closePercentageDialog}
-                onRequestClose={closePercentageDialog}
-                width={480}
+
+            <ConfirmDialog
+                isOpen={Boolean(pendingStatusChange)}
+                type={deactivating ? 'warning' : 'info'}
+                title={
+                    deactivating
+                        ? 'Retire this commission batch?'
+                        : 'Activate this commission batch?'
+                }
+                confirmText={deactivating ? 'Retire batch' : 'Activate batch'}
+                confirmButtonProps={{
+                    loading: updatingStatusId === pendingStatusChange?.batch.id,
+                }}
+                onCancel={() => setPendingStatusChange(null)}
+                onConfirm={confirmStatusChange}
             >
-                <div className="p-4">
-                    <h4 className="mb-1">Update Commission Percentage</h4>
-                    <p className="mb-4 text-sm text-gray-500 dark:text-gray-400">
-                        {editingCommission
-                            ? getRestaurantLabel(editingCommission)
-                            : ''}
-                    </p>
-                    <FormItem
-                        label="Percentage"
-                        asterisk
-                        extra="0–100"
-                        invalid={Boolean(percentageError)}
-                        errorMessage={percentageError}
-                    >
-                        <Input
-                            type="number"
-                            min={0}
-                            max={100}
-                            step="any"
-                            value={percentageInput}
-                            onChange={(e) => {
-                                setPercentageInput(e.target.value)
-                                setPercentageError(undefined)
-                            }}
-                            placeholder="Enter commission percentage"
-                        />
-                    </FormItem>
-                    <div className="mt-6 flex items-center justify-end gap-2">
-                        <Button
-                            type="button"
-                            variant="plain"
-                            onClick={closePercentageDialog}
-                        >
-                            Cancel
-                        </Button>
-                        <Button
-                            type="button"
-                            variant="solid"
-                            loading={percentagePending}
-                            onClick={handleSavePercentage}
-                        >
-                            Save Changes
-                        </Button>
+                {pendingStatusChange && (
+                    <div className="space-y-2 text-sm">
+                        <p className="font-semibold text-gray-900 dark:text-gray-100">
+                            {pendingStatusChange.batch.code} —{' '}
+                            {pendingStatusChange.batch.restaurant?.name}
+                        </p>
+                        {deactivating ? (
+                            <p className="text-gray-600 dark:text-gray-300">
+                                This restaurant will stop being charged
+                                commission until you activate or create a batch.
+                                Orders and reservations still go through — they
+                                will simply carry a 0% commission fee.
+                            </p>
+                        ) : (
+                            <p className="text-gray-600 dark:text-gray-300">
+                                {pendingStatusChange.retiredCode
+                                    ? `This will retire ${pendingStatusChange.retiredCode}, which is currently active for this restaurant.`
+                                    : 'This batch will start charging commission immediately.'}
+                            </p>
+                        )}
                     </div>
-                </div>
-            </Dialog>
+                )}
+            </ConfirmDialog>
+
+            <CommissionBatchDetailModal
+                batch={viewingBatch}
+                onClose={() => setViewingBatch(null)}
+            />
         </>
     )
 }

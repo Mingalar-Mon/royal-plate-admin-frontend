@@ -16,7 +16,7 @@ const CommissionListSearch = ({
 
     return (
         <Input
-            placeholder="Search commissions"
+            placeholder="Search by batch code"
             prefix={<TbSearch className="text-lg" />}
             onChange={handleChange}
         />

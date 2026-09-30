@@ -3,9 +3,7 @@ import type { CommissionQuery } from '@/@types/commission'
 
 interface CommissionStoreState {
     tableData: CommissionQuery
-    setTableData: (
-        updater: (prev: CommissionQuery) => CommissionQuery,
-    ) => void
+    setTableData: (updater: (prev: CommissionQuery) => CommissionQuery) => void
     resetFilters: () => void
 }
 

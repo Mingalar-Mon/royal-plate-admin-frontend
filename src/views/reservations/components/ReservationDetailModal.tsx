@@ -40,6 +40,10 @@ const ReservationDetailModal = ({
                             subTotal={reservation.subTotal}
                             tax={reservation.tax}
                             total={reservation.totalPrice}
+                            commission_fee={reservation.commission_fee}
+                            commissionBase={reservation.commissionBase}
+                            commissionRate={reservation.commissionRate}
+                            netAmount={reservation.netAmount}
                         />
                         <ActivityTimeline
                             createdAt={reservation.created_at}

@@ -57,6 +57,13 @@ export type Order = {
     orderNumber: string
     tax: number
     totalPrice: number
+    subTotal?: number | string
+    commission_fee?: number | string
+    /** The amount the order commission rate was applied to. */
+    commissionBase?: number | string | null
+    /** The rate as a fraction — 0.1 means 10%. */
+    commissionRate?: number | string | null
+    netAmount?: number | string
     remark?: string
     cancelledByType: 'user' | 'staff' | 'owner'
     cancelledById: string

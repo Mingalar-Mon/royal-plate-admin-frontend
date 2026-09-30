@@ -9,12 +9,8 @@ const CommissionListActionTools = ({
     onAddCommission,
 }: CommissionListActionToolsProps) => {
     return (
-        <Button
-            variant="solid"
-            icon={<TbPlus />}
-            onClick={onAddCommission}
-        >
-            Add Commission
+        <Button variant="solid" icon={<TbPlus />} onClick={onAddCommission}>
+            New Configuration
         </Button>
     )
 }

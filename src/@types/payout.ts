@@ -1,7 +1,13 @@
+import type { CommissionBasis } from './commission'
+
 export type CommissionBatch = {
     id: string
     code: string
-    percentage: string
+    perOrder: boolean
+    perReservation: boolean
+    orderPercent: string | null
+    reservationPercent: string | null
+    reservationBasis: CommissionBasis
 }
 
 export type PayoutSettledReference = {
@@ -10,6 +16,8 @@ export type PayoutSettledReference = {
     totalPrice?: string
     subTotal?: string
     commission_fee?: string
+    commissionBase?: string | null
+    commissionRate?: string | null
     netAmount?: string
     isSettle?: boolean
     commissionBatch?: CommissionBatch | null
@@ -19,10 +27,12 @@ export type PayoutItem = {
     id: string
     created_at: string
     order: (PayoutSettledReference & { orderNumber?: string }) | null
-    reservation: (PayoutSettledReference & {
-        reservationNumber?: string
-        reservationDate?: string
-    }) | null
+    reservation:
+        | (PayoutSettledReference & {
+              reservationNumber?: string
+              reservationDate?: string
+          })
+        | null
 }
 
 export type PayoutBatch = {
