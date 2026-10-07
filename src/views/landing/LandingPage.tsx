@@ -40,7 +40,7 @@ import {
 
 const PhoneFrame = ({ children, className = '' }: { children: React.ReactNode; className?: string }) => (
     <div className={`relative rounded-[2.5rem] border-[3px] border-zinc-700 shadow-2xl overflow-hidden bg-zinc-900 ${className}`}>
-        <div className="absolute top-2 left-1/2 -translate-x-1/2 z-20 w-16 h-4 bg-black rounded-full" />
+        <div className="absolute top-2 left-1/2 -translate-x-1/2 z-20 w-12 sm:w-16 h-3.5 sm:h-4 bg-black rounded-full" />
         <div className="w-full h-full overflow-hidden">
             {children}
         </div>
@@ -48,9 +48,9 @@ const PhoneFrame = ({ children, className = '' }: { children: React.ReactNode; c
 )
 
 const StatusBar = ({ dark = false }: { dark?: boolean }) => (
-    <div className={`flex items-center justify-between px-5 py-1.5 text-[9px] font-semibold ${dark ? 'text-white/70' : 'text-black/50'}`}>
-        <span>9:41</span>
-        <div className="flex items-center gap-1">
+    <div className={`relative flex items-center justify-between px-4 pt-3 pb-1.5 text-[9px] font-semibold ${dark ? 'text-white/70' : 'text-black/50'}`}>
+        <span className="z-10">9:41</span>
+        <div className="flex items-center gap-1 z-10">
             <div className="flex gap-[2px] items-end">
                 <div className={`w-[3px] h-[4px] rounded-[0.5px] ${dark ? 'bg-white/50' : 'bg-black/30'}`} />
                 <div className={`w-[3px] h-[6px] rounded-[0.5px] ${dark ? 'bg-white/60' : 'bg-black/40'}`} />
@@ -88,7 +88,7 @@ const BottomNav = ({ active = 0, dark = false }: { active?: number; dark?: boole
 }
 
 const SplashScreen = () => (
-    <div className="w-full h-full bg-gradient-to-b from-[#4a0d16] via-[#6e1423] to-[#4a0d16] flex flex-col items-center justify-center relative">
+    <div className="w-full h-full bg-gradient-to-b from-[#4a0d16] via-[#6e1423] to-[#4a0d16] flex flex-col relative">
         <StatusBar dark />
         <div className="flex-1 flex flex-col items-center justify-center gap-3">
             <div className="relative">
@@ -695,7 +695,7 @@ const LandingPage = () => {
                             transition={{ duration: 0.8, delay: 0.2 }}
                             className="flex justify-center lg:justify-end"
                         >
-                            <div className="relative">
+                            <div className="relative px-4 sm:px-12 lg:px-16">
                                 <div className={`absolute -inset-8 rounded-full blur-3xl ${isDark ? 'bg-amber-500/8' : 'bg-primary/8'}`} />
 
                                 {/* Splash Screen - Behind Left */}
@@ -727,7 +727,7 @@ const LandingPage = () => {
                                     initial={{ opacity: 0, x: -20 }}
                                     animate={{ opacity: 1, x: 0 }}
                                     transition={{ duration: 0.6, delay: 0.8 }}
-                                    className={`absolute -right-10 sm:-right-14 bottom-1/4 z-30 p-3 sm:p-3.5 rounded-xl border shadow-lg backdrop-blur-sm ${isDark ? 'bg-zinc-900/90 border-white/10' : 'bg-white/95 border-gray-100'}`}
+                                    className={`hidden sm:block absolute -right-4 sm:-right-12 lg:-right-16 bottom-1/4 z-30 p-3 sm:p-3.5 rounded-xl border shadow-lg backdrop-blur-sm ${isDark ? 'bg-zinc-900/90 border-white/10' : 'bg-white/95 border-gray-100'}`}
                                 >
                                     <div className="flex items-center gap-2.5">
                                         <div className={`p-2 rounded-lg ${isDark ? 'bg-purple-500/15' : 'bg-purple-50'}`}>
@@ -745,7 +745,7 @@ const LandingPage = () => {
                                     initial={{ opacity: 0, x: 20 }}
                                     animate={{ opacity: 1, x: 0 }}
                                     transition={{ duration: 0.6, delay: 0.6 }}
-                                    className={`absolute -left-10 sm:-left-14 bottom-12 z-30 p-3 sm:p-3.5 rounded-xl border shadow-lg backdrop-blur-sm ${isDark ? 'bg-zinc-900/90 border-white/10' : 'bg-white/95 border-gray-100'}`}
+                                    className={`hidden sm:block absolute -left-4 sm:-left-12 lg:-left-16 bottom-16 z-30 p-3 sm:p-3.5 rounded-xl border shadow-lg backdrop-blur-sm ${isDark ? 'bg-zinc-900/90 border-white/10' : 'bg-white/95 border-gray-100'}`}
                                 >
                                     <div className="flex items-center gap-2.5">
                                         <div className={`p-2 rounded-lg ${isDark ? 'bg-amber-500/15' : 'bg-amber-50'}`}>
