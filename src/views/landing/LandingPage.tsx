@@ -239,13 +239,12 @@ const ReservationScreen = () => (
                         return (
                             <div
                                 key={i}
-                                className={`h-6 rounded-md flex items-center justify-center text-[6px] font-medium ${
-                                    isTaken
-                                        ? 'bg-gray-100 text-gray-300'
-                                        : isSelected
+                                className={`h-6 rounded-md flex items-center justify-center text-[6px] font-medium ${isTaken
+                                    ? 'bg-gray-100 text-gray-300'
+                                    : isSelected
                                         ? 'bg-[#6e1423] text-white'
                                         : 'bg-gray-50 text-gray-500 border border-gray-100'
-                                }`}
+                                    }`}
                             >
                                 T{i + 1}
                             </div>
@@ -705,7 +704,7 @@ const LandingPage = () => {
                                     transition={{ duration: 0.7, delay: 0.4 }}
                                     className="absolute -left-8 sm:-left-14 top-8 z-10"
                                 >
-                                    <PhoneFrame className="w-40 sm:w-48 h-[340px] sm:h-[400px] opacity-90">
+                                    <PhoneFrame className="w-52 sm:w-60 h-[440px] sm:h-[500px] opacity-90">
                                         <SplashScreen />
                                     </PhoneFrame>
                                 </motion.div>
@@ -979,7 +978,7 @@ const LandingPage = () => {
                                 transition={{ duration: 0.5, delay: i * 0.15 }}
                                 className="flex flex-col items-center gap-3"
                             >
-                                <PhoneFrame className="w-44 sm:w-52 h-[370px] sm:h-[440px]">
+                                <PhoneFrame className="w-48 sm:w-56 lg:w-60 h-[400px] sm:h-[470px] lg:h-[500px]">
                                     {item.screen}
                                 </PhoneFrame>
                                 <p className={`text-sm font-semibold ${textPrimary}`}>{item.label}</p>
