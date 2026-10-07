@@ -524,7 +524,7 @@ const LandingPage = () => {
                             </button>
 
                             <a
-                                href={appVersion?.iosLink || appVersion?.playStoreLink || '#download'}
+                                href="https://drive.google.com/file/d/1ivZ6VYLIjc8WR29ai4xMeP1sogiwl2hQ/view?usp=share_link"
                                 target={appVersion?.iosLink || appVersion?.playStoreLink ? '_blank' : undefined}
                                 rel="noopener noreferrer"
                                 className={`hidden sm:inline-flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold transition-all ${isDark ? 'bg-amber-400 text-black hover:bg-amber-300' : 'bg-primary text-white hover:bg-primary-mild'}`}
