@@ -105,7 +105,9 @@ const SplashScreen = () => (
                 <div className="w-1.5 h-1.5 rounded-full bg-gold/30 animate-pulse" style={{ animationDelay: '0.4s' }} />
             </div>
         </div>
-        <p className="text-white/30 text-[8px] pb-6 tracking-wide">Fine Dining, Redefined</p>
+        <div className="flex flex-col items-center justify-center pb-6"><p className="text-white/30 text-[8px] tracking-wide">Power By </p>
+            <p className='text-gold text-[8px]  tracking-wide'>Mingalar Mon</p></div>
+
     </div>
 )
 
