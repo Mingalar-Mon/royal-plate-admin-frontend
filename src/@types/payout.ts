@@ -26,6 +26,31 @@ export type PayoutBatch = {
     reservationNetAmount: string | null
     created_at: string
     updated_at: string
+    payoutItems?: {
+        id: string
+        created_at: string
+        order?: {
+            id: string
+            orderNumber: string
+            scheduledDate: string
+            totalPrice: string
+            subTotal: string
+            commission_fee: string
+            netAmount: string
+            status: string
+            tax?: string
+            commissionRate?: string
+        } | null
+        reservation?: {
+            id: string
+            scheduledDate: string
+            totalPrice: string
+            subTotal: string
+            commission_fee: string
+            netAmount: string
+            status: string
+        } | null
+    }[]
 }
 
 export type PayoutBatchesResponse = {

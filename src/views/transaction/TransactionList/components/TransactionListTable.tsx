@@ -1,4 +1,5 @@
 import { useMemo } from 'react'
+import dayjs from 'dayjs'
 import type { ColumnDef } from '@tanstack/react-table'
 import classNames from 'classnames'
 import { NumericFormat } from 'react-number-format'
@@ -112,6 +113,24 @@ const TransactionListTable = ({
                         </span>
                     )
                 },
+            },
+            {
+                header: 'Time',
+                accessorKey: 'created_at',
+                cell: (props) => (
+                    <div className="flex flex-col whitespace-nowrap">
+                        <span className="text-gray-900 dark:text-gray-100">
+                            {dayjs(props.row.original.created_at).format(
+                                'DD/MM/YYYY',
+                            )}
+                        </span>
+                        <span className="text-xs text-gray-500 dark:text-gray-400">
+                            {dayjs(props.row.original.created_at).format(
+                                'hh:mm a',
+                            )}
+                        </span>
+                    </div>
+                ),
             },
             {
                 header: 'Type',
