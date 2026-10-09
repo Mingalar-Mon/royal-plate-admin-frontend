@@ -8,8 +8,8 @@ const PublicRoute = () => {
     const { authenticated } = useAuth()
     const location = useLocation()
 
-    // Public landing page is available to everyone
-    if (location.pathname === '/landing') {
+    // Public landing page and privacy policy are available to everyone
+    if (location.pathname === '/landing' || location.pathname === '/privacy-policy') {
         return <Outlet />
     }
 

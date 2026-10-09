@@ -12,6 +12,7 @@ const Layout = ({ children }: CommonProps) => {
     const layoutType = useThemeStore((state) => state.layout.type)
     const location = useLocation()
     const isLanding = location.pathname === '/landing'
+    const isPrivacyPolicy = location.pathname === '/privacy-policy'
     const isAuthPath = authRoute.some((route) => route.path === location.pathname)
 
     const { authenticated } = useAuth()
@@ -24,7 +25,7 @@ const Layout = ({ children }: CommonProps) => {
                 </div>
             }
         >
-            {authenticated && !isLanding && !isAuthPath ? (
+            {authenticated && !isLanding && !isPrivacyPolicy && !isAuthPath ? (
                 <PostLoginLayout layoutType={layoutType}>
                     {children}
                 </PostLoginLayout>

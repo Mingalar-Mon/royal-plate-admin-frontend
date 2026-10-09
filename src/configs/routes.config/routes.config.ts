@@ -12,6 +12,12 @@ export const publicRoutes: Routes = [
         component: lazy(() => import('@/views/landing/LandingPage')),
         authority: [],
     },
+    {
+        key: 'privacy-policy',
+        path: '/privacy-policy',
+        component: lazy(() => import('@/views/privacy-policy/PrivacyPolicy')),
+        authority: [],
+    },
 ]
 
 export const protectedRoutes: Routes = [
