@@ -98,3 +98,37 @@ export type GetDishListResponse = {
     data: Dish[]
     message: string
 }
+
+export type RestaurantCardData = {
+    id: string
+    name: string
+    address: string
+    tax: number
+    startingPrice: number
+    endingPrice: number
+    latitude: number
+    longitude: number
+    averageRating: number
+    totalReviews: number
+    logoImage: { key: string; url: string }
+    images: { key: string; url: string }[]
+    profile: RestaurantProfile | null
+    totalOrderAmount: number
+    totalOrderCount: number
+    totalReservationAmount: number
+    totalReservationCount: number
+    created_at: string
+    updated_at: string
+}
+
+export type GetRestaurantCardsResponse = {
+    success: boolean
+    paginator: {
+        totalItems: number
+        totalPages: number
+        currentPage: number
+        pageSize: number
+    }
+    data: RestaurantCardData[]
+    message: string
+}

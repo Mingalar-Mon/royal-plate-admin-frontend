@@ -5,6 +5,7 @@ import {
     apiDeleteRestaurant,
     apiGetRestaurant,
     apiGetRestaurants,
+    apiGetRestaurantCards,
     apiUpdateRestaurant,
     apiGetRestaurantList,
 } from '@/services/RestaurantService'
@@ -22,6 +23,17 @@ export const useGetRestaurants = () => {
         // Do not start the request until both auth state and user state have
         // been committed after the login redirect.
         enabled: authenticated && !!userId,
+    })
+}
+
+export const useGetRestaurantCards = (fromDate: string, toDate: string) => {
+    const userId = useSessionUser((state) => state.user.userId)
+    const { authenticated } = useAuth()
+
+    return useQuery({
+        queryKey: ['restaurant-cards', userId, fromDate, toDate],
+        queryFn: () => apiGetRestaurantCards({ fromDate, toDate }),
+        enabled: authenticated && !!userId && !!fromDate && !!toDate,
     })
 }
 

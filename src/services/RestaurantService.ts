@@ -1,6 +1,7 @@
 import {
     GetRestaurantResponse,
     GetRestaurantListResponse,
+    GetRestaurantCardsResponse,
     Restaurant,
     DeleteRestaurantResponse,
     UpdateRestaurantResponse,
@@ -13,6 +14,17 @@ export async function apiGetRestaurants() {
     return ApiService.fetchDataWithAxios<GetRestaurantListResponse>({
         url: `restaurant/owner/get-restaurants`,
         method: 'get',
+    })
+}
+
+export async function apiGetRestaurantCards(params: {
+    fromDate: string
+    toDate: string
+}) {
+    return ApiService.fetchDataWithAxios<GetRestaurantCardsResponse>({
+        url: `restaurant/owner/get-restaurant-cards`,
+        method: 'get',
+        params,
     })
 }
 

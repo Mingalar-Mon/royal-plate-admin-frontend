@@ -7,7 +7,7 @@ import { useSessionUser } from '@/store/authStore'
 import { useRouteKeyStore } from '@/store/routeKeyStore'
 import navigationConfig, { getDashboardOnlyNavigation } from '@/configs/navigation.config'
 import appConfig from '@/configs/app.config'
-import { Link, useParams } from 'react-router'
+import { Link, useParams, useLocation } from 'react-router'
 import {
     SIDE_NAV_WIDTH,
     SIDE_NAV_COLLAPSED_WIDTH,
@@ -61,15 +61,14 @@ const SideNav = ({
         (state) => state.activeRestaurant?.id,
     )
 
-    console.log('active id: ', activeRestaurantId)
-
     const { restaurantId } = useParams()
+    const location = useLocation()
+    const isOnDashboard = location.pathname === '/owner/dashboard'
     const currentId = activeRestaurantId || restaurantId
-    console.log('Current id: ', currentId)
 
     // 2. Build the live dynamic navigation tree
     const dynamicNavigationTree = useMemo(() => {
-        if (!currentId) {
+        if (!currentId || isOnDashboard) {
             return getDashboardOnlyNavigation()
         }
 
@@ -92,7 +91,7 @@ const SideNav = ({
         substituteTokens(treeCopy)
 
         return treeCopy
-    }, [currentId])
+    }, [currentId, isOnDashboard])
 
     return (
         <div
@@ -126,9 +125,11 @@ const SideNav = ({
                     <VerticalMenuContent
                         collapsed={sideNavCollapse}
                         navigationTree={
-                            userAuthority && userAuthority[0] === ADMIN
-                                ? navigationConfig
-                                : dynamicNavigationTree
+                            isOnDashboard
+                                ? getDashboardOnlyNavigation()
+                                : userAuthority && userAuthority[0] === ADMIN
+                                  ? navigationConfig
+                                  : dynamicNavigationTree
                         }
                         routeKey={currentRouteKey}
                         direction={direction}
