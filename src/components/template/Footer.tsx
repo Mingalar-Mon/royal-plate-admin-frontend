@@ -29,7 +29,7 @@ const FooterContent = () => {
                 <span className="mx-2 text-muted"> | </span>
                 <a
                     className="text-gray"
-                    href="/#"
+                    href="https://royal-plate-admin-frontend-e2w1.vercel.app/privacy-policy"
                     onClick={(e) => e.preventDefault()}
                 >
                     Privacy & Policy
