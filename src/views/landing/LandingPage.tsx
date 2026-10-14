@@ -26,6 +26,7 @@ import {
     TbCreditCard,
     TbUsers,
     TbThumbUp,
+    TbShoppingCart,
 } from 'react-icons/tb'
 
 const PhoneFrame = ({ children, className = '' }: { children: React.ReactNode; className?: string }) => (
@@ -82,32 +83,32 @@ const LandingPage = () => {
         {
             step: '01',
             icon: <TbMapPin className="text-2xl" />,
-            title: 'Discover Restaurants',
+            title: 'Choose Your Cuisine',
             description:
-                'Browse curated restaurants near you. Explore menus with photos, ratings, and real-time availability.',
+                'Browse by cuisine type to discover restaurants near you. Explore menus with photos, ratings, and real-time table availability.',
         },
         {
             step: '02',
             icon: <TbCalendarEvent className="text-2xl" />,
             title: 'Reserve Your Table',
             description:
-                'Pick your restaurant, choose date & time, select guests, and confirm your booking instantly.',
+                'Pick a restaurant, select an available table, choose your time slot, and pre-order at least one dish. Get instant confirmation via notification.',
         },
         {
             step: '03',
             icon: <TbThumbUp className="text-2xl" />,
             title: 'Enjoy Your Meal',
             description:
-                'Arrive to your reserved table, order via QR code, earn rewards, and save favorites for next time.',
+                'Arrive at your reserved table for a wonderful dining experience, or pick up your take-away order. Track every stage with real-time notifications.',
         },
     ]
 
     const features = [
         {
             icon: <TbCalendarEvent className="text-2xl" />,
-            title: 'Instant Reservations',
+            title: 'Smart Reservations',
             description:
-                'Book your perfect table in seconds. Choose date, time, party size, and get instant confirmation.',
+                'Choose a cuisine, pick a restaurant, select your table and time slot, and pre-order a dish. Confirm instantly with real-time notifications.',
             color: 'from-purple-500 to-indigo-600',
         },
         {
@@ -118,31 +119,31 @@ const LandingPage = () => {
             color: 'from-amber-500 to-orange-600',
         },
         {
-            icon: <TbScan className="text-2xl" />,
-            title: 'QR Table Ordering',
+            icon: <TbShoppingCart className="text-2xl" />,
+            title: 'Pre-Order Dishes',
             description:
-                'Scan the QR code at your table and order directly from your phone. No need to wait for a waiter.',
+                'Pre-order your favorite dishes when making a reservation. Your meal will be ready when you arrive.',
             color: 'from-emerald-500 to-teal-600',
         },
         {
             icon: <TbCreditCard className="text-2xl" />,
             title: 'Secure Payments',
             description:
-                'Pay with confidence using encrypted payment gateways. Support for cards, wallets, and cash on delivery.',
+                'Pay with confidence using encrypted payment gateways. Support for cards, wallets, and cash on pickup.',
             color: 'from-sky-500 to-blue-600',
         },
         {
             icon: <TbGift className="text-2xl" />,
             title: 'Rewards & Offers',
             description:
-                'Earn points with every order. Unlock discounts, birthday treats, and VIP access to new launches.',
+                'Earn points with every order and reservation. Unlock discounts, birthday treats, and VIP access to new launches.',
             color: 'from-rose-500 to-pink-600',
         },
         {
             icon: <TbBell className="text-2xl" />,
-            title: 'Smart Alerts',
+            title: 'Real-Time Notifications',
             description:
-                'Get reservation reminders, order status updates, and exclusive offers from your favorite spots.',
+                'Track every stage of your order and reservation with push notifications. From confirmation to ready-to-pickup, you will always be in the loop.',
             color: 'from-violet-500 to-purple-600',
         },
     ]
@@ -150,8 +151,8 @@ const LandingPage = () => {
     const whyChooseFeatures = [
         {
             icon: <TbCalendarEvent className="text-xl" />,
-            title: 'Instant Booking',
-            description: 'Reserve tables in seconds with real-time availability',
+            title: 'Cuisine-First Booking',
+            description: 'Pick a cuisine, choose a restaurant, select your table and time slot',
         },
         {
             icon: <TbMapPin className="text-xl" />,
@@ -159,21 +160,21 @@ const LandingPage = () => {
             description: 'Discover the finest dining spots across the city',
         },
         {
-            icon: <TbShieldCheck className="text-xl" />,
-            title: 'Secure & Private',
-            description: 'Bank-level encryption protects all your data',
+            icon: <TbBell className="text-xl" />,
+            title: 'Stage Notifications',
+            description: 'Real-time updates for every order and reservation stage',
         },
         {
             icon: <TbGift className="text-xl" />,
             title: 'Earn Rewards',
-            description: 'Get points and discounts on every reservation',
+            description: 'Get points and discounts on every reservation and order',
         },
     ]
 
     const testimonials = [
         {
             quote:
-                'Booking a table used to mean calling during busy hours. Now I just open the app, pick my time, and done. The confirmation notification is a nice touch.',
+                'I love how easy it is to find a restaurant by cuisine, pick my table, and choose a time slot. The notification at every step keeps me updated without any hassle.',
             author: 'Min Ko Ko',
             role: 'Regular Diner',
             location: 'Mandalay',
@@ -181,7 +182,7 @@ const LandingPage = () => {
         },
         {
             quote:
-                'The reservation feature is a game changer. I love being able to see available tables and pick the perfect spot before I even leave home.',
+                'The reservation flow is brilliant. Browse by cuisine, see available tables, pick a time, and pre-order a dish — all before I leave home. The notifications keep me updated every step of the way.',
             author: 'Sarah Chen',
             role: 'Food Enthusiast',
             location: 'Yangon',
@@ -189,7 +190,7 @@ const LandingPage = () => {
         },
         {
             quote:
-                'I have discovered so many great restaurants through this app. The rewards program is generous, and the interface is beautiful. My go-to for dining out.',
+                'I use it for both reservations and take-away orders. The real-time notifications let me know exactly when my order is ready. My go-to app for dining out.',
             author: 'Emily Rodriguez',
             role: 'Travel Blogger',
             location: 'Nay Pyi Taw',
@@ -211,19 +212,23 @@ const LandingPage = () => {
         },
         {
             q: 'How do I make a reservation?',
-            a: 'Simply select your preferred restaurant, choose your date and time, specify the number of guests, pick your table, and confirm. You will receive instant confirmation via notification.',
+            a: 'First, choose a cuisine you are craving. Then pick a restaurant, select an available table, choose a time slot, and pre-order at least one dish. You will receive instant confirmation and stage-by-stage notifications.',
         },
         {
-            q: 'Can I order food through the app?',
-            a: 'Yes! Once seated, scan the QR code on your table to access the menu and order directly from your phone. You can also browse menus before visiting.',
+            q: 'Can I order food for take-away?',
+            a: 'Yes! You can place take-away orders directly through the app. You will receive notifications at every stage — from order confirmed to ready for pickup. Currently, we support dine-in and take-away only.',
+        },
+        {
+            q: 'Do I need to pre-order when making a reservation?',
+            a: 'Yes, when making a reservation, you will need to pre-order at least one dish. This ensures the kitchen can prepare your meal in advance so it is ready when you arrive at your reserved table.',
+        },
+        {
+            q: 'Will I get notified about my order or reservation?',
+            a: 'Absolutely. You will receive push notifications at every stage — reservation confirmation, order accepted, preparation started, and ready for pickup or served at your table.',
         },
         {
             q: 'Is my payment information secure?',
             a: 'Yes, we use industry-standard encryption and secure payment gateways to protect your financial information. Your data is always safe with us.',
-        },
-        {
-            q: 'Can I save my favorite restaurants?',
-            a: 'Yes! You can bookmark your favorite restaurants and dishes for quick access. Your saved items sync across all your devices.',
         },
     ]
 
@@ -348,7 +353,7 @@ const LandingPage = () => {
                                 className={`inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border mb-6 ${isDark ? 'bg-amber-400/10 border-amber-400/20 text-amber-300' : 'bg-primary/5 border-primary/15 text-primary'}`}
                             >
                                 <TbSparkles className="text-sm" />
-                                <span className="text-xs font-semibold tracking-wide">Reserve Tables & Discover Restaurants</span>
+                                <span className="text-xs font-semibold tracking-wide">Reserve Tables, Order & Discover Restaurants</span>
                             </motion.div>
 
                             <motion.h1
@@ -371,7 +376,7 @@ const LandingPage = () => {
                                 transition={{ duration: 0.6, delay: 0.2 }}
                                 className={`mt-5 sm:mt-6 text-base sm:text-lg max-w-lg mx-auto lg:mx-0 leading-relaxed ${textSecondary}`}
                             >
-                                Reserve tables at top restaurants, browse menus, and order via QR code. The complete dining experience starts here.
+                                Pick a cuisine, choose your restaurant, select a table, and book your time slot — all in one tap. Pre-order your favorite dishes and track every stage with real-time notifications.
                             </motion.p>
 
                             <motion.div
@@ -560,7 +565,7 @@ const LandingPage = () => {
                             <span className={isDark ? 'text-amber-400' : 'text-primary'}>Dine Out</span>
                         </h2>
                         <p className={`text-sm sm:text-base mt-3 leading-relaxed ${textSecondary}`}>
-                            From reservation to checkout, Royal Plate makes every step seamless.
+                            From cuisine discovery to reservation and ordering, Royal Plate makes every step seamless.
                         </p>
                     </div>
 
@@ -676,7 +681,7 @@ const LandingPage = () => {
                             Three Simple Steps
                         </h2>
                         <p className={`text-sm sm:text-base mt-3 leading-relaxed ${textSecondary}`}>
-                            From discovery to dining, the app makes every step effortless.
+                            From cuisine discovery to reservation and dining, the app makes every step effortless.
                         </p>
                     </div>
 
