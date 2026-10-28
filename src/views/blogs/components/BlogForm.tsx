@@ -205,6 +205,7 @@ const BlogForm = ({
                                     render={({ field }) => (
                                         <FormItem
                                             label="Content (Markdown / Rich Text)"
+                                            labelClass="line-clamp-1"
                                             invalid={!!errors.content}
                                             errorMessage={
                                                 errors.content?.message

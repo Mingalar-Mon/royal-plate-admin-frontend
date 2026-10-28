@@ -112,7 +112,7 @@ const RichTextEditor = (props: RichTextEditorProps) => {
     return (
         <div
             className={classNames(
-                'rich-text-editor rounded-xl ring-1 ring-gray-200 dark:ring-gray-600 border border-gray-200 dark:border-gray-600 bg-gray-100 dark:bg-gray-700 pt-3',
+                'rich-text-editor rounded-xl ring-1 ring-gray-200 dark:ring-gray-600 border border-gray-200 dark:border-gray-600 bg-gray-100 dark:bg-gray-700 pt-3 overflow-x-auto',
                 editor.isFocused && 'ring-primary border-primary',
                 invalid && 'bg-error-subtle',
                 editor.isFocused &&
@@ -120,7 +120,7 @@ const RichTextEditor = (props: RichTextEditorProps) => {
                     'bg-error-subtle ring-error border-error',
             )}
         >
-            <div className="flex gap-x-1 gap-y-2 px-2">
+            <div className="flex gap-x-1 gap-y-2 px-2 w-max">
                 {customToolBar ? (
                     customToolBar(editor, {
                         ToolButtonBold,
