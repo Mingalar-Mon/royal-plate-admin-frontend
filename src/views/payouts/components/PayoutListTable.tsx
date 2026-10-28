@@ -235,7 +235,7 @@ const PayoutListTable = ({ data, total, loading }: PayoutListTableProps) => {
                                             </span>
                                         </td>
                                         <td className="py-2.5 pr-3 font-mono text-xs text-gray-700 dark:text-gray-200">
-                                            {isOrder ? record.orderNumber : record.id.slice(0, 8)}
+                                            {isOrder ? record.orderNumber : record.reservationNumber}
                                         </td>
                                         <td className="py-2.5 pr-3 text-xs text-gray-500 dark:text-gray-400">
                                             {dayjs(record.scheduledDate).format('DD/MM/YYYY HH:mm')}

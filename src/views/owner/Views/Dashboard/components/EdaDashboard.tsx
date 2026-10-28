@@ -114,26 +114,26 @@ const StatCard = ({
     return (
         <Card
             className={`group overflow-hidden transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md border-t-[3px] border-gold ${styles.soft}`}
-            bodyClass="p-5"
+            bodyClass="p-4"
         >
-            <div className="flex items-start justify-between gap-3">
-                <div className="min-w-0">
-                    <p className="truncate text-xs font-semibold uppercase tracking-[0.12em] text-gray-500 dark:text-gray-400">
-                        {label}
-                    </p>
-                    <p className="mt-3 text-2xl font-bold tracking-tight text-primary dark:text-gold-light sm:text-3xl">
-                        {valueFormatter(value)}
-                    </p>
-                </div>
+            <div className="flex flex-col gap-1.5 sm:flex-row sm:items-center sm:gap-4">
                 <div
-                    className={`shrink-0 rounded-2xl p-3 text-xl transition-transform duration-200 group-hover:scale-105 ${styles.icon}`}
+                    className={`shrink-0 rounded-xl sm:rounded-2xl px-2 py-1.5 sm:p-2.5 text-base sm:text-xl transition-transform duration-200 group-hover:scale-105 ${styles.icon}`}
                 >
                     {icon}
                 </div>
+                <div className="min-w-0 flex-1">
+                    <p className="truncate text-[10px] sm:text-xs font-semibold uppercase tracking-[0.12em] text-gray-500 dark:text-gray-400">
+                        {label}
+                    </p>
+                    <p className="mt-0.5 text-lg sm:text-2xl font-bold tracking-tight text-primary dark:text-gold-light sm:mt-3 sm:text-2xl">
+                        {valueFormatter(value)}
+                    </p>
+                </div>
+                <p className="hidden truncate text-[10px] sm:text-xs text-gray-500 dark:text-gray-400 sm:block">
+                    {description}
+                </p>
             </div>
-            <p className="mt-3 text-xs text-gray-500 dark:text-gray-400">
-                {description}
-            </p>
         </Card>
     )
 }

@@ -14,7 +14,7 @@ const OrderListTableTools = () => {
     }
 
     return (
-        <div className="flex flex-col gap-3 xl:flex-row xl:items-center xl:justify-between">
+        <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
             <OrderListSearch onInputChange={handleInputChange} />
             <OrderListTableFilter />
         </div>

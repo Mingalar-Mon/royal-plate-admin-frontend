@@ -109,13 +109,16 @@ const RestaurantProfilePage = () => {
         // <Container>
         <div className="py-6">
             {/* Header */}
-            <div className="flex items-center justify-between mb-6">
+            <div className="flex items-center justify-between flex-wrap gap-2 mb-6">
                 <Button
                     variant="plain"
                     icon={<TbArrowNarrowLeft />}
                     onClick={handleBackToDashboard}
+                    className="flex-wrap min-w-fit"
                 >
-                    Back to Restaurant Dashboard
+                    Back to Restaurant
+                    <br />
+                    Dashboard
                 </Button>
                 <Button
                     variant="solid"
@@ -125,6 +128,7 @@ const RestaurantProfilePage = () => {
                             `/restaurant/update-restaurant-profile/${profile.data.restaurant.id}/${profile.data.id}`,
                         )
                     }}
+                    className="flex-wrap min-w-fit"
                 >
                     Edit Profile
                 </Button>

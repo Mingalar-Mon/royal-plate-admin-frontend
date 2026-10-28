@@ -26,13 +26,17 @@ export const useGetRestaurants = () => {
     })
 }
 
-export const useGetRestaurantCards = (fromDate: string, toDate: string) => {
+export const useGetRestaurantCards = (
+    fromDate: string,
+    toDate: string,
+    search?: string,
+) => {
     const userId = useSessionUser((state) => state.user.userId)
     const { authenticated } = useAuth()
 
     return useQuery({
-        queryKey: ['restaurant-cards', userId, fromDate, toDate],
-        queryFn: () => apiGetRestaurantCards({ fromDate, toDate }),
+        queryKey: ['restaurant-cards', userId, fromDate, toDate, search],
+        queryFn: () => apiGetRestaurantCards({ fromDate, toDate, search }),
         enabled: authenticated && !!userId && !!fromDate && !!toDate,
     })
 }

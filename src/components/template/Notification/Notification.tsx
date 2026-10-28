@@ -245,7 +245,7 @@ const _Notification = ({ className }: { className?: string }) => {
                 )}
             </ScrollBar>
 
-            <div className="px-4 py-3 bg-gray-50 dark:bg-gray-800/60 border-t border-gray-100 dark:border-gray-700/60">
+            {/* <div className="px-4 py-3 bg-gray-50 dark:bg-gray-800/60 border-t border-gray-100 dark:border-gray-700/60">
                 <button
                     onClick={handleViewAllActivity}
                     className="w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl text-sm font-semibold text-white bg-gradient-to-r from-primary-deep to-primary hover:from-primary-mild hover:to-primary-mild active:scale-[0.98] transition-all duration-200 shadow-md shadow-primary/25 cursor-pointer border-0"
@@ -253,7 +253,7 @@ const _Notification = ({ className }: { className?: string }) => {
                     View All Activity
                     <HiArrowRight className="text-base" />
                 </button>
-            </div>
+            </div> */}
         </Dropdown>
     )
 }
