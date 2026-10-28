@@ -2,6 +2,7 @@ import { useState, useMemo } from 'react'
 import { useNavigate } from 'react-router'
 import type { ApexOptions } from 'apexcharts'
 import dayjs from 'dayjs'
+import { TbSearch } from 'react-icons/tb'
 import Chart from '@/components/shared/Chart'
 import Card from '@/components/ui/Card'
 import Button from '@/components/ui/Button'
@@ -39,6 +40,7 @@ const Dashboard = () => {
         dayjs().startOf('month').toDate(),
     )
     const [toDate, setToDate] = useState<Date | null>(dayjs().toDate())
+    const [search, setSearch] = useState<string>('')
 
     const fromDateStr = fromDate ? dayjs(fromDate).format('YYYY-MM-DD') : ''
     const toDateStr = toDate ? dayjs(toDate).format('YYYY-MM-DD') : ''
@@ -46,6 +48,7 @@ const Dashboard = () => {
     const { data, isLoading, isFetching, refetch } = useGetRestaurantCards(
         fromDateStr,
         toDateStr,
+        search,
     )
 
     const restaurants = data?.data ?? []
@@ -187,14 +190,26 @@ const Dashboard = () => {
                             Overview of your restaurants performance
                         </p>
                     </div>
-                    <Button
-                        size="sm"
-                        icon={<TbRefresh />}
-                        onClick={handleRefresh}
-                        loading={isFetching}
-                    >
-                        Refresh
-                    </Button>
+                    <div className="flex items-center gap-2">
+                        <div className="relative">
+                            <input
+                                type="text"
+                                placeholder="Search restaurant name..."
+                                value={search}
+                                onChange={(e) => setSearch(e.target.value)}
+                                className="w-[240px] rounded-lg border border-gray-300 bg-white px-3 py-2 pl-9 text-sm outline-none focus:border-primary dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100"
+                            />
+                            <TbSearch className="absolute left-2.5 top-2.5 text-gray-400" />
+                        </div>
+                        <Button
+                            size="sm"
+                            icon={<TbRefresh />}
+                            onClick={handleRefresh}
+                            loading={isFetching}
+                        >
+                            Refresh
+                        </Button>
+                    </div>
                 </div>
 
                 <Card

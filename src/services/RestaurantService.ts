@@ -20,6 +20,7 @@ export async function apiGetRestaurants() {
 export async function apiGetRestaurantCards(params: {
     fromDate: string
     toDate: string
+    search?: string
 }) {
     return ApiService.fetchDataWithAxios<GetRestaurantCardsResponse>({
         url: `restaurant/owner/get-restaurant-cards`,
