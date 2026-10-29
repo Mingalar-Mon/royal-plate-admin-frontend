@@ -863,11 +863,11 @@ const LandingPage = () => {
                                 className={`rounded-xl border overflow-hidden ${cardBg}`}
                             >
                                 <details className={`group ${isDark ? '[&[open]]:bg-white/[0.03]' : '[&[open]]:bg-gray-50/80'}`}>
-                                    <summary className={`flex items-center justify-between gap-4 p-5 cursor-pointer list-none ${textPrimary}`}>
-                                        <h3 className="font-semibold text-sm sm:text-base pr-4">{faq.q}</h3>
+                                    <summary className={`flex items-center justify-between gap-4 p-5 cursor-pointer list-none ${isDark ? '!text-white' : '!text-gray-900'}`}>
+                                        <h3 className={`font-semibold text-sm sm:text-base pr-4 ${isDark ? '!text-white' : '!text-gray-900'}`}>{faq.q}</h3>
                                         <TbArrowRight className={`text-lg shrink-0 transition-transform group-open:rotate-90 ${isDark ? 'text-amber-400' : 'text-primary'}`} />
                                     </summary>
-                                    <div className={`px-5 pb-5 text-sm leading-relaxed ${textSecondary}`}>
+                                    <div className={`px-5 pb-5 text-sm leading-relaxed ${isDark ? '!text-zinc-400' : '!text-gray-500'}`}>
                                         {faq.a}
                                     </div>
                                 </details>
