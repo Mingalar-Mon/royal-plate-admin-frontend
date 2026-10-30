@@ -39,7 +39,7 @@ const AdminPayoutList = () => {
                                 No restaurant selected
                             </div>
                             <p className="mt-1 flex max-w-sm items-center gap-1.5 text-xs leading-5 text-gray-500 dark:text-gray-400">
-                                <TbCalendarMonth />
+                                {/* <TbCalendarMonth /> */}
                                 Pick a restaurant above to view its payout
                                 history.
                             </p>
