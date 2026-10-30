@@ -45,14 +45,14 @@ export const SignInBase = ({
                 </Alert>
             )}
             <SignInForm disableSubmit={disableSubmit} setMessage={setMessage} />
-            <p className="mt-4 text-center text-sm text-gray-500">
+            {/* <p className="mt-4 text-center text-sm text-gray-500">
                 <Link to="/landing" className="inline-flex items-center gap-1 text-gold hover:underline">
                     <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                         <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
                     </svg>
                     Back to landing page
                 </Link>
-            </p>
+            </p> */}
         </>
     )
 }
