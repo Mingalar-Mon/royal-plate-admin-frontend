@@ -5,6 +5,7 @@ import { z } from 'zod'
 import { Form, FormItem } from '@/components/ui/Form'
 import Input from '@/components/ui/Input'
 import Card from '@/components/ui/Card'
+import Alert from '@/components/ui/Alert'
 import Container from '@/components/shared/Container'
 
 const ownerCreateSchema = z.object({
@@ -19,10 +20,11 @@ export type OwnerCreateFormData = z.infer<typeof ownerCreateSchema>
 
 interface OwnerCreateFormProps {
     onFormSubmit: (data: OwnerCreateFormData) => void
+    errorMessage?: string
     children?: React.ReactNode
 }
 
-const OwnerCreateForm = ({ onFormSubmit, children }: OwnerCreateFormProps) => {
+const OwnerCreateForm = ({ onFormSubmit, errorMessage, children }: OwnerCreateFormProps) => {
     const {
         handleSubmit,
         control,
@@ -46,6 +48,13 @@ const OwnerCreateForm = ({ onFormSubmit, children }: OwnerCreateFormProps) => {
                         Onboard New Merchant
                     </h3>
                 </div>
+                {errorMessage && (
+                    <div className="mb-6">
+                        <Alert type="danger" showIcon closable>
+                            {errorMessage}
+                        </Alert>
+                    </div>
+                )}
                 <div className="mb-6">{children}</div>
 
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
