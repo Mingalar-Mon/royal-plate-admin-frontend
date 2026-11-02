@@ -13,12 +13,13 @@ import Pagination from '@/components/ui/Pagination'
 import { toRestaurantTime } from '@/utils/orderDate'
 
 interface Props {
+    restaurantId: string | null
     orderList: Order[]
     orderListTotal: number
     isLoading: boolean
 }
 
-const OrderListCards = ({ orderList, orderListTotal, isLoading }: Props) => {
+const OrderListCards = ({ restaurantId, orderList, orderListTotal, isLoading }: Props) => {
     const navigate = useNavigate()
     const setTableData = useOrderStore((state) => state.setTableData)
     const tableData = useOrderStore((state) => state.tableData)
@@ -77,7 +78,7 @@ const OrderListCards = ({ orderList, orderListTotal, isLoading }: Props) => {
                             <button
                                 type="button"
                                 className="min-w-0 flex-1 text-left"
-                                onClick={() => navigate(`/restaurants/${order.restaurantId}/orders/${order.id}`)}
+                                onClick={() => navigate(`/restaurants/${restaurantId}/orders/${order.id}`)}
                             >
                                 <p className="text-xs font-medium uppercase tracking-wide text-gray-500">
                                     Order
