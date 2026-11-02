@@ -589,26 +589,25 @@ const RestaurantDetailCard = ({
     const miniChartOptions: ApexOptions = {
         chart: { toolbar: { show: false } },
         colors: ['#6e1423', '#e9c66a'],
-        plotOptions: {
-            bar: {
-                horizontal: true,
-                borderRadius: 4,
-                barHeight: '35%',
-            },
-        },
-        xaxis: {
-            categories: ['Orders', 'Reservations'],
-            labels: { show: false },
-        },
-        yaxis: {
-            labels: { show: false },
+        labels: ['Orders', 'Reservations'],
+        legend: {
+            position: 'bottom',
+            fontSize: '11px',
         },
         dataLabels: { enabled: false },
-        legend: { show: false },
         tooltip: {
             y: { formatter: (val) => formatCurrency(val) },
         },
-        grid: { show: false },
+        plotOptions: {
+            pie: {
+                donut: {
+                    size: '60%',
+                    labels: {
+                        show: false,
+                    },
+                },
+            },
+        },
     }
 
     return (
@@ -646,26 +645,13 @@ const RestaurantDetailCard = ({
             <div className="p-5">
                 <div className="mb-4">
                     <Chart
-                        type="bar"
-                        height={120}
+                        type="donut"
+                        height={160}
                         series={[
-                            {
-                                name: 'Amount',
-                                data: [
-                                    restaurant.totalOrderAmount ?? 0,
-                                    restaurant.totalReservationAmount ?? 0,
-                                ],
-                            },
+                            restaurant.totalOrderAmount ?? 0,
+                            restaurant.totalReservationAmount ?? 0,
                         ]}
-                        customOptions={{
-                            ...miniChartOptions,
-                            plotOptions: {
-                                bar: {
-                                    borderRadius: 4,
-                                    columnWidth: '45%',
-                                },
-                            },
-                        }}
+                        customOptions={miniChartOptions}
                     />
                 </div>
 
