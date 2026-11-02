@@ -152,6 +152,10 @@ const Dashboard = () => {
         labels: ['Orders', 'Reservations'],
         legend: {
             position: 'bottom',
+            fontSize: '11px',
+            labels: {
+                useSeriesColors: false,
+            },
         },
         tooltip: {
             y: { formatter: (val) => formatCurrency(val) },
@@ -161,21 +165,19 @@ const Dashboard = () => {
                 donut: {
                     size: '65%',
                     labels: {
-                        show: true,
-                        total: {
-                            show: true,
-                            label: 'Total Revenue',
-                            formatter: () =>
-                                formatCurrency(
-                                    totals.orderAmount +
-                                        totals.reservationAmount,
-                                ),
-                        },
+                        show: false,
                     },
                 },
             },
         },
-        dataLabels: { enabled: false },
+        dataLabels: {
+            enabled: true,
+            style: {
+                fontSize: '10px',
+                fontWeight: 'bold',
+            },
+            formatter: (val) => formatCurrency(val),
+        },
     }
 
     const handleRefresh = () => {
@@ -375,77 +377,47 @@ const Dashboard = () => {
                 )}
 
                 {!isLoading && restaurants.length > 0 && (
-                    <>
-                        <div className="grid grid-cols-1 gap-6 xl:grid-cols-[2fr_1fr]">
-                            <Card
-                                header={{
-                                    content: (
-                                        <div>
-                                            <h4 className="text-base font-bold text-gray-900 dark:text-gray-100">
-                                                Revenue by Restaurant
-                                            </h4>
-                                            <p className="mt-1 text-xs font-normal text-gray-500 dark:text-gray-400">
-                                                Order vs reservation amount
-                                                comparison
-                                            </p>
-                                        </div>
-                                    ),
-                                    bordered: false,
-                                    className: 'px-5 py-4',
-                                }}
-                                bodyClass="px-3 pb-4 pt-0 sm:px-5"
-                            >
-                                <Chart
-                                    type="bar"
-                                    height={320}
-                                    series={[
-                                        {
-                                            name: 'Order Amount',
-                                            data: restaurants.map(
-                                                (r) => r.totalOrderAmount ?? 0,
-                                            ),
-                                        },
-                                        {
-                                            name: 'Reservation Amount',
-                                            data: restaurants.map(
-                                                (r) =>
-                                                    r.totalReservationAmount ??
-                                                    0,
-                                            ),
-                                        },
-                                    ]}
-                                    customOptions={overviewChartOptions}
-                                />
-                            </Card>
-
-                            <Card
-                                header={{
-                                    content: (
-                                        <div>
-                                            <h4 className="text-base font-bold text-gray-900 dark:text-gray-100">
-                                                Revenue Split
-                                            </h4>
-                                            <p className="mt-1 text-xs font-normal text-gray-500 dark:text-gray-400">
-                                                Orders vs reservations
-                                            </p>
-                                        </div>
-                                    ),
-                                    bordered: false,
-                                    className: 'px-5 py-4',
-                                }}
-                                bodyClass="px-3 pb-4 pt-0 sm:px-5"
-                            >
-                                <Chart
-                                    type="donut"
-                                    height={320}
-                                    series={[
-                                        totals.orderAmount,
-                                        totals.reservationAmount,
-                                    ]}
-                                    customOptions={donutChartOptions}
-                                />
-                            </Card>
-                        </div>
+                    <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+                        <Card
+                            header={{
+                                content: (
+                                    <div>
+                                        <h4 className="text-base font-bold text-gray-900 dark:text-gray-100">
+                                            Revenue by Restaurant
+                                        </h4>
+                                        <p className="mt-1 text-xs font-normal text-gray-500 dark:text-gray-400">
+                                            Order vs reservation amount
+                                            comparison
+                                        </p>
+                                    </div>
+                                ),
+                                bordered: false,
+                                className: 'px-5 py-4',
+                            }}
+                            bodyClass="px-3 pb-4 pt-0 sm:px-5"
+                        >
+                            <Chart
+                                type="bar"
+                                height={280}
+                                series={[
+                                    {
+                                        name: 'Order Amount',
+                                        data: restaurants.map(
+                                            (r) => r.totalOrderAmount ?? 0,
+                                        ),
+                                    },
+                                    {
+                                        name: 'Reservation Amount',
+                                        data: restaurants.map(
+                                            (r) =>
+                                                r.totalReservationAmount ??
+                                                0,
+                                        ),
+                                    },
+                                ]}
+                                customOptions={overviewChartOptions}
+                            />
+                        </Card>
 
                         <Card
                             header={{
@@ -467,7 +439,7 @@ const Dashboard = () => {
                         >
                             <Chart
                                 type="bar"
-                                height={300}
+                                height={280}
                                 series={[
                                     {
                                         name: 'Order Count',
@@ -479,14 +451,15 @@ const Dashboard = () => {
                                         name: 'Reservation Count',
                                         data: restaurants.map(
                                             (r) =>
-                                                r.totalReservationCount ?? 0,
+                                                r.totalReservationCount ??
+                                                0,
                                         ),
                                     },
                                 ]}
                                 customOptions={countChartOptions}
                             />
                         </Card>
-                    </>
+                    </div>
                 )}
 
                 <div>
