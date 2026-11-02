@@ -22,6 +22,7 @@ import {
     TbEye,
     TbEdit,
     TbTrash,
+    TbPlus,
 } from 'react-icons/tb'
 import { useGetRestaurantCards } from '@/utils/custom-hooks/useRestaurant'
 import { useRestaurantStore } from '@/store/restaurantStore'
@@ -36,6 +37,7 @@ const formatCurrency = (value: number | null | undefined) =>
     `${formatNumber(value)} MMK`
 
 const Dashboard = () => {
+    const navigate = useNavigate()
     const [fromDate, setFromDate] = useState<Date | null>(
         dayjs().startOf('month').toDate(),
     )
@@ -190,14 +192,24 @@ const Dashboard = () => {
                             Overview of your restaurants performance
                         </p>
                     </div>
-                    <Button
-                        size="sm"
-                        icon={<TbRefresh />}
-                        onClick={handleRefresh}
-                        loading={isFetching}
-                    >
-                        Refresh
-                    </Button>
+                    <div className="flex gap-2">
+                        <Button
+                            size="sm"
+                            icon={<TbRefresh />}
+                            onClick={handleRefresh}
+                            loading={isFetching}
+                        >
+                            Refresh
+                        </Button>
+                        <Button
+                            size="sm"
+                            variant="solid"
+                            icon={<TbPlus />}
+                            onClick={() => navigate('/restaurant/create-restaurant')}
+                        >
+                            Add Restaurant
+                        </Button>
+                    </div>
                 </div>
 
                 <Card
