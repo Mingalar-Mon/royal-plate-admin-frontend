@@ -1,4 +1,4 @@
-import { createElement } from 'react'
+import { useState, useEffect, createElement } from 'react'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { Notification, toast } from '@/components/ui'
 import {
@@ -8,12 +8,35 @@ import {
 } from '@/services/ReservationService'
 import type { ReservationQueries } from '@/store/reservationStore'
 
+// ================ GET RESERVATION (Direct API call, no TanStack) =====================
 export const useReservation = (id: string) => {
-    return useQuery({
-        queryKey: ['reservation', id],
-        queryFn: () => apiGetReservation(id),
-        enabled: !!id,
-    })
+    const [data, setData] = useState<any>(null)
+    const [isLoading, setIsLoading] = useState(true)
+    const [error, setError] = useState<Error | null>(null)
+
+    useEffect(() => {
+        if (!id) {
+            setIsLoading(false)
+            return
+        }
+
+        const fetchReservation = async () => {
+            setIsLoading(true)
+            setError(null)
+            try {
+                const response = await apiGetReservation(id)
+                setData(response)
+            } catch (err) {
+                setError(err as Error)
+            } finally {
+                setIsLoading(false)
+            }
+        }
+
+        fetchReservation()
+    }, [id])
+
+    return { data, isLoading, error }
 }
 
 export const useUpdateReservationStatus = () => {

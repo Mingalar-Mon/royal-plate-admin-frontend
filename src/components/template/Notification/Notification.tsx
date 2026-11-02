@@ -88,9 +88,9 @@ const _Notification = ({ className }: { className?: string }) => {
 
         const basePath = restaurantId ? `/restaurants/${restaurantId}` : ''
         if (item.category === 'order') {
-            navigate(`/orders/${item.referenceId}`)
+            navigate(`${basePath}/orders/${item.referenceId}`)
         } else if (item.category === 'reservation') {
-            navigate(`/reservations/detail/${item.referenceId}`)
+            navigate(`${basePath}/reservations/detail/${item.referenceId}`)
         } else if (item.category === 'blog') {
             navigate(`${basePath}/blogs/${item.referenceId}`)
         }

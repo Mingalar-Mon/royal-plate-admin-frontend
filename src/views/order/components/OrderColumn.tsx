@@ -8,7 +8,7 @@ const OrderColumn = ({ row }: { row: Order }) => {
     return (
         <div
             className="cursor-pointer text-primary-600 hover:underline"
-            onClick={() => navigate(`/orders/${row.id}`)}
+            onClick={() => navigate(`/restaurants/${row.restaurantId}/orders/${row.id}`)}
         >
             #{row.orderNumber}
         </div>

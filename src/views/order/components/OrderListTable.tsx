@@ -98,7 +98,7 @@ const OrderListTable = ({
 
     const columns: ColumnDef<Order>[] = useMemo(() => {
         const handleView = (order: Order) => {
-            navigate(`/orders/${order.id}`)
+            navigate(`/restaurants/${order.restaurantId}/orders/${order.id}`)
         }
 
         // const handleEdit = (order: Order) => {

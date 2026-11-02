@@ -12,7 +12,7 @@ import DishesList from './components/DishList'
 import ActivityTimeline from './components/ActivityTimeline'
 
 const ReservationDetail = () => {
-    const { reservationId } = useParams()
+    const { reservationId, restaurantId } = useParams()
     const navigate = useNavigate()
 
     const { data: reservationResponse, isLoading } = useReservation(
@@ -32,7 +32,11 @@ const ReservationDetail = () => {
                     <Button
                         variant="plain"
                         icon={<TbArrowNarrowLeft />}
-                        onClick={() => navigate(-1)}
+                        onClick={() =>
+                            navigate(
+                                `/restaurants/${restaurantId}/reservations`,
+                            )
+                        }
                     >
                         Back to Reservations
                     </Button>

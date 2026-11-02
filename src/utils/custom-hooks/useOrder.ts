@@ -1,8 +1,7 @@
-import { createElement } from 'react'
+import { useState, useEffect } from 'react'
 import { normalizeOrderStatus } from '@/@types/order'
 import { OrderQueries, useOrderStore } from '@/store/orderStore'
 import { Notification, toast } from '@/components/ui'
-// import { apiCreateOrder } from '@/services/OrderService'
 import { Order, OrderFormSchema } from '@/views/order/types/order.type'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { delay } from '../helpers/mock.helper'
@@ -18,52 +17,38 @@ import {
 // ========= MOCK HELPERS ===============
 const mockOrderData = [...mockOrders]
 
-// export const useCreateOrder = () => {
-//     const queryClient = useQueryClient()
-
-//     return useMutation({
-//         mutationFn: ({
-//             restaurantId,
-//             data,
-//         }: {
-//             restaurantId: string
-//             data: Partial<Order>
-//         }) => apiCreateOrder(restaurantId, data),
-
-//         onSuccess: async (response) => {
-//             console.log('Response from create order hook: ', response)
-//             await queryClient.invalidateQueries({ queryKey: ['orders'] })
-//         },
-//         onError: (error: unknown) => {
-//             console.log('Error creating restaurant: ', error)
-//         },
-//     })
-// }
-
-// ================ GET ORDER  =====================
-
+// ================ GET ORDER (Direct API call, no TanStack) =====================
 export const useGetOrder = (orderId: string) => {
-    return useQuery({
-        queryKey: ['order', orderId],
-        queryFn: async () => {
-            // Call API
-            const response = await apiGetOrder(orderId)
-            return {
-                ...response.data,
-                status: normalizeOrderStatus(response.data.status),
+    const [data, setData] = useState<any>(null)
+    const [isLoading, setIsLoading] = useState(true)
+    const [error, setError] = useState<Error | null>(null)
+
+    useEffect(() => {
+        if (!orderId) {
+            setIsLoading(false)
+            return
+        }
+
+        const fetchOrder = async () => {
+            setIsLoading(true)
+            setError(null)
+            try {
+                const response = await apiGetOrder(orderId)
+                setData({
+                    ...response.data,
+                    status: normalizeOrderStatus(response.data.status),
+                })
+            } catch (err) {
+                setError(err as Error)
+            } finally {
+                setIsLoading(false)
             }
-            // // mock
-            // await delay(800)
-            // const filtered = mockOrderData.filter(
-            //     (order) => order.id === orderId,
-            // )[0]
-            // return {
-            //     success: true,
-            //     data: filtered,
-            // }
-        },
-        enabled: !!orderId,
-    })
+        }
+
+        fetchOrder()
+    }, [orderId])
+
+    return { data, isLoading, error }
 }
 
 export const useGetOrders = (restaurantId: string, params: OrderQueries) => {

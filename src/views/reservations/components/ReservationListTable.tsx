@@ -59,7 +59,9 @@ const ReservationListTable = ({
 
     const columns: ColumnDef<Reservation>[] = useMemo(() => {
         const handleView = (reservation: Reservation) => {
-            navigate(`/reservations/detail/${reservation.id}`)
+            navigate(
+                `/restaurants/${reservation.restaurantId}/reservations/detail/${reservation.id}`,
+            )
         }
 
         return [

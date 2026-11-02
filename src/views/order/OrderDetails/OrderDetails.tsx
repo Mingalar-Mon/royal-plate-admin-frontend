@@ -13,7 +13,7 @@ import { Button } from '@/components/ui'
 import { TbArrowNarrowLeft } from 'react-icons/tb'
 
 const OrderDetails = () => {
-    const { orderId } = useParams()
+    const { orderId, restaurantId } = useParams()
     const navigate = useNavigate()
     const { data: order, isLoading } = useGetOrder(orderId!)
 
@@ -67,7 +67,9 @@ const OrderDetails = () => {
                     <Button
                         variant="plain"
                         icon={<TbArrowNarrowLeft />}
-                        onClick={() => navigate(-1)}
+                        onClick={() =>
+                            navigate(`/restaurants/${restaurantId}/orders`)
+                        }
                     >
                         Back to Orders
                     </Button>

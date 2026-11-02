@@ -61,6 +61,7 @@ export type GetReservationResponse = {
 
 export type Reservation = {
     id: string
+    restaurantId: string
     reservationNumber?: string
     reservationDate: string
     startingTime: string

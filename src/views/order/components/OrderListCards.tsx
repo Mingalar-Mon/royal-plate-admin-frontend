@@ -77,7 +77,7 @@ const OrderListCards = ({ orderList, orderListTotal, isLoading }: Props) => {
                             <button
                                 type="button"
                                 className="min-w-0 flex-1 text-left"
-                                onClick={() => navigate(`/orders/${order.id}`)}
+                                onClick={() => navigate(`/restaurants/${order.restaurantId}/orders/${order.id}`)}
                             >
                                 <p className="text-xs font-medium uppercase tracking-wide text-gray-500">
                                     Order
