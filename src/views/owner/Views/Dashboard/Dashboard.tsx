@@ -22,6 +22,7 @@ import {
     TbEye,
     TbEdit,
     TbTrash,
+    TbPlus,
 } from 'react-icons/tb'
 import { useGetRestaurantCards } from '@/utils/custom-hooks/useRestaurant'
 import { useRestaurantStore } from '@/store/restaurantStore'
@@ -36,6 +37,7 @@ const formatCurrency = (value: number | null | undefined) =>
     `${formatNumber(value)} MMK`
 
 const Dashboard = () => {
+    const navigate = useNavigate()
     const [fromDate, setFromDate] = useState<Date | null>(
         dayjs().startOf('month').toDate(),
     )
@@ -72,13 +74,15 @@ const Dashboard = () => {
         )
     }, [restaurants])
 
+    const columnWidth = restaurants.length <= 3 ? '12%' : restaurants.length <= 5 ? '25%' : '40%'
+
     const overviewChartOptions: ApexOptions = {
         chart: { toolbar: { show: false } },
         colors: ['#6e1423', '#e9c66a'],
         plotOptions: {
             bar: {
                 borderRadius: 6,
-                columnWidth: '55%',
+                columnWidth,
             },
         },
         dataLabels: { enabled: false },
@@ -113,7 +117,7 @@ const Dashboard = () => {
         plotOptions: {
             bar: {
                 borderRadius: 6,
-                columnWidth: '55%',
+                columnWidth,
             },
         },
         dataLabels: { enabled: false },
@@ -148,6 +152,10 @@ const Dashboard = () => {
         labels: ['Orders', 'Reservations'],
         legend: {
             position: 'bottom',
+            fontSize: '11px',
+            labels: {
+                useSeriesColors: false,
+            },
         },
         tooltip: {
             y: { formatter: (val) => formatCurrency(val) },
@@ -157,21 +165,19 @@ const Dashboard = () => {
                 donut: {
                     size: '65%',
                     labels: {
-                        show: true,
-                        total: {
-                            show: true,
-                            label: 'Total Revenue',
-                            formatter: () =>
-                                formatCurrency(
-                                    totals.orderAmount +
-                                        totals.reservationAmount,
-                                ),
-                        },
+                        show: false,
                     },
                 },
             },
         },
-        dataLabels: { enabled: false },
+        dataLabels: {
+            enabled: true,
+            style: {
+                fontSize: '10px',
+                fontWeight: 'bold',
+            },
+            formatter: (val) => formatCurrency(val),
+        },
     }
 
     const handleRefresh = () => {
@@ -190,17 +196,7 @@ const Dashboard = () => {
                             Overview of your restaurants performance
                         </p>
                     </div>
-                    <div className="flex items-center gap-2">
-                        <div className="relative">
-                            <input
-                                type="text"
-                                placeholder="Search restaurant name..."
-                                value={search}
-                                onChange={(e) => setSearch(e.target.value)}
-                                className="w-[240px] rounded-lg border border-gray-300 bg-white px-3 py-2 pl-9 text-sm outline-none focus:border-primary dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100"
-                            />
-                            <TbSearch className="absolute left-2.5 top-2.5 text-gray-400" />
-                        </div>
+                    <div className="flex gap-2">
                         <Button
                             size="sm"
                             icon={<TbRefresh />}
@@ -209,6 +205,14 @@ const Dashboard = () => {
                         >
                             Refresh
                         </Button>
+                        <Button
+                            size="sm"
+                            variant="solid"
+                            icon={<TbPlus />}
+                            onClick={() => navigate('/restaurant/create-restaurant')}
+                        >
+                            Add Restaurant
+                        </Button>
                     </div>
                 </div>
 
@@ -216,36 +220,48 @@ const Dashboard = () => {
                     className="border-none bg-gradient-to-br from-primary/10 via-primary/5 to-transparent"
                     bodyClass="p-5"
                 >
-                    <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:gap-6">
-                        <div className="flex items-center gap-2 text-sm font-semibold text-gray-700 dark:text-gray-200">
-                            <TbCalendar className="text-lg text-primary" />
-                            <span>Date Range</span>
+                    <div className="flex flex-col gap-4">
+                        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:gap-6">
+                            <div className="flex items-center gap-2 text-sm font-semibold text-gray-700 dark:text-gray-200">
+                                <TbCalendar className="text-lg text-primary" />
+                                <span>Date Range</span>
+                            </div>
+                            <div className="flex flex-wrap items-center gap-3">
+                                <div>
+                                    <label className="mb-1 block text-xs font-medium text-gray-500 dark:text-gray-400">
+                                        From
+                                    </label>
+                                    <DatePicker
+                                        value={fromDate}
+                                        onChange={(val) => setFromDate(val)}
+                                        inputFormat="DD/MM/YYYY"
+                                        clearable={false}
+                                        className="w-[160px]"
+                                    />
+                                </div>
+                                <div>
+                                    <label className="mb-1 block text-xs font-medium text-gray-500 dark:text-gray-400">
+                                        To
+                                    </label>
+                                    <DatePicker
+                                        value={toDate}
+                                        onChange={(val) => setToDate(val)}
+                                        inputFormat="DD/MM/YYYY"
+                                        clearable={false}
+                                        className="w-[160px]"
+                                    />
+                                </div>
+                            </div>
                         </div>
-                        <div className="flex flex-wrap items-end gap-3">
-                            <div>
-                                <label className="mb-1 block text-xs font-medium text-gray-500 dark:text-gray-400">
-                                    From
-                                </label>
-                                <DatePicker
-                                    value={fromDate}
-                                    onChange={(val) => setFromDate(val)}
-                                    inputFormat="DD/MM/YYYY"
-                                    clearable={false}
-                                    className="w-[160px]"
-                                />
-                            </div>
-                            <div>
-                                <label className="mb-1 block text-xs font-medium text-gray-500 dark:text-gray-400">
-                                    To
-                                </label>
-                                <DatePicker
-                                    value={toDate}
-                                    onChange={(val) => setToDate(val)}
-                                    inputFormat="DD/MM/YYYY"
-                                    clearable={false}
-                                    className="w-[160px]"
-                                />
-                            </div>
+                        <div className="relative w-full sm:w-[320px]">
+                            <input
+                                type="text"
+                                placeholder="Search restaurant name..."
+                                value={search}
+                                onChange={(e) => setSearch(e.target.value)}
+                                className="w-full rounded-lg border border-gray-300 bg-white px-3 py-2 pl-9 text-sm outline-none focus:border-primary dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100"
+                            />
+                            <TbSearch className="absolute left-2.5 top-2.5 text-gray-400" />
                         </div>
                     </div>
                 </Card>
@@ -361,77 +377,47 @@ const Dashboard = () => {
                 )}
 
                 {!isLoading && restaurants.length > 0 && (
-                    <>
-                        <div className="grid grid-cols-1 gap-6 xl:grid-cols-[2fr_1fr]">
-                            <Card
-                                header={{
-                                    content: (
-                                        <div>
-                                            <h4 className="text-base font-bold text-gray-900 dark:text-gray-100">
-                                                Revenue by Restaurant
-                                            </h4>
-                                            <p className="mt-1 text-xs font-normal text-gray-500 dark:text-gray-400">
-                                                Order vs reservation amount
-                                                comparison
-                                            </p>
-                                        </div>
-                                    ),
-                                    bordered: false,
-                                    className: 'px-5 py-4',
-                                }}
-                                bodyClass="px-3 pb-4 pt-0 sm:px-5"
-                            >
-                                <Chart
-                                    type="bar"
-                                    height={320}
-                                    series={[
-                                        {
-                                            name: 'Order Amount',
-                                            data: restaurants.map(
-                                                (r) => r.totalOrderAmount ?? 0,
-                                            ),
-                                        },
-                                        {
-                                            name: 'Reservation Amount',
-                                            data: restaurants.map(
-                                                (r) =>
-                                                    r.totalReservationAmount ??
-                                                    0,
-                                            ),
-                                        },
-                                    ]}
-                                    customOptions={overviewChartOptions}
-                                />
-                            </Card>
-
-                            <Card
-                                header={{
-                                    content: (
-                                        <div>
-                                            <h4 className="text-base font-bold text-gray-900 dark:text-gray-100">
-                                                Revenue Split
-                                            </h4>
-                                            <p className="mt-1 text-xs font-normal text-gray-500 dark:text-gray-400">
-                                                Orders vs reservations
-                                            </p>
-                                        </div>
-                                    ),
-                                    bordered: false,
-                                    className: 'px-5 py-4',
-                                }}
-                                bodyClass="px-3 pb-4 pt-0 sm:px-5"
-                            >
-                                <Chart
-                                    type="donut"
-                                    height={320}
-                                    series={[
-                                        totals.orderAmount,
-                                        totals.reservationAmount,
-                                    ]}
-                                    customOptions={donutChartOptions}
-                                />
-                            </Card>
-                        </div>
+                    <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+                        <Card
+                            header={{
+                                content: (
+                                    <div>
+                                        <h4 className="text-base font-bold text-gray-900 dark:text-gray-100">
+                                            Revenue by Restaurant
+                                        </h4>
+                                        <p className="mt-1 text-xs font-normal text-gray-500 dark:text-gray-400">
+                                            Order vs reservation amount
+                                            comparison
+                                        </p>
+                                    </div>
+                                ),
+                                bordered: false,
+                                className: 'px-5 py-4',
+                            }}
+                            bodyClass="px-3 pb-4 pt-0 sm:px-5"
+                        >
+                            <Chart
+                                type="bar"
+                                height={280}
+                                series={[
+                                    {
+                                        name: 'Order Amount',
+                                        data: restaurants.map(
+                                            (r) => r.totalOrderAmount ?? 0,
+                                        ),
+                                    },
+                                    {
+                                        name: 'Reservation Amount',
+                                        data: restaurants.map(
+                                            (r) =>
+                                                r.totalReservationAmount ??
+                                                0,
+                                        ),
+                                    },
+                                ]}
+                                customOptions={overviewChartOptions}
+                            />
+                        </Card>
 
                         <Card
                             header={{
@@ -453,7 +439,7 @@ const Dashboard = () => {
                         >
                             <Chart
                                 type="bar"
-                                height={300}
+                                height={280}
                                 series={[
                                     {
                                         name: 'Order Count',
@@ -465,14 +451,15 @@ const Dashboard = () => {
                                         name: 'Reservation Count',
                                         data: restaurants.map(
                                             (r) =>
-                                                r.totalReservationCount ?? 0,
+                                                r.totalReservationCount ??
+                                                0,
                                         ),
                                     },
                                 ]}
                                 customOptions={countChartOptions}
                             />
                         </Card>
-                    </>
+                    </div>
                 )}
 
                 <div>
@@ -577,26 +564,25 @@ const RestaurantDetailCard = ({
     const miniChartOptions: ApexOptions = {
         chart: { toolbar: { show: false } },
         colors: ['#6e1423', '#e9c66a'],
-        plotOptions: {
-            bar: {
-                horizontal: true,
-                borderRadius: 4,
-                barHeight: '35%',
-            },
-        },
-        xaxis: {
-            categories: ['Orders', 'Reservations'],
-            labels: { show: false },
-        },
-        yaxis: {
-            labels: { show: false },
+        labels: ['Orders', 'Reservations'],
+        legend: {
+            position: 'bottom',
+            fontSize: '11px',
         },
         dataLabels: { enabled: false },
-        legend: { show: false },
         tooltip: {
             y: { formatter: (val) => formatCurrency(val) },
         },
-        grid: { show: false },
+        plotOptions: {
+            pie: {
+                donut: {
+                    size: '60%',
+                    labels: {
+                        show: false,
+                    },
+                },
+            },
+        },
     }
 
     return (
@@ -634,26 +620,13 @@ const RestaurantDetailCard = ({
             <div className="p-5">
                 <div className="mb-4">
                     <Chart
-                        type="bar"
-                        height={120}
+                        type="donut"
+                        height={160}
                         series={[
-                            {
-                                name: 'Amount',
-                                data: [
-                                    restaurant.totalOrderAmount ?? 0,
-                                    restaurant.totalReservationAmount ?? 0,
-                                ],
-                            },
+                            restaurant.totalOrderAmount ?? 0,
+                            restaurant.totalReservationAmount ?? 0,
                         ]}
-                        customOptions={{
-                            ...miniChartOptions,
-                            plotOptions: {
-                                bar: {
-                                    borderRadius: 4,
-                                    columnWidth: '45%',
-                                },
-                            },
-                        }}
+                        customOptions={miniChartOptions}
                     />
                 </div>
 
