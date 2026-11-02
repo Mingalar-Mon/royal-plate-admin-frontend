@@ -190,62 +190,62 @@ const Dashboard = () => {
                             Overview of your restaurants performance
                         </p>
                     </div>
-                    <div className="flex items-center gap-2">
-                        <div className="relative">
-                            <input
-                                type="text"
-                                placeholder="Search restaurant name..."
-                                value={search}
-                                onChange={(e) => setSearch(e.target.value)}
-                                className="w-[240px] rounded-lg border border-gray-300 bg-white px-3 py-2 pl-9 text-sm outline-none focus:border-primary dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100"
-                            />
-                            <TbSearch className="absolute left-2.5 top-2.5 text-gray-400" />
-                        </div>
-                        <Button
-                            size="sm"
-                            icon={<TbRefresh />}
-                            onClick={handleRefresh}
-                            loading={isFetching}
-                        >
-                            Refresh
-                        </Button>
-                    </div>
+                    <Button
+                        size="sm"
+                        icon={<TbRefresh />}
+                        onClick={handleRefresh}
+                        loading={isFetching}
+                    >
+                        Refresh
+                    </Button>
                 </div>
 
                 <Card
                     className="border-none bg-gradient-to-br from-primary/10 via-primary/5 to-transparent"
                     bodyClass="p-5"
                 >
-                    <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:gap-6">
-                        <div className="flex items-center gap-2 text-sm font-semibold text-gray-700 dark:text-gray-200">
-                            <TbCalendar className="text-lg text-primary" />
-                            <span>Date Range</span>
+                    <div className="flex flex-col gap-4">
+                        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:gap-6">
+                            <div className="flex items-center gap-2 text-sm font-semibold text-gray-700 dark:text-gray-200">
+                                <TbCalendar className="text-lg text-primary" />
+                                <span>Date Range</span>
+                            </div>
+                            <div className="flex flex-wrap items-center gap-3">
+                                <div>
+                                    <label className="mb-1 block text-xs font-medium text-gray-500 dark:text-gray-400">
+                                        From
+                                    </label>
+                                    <DatePicker
+                                        value={fromDate}
+                                        onChange={(val) => setFromDate(val)}
+                                        inputFormat="DD/MM/YYYY"
+                                        clearable={false}
+                                        className="w-[160px]"
+                                    />
+                                </div>
+                                <div>
+                                    <label className="mb-1 block text-xs font-medium text-gray-500 dark:text-gray-400">
+                                        To
+                                    </label>
+                                    <DatePicker
+                                        value={toDate}
+                                        onChange={(val) => setToDate(val)}
+                                        inputFormat="DD/MM/YYYY"
+                                        clearable={false}
+                                        className="w-[160px]"
+                                    />
+                                </div>
+                            </div>
                         </div>
-                        <div className="flex flex-wrap items-end gap-3">
-                            <div>
-                                <label className="mb-1 block text-xs font-medium text-gray-500 dark:text-gray-400">
-                                    From
-                                </label>
-                                <DatePicker
-                                    value={fromDate}
-                                    onChange={(val) => setFromDate(val)}
-                                    inputFormat="DD/MM/YYYY"
-                                    clearable={false}
-                                    className="w-[160px]"
-                                />
-                            </div>
-                            <div>
-                                <label className="mb-1 block text-xs font-medium text-gray-500 dark:text-gray-400">
-                                    To
-                                </label>
-                                <DatePicker
-                                    value={toDate}
-                                    onChange={(val) => setToDate(val)}
-                                    inputFormat="DD/MM/YYYY"
-                                    clearable={false}
-                                    className="w-[160px]"
-                                />
-                            </div>
+                        <div className="relative w-full sm:w-[320px]">
+                            <input
+                                type="text"
+                                placeholder="Search restaurant name..."
+                                value={search}
+                                onChange={(e) => setSearch(e.target.value)}
+                                className="w-full rounded-lg border border-gray-300 bg-white px-3 py-2 pl-9 text-sm outline-none focus:border-primary dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100"
+                            />
+                            <TbSearch className="absolute left-2.5 top-2.5 text-gray-400" />
                         </div>
                     </div>
                 </Card>
