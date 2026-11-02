@@ -74,13 +74,15 @@ const Dashboard = () => {
         )
     }, [restaurants])
 
+    const columnWidth = restaurants.length <= 3 ? '12%' : restaurants.length <= 5 ? '25%' : '40%'
+
     const overviewChartOptions: ApexOptions = {
         chart: { toolbar: { show: false } },
         colors: ['#6e1423', '#e9c66a'],
         plotOptions: {
             bar: {
                 borderRadius: 6,
-                columnWidth: '55%',
+                columnWidth,
             },
         },
         dataLabels: { enabled: false },
@@ -115,7 +117,7 @@ const Dashboard = () => {
         plotOptions: {
             bar: {
                 borderRadius: 6,
-                columnWidth: '55%',
+                columnWidth,
             },
         },
         dataLabels: { enabled: false },
