@@ -36,7 +36,7 @@ type SortOrder = 'ASC' | 'DESC'
 
 const formatNumber = (value: number | null | undefined) => {
     const n = Number(value ?? 0)
-    return Number.isFinite(n) ? n.toLocaleString() : '0'
+    return Number.isFinite(n) ? Math.trunc(n).toLocaleString() : '0'
 }
 
 const formatCurrency = (value: number | null | undefined) =>
