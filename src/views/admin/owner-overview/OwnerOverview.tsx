@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useRef, useEffect } from 'react'
 import dayjs from 'dayjs'
 import Container from '@/components/shared/Container'
 import AdaptiveCard from '@/components/shared/AdaptiveCard'
@@ -109,7 +109,7 @@ const OwnerRow = ({
                             <TbArrowRight className="h-3 w-3" />
                         </span>
                         <div className="flex items-center gap-3">
-                            <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-primary to-primary-dark text-white font-semibold text-sm shadow-sm">
+                            <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-primary text-white font-semibold text-sm shadow-sm">
                                 {owner.ownerName.charAt(0).toUpperCase()}
                             </div>
                             <div>
@@ -351,15 +351,10 @@ const OwnerOverview = () => {
                             </p>
                         </div>
                         <div className="flex items-center gap-2 mt-2 md:mt-0">
-                            <Button
-                                size="sm"
-                                variant="default"
-                                icon={<TbRefresh className="h-4 w-4" />}
-                                loading={isLoading}
-                                onClick={() => refetch()}
-                            >
-                                Refresh
-                            </Button>
+                            <RefreshButton
+                                isLoading={isLoading}
+                                onRefresh={() => refetch()}
+                            />
                         </div>
                     </div>
 
@@ -630,6 +625,52 @@ const OwnerOverview = () => {
                 </div>
             </AdaptiveCard>
         </Container>
+    )
+}
+
+const RefreshButton = ({ isLoading, onRefresh }: { isLoading: boolean; onRefresh: () => void }) => {
+    const iconRef = useRef<HTMLElement | null>(null)
+
+    const rotateOnce = (el: HTMLElement | null) => {
+        if (!el) return
+        // Cancel any in-flight animation so repeated clicks always run a full turn.
+        el.style.animation = 'none'
+        // Force reflow so the reset takes effect before the next animation.
+        void el.offsetWidth
+        el.style.animation = 'refresh-spin 600ms ease-in-out'
+    }
+
+    const handleClick = () => {
+        if (isLoading) return
+        rotateOnce(iconRef.current)
+        onRefresh()
+    }
+
+    useEffect(() => {
+        if (!iconRef.current) return
+        const style = document.createElement('style')
+        style.textContent = `
+            @keyframes refresh-spin {
+                from { transform: rotate(0deg); }
+                to { transform: rotate(360deg); }
+            }
+        `
+        document.head.appendChild(style)
+        return () => {
+            document.head.removeChild(style)
+        }
+    }, [])
+
+    return (
+        <Button
+            size="sm"
+            variant="default"
+            icon={<TbRefresh ref={iconRef} className="h-4 w-4" />}
+            loading={isLoading}
+            onClick={handleClick}
+        >
+            Refresh
+        </Button>
     )
 }
 

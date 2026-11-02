@@ -17,6 +17,43 @@ const formatNumber = (value: number | null | undefined) => {
 const formatCurrency = (value: number | null | undefined) =>
     `${formatNumber(value)} MMK`
 
+type MetricProps = {
+    title: string
+    value: string
+    accent: string
+    icon: React.ComponentType<{ className?: string }>
+    subtitle?: string
+}
+
+const Metric = ({ title, value, accent, icon: Icon, subtitle }: MetricProps) => (
+    <Card
+        bodyClass="p-4"
+        className="relative overflow-hidden"
+    >
+        <div className="absolute left-0 top-0 bottom-0 w-1.5 bg-primary opacity-40" />
+        <div className="space-y-2">
+            <div className="flex items-center gap-1.5 text-[10px] font-semibold uppercase tracking-widest text-gray-500 dark:text-gray-400">
+                <Icon className="h-3.5 w-3.5 text-primary" />
+                <span>{title}</span>
+            </div>
+            <p
+                className={`text-2xl font-extrabold tracking-tight ${
+                    accent === 'primary'
+                        ? 'text-gray-900 dark:text-white'
+                        : accent
+                }`}
+            >
+                {value}
+            </p>
+            {subtitle && (
+                <p className="text-[10px] text-gray-400 dark:text-gray-500">
+                    {subtitle}
+                </p>
+            )}
+        </div>
+    </Card>
+)
+
 type Props = {
     summary?: OwnerOverviewSummary
     loading?: boolean
@@ -27,11 +64,10 @@ const OwnerSummaryCards = ({ summary, loading }: Props) => {
         return (
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-5">
                 {Array.from({ length: 5 }).map((_, i) => (
-                    <Card key={i} bodyClass="p-5">
+                    <Card key={i} bodyClass="p-4">
                         <div className="space-y-3">
-                            <Skeleton width={100} height={12} />
-                            <Skeleton width={80} height={28} />
-                            <Skeleton width="60%" height={10} />
+                            <Skeleton width={70} height={10} />
+                            <Skeleton width="70%" height={30} />
                         </div>
                     </Card>
                 ))}
@@ -39,77 +75,57 @@ const OwnerSummaryCards = ({ summary, loading }: Props) => {
         )
     }
 
-    const cards = [
-        {
-            title: 'Total Revenue',
-            value: formatCurrency(summary?.totalPrice),
-            icon: TbCoin,
-            color: 'primary',
-            bgColor: 'bg-primary/10',
-            textColor: 'text-primary',
-            borderColor: 'border-l-primary',
-        },
-        {
-            title: 'Commission',
-            value: formatCurrency(summary?.commission_fee),
-            icon: TbPercentage,
-            color: 'orange',
-            bgColor: 'bg-orange-500/10',
-            textColor: 'text-orange-600 dark:text-orange-400',
-            borderColor: 'border-l-orange-500',
-        },
-        {
-            title: 'Net Amount',
-            value: formatCurrency(summary?.netAmount),
-            icon: TbChartBar,
-            color: 'emerald',
-            bgColor: 'bg-emerald-500/10',
-            textColor: 'text-emerald-600 dark:text-emerald-400',
-            borderColor: 'border-l-emerald-500',
-        },
-        {
-            title: 'Total Orders',
-            value: formatNumber(summary?.orderCount),
-            icon: TbShoppingBag,
-            color: 'blue',
-            bgColor: 'bg-blue-500/10',
-            textColor: 'text-blue-600 dark:text-blue-400',
-            borderColor: 'border-l-blue-500',
-        },
-        {
-            title: 'Total Reservations',
-            value: formatNumber(summary?.reservationCount),
-            icon: TbCalendarCheck,
-            color: 'amber',
-            bgColor: 'bg-amber-500/10',
-            textColor: 'text-amber-600 dark:text-amber-400',
-            borderColor: 'border-l-amber-500',
-        },
-    ]
+    const totalPrice = formatCurrency(summary?.totalPrice)
+    const subTotal = formatCurrency(summary?.subTotal)
+    const commission = formatCurrency(summary?.commission_fee)
+    const netAmount = formatCurrency(summary?.netAmount)
+    const orderCount = formatNumber(summary?.orderCount)
+    const reservationCount = formatNumber(summary?.reservationCount)
+
+    const commissionRate =
+        summary?.totalPrice && summary?.totalPrice > 0
+            ? (summary.commission_fee / summary.totalPrice) * 100
+            : 0
 
     return (
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-5">
-            {cards.map((card) => (
-                <Card
-                    key={card.title}
-                    className={`border-l-4 ${card.borderColor}`}
-                    bodyClass="p-5"
-                >
-                    <div className="flex items-start justify-between">
-                        <div>
-                            <p className="text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400">
-                                {card.title}
-                            </p>
-                            <p className={`mt-2 text-xl font-bold ${card.textColor}`}>
-                                {card.value}
-                            </p>
-                        </div>
-                        <div className={`rounded-xl ${card.bgColor} ${card.textColor} p-2.5`}>
-                            <card.icon className="text-xl" />
-                        </div>
-                    </div>
-                </Card>
-            ))}
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
+            <Metric
+                title="Total Revenue"
+                value={totalPrice}
+                accent="text-primary"
+                icon={TbCoin}
+                subtitle={subTotal}
+            />
+            <Metric
+                title="Commission"
+                value={commission}
+                accent="text-orange-500 dark:text-orange-400"
+                icon={TbPercentage}
+                subtitle={`${commissionRate.toFixed(1)}% of revenue`}
+            />
+            <Metric
+                title="Net Amount"
+                value={netAmount}
+                accent="text-emerald-600 dark:text-emerald-400"
+                icon={TbChartBar}
+                subtitle={
+                    summary?.totalPrice && summary?.totalPrice > 0
+                        ? `${((summary.netAmount / summary.totalPrice) * 100).toFixed(1)}% of revenue`
+                        : undefined
+                }
+            />
+            <Metric
+                title="Total Orders"
+                value={orderCount}
+                accent="text-blue-600 dark:text-blue-400"
+                icon={TbShoppingBag}
+            />
+            <Metric
+                title="Total Reservations"
+                value={reservationCount}
+                accent="text-amber-600 dark:text-amber-400"
+                icon={TbCalendarCheck}
+            />
         </div>
     )
 }
