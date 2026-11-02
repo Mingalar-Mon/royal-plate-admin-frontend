@@ -3,7 +3,9 @@ import {
     apiGetDashboardEDA,
     apiGetTopSaleDishes,
     apiGetTopCustomers,
+    apiGetOwnerOverview,
 } from '@/services/DashboardService'
+import type { OwnerOverviewFilters } from '@/@types/dashboard'
 
 export const useGetDashboardEDA = (restaurantId: string) => {
     return useQuery({
@@ -26,5 +28,12 @@ export const useGetTopCustomers = (restaurantId: string, limit = 10) => {
         queryKey: ['dashboard-top-customers', restaurantId, limit],
         queryFn: () => apiGetTopCustomers(restaurantId, limit),
         enabled: !!restaurantId,
+    })
+}
+
+export const useGetOwnerOverview = (filters: OwnerOverviewFilters) => {
+    return useQuery({
+        queryKey: ['dashboard-owner-overview', filters],
+        queryFn: () => apiGetOwnerOverview(filters),
     })
 }

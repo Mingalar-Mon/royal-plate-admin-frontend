@@ -3,6 +3,8 @@ import type {
     GetDashboardEDADataResponse,
     GetTopSaleDishesResponse,
     GetTopCustomersResponse,
+    GetOwnerOverviewResponse,
+    OwnerOverviewFilters,
 } from '@/@types/dashboard'
 
 export async function apiGetDashboardEDA(restaurantId: string) {
@@ -26,5 +28,13 @@ export async function apiGetTopCustomers(restaurantId: string, limit = 10) {
         url: 'dashboard/top-customers',
         method: 'get',
         params: { restaurantId, limit },
+    })
+}
+
+export async function apiGetOwnerOverview(filters: OwnerOverviewFilters = {}) {
+    return ApiService.fetchDataWithAxios<GetOwnerOverviewResponse>({
+        url: 'dashboard/owner-overview',
+        method: 'get',
+        params: filters,
     })
 }

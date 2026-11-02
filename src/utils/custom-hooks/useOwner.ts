@@ -1,5 +1,6 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { useQuery } from '@tanstack/react-query'
 import {
+    apiGetOwnerOptions,
     apiGetOwnerList,
     apiGetOwnerDetail,
     UpdateOwnerPayload,
@@ -9,6 +10,13 @@ import {
     apiSoftDeleteOwner,
     apiReactivateOwner,
 } from '@/services/OwnerService'
+
+export const useGetOwnerOptions = () => {
+    return useQuery({
+        queryKey: ['owner-options'],
+        queryFn: apiGetOwnerOptions,
+    })
+}
 
 export const useOwnerListQuery = (params: any) => {
     return useQuery({

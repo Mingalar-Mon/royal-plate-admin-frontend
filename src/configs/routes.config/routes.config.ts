@@ -2,7 +2,7 @@ import { lazy } from 'react'
 import authRoute from './authRoute'
 import othersRoute from './othersRoute'
 import type { Routes } from '@/@types/routes'
-import { ADMIN, OWNER, STAFF } from '@/constants/roles.constant'
+import { ADMIN, OWNER, STAFF, SUPER_ADMIN } from '@/constants/roles.constant'
 
 export const publicRoutes: Routes = [
     ...authRoute,
@@ -241,6 +241,12 @@ export const protectedRoutes: Routes = [
     },
 
     // ============= ADMIN DASHBOARD ===========
+    {
+        key: 'admin.ownerOverview',
+        path: '/admin/owner-overview',
+        component: lazy(() => import('@/views/admin/owner-overview')),
+        authority: [SUPER_ADMIN],
+    },
 
     // cuisine
     {

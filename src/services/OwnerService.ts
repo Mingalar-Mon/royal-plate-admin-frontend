@@ -1,5 +1,23 @@
 import ApiService from './ApiService'
 
+export interface OwnerOption {
+    id: string
+    name: string
+    email: string
+    phone: string
+}
+
+export async function apiGetOwnerOptions() {
+    return ApiService.fetchDataWithAxios<{
+        success: boolean
+        data: OwnerOption[]
+        message: string
+    }>({
+        url: '/owner/options',
+        method: 'get',
+    })
+}
+
 export async function apiGetOwnerList(params: any) {
     return ApiService.fetchDataWithAxios<any>({
         url: '/owner/get-owners', // Matches your active production backend routing configuration prefix

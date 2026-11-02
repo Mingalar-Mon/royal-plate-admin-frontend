@@ -54,3 +54,70 @@ export type GetTopCustomersResponse = {
     }
     message: string
 }
+
+export type OwnerOverviewRestaurant = {
+    restaurantId: string
+    restaurantName: string
+    totalPrice: number
+    subTotal: number
+    commission_fee: number
+    netAmount: number
+    orderCount: number
+    reservationCount: number
+}
+
+export type OwnerOverviewData = {
+    ownerId: string
+    ownerName: string
+    ownerEmail: string
+    ownerPhone: string
+    restaurantCount: number
+    totalPrice: number
+    subTotal: number
+    commission_fee: number
+    netAmount: number
+    orderCount: number
+    reservationCount: number
+    restaurants: OwnerOverviewRestaurant[]
+}
+
+export type OwnerOverviewSummary = {
+    totalPrice: number
+    subTotal: number
+    commission_fee: number
+    netAmount: number
+    orderCount: number
+    reservationCount: number
+}
+
+export type OwnerOverviewPaginator = {
+    totalItems: number
+    currentPage: number
+    totalPages: number
+    pageSize: number
+}
+
+export type GetOwnerOverviewResponse = {
+    success: boolean
+    paginator: OwnerOverviewPaginator
+    summary: OwnerOverviewSummary
+    data: OwnerOverviewData[]
+    message: string
+}
+
+export type OwnerOverviewFilters = {
+    ownerId?: string
+    search?: string
+    fromDate?: string
+    toDate?: string
+    page?: number
+    limit?: number
+    sortBy?:
+        | 'totalPrice'
+        | 'netAmount'
+        | 'commission_fee'
+        | 'orderCount'
+        | 'reservationCount'
+        | 'ownerName'
+    sortOrder?: 'ASC' | 'DESC'
+}
