@@ -34,6 +34,7 @@ const OrderList = () => {
                     </div>
                     <OrderListTableTools />
                     <OrderListCards
+                        restaurantId={restaurantId!}
                         orderList={orderList}
                         orderListTotal={orderListTotal}
                         isLoading={isLoading}

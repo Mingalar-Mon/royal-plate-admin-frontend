@@ -14,12 +14,13 @@ import type { Reservation } from '@/services/ReservationService'
 import type { ReservationStatus } from '@/views/reservations/types/reservation.type'
 
 interface Props {
+    restaurantId: string | null
     reservations: Reservation[]
     total: number
     isLoading: boolean
 }
 
-const ReservationListCards = ({ reservations, total, isLoading }: Props) => {
+const ReservationListCards = ({ restaurantId, reservations, total, isLoading }: Props) => {
     const navigate = useNavigate()
     const tableData = useReservationStore((state) => state.tableData)
     const setTableData = useReservationStore((state) => state.setTableData)
@@ -91,7 +92,7 @@ const ReservationListCards = ({ reservations, total, isLoading }: Props) => {
                                     className="text-left"
                                     onClick={() =>
                                         navigate(
-                                            `/restaurants/${reservation.restaurantId}/reservations/detail/${reservation.id}`,
+                                            `/restaurants/${restaurantId}/reservations/detail/${reservation.id}`,
                                         )
                                     }
                                 >
@@ -141,7 +142,7 @@ const ReservationListCards = ({ reservations, total, isLoading }: Props) => {
                                     <span className="font-medium">
                                         {dayjs(
                                             reservation.reservationDate ||
-                                                reservation.startingTime,
+                                            reservation.startingTime,
                                         ).format('DD/MM/YYYY')}
                                     </span>
                                 </div>
@@ -305,8 +306,8 @@ const ReservationListCards = ({ reservations, total, isLoading }: Props) => {
                                         {dayjs(
                                             statusChangePreview.reservation
                                                 .reservationDate ||
-                                                statusChangePreview.reservation
-                                                    .startingTime,
+                                            statusChangePreview.reservation
+                                                .startingTime,
                                         ).format('DD/MM/YYYY')}
                                     </span>
                                 </div>

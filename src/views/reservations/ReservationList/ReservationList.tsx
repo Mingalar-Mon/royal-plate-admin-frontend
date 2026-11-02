@@ -32,6 +32,7 @@ const ReservationList = () => {
                     </div>
                     <ReservationListTableTools />
                     <ReservationListCards
+                        restaurantId={restaurantId!}
                         reservations={reservations}
                         total={total}
                         isLoading={isLoading}
