@@ -114,7 +114,7 @@ export const protectedRoutes: Routes = [
     },
     {
         key: 'order.detail',
-        path: '/orders/:orderId',
+        path: '/restaurants/:restaurantId/orders/:orderId',
         component: lazy(() => import('@/views/order/OrderDetails')),
         authority: [OWNER, STAFF],
     },
@@ -141,7 +141,7 @@ export const protectedRoutes: Routes = [
     // ============ RESERVATION =============
     {
         key: 'reservation.detail',
-        path: '/reservations/detail/:reservationId',
+        path: '/restaurants/:restaurantId/reservations/detail/:reservationId',
         component: lazy(() => import('@/views/reservations/ReservationDetail')),
         authority: [OWNER, STAFF],
     },

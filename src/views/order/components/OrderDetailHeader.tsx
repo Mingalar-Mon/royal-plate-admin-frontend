@@ -9,9 +9,10 @@ import OrderStatusBadge from './OrderStatusBadge'
 
 interface OrderDetailHeaderProps {
     order: Order
+    onStatusUpdated?: () => void
 }
 
-const OrderDetailHeader = ({ order }: OrderDetailHeaderProps) => {
+const OrderDetailHeader = ({ order, onStatusUpdated }: OrderDetailHeaderProps) => {
     const { mutate: updateStatus, isPending } = useUpdateOrderStatus()
 
     const handleStatusChange = (newStatus: string) => {
@@ -24,6 +25,7 @@ const OrderDetailHeader = ({ order }: OrderDetailHeaderProps) => {
                             Order status has been updated successfully.
                         </Notification>,
                     )
+                    onStatusUpdated?.()
                 },
                 onError: () => {
                     toast.push(

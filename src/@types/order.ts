@@ -53,6 +53,7 @@ export type User = {
 
 export type Order = {
     id: string
+    restaurantId: string
     scheduledDate: string
     orderNumber: string
     tax: number

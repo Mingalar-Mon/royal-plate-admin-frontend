@@ -91,7 +91,7 @@ const ReservationListCards = ({ reservations, total, isLoading }: Props) => {
                                     className="text-left"
                                     onClick={() =>
                                         navigate(
-                                            `/reservations/detail/${reservation.id}`,
+                                            `/restaurants/${reservation.restaurantId}/reservations/detail/${reservation.id}`,
                                         )
                                     }
                                 >
