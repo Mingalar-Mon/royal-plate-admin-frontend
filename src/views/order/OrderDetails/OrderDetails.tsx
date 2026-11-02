@@ -15,7 +15,7 @@ import { TbArrowNarrowLeft } from 'react-icons/tb'
 const OrderDetails = () => {
     const { orderId, restaurantId } = useParams()
     const navigate = useNavigate()
-    const { data: order, isLoading } = useGetOrder(orderId!)
+    const { data: order, isLoading, refetch } = useGetOrder(orderId!)
 
     if (isLoading) return <Loading loading={true} />
 
@@ -76,7 +76,7 @@ const OrderDetails = () => {
                 </div>
 
                 <div className="space-y-6">
-                    <OrderDetailHeader order={order} />
+                    <OrderDetailHeader order={order} onStatusUpdated={refetch} />
 
                     <div className="flex flex-col lg:flex-row gap-6">
                         <div className="flex-1 space-y-6">

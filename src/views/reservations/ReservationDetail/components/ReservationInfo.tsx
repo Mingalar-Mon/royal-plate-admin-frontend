@@ -2,17 +2,27 @@ import Card from '@/components/ui/Card'
 import dayjs from 'dayjs'
 import ReservationStatusBadge from '../../components/ReservationStatusBadge'
 import { Reservation } from '@/services/ReservationService'
-// import type { Reservation } from '../../types/reservation.type'
+import type { ReservationStatus as ReservationStatusValue } from '../../types/reservation.type'
 
-const ReservationInfo = ({ reservation }: { reservation: Reservation }) => {
+interface ReservationInfoProps {
+    reservation: Reservation
+    onStatusChange?: (status: ReservationStatusValue) => void
+    isStatusUpdating?: boolean
+}
+
+const ReservationInfo = ({
+    reservation,
+    onStatusChange,
+    isStatusUpdating = false,
+}: ReservationInfoProps) => {
     return (
         <Card>
             <div className="flex justify-between items-start mb-4">
                 <h4>Reservation Details</h4>
                 <ReservationStatusBadge
-                    readOnly
                     status={reservation.status}
-                    onChange={() => {}}
+                    onChange={onStatusChange}
+                    isLoading={isStatusUpdating}
                 />
             </div>
             <div className="space-y-2">

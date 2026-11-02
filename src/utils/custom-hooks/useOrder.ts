@@ -23,32 +23,32 @@ export const useGetOrder = (orderId: string) => {
     const [isLoading, setIsLoading] = useState(true)
     const [error, setError] = useState<Error | null>(null)
 
-    useEffect(() => {
+    const fetchOrder = async () => {
         if (!orderId) {
             setIsLoading(false)
             return
         }
 
-        const fetchOrder = async () => {
-            setIsLoading(true)
-            setError(null)
-            try {
-                const response = await apiGetOrder(orderId)
-                setData({
-                    ...response.data,
-                    status: normalizeOrderStatus(response.data.status),
-                })
-            } catch (err) {
-                setError(err as Error)
-            } finally {
-                setIsLoading(false)
-            }
+        setIsLoading(true)
+        setError(null)
+        try {
+            const response = await apiGetOrder(orderId)
+            setData({
+                ...response.data,
+                status: normalizeOrderStatus(response.data.status),
+            })
+        } catch (err) {
+            setError(err as Error)
+        } finally {
+            setIsLoading(false)
         }
+    }
 
+    useEffect(() => {
         fetchOrder()
     }, [orderId])
 
-    return { data, isLoading, error }
+    return { data, isLoading, error, refetch: fetchOrder }
 }
 
 export const useGetOrders = (restaurantId: string, params: OrderQueries) => {

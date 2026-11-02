@@ -14,29 +14,29 @@ export const useReservation = (id: string) => {
     const [isLoading, setIsLoading] = useState(true)
     const [error, setError] = useState<Error | null>(null)
 
-    useEffect(() => {
+    const fetchReservation = async () => {
         if (!id) {
             setIsLoading(false)
             return
         }
 
-        const fetchReservation = async () => {
-            setIsLoading(true)
-            setError(null)
-            try {
-                const response = await apiGetReservation(id)
-                setData(response)
-            } catch (err) {
-                setError(err as Error)
-            } finally {
-                setIsLoading(false)
-            }
+        setIsLoading(true)
+        setError(null)
+        try {
+            const response = await apiGetReservation(id)
+            setData(response)
+        } catch (err) {
+            setError(err as Error)
+        } finally {
+            setIsLoading(false)
         }
+    }
 
+    useEffect(() => {
         fetchReservation()
     }, [id])
 
-    return { data, isLoading, error }
+    return { data, isLoading, error, refetch: fetchReservation }
 }
 
 export const useUpdateReservationStatus = () => {
