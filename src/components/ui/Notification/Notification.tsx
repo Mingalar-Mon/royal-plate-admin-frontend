@@ -13,6 +13,8 @@ import {
 } from 'react-icons/hi'
 import { HiShoppingCart, HiCalendar } from 'react-icons/hi2'
 
+import type { NotificationTier } from '@/@types/notification'
+
 export interface NotificationProps extends CommonProps {
     closable?: boolean
     customIcon?: ReactNode | string
@@ -23,6 +25,7 @@ export interface NotificationProps extends CommonProps {
     triggerByToast?: boolean
     type?: TypeAttributes.Status
     width?: number | string
+    tier?: NotificationTier
 }
 
 const typeConfig: Record<
@@ -59,6 +62,21 @@ const typeConfig: Record<
     },
 }
 
+const tierConfig: Record<NotificationTier, { containerClass: string; pulseClass: string }> = {
+    critical: {
+        containerClass: 'ring-2 ring-red-500/50',
+        pulseClass: 'animate-pulse',
+    },
+    important: {
+        containerClass: 'ring-1 ring-amber-500/30',
+        pulseClass: '',
+    },
+    info: {
+        containerClass: '',
+        pulseClass: '',
+    },
+}
+
 const Notification = (props: NotificationProps) => {
     const {
         className,
@@ -73,6 +91,7 @@ const Notification = (props: NotificationProps) => {
         triggerByToast,
         type,
         width = 380,
+        tier = 'info',
         ...rest
     } = props
 
@@ -142,6 +161,7 @@ const Notification = (props: NotificationProps) => {
     const iconBgClass = config?.iconBgClass ?? 'bg-indigo-50 dark:bg-indigo-900/30'
     const iconColorClass = config?.iconColorClass ?? 'text-indigo-500'
     const progressClass = config?.progressClass ?? 'bg-indigo-500'
+    const tierClass = tierConfig[tier]
 
     return (
         <div
@@ -155,6 +175,8 @@ const Notification = (props: NotificationProps) => {
                 'border-l-4',
                 accentClass,
                 'border border-gray-100 dark:border-gray-700/50',
+                tierClass.containerClass,
+                tierClass.pulseClass,
                 className,
             )}
             style={{ width, ...style }}

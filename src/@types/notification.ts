@@ -1,3 +1,5 @@
+export type NotificationTier = 'critical' | 'important' | 'info'
+
 export type NotificationItem = {
     id: string
     category: 'order' | 'reservation' | 'blog'
@@ -9,6 +11,14 @@ export type NotificationItem = {
     actorImage: string | null
     isRead: boolean
     created_at: string
+}
+
+export interface TieredNotification {
+    title: string
+    body: string
+    tier: NotificationTier
+    type: 'order' | 'reservation' | 'system'
+    image?: string
 }
 
 export type GetNotificationListResponse = {

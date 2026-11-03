@@ -9,9 +9,10 @@ import { useOneSignal } from './utils/custom-hooks/useOneSignal'
 import { useEffect } from 'react'
 import { messaging } from './notifications/firebase'
 import { onMessage } from 'firebase/messaging'
-import { Toaster } from 'react-hot-toast'
-import toast, { Toast } from './components/ui/toast/toast'
+import toast from './components/ui/toast/toast'
 import { Notification } from './components/ui'
+import { notificationQueue } from './utils/notificationQueue'
+import type { NotificationTier } from './@types/notification'
 
 const queryClient = new QueryClient({
     defaultOptions: {
@@ -24,20 +25,29 @@ const queryClient = new QueryClient({
     },
 })
 
-// const notify = () => toast('Here is your toast')
+function classifyNotificationTier(
+    type: string | undefined,
+    title: string,
+    body: string,
+): NotificationTier {
+    const titleLower = title.toLowerCase()
+    const bodyLower = body.toLowerCase()
 
-const notificationAudioUrl = '/notification.wav'
-
-const playNotificationSound = () => {
-    try {
-        const audio = new Audio(notificationAudioUrl)
-        audio.volume = 0.6
-        audio.play().catch(() => {
-            // ignore autoplay-block until the user has interacted with the page
-        })
-    } catch {
-        // ignore
+    if (type === 'order' && (titleLower.includes('new') || bodyLower.includes('new'))) {
+        return 'critical'
     }
+    if (titleLower.includes('cancel') || bodyLower.includes('cancel')) {
+        return 'critical'
+    }
+    if (type === 'order' || type === 'reservation') {
+        return 'important'
+    }
+    return 'info'
+}
+
+function getTierDuration(tier: NotificationTier): number {
+    const config = notificationQueue.getTierConfig(tier)
+    return config.duration
 }
 
 function App() {
@@ -47,7 +57,6 @@ function App() {
             const title = payload.notification?.title ?? ''
             const body = payload.notification?.body ?? ''
             const image = payload.notification?.image
-
             const type = payload.data?.type
 
             if (type === 'order') {
@@ -56,18 +65,18 @@ function App() {
                 queryClient.invalidateQueries({ queryKey: ['reservations'] })
             }
 
-            // Detect event type from the notification title/body for appropriate styling
-            const titleLower = title.toLowerCase()
-            const bodyLower = body.toLowerCase()
-            const isOrder = titleLower.includes('order') || bodyLower.includes('order')
-            const isReservation = titleLower.includes('reservation') || bodyLower.includes('reservation')
+            const tier = classifyNotificationTier(type, title, body)
+            const duration = getTierDuration(tier)
 
             let notifType: 'info' | 'success' | 'warning' | 'danger' = 'info'
+            const titleLower = title.toLowerCase()
+            const bodyLower = body.toLowerCase()
+
             if (titleLower.includes('cancel') || bodyLower.includes('cancel')) {
                 notifType = 'danger'
             } else if (titleLower.includes('confirm') || bodyLower.includes('confirm') || titleLower.includes('complete') || bodyLower.includes('complete')) {
                 notifType = 'success'
-            } else if (titleLower.includes('pending') || bodyLower.includes('pending') || isOrder || isReservation) {
+            } else if (titleLower.includes('pending') || bodyLower.includes('pending')) {
                 notifType = 'warning'
             }
 
@@ -76,14 +85,15 @@ function App() {
                     title={title}
                     type={notifType}
                     closable
-                    duration={6000}
+                    duration={duration}
+                    tier={tier}
                     customIcon={image ? <img src={image} className="w-8 h-8 rounded-lg object-cover" alt="" /> : undefined}
                 >
                     {body}
                 </Notification>,
             )
 
-            playNotificationSound()
+            notificationQueue.playSound(tier)
         })
     }, [])
     // useOneSignal() // Initialize OneSignal for the entire app
