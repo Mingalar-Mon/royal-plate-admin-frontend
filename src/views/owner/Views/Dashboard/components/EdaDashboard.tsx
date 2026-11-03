@@ -114,23 +114,25 @@ const StatCard = ({
     return (
         <Card
             className={`group overflow-hidden transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md border-t-[3px] border-gold ${styles.soft}`}
-            bodyClass="p-4"
+            bodyClass="p-5"
         >
-            <div className="flex flex-col gap-1.5 sm:flex-row sm:items-center sm:gap-4">
-                <div
-                    className={`shrink-0 rounded-xl sm:rounded-2xl px-2 py-1.5 sm:p-2.5 text-base sm:text-xl transition-transform duration-200 group-hover:scale-105 ${styles.icon}`}
-                >
-                    {icon}
+            <div className="flex flex-col gap-3">
+                <div className="flex items-center justify-between">
+                    <div
+                        className={`shrink-0 rounded-xl p-2.5 text-xl transition-transform duration-200 group-hover:scale-105 ${styles.icon}`}
+                    >
+                        {icon}
+                    </div>
                 </div>
-                <div className="min-w-0 flex-1">
-                    <p className="truncate text-[10px] sm:text-xs font-semibold uppercase tracking-[0.12em] text-gray-500 dark:text-gray-400">
+                <div className="space-y-1">
+                    <p className="text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400">
                         {label}
                     </p>
-                    <p className="mt-0.5 text-lg sm:text-2xl font-bold tracking-tight text-primary dark:text-gold-light sm:mt-3 sm:text-2xl">
+                    <p className="text-2xl font-bold tracking-tight text-primary dark:text-gold-light">
                         {valueFormatter(value)}
                     </p>
                 </div>
-                <p className="hidden truncate text-[10px] sm:text-xs text-gray-500 dark:text-gray-400 sm:block">
+                <p className="text-xs text-gray-500 dark:text-gray-400">
                     {description}
                 </p>
             </div>
