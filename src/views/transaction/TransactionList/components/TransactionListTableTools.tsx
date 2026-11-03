@@ -10,7 +10,6 @@ import { TbCloudDownload, TbRefresh } from 'react-icons/tb'
 import { useTransactionStore } from '@/store/transactionStore'
 import { apiGetAllTransactions } from '@/services/TransactionService'
 import type { TransactionItem } from '@/@types/transaction'
-import type { DatePickerRangeValue } from '@/components/ui/DatePicker/DatePickerRange'
 
 const exportHeaders = [
     'Reference Number',
@@ -72,12 +71,18 @@ const TransactionListTableTools = ({
         setExportData(null)
     }, [exportData])
 
-    const handleRangeChange = (range: DatePickerRangeValue) => {
-        const [start, end] = range
+    const handleFromDateChange = (date: Date | null) => {
         setTableData((prev) => ({
             ...prev,
-            fromDate: start ? dayjs(start).format('YYYY-MM-DD') : '',
-            toDate: end ? dayjs(end).format('YYYY-MM-DD') : '',
+            fromDate: date ? dayjs(date).format('YYYY-MM-DD') : '',
+            page: 1,
+        }))
+    }
+
+    const handleToDateChange = (date: Date | null) => {
+        setTableData((prev) => ({
+            ...prev,
+            toDate: date ? dayjs(date).format('YYYY-MM-DD') : '',
             page: 1,
         }))
     }
@@ -111,30 +116,55 @@ const TransactionListTableTools = ({
 
     return (
         <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-            <div className="flex items-center gap-3">
+            <div className="flex flex-wrap items-center gap-3">
                 <span className="whitespace-nowrap text-sm font-medium text-gray-600 dark:text-gray-300">
                     Period
                 </span>
-                <DatePicker.DatePickerRange
-                    clearable
-                    size="sm"
-                    value={
-                        tableData.fromDate || tableData.toDate
-                            ? [
-                                  tableData.fromDate
-                                      ? dayjs(tableData.fromDate).toDate()
-                                      : null,
-                                  tableData.toDate
-                                      ? dayjs(tableData.toDate).toDate()
-                                      : null,
-                              ]
-                            : [null, null]
-                    }
-                    maxDate={dayjs().subtract(1, 'day').toDate()}
-                    inputFormat="YYYY-MM-DD"
-                    className="w-72"
-                    onChange={handleRangeChange}
-                />
+                <div className="flex items-center gap-2">
+                    <label className="text-xs font-medium text-gray-500 dark:text-gray-400">
+                        From
+                    </label>
+                    <DatePicker
+                        size="sm"
+                        value={
+                            tableData.fromDate
+                                ? dayjs(tableData.fromDate).toDate()
+                                : null
+                        }
+                        onChange={handleFromDateChange}
+                        maxDate={
+                            tableData.toDate
+                                ? dayjs(tableData.toDate).toDate()
+                                : dayjs().subtract(1, 'day').toDate()
+                        }
+                        inputFormat="YYYY-MM-DD"
+                        clearable
+                        className="w-40"
+                    />
+                </div>
+                <div className="flex items-center gap-2">
+                    <label className="text-xs font-medium text-gray-500 dark:text-gray-400">
+                        To
+                    </label>
+                    <DatePicker
+                        size="sm"
+                        value={
+                            tableData.toDate
+                                ? dayjs(tableData.toDate).toDate()
+                                : null
+                        }
+                        onChange={handleToDateChange}
+                        minDate={
+                            tableData.fromDate
+                                ? dayjs(tableData.fromDate).toDate()
+                                : undefined
+                        }
+                        maxDate={dayjs().subtract(1, 'day').toDate()}
+                        inputFormat="YYYY-MM-DD"
+                        clearable
+                        className="w-40"
+                    />
+                </div>
             </div>
             <div className="flex items-center gap-2">
                 <Button
