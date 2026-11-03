@@ -1,12 +1,19 @@
 import Card from '@/components/ui/Card'
 import Avatar from '@/components/ui/Avatar'
-import { NumericFormat } from 'react-number-format'
 import { TbToolsKitchen } from 'react-icons/tb'
 import { OrderItem } from '@/@types/order'
 
 interface OrderDetailProductsProps {
     items: OrderItem[]
 }
+
+const formatNumber = (value: number | string | null | undefined) => {
+    const numericValue = Number(value ?? 0)
+    return Number.isFinite(numericValue) ? Math.trunc(numericValue).toLocaleString() : '0'
+}
+
+const formatCurrency = (value: number | string | null | undefined) =>
+    `${formatNumber(value)} MMK`
 
 const OrderDetailProducts = ({ items }: OrderDetailProductsProps) => {
     const safeItems = items ?? []
@@ -16,21 +23,32 @@ const OrderDetailProducts = ({ items }: OrderDetailProductsProps) => {
     )
 
     return (
-        <Card>
-            <div className="flex items-center justify-between gap-3 mb-4">
-                <h4 className="mb-0">Dishes Ordered</h4>
-                <span className="text-sm text-gray-500 dark:text-gray-400">
-                    {safeItems.length} item{safeItems.length === 1 ? '' : 's'}
-                    {totalQty > 0 ? ` · ${totalQty} qty` : ''}
-                </span>
-            </div>
-
+        <Card
+            header={{
+                content: (
+                    <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-2">
+                            <TbToolsKitchen className="text-lg text-primary" />
+                            <h4 className="text-base font-bold text-gray-900 dark:text-gray-100">
+                                Ordered Items
+                            </h4>
+                        </div>
+                        <span className="text-xs font-medium text-gray-500 dark:text-gray-400 bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded-full">
+                            {safeItems.length} item{safeItems.length === 1 ? '' : 's'} · {totalQty} qty
+                        </span>
+                    </div>
+                ),
+                bordered: false,
+                className: 'px-5 py-4',
+            }}
+            bodyClass="p-5"
+        >
             {safeItems.length === 0 ? (
-                <div className="rounded-xl bg-gray-50 dark:bg-gray-700/50 px-4 py-8 text-center text-sm text-gray-500 dark:text-gray-400">
+                <div className="rounded-xl bg-gray-50 dark:bg-gray-800/50 px-4 py-8 text-center text-sm text-gray-500 dark:text-gray-400">
                     No dishes found on this order.
                 </div>
             ) : (
-                <div className="flex flex-col gap-3">
+                <div className="space-y-3">
                     {safeItems.map((item) => {
                         const dish = item.dish
                         const lineTotal =
@@ -41,46 +59,32 @@ const OrderDetailProducts = ({ items }: OrderDetailProductsProps) => {
                         return (
                             <div
                                 key={item.id}
-                                className="rounded-xl bg-gray-50 dark:bg-gray-700/50 p-4"
+                                className="flex items-center gap-4 p-4 rounded-xl bg-gray-50 dark:bg-gray-800/50 transition-colors hover:bg-gray-100 dark:hover:bg-gray-800"
                             >
-                                <div className="flex items-start justify-between gap-4">
-                                    <div className="flex items-start gap-3 min-w-0">
-                                        <Avatar
-                                            shape="round"
-                                            size={50}
-                                            src={imageUrl}
-                                            icon={<TbToolsKitchen />}
-                                        />
-                                        <div className="min-w-0">
-                                            <div className="heading-text font-bold truncate">
-                                                {dish?.name || 'Unknown dish'}
-                                            </div>
-                                            {item.note && (
-                                                <div className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                                                    Note: {item.note}
-                                                </div>
-                                            )}
-                                            <div className="text-sm text-gray-500 dark:text-gray-400 mt-1">
-                                                Qty {item.quantity} ×{' '}
-                                                <NumericFormat
-                                                    thousandSeparator
-                                                    displayType="text"
-                                                    value={item.unitPrice}
-                                                    prefix="MMK "
-                                                />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="text-right shrink-0">
-                                        <div className="heading-text font-bold">
-                                            <NumericFormat
-                                                thousandSeparator
-                                                displayType="text"
-                                                value={lineTotal}
-                                                prefix="MMK "
-                                            />
-                                        </div>
-                                    </div>
+                                <Avatar
+                                    shape="square"
+                                    size={56}
+                                    src={imageUrl}
+                                    icon={<TbToolsKitchen />}
+                                    className="shrink-0 rounded-xl"
+                                />
+                                <div className="flex-1 min-w-0">
+                                    <p className="font-semibold text-gray-900 dark:text-gray-100 truncate">
+                                        {dish?.name || 'Unknown dish'}
+                                    </p>
+                                    <p className="text-sm text-gray-500 dark:text-gray-400 mt-0.5">
+                                        Qty {item.quantity} × {formatCurrency(item.unitPrice)}
+                                    </p>
+                                    {item.note && (
+                                        <p className="text-xs text-amber-600 dark:text-amber-400 mt-1 italic">
+                                            Note: {item.note}
+                                        </p>
+                                    )}
+                                </div>
+                                <div className="shrink-0 text-right">
+                                    <p className="text-base font-bold text-primary dark:text-gold">
+                                        {formatCurrency(lineTotal)}
+                                    </p>
                                 </div>
                             </div>
                         )

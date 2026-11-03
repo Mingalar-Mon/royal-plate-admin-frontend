@@ -1,5 +1,5 @@
 import Card from '@/components/ui/Card'
-import { NumericFormat } from 'react-number-format'
+import { TbCalculator } from 'react-icons/tb'
 
 interface OrderDetailPaymentProps {
     subtotal: number
@@ -8,14 +8,13 @@ interface OrderDetailPaymentProps {
     paymentMethod?: string
 }
 
-const formatAmount = (value: number) => (
-    <NumericFormat
-        thousandSeparator
-        displayType="text"
-        value={Number(value) || 0}
-        prefix="MMK "
-    />
-)
+const formatNumber = (value: number | null | undefined) => {
+    const n = Number(value ?? 0)
+    return Number.isFinite(n) ? Math.trunc(n).toLocaleString() : '0'
+}
+
+const formatCurrency = (value: number | null | undefined) =>
+    `${formatNumber(value)} MMK`
 
 const OrderDetailPayment = ({
     subtotal,
@@ -23,22 +22,49 @@ const OrderDetailPayment = ({
     total,
 }: OrderDetailPaymentProps) => {
     return (
-        <Card>
-            <h4 className="mb-6">Payment Summary</h4>
+        <Card
+            header={{
+                content: (
+                    <div className="flex items-center gap-2">
+                        <TbCalculator className="text-lg text-primary" />
+                        <h4 className="text-base font-bold text-gray-900 dark:text-gray-100">
+                            Payment Summary
+                        </h4>
+                    </div>
+                ),
+                bordered: false,
+                className: 'px-5 py-4',
+            }}
+            bodyClass="p-5"
+        >
             <div className="space-y-3">
-                <div className="flex justify-between text-sm text-gray-600 dark:text-gray-300">
-                    <span>Subtotal</span>
-                    <span>{formatAmount(subtotal)}</span>
-                </div>
-                <div className="flex justify-between text-sm text-gray-600 dark:text-gray-300">
-                    <span>Tax</span>
-                    <span>{formatAmount(tax)}</span>
-                </div>
-                <div className="flex justify-between items-center pt-3 border-t border-gray-200 dark:border-gray-600">
-                    <span className="font-bold text-base">Total</span>
-                    <span className="font-bold text-lg heading-text">
-                        {formatAmount(total)}
+                <div className="flex items-center justify-between py-2">
+                    <span className="text-sm text-gray-600 dark:text-gray-400">
+                        Subtotal
                     </span>
+                    <span className="text-sm font-medium text-gray-900 dark:text-gray-100">
+                        {formatCurrency(subtotal)}
+                    </span>
+                </div>
+
+                <div className="flex items-center justify-between py-2">
+                    <span className="text-sm text-gray-600 dark:text-gray-400">
+                        Tax
+                    </span>
+                    <span className="text-sm font-medium text-gray-900 dark:text-gray-100">
+                        {formatCurrency(tax)}
+                    </span>
+                </div>
+
+                <div className="pt-3 mt-3 border-t border-gray-200 dark:border-gray-700">
+                    <div className="flex items-center justify-between py-2">
+                        <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                            Total
+                        </span>
+                        <span className="text-lg font-bold text-gray-900 dark:text-gray-100">
+                            {formatCurrency(total)}
+                        </span>
+                    </div>
                 </div>
             </div>
         </Card>

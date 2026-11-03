@@ -3,6 +3,7 @@ import Timeline from '@/components/ui/Timeline'
 import Badge from '@/components/ui/Badge'
 import classNames from '@/utils/classNames'
 import { toRestaurantTime } from '@/utils/orderDate'
+import { TbClock, TbCheck } from 'react-icons/tb'
 
 interface OrderDetailsActivitiesProps {
     order: {
@@ -68,8 +69,21 @@ const OrderDetailsActivities = ({ order }: OrderDetailsActivitiesProps) => {
     }))
 
     return (
-        <Card>
-            <h4 className="mb-4">Order Timeline</h4>
+        <Card
+            header={{
+                content: (
+                    <div className="flex items-center gap-2">
+                        <TbClock className="text-lg text-primary" />
+                        <h4 className="text-base font-bold text-gray-900 dark:text-gray-100">
+                            Order Timeline
+                        </h4>
+                    </div>
+                ),
+                bordered: false,
+                className: 'px-5 py-4',
+            }}
+            bodyClass="p-5"
+        >
             <Timeline>
                 {activities.map((act) => (
                     <Timeline.Item
@@ -92,7 +106,7 @@ const OrderDetailsActivities = ({ order }: OrderDetailsActivitiesProps) => {
                     >
                         <div
                             className={classNames(
-                                'capitalize text-sm',
+                                'flex items-center gap-2 capitalize text-sm',
                                 act.isCurrent
                                     ? 'font-bold text-gray-900 dark:text-gray-100'
                                     : act.completed
@@ -102,24 +116,11 @@ const OrderDetailsActivities = ({ order }: OrderDetailsActivitiesProps) => {
                         >
                             {act.name}
                             {act.isCurrent && (
-                                <span className="ml-2 text-xs font-semibold text-green-600 dark:text-green-400 normal-case">
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        className="h-5 w-5 inline"
-                                        viewBox="0 0 20 20"
-                                        fill="currentColor"
-                                    >
-                                        <path
-                                            fillRule="evenodd"
-                                            d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                                            clipRule="evenodd"
-                                        />
-                                    </svg>
-                                </span>
+                                <TbCheck className="text-emerald-500 text-sm" />
                             )}
                         </div>
                         {act.date ? (
-                            <div className="text-xs text-gray-500 mt-0.5">
+                            <div className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">
                                 {toRestaurantTime(act.date)?.format(
                                     'DD/MM/YYYY HH:mm',
                                 )}
@@ -132,6 +133,25 @@ const OrderDetailsActivities = ({ order }: OrderDetailsActivitiesProps) => {
                     </Timeline.Item>
                 ))}
             </Timeline>
+
+            <div className="mt-4 pt-4 border-t border-gray-100 dark:border-gray-700">
+                <div className="flex items-center gap-2 text-xs">
+                    <span className="font-medium text-gray-500 dark:text-gray-400 uppercase">
+                        Current Status:
+                    </span>
+                    <span className={`font-semibold capitalize px-2 py-0.5 rounded-full ${
+                        status === 'completed'
+                            ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400'
+                            : status === 'canceled' || status === 'rejected'
+                            ? 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400'
+                            : status === 'pending'
+                            ? 'bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400'
+                            : 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400'
+                    }`}>
+                        {status}
+                    </span>
+                </div>
+            </div>
         </Card>
     )
 }
