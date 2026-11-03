@@ -11,7 +11,7 @@ import type { OwnerOverviewSummary } from '@/@types/dashboard'
 
 const formatNumber = (value: number | null | undefined) => {
     const n = Number(value ?? 0)
-    return Number.isFinite(n) ? n.toLocaleString() : '0'
+    return Number.isFinite(n) ? Math.trunc(n).toLocaleString() : '0'
 }
 
 const formatCurrency = (value: number | null | undefined) =>
