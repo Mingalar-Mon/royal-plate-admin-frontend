@@ -1,114 +1,79 @@
 import Card from '@/components/ui/Card'
-import { NumericFormat } from 'react-number-format'
+import { TbCalculator } from 'react-icons/tb'
+import { Reservation } from '@/services/ReservationService'
+
+const formatNumber = (value: number | string | null | undefined) => {
+    const numericValue = Number(value ?? 0)
+    return Number.isFinite(numericValue) ? Math.trunc(numericValue).toLocaleString() : '0'
+}
+
+const formatCurrency = (value: number | string | null | undefined) =>
+    `${formatNumber(value)} MMK`
 
 interface PaymentSummaryProps {
-    subTotal?: number | string
-    tax?: number | string
-    tableFee?: number | string
-    total?: number | string
-    commission_fee?: number | string
-    /** The amount the commission rate was applied to. */
-    commissionBase?: number | string | null
-    /** The rate as a fraction — 0.1 means 10%. */
-    commissionRate?: number | string | null
-    netAmount?: number | string
+    reservation: Reservation
 }
 
-const formatAmount = (value?: number | string | null) => (
-    <NumericFormat
-        thousandSeparator
-        displayType="text"
-        value={Number(value) || 0}
-        prefix="MMK "
-    />
-)
-
-/** The stored rate is a fraction, so 0.1 renders as 10%. */
-const formatRate = (rate?: number | string | null) => {
-    if (rate === null || rate === undefined || rate === '') return '0%'
-    const parsed = Number(rate)
-    if (!Number.isFinite(parsed)) return '0%'
-    return `${Number((parsed * 100).toFixed(2))}%`
-}
-
-const SummaryRow = ({
-    label,
-    value,
-    muted,
-}: {
-    label: string
-    value: React.ReactNode
-    muted?: boolean
-}) => (
-    <div
-        className={`flex justify-between text-sm ${
-            muted
-                ? 'text-gray-400 dark:text-gray-500'
-                : 'text-gray-600 dark:text-gray-300'
-        }`}
-    >
-        <span>{label}</span>
-        <span className="whitespace-nowrap">{value}</span>
-    </div>
-)
-
-const PaymentSummary = ({
-    subTotal,
-    tax,
-    tableFee,
-    total,
-    commission_fee,
-    commissionBase,
-    commissionRate,
-    netAmount,
-}: PaymentSummaryProps) => {
-    // A missing batch is a neutral "no fee", not an error — show it plainly.
-    const hasCommission =
-        commission_fee !== undefined ||
-        commissionBase !== undefined ||
-        commissionRate !== undefined
-
+const PaymentSummary = ({ reservation }: PaymentSummaryProps) => {
     return (
-        <Card>
-            <h4 className="mb-5">Payment Summary</h4>
-            <div className="space-y-3">
-                <SummaryRow label="Table Fee" value={formatAmount(tableFee)} />
-                <SummaryRow label="Subtotal" value={formatAmount(subTotal)} />
-                <SummaryRow label="Tax" value={formatAmount(tax)} />
-
-                {hasCommission && (
-                    <div className="space-y-3 border-t border-gray-200 pt-3 dark:border-gray-700">
-                        <SummaryRow
-                            muted
-                            label="Commission base"
-                            value={formatAmount(commissionBase)}
-                        />
-                        <SummaryRow
-                            muted
-                            label="Commission rate"
-                            value={formatRate(commissionRate)}
-                        />
-                        <SummaryRow
-                            label="Commission fee"
-                            value={formatAmount(commission_fee)}
-                        />
+        <Card
+            header={{
+                content: (
+                    <div className="flex items-center gap-2">
+                        <TbCalculator className="text-lg text-primary" />
+                        <h4 className="text-base font-bold text-gray-900 dark:text-gray-100">
+                            Payment Summary
+                        </h4>
                     </div>
-                )}
+                ),
+                bordered: false,
+                className: 'px-5 py-4',
+            }}
+            bodyClass="p-5"
+        >
+            <div className="space-y-3">
+                <div className="flex items-center justify-between py-2">
+                    <span className="text-sm text-gray-600 dark:text-gray-400">
+                        Subtotal
+                    </span>
+                    <span className="text-sm font-medium text-gray-900 dark:text-gray-100">
+                        {formatCurrency(reservation.subTotal)}
+                    </span>
+                </div>
 
-                {netAmount !== undefined && (
-                    <div className="flex justify-between text-sm text-gray-600 dark:text-gray-300">
-                        <span>Net amount (after commission)</span>
-                        <span className="font-semibold">
-                            {formatAmount(netAmount)}
+                <div className="flex items-center justify-between py-2">
+                    <span className="text-sm text-gray-600 dark:text-gray-400">
+                        Tax
+                    </span>
+                    <span className="text-sm font-medium text-gray-900 dark:text-gray-100">
+                        {formatCurrency(reservation.tax)}
+                    </span>
+                </div>
+
+                <div className="pt-3 mt-3 border-t border-gray-200 dark:border-gray-700">
+                    <div className="flex items-center justify-between py-2">
+                        <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                            Total Price
+                        </span>
+                        <span className="text-lg font-bold text-gray-900 dark:text-gray-100">
+                            {formatCurrency(reservation.totalPrice)}
                         </span>
                     </div>
-                )}
+                </div>
 
-                <div className="flex justify-between items-center pt-3 border-t border-gray-200 dark:border-gray-600">
-                    <span className="font-bold text-base">Total</span>
-                    <span className="font-bold text-lg heading-text">
-                        {formatAmount(total)}
-                    </span>
+                <div className="pt-2">
+                    <div className="flex items-center justify-between">
+                        <span className="text-xs text-gray-500 dark:text-gray-400">
+                            Settlement Status
+                        </span>
+                        <span className={`text-xs font-semibold px-2 py-1 rounded-full ${
+                            reservation.isSettle
+                                ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400'
+                                : 'bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400'
+                        }`}>
+                            {reservation.isSettle ? 'Settled' : 'Unsettled'}
+                        </span>
+                    </div>
                 </div>
             </div>
         </Card>
