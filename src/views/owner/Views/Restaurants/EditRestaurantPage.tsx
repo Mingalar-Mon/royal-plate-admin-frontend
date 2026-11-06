@@ -5,7 +5,7 @@ import Notification from '@/components/ui/Notification'
 import toast from '@/components/ui/toast'
 import ConfirmDialog from '@/components/shared/ConfirmDialog'
 import NoProductFound from '@/assets/svg/NoProductFound'
-import { TbTrash, TbArrowNarrowLeft } from 'react-icons/tb'
+import { TbTrash, TbArrowNarrowLeft, TbDeviceFloppy } from 'react-icons/tb'
 import RestaurantForm from './components/RestaurantForm'
 import type { RestaurantFormSchema } from './types/restaurantForm.types'
 
@@ -210,27 +210,33 @@ const EditRestaurant = () => {
                 <Button
                     type="button"
                     variant="plain"
+                    size="xs"
                     icon={<TbArrowNarrowLeft />}
+                    className="!px-2 flex items-center justify-center"
                     onClick={() => navigate('/owner/dashboard')}
                 >
-                    Back to Dashboard
+                    <span className="hidden sm:inline">Back to Dashboard</span>
                 </Button>
                 <div className="flex items-center gap-2">
                     <Button
                         type="button"
                         variant="default"
+                        size="xs"
                         icon={<TbTrash />}
-                        className="text-red-500 hover:text-red-600"
+                        className="text-red-500 hover:text-red-600 !px-2 flex items-center justify-center"
                         onClick={() => setDeleteConfirmationOpen(true)}
                     >
-                        Delete
+                        <span className="hidden sm:inline">Delete</span>
                     </Button>
                     <Button
                         type="submit"
                         variant="solid"
+                        size="xs"
+                        icon={<TbDeviceFloppy />}
+                        className="!px-2 flex items-center justify-center"
                         loading={isSubmitting}
                     >
-                        Save Changes
+                        <span className="hidden sm:inline">Save Changes</span>
                     </Button>
                 </div>
             </RestaurantForm>
