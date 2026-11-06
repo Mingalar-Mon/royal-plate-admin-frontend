@@ -11,7 +11,7 @@ const PreLoginLayout = ({ children }: CommonProps) => {
     const isAuthPath = authRoute.some((route) => route.path === pathname)
 
     return (
-        <div className={`flex flex-auto flex-col ${isAuthPath ? 'h-[100vh]' : 'min-h-screen'}`}>
+        <div className={`flex flex-auto flex-col ${isAuthPath ? 'h-screen' : 'min-h-screen'}`} style={isAuthPath ? { height: '100dvh' } : undefined}>
             {isAuthPath ? <AuthLayout>{children}</AuthLayout> : children}
         </div>
     )
