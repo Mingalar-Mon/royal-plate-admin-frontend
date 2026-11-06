@@ -452,8 +452,8 @@ const EdaDashboard = () => {
     return (
         <Container>
             <div className="space-y-6 py-6 sm:py-8">
-                <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-                    <div className="flex items-start gap-3">
+                <div className="flex items-center justify-between gap-4">
+                    <div className="flex items-center gap-3">
                         <Button
                             variant="plain"
                             size="sm"

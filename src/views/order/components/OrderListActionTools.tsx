@@ -13,18 +13,14 @@ const OrderListActionTools = ({ onRefresh }: Props) => {
     // const { orderList } = useOrderList()
 
     return (
-        <div className="flex flex-col md:flex-row gap-3">
-            {/* <CSVLink filename="orders.csv" data={orderList}>
-                <Button icon={<TbCloudDownload className="text-xl" />}>
-                    Export
-                </Button>
-            </CSVLink> */}
+        <div className="flex items-center">
             <Button
+                size="sm"
                 variant="default"
-                icon={<TbRefresh className="text-xl" />}
+                icon={<TbRefresh className="text-lg" />}
                 onClick={onRefresh}
             >
-                Refresh
+                <span className="hidden sm:inline">Refresh</span>
             </Button>
         </div>
     )

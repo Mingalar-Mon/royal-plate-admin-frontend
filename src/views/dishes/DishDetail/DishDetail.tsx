@@ -41,9 +41,10 @@ const DishDetail = () => {
     return (
         <Container>
             <div className="py-4 sm:py-6">
-                <div className="mb-5 flex flex-col gap-3 sm:mb-6 sm:flex-row sm:items-center sm:justify-between">
+                <div className="mb-5 sm:mb-6">
                     <Button
                         variant="plain"
+                        size="sm"
                         icon={<TbArrowNarrowLeft />}
                         onClick={() =>
                             navigate(
@@ -53,22 +54,25 @@ const DishDetail = () => {
                     >
                         Back to Menu
                     </Button>
-                    <Button
-                        variant="solid"
-                        icon={<TbEdit />}
-                        onClick={() => navigate(`/dishes/edit/${dish.data.id}`)}
-                    >
-                        Edit Dish
-                    </Button>
                 </div>
 
                 <div className="grid grid-cols-1 gap-5 lg:grid-cols-3 lg:gap-6">
                     <div className="lg:col-span-2 space-y-6">
                         <Card>
-                            <div className="flex justify-between items-start">
-                                <h3 className="text-xl font-bold sm:text-2xl">
+                            <div className="flex items-start justify-between gap-3">
+                                <h3 className="text-lg font-bold sm:text-2xl">
                                     {dish.data.name}
                                 </h3>
+                                <Button
+                                    size="xs"
+                                    variant="solid"
+                                    icon={<TbEdit />}
+                                    onClick={() => navigate(`/dishes/edit/${dish.data.id}`)}
+                                >
+                                    <span className="hidden sm:inline">Edit Dish</span>
+                                </Button>
+                            </div>
+                            <div className="mt-2">
                                 <DishStatusBadge
                                     available={dish.data.availableForOrder}
                                 />

@@ -7,9 +7,13 @@ const ReservationListActionTools = ({
     onRefresh: () => void
 }) => {
     return (
-        <div className="flex flex-col gap-3 md:flex-row">
-            <Button icon={<TbRefresh />} onClick={onRefresh}>
-                Refresh
+        <div className="flex items-center">
+            <Button
+                size="sm"
+                icon={<TbRefresh className="text-lg" />}
+                onClick={onRefresh}
+            >
+                <span className="hidden sm:inline">Refresh</span>
             </Button>
         </div>
     )

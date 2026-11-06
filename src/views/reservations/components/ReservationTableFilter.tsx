@@ -71,13 +71,14 @@ const ReservationTableFilter = () => {
     return (
         <>
             <Button
-                className="relative"
-                icon={<TbFilter />}
+                size="sm"
+                className="relative px-2 sm:px-3"
+                icon={<TbFilter className="text-lg" />}
                 onClick={() => setIsOpen(true)}
             >
-                Filter
+                <span className="hidden sm:inline">Filter</span>
                 {activeFilterCount > 0 && (
-                    <span className="ml-1 inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-primary px-1 text-xs text-white">
+                    <span className="absolute -right-1 -top-1 inline-flex h-4 min-w-4 items-center justify-center rounded-full bg-primary px-0.5 text-[10px] text-white sm:static sm:ml-1 sm:h-5 sm:min-w-5 sm:px-1 sm:text-xs">
                         {activeFilterCount}
                     </span>
                 )}

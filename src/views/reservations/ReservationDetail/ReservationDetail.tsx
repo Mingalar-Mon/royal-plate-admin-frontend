@@ -92,7 +92,7 @@ const ReservationDetail = () => {
         <Container>
             <div className="py-6 space-y-6">
                 {/* Header */}
-                <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                <div className="flex items-center">
                     <Button
                         variant="plain"
                         size="sm"
@@ -108,24 +108,24 @@ const ReservationDetail = () => {
                 {/* Title Card */}
                 <Card
                     className="border-none bg-gradient-to-br from-primary/10 via-primary/5 to-transparent"
-                    bodyClass="p-5"
+                    bodyClass="p-4 sm:p-5"
                 >
-                    <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+                    <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
                         <div className="space-y-2">
                             <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-primary">
                                 <TbCalendarEvent className="text-sm" />
                                 Reservation Details
                             </div>
-                            <h2 className="text-xl font-bold text-gray-900 dark:text-gray-100">
+                            <h2 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-gray-100">
                                 {reservation.reservationNumber}
                             </h2>
-                            <div className="flex flex-wrap items-center gap-4 text-sm text-gray-600 dark:text-gray-400">
+                            <div className="flex flex-col gap-1 sm:flex-row sm:flex-wrap sm:items-center sm:gap-4 text-xs sm:text-sm text-gray-600 dark:text-gray-400">
                                 <span className="flex items-center gap-1.5">
-                                    <TbClock className="text-base" />
+                                    <TbClock className="text-sm sm:text-base" />
                                     {dayjs(reservation.startingTime).format('HH:mm')} - {dayjs(reservation.endingTime).format('HH:mm')}
                                 </span>
                                 <span className="flex items-center gap-1.5">
-                                    <TbHash className="text-base" />
+                                    <TbHash className="text-sm sm:text-base" />
                                     {dayjs(reservation.reservationDate).format('DD/MM/YYYY')}
                                 </span>
                             </div>

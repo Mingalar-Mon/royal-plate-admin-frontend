@@ -41,14 +41,14 @@ const OrderDetailProducts = ({ items }: OrderDetailProductsProps) => {
                 bordered: false,
                 className: 'px-5 py-4',
             }}
-            bodyClass="p-5"
+            bodyClass="p-4 sm:p-5"
         >
             {safeItems.length === 0 ? (
                 <div className="rounded-xl bg-gray-50 dark:bg-gray-800/50 px-4 py-8 text-center text-sm text-gray-500 dark:text-gray-400">
                     No dishes found on this order.
                 </div>
             ) : (
-                <div className="space-y-3">
+                <div className="space-y-2 sm:space-y-3">
                     {safeItems.map((item) => {
                         const dish = item.dish
                         const lineTotal =
@@ -59,33 +59,33 @@ const OrderDetailProducts = ({ items }: OrderDetailProductsProps) => {
                         return (
                             <div
                                 key={item.id}
-                                className="flex items-center gap-4 p-4 rounded-xl bg-gray-50 dark:bg-gray-800/50 transition-colors hover:bg-gray-100 dark:hover:bg-gray-800"
+                                className="rounded-xl bg-gray-50 dark:bg-gray-800/50 p-3 sm:p-4 transition-colors hover:bg-gray-100 dark:hover:bg-gray-800"
                             >
-                                <Avatar
-                                    shape="square"
-                                    size={56}
-                                    src={imageUrl}
-                                    icon={<TbToolsKitchen />}
-                                    className="shrink-0 rounded-xl"
-                                />
-                                <div className="flex-1 min-w-0">
-                                    <p className="font-semibold text-gray-900 dark:text-gray-100 truncate">
-                                        {dish?.name || 'Unknown dish'}
-                                    </p>
-                                    <p className="text-sm text-gray-500 dark:text-gray-400 mt-0.5">
-                                        Qty {item.quantity} × {formatCurrency(item.unitPrice)}
-                                    </p>
-                                    {item.note && (
-                                        <p className="text-xs text-amber-600 dark:text-amber-400 mt-1 italic">
-                                            Note: {item.note}
+                                <div className="flex items-start gap-3">
+                                    <Avatar
+                                        shape="square"
+                                        size={40}
+                                        src={imageUrl}
+                                        icon={<TbToolsKitchen />}
+                                        className="shrink-0 rounded-lg"
+                                    />
+                                    <div className="flex-1 min-w-0">
+                                        <p className="text-sm font-semibold text-gray-900 dark:text-gray-100 truncate">
+                                            {dish?.name || 'Unknown dish'}
                                         </p>
-                                    )}
-                                </div>
-                                <div className="shrink-0 text-right">
-                                    <p className="text-base font-bold text-primary dark:text-gold">
+                                        <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">
+                                            Qty {item.quantity} × {formatCurrency(item.unitPrice)}
+                                        </p>
+                                    </div>
+                                    <p className="shrink-0 text-sm font-bold text-primary dark:text-gold">
                                         {formatCurrency(lineTotal)}
                                     </p>
                                 </div>
+                                {item.note && (
+                                    <p className="mt-2 text-xs text-amber-600 dark:text-amber-400 italic pl-[52px] sm:pl-[56px]">
+                                        Note: {item.note}
+                                    </p>
+                                )}
                             </div>
                         )
                     })}

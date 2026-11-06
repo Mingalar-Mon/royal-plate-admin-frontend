@@ -24,8 +24,8 @@ const OrderList = () => {
         <Container>
             <AdaptiveCard>
                 <div className="flex flex-col gap-4">
-                    <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-2">
-                        <h3 className='text-primary'>Orders</h3>
+                    <div className="flex items-center justify-between gap-3">
+                        <h3 className="text-base sm:text-lg text-primary">Orders</h3>
                         {/* Card view of orders */}
                         <OrderListActionTools
                             orderList={orderList}

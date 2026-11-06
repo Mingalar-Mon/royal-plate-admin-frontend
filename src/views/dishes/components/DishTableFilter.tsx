@@ -72,11 +72,12 @@ const DishTableFilter = () => {
     return (
         <>
             <Button
-                className="w-full sm:w-auto"
-                icon={<TbFilter />}
+                size="sm"
+                className="px-2 sm:px-3"
+                icon={<TbFilter className="text-lg" />}
                 onClick={() => setIsOpen(true)}
             >
-                Filter
+                <span className="hidden sm:inline">Filter</span>
             </Button>
             <Drawer
                 title="Filter Dishes"

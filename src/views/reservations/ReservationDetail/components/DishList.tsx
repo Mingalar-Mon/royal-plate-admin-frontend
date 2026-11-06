@@ -42,9 +42,9 @@ const DishesList = ({
                 bordered: false,
                 className: 'px-5 py-4',
             }}
-            bodyClass="p-5"
+            bodyClass="p-4 sm:p-5"
         >
-            <div className="space-y-3">
+            <div className="space-y-2 sm:space-y-3">
                 {reservationItems.map((item, index) => {
                     const dish = item.dish
                     const lineTotal =
@@ -54,27 +54,25 @@ const DishesList = ({
                     return (
                         <div
                             key={item.id}
-                            className={`flex items-center gap-4 p-4 rounded-xl bg-gray-50 dark:bg-gray-800/50 transition-colors hover:bg-gray-100 dark:hover:bg-gray-800 ${
-                                index !== reservationItems.length - 1 ? '' : ''
-                            }`}
+                            className="rounded-xl bg-gray-50 dark:bg-gray-800/50 p-3 sm:p-4 transition-colors hover:bg-gray-100 dark:hover:bg-gray-800"
                         >
-                            <Avatar
-                                shape="square"
-                                size={56}
-                                src={imageUrl}
-                                icon={<TbToolsKitchen />}
-                                className="shrink-0 rounded-xl"
-                            />
-                            <div className="flex-1 min-w-0">
-                                <p className="font-semibold text-gray-900 dark:text-gray-100 truncate">
-                                    {dish.name || 'Unknown dish'}
-                                </p>
-                                <p className="text-sm text-gray-500 dark:text-gray-400 mt-0.5">
-                                    Qty {item.quantity} × {formatCurrency(item.unitPrice)}
-                                </p>
-                            </div>
-                            <div className="shrink-0 text-right">
-                                <p className="text-base font-bold text-primary dark:text-gold">
+                            <div className="flex items-start gap-3">
+                                <Avatar
+                                    shape="square"
+                                    size={40}
+                                    src={imageUrl}
+                                    icon={<TbToolsKitchen />}
+                                    className="shrink-0 rounded-lg"
+                                />
+                                <div className="flex-1 min-w-0">
+                                    <p className="text-sm font-semibold text-gray-900 dark:text-gray-100 truncate">
+                                        {dish.name || 'Unknown dish'}
+                                    </p>
+                                    <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">
+                                        Qty {item.quantity} × {formatCurrency(item.unitPrice)}
+                                    </p>
+                                </div>
+                                <p className="shrink-0 text-sm font-bold text-primary dark:text-gold">
                                     {formatCurrency(lineTotal)}
                                 </p>
                             </div>

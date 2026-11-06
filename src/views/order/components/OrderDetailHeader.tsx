@@ -40,10 +40,10 @@ const OrderDetailHeader = ({ order, onStatusUpdated }: OrderDetailHeaderProps) =
 
     return (
         <Card>
-            <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
                 <div className="space-y-2">
-                    <div className="flex flex-wrap items-center gap-3">
-                        <h3 className="mb-0">
+                    <div className="flex flex-wrap items-center gap-2">
+                        <h3 className="mb-0 text-base sm:text-lg">
                             Order #{order.orderNumber || order.id.slice(0, 8)}
                         </h3>
                         <OrderStatusBadge
@@ -52,10 +52,10 @@ const OrderDetailHeader = ({ order, onStatusUpdated }: OrderDetailHeaderProps) =
                             isLoading={isPending}
                         />
                     </div>
-                    <div className="flex flex-wrap gap-x-4 gap-y-1 text-sm text-gray-500 dark:text-gray-400">
+                    <div className="flex flex-col gap-1 text-xs sm:flex-row sm:flex-wrap sm:gap-x-4 sm:gap-y-1 sm:text-sm text-gray-500 dark:text-gray-400">
                         {order.created_at && (
                             <span className="inline-flex items-center gap-1.5">
-                                <TbClock className="text-base" />
+                                <TbClock className="text-sm sm:text-base" />
                                 Created{' '}
                                 {toRestaurantTime(order.created_at)?.format(
                                     'DD/MM/YYYY HH:mm',
@@ -74,12 +74,12 @@ const OrderDetailHeader = ({ order, onStatusUpdated }: OrderDetailHeaderProps) =
                 </div>
 
                 {order.scheduledDate && (
-                    <div className="rounded-xl bg-gray-50 dark:bg-gray-700/60 px-4 py-3 sm:text-right">
-                        <div className="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400 mb-1">
+                    <div className="rounded-xl bg-gray-50 dark:bg-gray-700/60 px-3 py-2 sm:px-4 sm:py-3 sm:text-right">
+                        <div className="text-[10px] sm:text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400 mb-1">
                             Scheduled pickup
                         </div>
-                        <div className="inline-flex items-center gap-1.5 font-semibold text-gray-900 dark:text-gray-100">
-                            <TbCalendar className="text-base" />
+                        <div className="inline-flex items-center gap-1.5 text-sm sm:text-base font-semibold text-gray-900 dark:text-gray-100">
+                            <TbCalendar className="text-sm sm:text-base" />
                             {toRestaurantTime(order.scheduledDate)?.format(
                                 'DD/MM/YYYY HH:mm',
                             )}

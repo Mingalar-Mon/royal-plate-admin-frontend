@@ -26,8 +26,8 @@ const ReservationList = () => {
         <Container>
             <AdaptiveCard>
                 <div className="flex flex-col gap-4">
-                    <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-2">
-                        <h3 className='text-primary'>Reservations</h3>
+                    <div className="flex items-center justify-between gap-3">
+                        <h3 className="text-base sm:text-lg text-primary">Reservations</h3>
                         <ReservationListActionTools onRefresh={refetch} />
                     </div>
                     <ReservationListTableTools />
