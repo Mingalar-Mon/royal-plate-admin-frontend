@@ -83,13 +83,8 @@ const DishList = () => {
         <Container>
             <AdaptiveCard>
                 <div className="flex flex-col gap-5">
-                    <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-                        <div>
-                            <h3 className="text-content-primary">Menu</h3>
-                            <p className="mt-1 text-sm text-content-muted">
-                                Manage dishes, pricing, and availability.
-                            </p>
-                        </div>
+                    <div className="flex items-center justify-between gap-3">
+                        <h3 className="text-content-primary">Menu</h3>
                         <DishListActionTools
                             onAdd={() => setIsCreateDialogOpen(true)}
                             onRefresh={refetch}

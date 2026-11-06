@@ -49,16 +49,16 @@ const DishListCard = ({ dishList, dishListTotal, isLoading }: DishListCardProps)
 
     const editingDefaultValues: DishFormInput | undefined = editingDish
         ? {
-              name: editingDish.name,
-              price: editingDish.price,
-              description: editingDish.description || '',
-              category: editingDish.cuisine?.id || '',
-              coverImage: editingDish.coverImage as any,
-              detailImages: (editingDish.detailImages as any) || [],
-              available: editingDish.availableForOrder,
-              preparationTime: editingDish.preparationTime || 0,
-              deletedImageKeys: [],
-          }
+            name: editingDish.name,
+            price: editingDish.price,
+            description: editingDish.description || '',
+            category: editingDish.cuisine?.id || '',
+            coverImage: editingDish.coverImage as any,
+            detailImages: (editingDish.detailImages as any) || [],
+            available: editingDish.availableForOrder,
+            preparationTime: editingDish.preparationTime || 0,
+            deletedImageKeys: [],
+        }
         : undefined
 
     const openEditDialog = (dish: DishRow) => {
@@ -84,7 +84,7 @@ const DishListCard = ({ dishList, dishListTotal, isLoading }: DishListCardProps)
             })
         }
         if ((data as any).deletedImageKeys && (data as any).deletedImageKeys.length > 0) {
-            ;(data as any).deletedImageKeys.forEach((key: string) => {
+            ; (data as any).deletedImageKeys.forEach((key: string) => {
                 formData.append('deletedImageKeys', key)
                 formData.append('deletedImageKeys[]', key)
             })
@@ -252,9 +252,9 @@ const DishListCard = ({ dishList, dishListTotal, isLoading }: DishListCardProps)
             >
                 {viewingDish && (
                     <div className="p-4 sm:p-6">
-                        <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-                            <div>
-                                <h3 className="text-xl font-bold sm:text-2xl">{viewingDish.name}</h3>
+                        <div className="flex items-start justify-between gap-3">
+                            <div className="min-w-0 flex-1">
+                                <h3 className="text-lg font-bold sm:text-2xl">{viewingDish.name}</h3>
                                 <div className="mt-2">
                                     <DishAvailableStatusBadge
                                         status={viewingDish.availableForOrder ? 'available' : 'unavailable'}
@@ -262,8 +262,15 @@ const DishListCard = ({ dishList, dishListTotal, isLoading }: DishListCardProps)
                                     />
                                 </div>
                             </div>
-                            <Button variant="solid" icon={<TbEdit />} onClick={() => openEditDialog(viewingDish)}>
-                                Edit Dish
+                            <Button
+                                size="xs"
+                                variant="solid"
+                                icon={<TbEdit />}
+                                className="shrink-0 !w-auto"
+                                style={{ minWidth: 'auto', width: 'auto' }}
+                                onClick={() => openEditDialog(viewingDish)}
+                            >
+                                <span className="hidden sm:inline">Edit Dish</span>
                             </Button>
                         </div>
 
@@ -340,9 +347,9 @@ const DishListCard = ({ dishList, dishListTotal, isLoading }: DishListCardProps)
             >
                 {editingDish && editingDefaultValues && (
                     <DishForm key={editingDish.id} isNew={false} categories={cuisineOptions} defaultValues={editingDefaultValues} disabled={isUpdatingDish} onFormSubmit={handleUpdateDishBasic}>
-                        <div className="flex flex-col-reverse gap-2 sm:flex-row sm:items-center sm:justify-between">
-                            <Button type="button" variant="plain" onClick={() => setEditingDish(null)}>Cancel</Button>
-                            <Button type="submit" variant="solid" loading={isUpdatingDish}>Save Changes</Button>
+                        <div className="flex items-center justify-end gap-2">
+                            <Button type="button" variant="plain" size="xs" onClick={() => setEditingDish(null)}>Cancel</Button>
+                            <Button type="submit" variant="solid" size="xs" loading={isUpdatingDish}>Save</Button>
                         </div>
                     </DishForm>
                 )}

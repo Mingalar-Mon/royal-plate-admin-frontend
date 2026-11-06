@@ -11,17 +11,21 @@ const DishListActionTools = ({
     onRefresh,
 }: DishListActionToolsProps) => {
     return (
-        <div className="flex w-full flex-col gap-2 sm:w-auto sm:flex-row">
+        <div className="flex items-center gap-2">
             <Button
+                size="sm"
                 variant="solid"
-                className="w-full sm:w-auto"
-                icon={<TbPlus className="text-xl" />}
+                icon={<TbPlus className="text-lg" />}
                 onClick={onAdd}
             >
-                Add Dish
+                <span className="hidden sm:inline">Add Dish</span>
             </Button>
-            <Button className="w-full sm:w-auto" icon={<TbRefresh />} onClick={onRefresh}>
-                Refresh
+            <Button
+                size="sm"
+                icon={<TbRefresh className="text-lg" />}
+                onClick={onRefresh}
+            >
+                <span className="hidden sm:inline">Refresh</span>
             </Button>
         </div>
     )

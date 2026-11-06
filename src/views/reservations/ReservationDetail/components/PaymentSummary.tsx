@@ -29,7 +29,7 @@ const PaymentSummary = ({ reservation }: PaymentSummaryProps) => {
                 bordered: false,
                 className: 'px-5 py-4',
             }}
-            bodyClass="p-5"
+            bodyClass="p-4 sm:p-5"
         >
             <div className="space-y-3">
                 <div className="flex items-center justify-between py-2">

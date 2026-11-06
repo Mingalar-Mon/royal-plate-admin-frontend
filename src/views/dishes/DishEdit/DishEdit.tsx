@@ -173,33 +173,36 @@ const DishEdit = () => {
                 categories={cuisineOptions}
                 onFormSubmit={handleSubmit}
             >
-                <div className="flex items-center justify-between">
+                <div className="flex items-center justify-between gap-2">
                     <Button
                         type="button"
                         variant="plain"
+                        size="sm"
                         icon={<TbArrowNarrowLeft />}
                         onClick={() =>
                             navigate(`/restaurants/${restaurantId}/dishes`)
                         }
                     >
-                        Back to Menu
+                        <span className="hidden sm:inline">Back to Menu</span>
                     </Button>
                     <div className="flex gap-2">
                         <Button
                             type="button"
                             variant="default"
+                            size="sm"
                             icon={<TbTrash />}
                             className="text-red-500"
                             onClick={() => setDeleteConfirmationOpen(true)}
                         >
-                            Delete
+                            <span className="hidden sm:inline">Delete</span>
                         </Button>
                         <Button
                             type="submit"
                             variant="solid"
+                            size="sm"
                             loading={isSubmitting}
                         >
-                            Save Changes
+                            <span className="hidden sm:inline">Save Changes</span>
                         </Button>
                     </div>
                 </div>
