@@ -19,7 +19,7 @@ import { Card, Notification, toast } from '@/components/ui'
 import CropModal from '@/components/shared/ImageCrop/CropModel'
 import { removeItem } from 'framer-motion'
 
-import { TbTrash, TbUpload } from 'react-icons/tb'
+import { TbUpload, TbX } from 'react-icons/tb'
 
 interface RestaurantFormProps {
     onFormSubmit: (values: RestaurantFormOutput) => void
@@ -514,16 +514,15 @@ const RestaurantForm = (props: RestaurantFormProps) => {
                                                             />
                                                             <button
                                                                 type="button"
-                                                                className="absolute top-1 right-1 bg-red-500 text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity"
+                                                                aria-label="Remove image"
+                                                                className="absolute top-1 right-1 z-10 flex items-center justify-center w-6 h-6 rounded-full bg-black/60 hover:bg-red-500 text-white transition-colors"
                                                                 onClick={() =>
                                                                     handleRemoveImage(
                                                                         i,
                                                                     )
                                                                 }
                                                             >
-                                                                <TbTrash
-                                                                    size={14}
-                                                                />
+                                                                <TbX size={14} />
                                                             </button>
                                                         </div>
                                                     )
