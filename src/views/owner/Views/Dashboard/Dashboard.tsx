@@ -26,6 +26,7 @@ import {
 } from 'react-icons/tb'
 import { useGetRestaurantCards } from '@/utils/custom-hooks/useRestaurant'
 import { useRestaurantStore } from '@/store/restaurantStore'
+import DialogModal from './components/DialogModel'
 import type { RestaurantCardData } from '@/@types/restaurant'
 
 const formatNumber = (value: number | null | undefined) => {
@@ -517,6 +518,8 @@ const Dashboard = () => {
                     )}
                 </div>
             </div>
+
+            <DialogModal />
         </div>
     )
 }
