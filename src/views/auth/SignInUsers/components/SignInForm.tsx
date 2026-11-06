@@ -78,15 +78,19 @@ const SignInForm = (props: SignInFormProps) => {
 
             let token: string | null = ''
 
-            if (Notification.permission === 'granted') {
-                token = await getDeviceTokenWithoutPrompt()
-                console.log('FCM Token:', token)
-            } else {
-                token = await new Promise<string | null>((resolve) => {
-                    dialogResolveRef.current = resolve
-                    setPermissionDenied(Notification.permission === 'denied')
-                    setDialogOpen(true)
-                })
+            try {
+                if (Notification.permission === 'granted') {
+                    token = await getDeviceTokenWithoutPrompt()
+                    console.log('FCM Token:', token)
+                } else if (Notification.permission !== 'denied') {
+                    token = await new Promise<string | null>((resolve) => {
+                        dialogResolveRef.current = resolve
+                        setPermissionDenied(Notification.permission === 'denied')
+                        setDialogOpen(true)
+                    })
+                }
+            } catch {
+                token = null
             }
 
             const result = await signIn({

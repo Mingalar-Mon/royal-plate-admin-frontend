@@ -86,22 +86,25 @@ const SignInForm = (props: SignInFormProps) => {
 
             let token: string | null = ''
 
-            if (Notification.permission === 'granted') {
-                token = await getDeviceTokenWithoutPrompt()
-                console.log('FCM Token:', token)
-            } else {
-                token = await new Promise<string | null>((resolve) => {
-                    dialogResolveRef.current = resolve
-                    setPermissionDenied(Notification.permission === 'denied')
-                    setDialogOpen(true)
-                })
+            try {
+                if (Notification.permission === 'granted') {
+                    token = await getDeviceTokenWithoutPrompt()
+                    console.log('FCM Token:', token)
+                } else if (Notification.permission !== 'denied') {
+                    token = await new Promise<string | null>((resolve) => {
+                        dialogResolveRef.current = resolve
+                        setPermissionDenied(Notification.permission === 'denied')
+                        setDialogOpen(true)
+                    })
+                }
+            } catch {
+                token = null
             }
 
             const result = await signIn({
                 email,
                 password,
                 fcmToken: token || '',
-                //'eepvIgSAcwK6Cz4q9ovivJ:APA91bFOxMdLTPuGf7YM-2k83sdfgF_HPi6G-umw5PGUZIVrpeHBa-0goSY26w6P_nKNNPAz_5mkbLgoZK2inrV7iymiJorob_AF5bwf6V09XQ_ii6VxjGo',
                 role: userRole,
             })
 

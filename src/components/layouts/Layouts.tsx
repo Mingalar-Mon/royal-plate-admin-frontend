@@ -20,7 +20,7 @@ const Layout = ({ children }: CommonProps) => {
     return (
         <Suspense
             fallback={
-                <div className="flex flex-auto flex-col h-screen">
+                <div className="flex flex-auto flex-col h-screen" style={{ height: '100dvh' }}>
                     <PageLoading />
                 </div>
             }

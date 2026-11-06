@@ -38,7 +38,7 @@ const PostLoginLayout = ({ layoutType, children }: PostLoginLayoutProps) => {
     return (
         <Suspense
             fallback={
-                <div className="flex flex-auto flex-col h-[100vh]">
+                <div className="flex flex-auto flex-col h-screen" style={{ height: '100dvh' }}>
                     <PageLoading />
                 </div>
             }
