@@ -9,6 +9,7 @@ import DishForm from '../components/DishForm'
 import DishListActionTools from '../components/DishListActionTool'
 import DishListTableTools from '../components/DishListTableTools'
 import DishListTable from '../components/DishListTable'
+import DishListCard from '../components/DishListCard'
 
 import { useCreateDish, useGetDishes } from '@/utils/custom-hooks/useDish'
 import { useGetCuisinesByRestaurant } from '@/utils/custom-hooks/useCuisine'
@@ -19,6 +20,7 @@ import { useDishStore } from '@/store/dishStore'
 const DishList = () => {
     const { restaurantId } = useParams()
     const tableData = useDishStore((state) => state.tableData)
+    const viewMode = useDishStore((state) => state.viewMode)
     const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false)
     const { mutate: createDish, isPending: isCreatingDish } = useCreateDish()
     const { data: cuisines } = useGetCuisinesByRestaurant(restaurantId ?? '')
@@ -94,11 +96,19 @@ const DishList = () => {
                         />
                     </div>
                     <DishListTableTools />
-                    <DishListTable
-                        dishList={dishes}
-                        dishListTotal={total}
-                        isLoading={isLoading}
-                    />
+                    {viewMode === 'table' ? (
+                        <DishListTable
+                            dishList={dishes}
+                            dishListTotal={total}
+                            isLoading={isLoading}
+                        />
+                    ) : (
+                        <DishListCard
+                            dishList={dishes}
+                            dishListTotal={total}
+                            isLoading={isLoading}
+                        />
+                    )}
                 </div>
             </AdaptiveCard>
 

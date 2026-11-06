@@ -14,7 +14,9 @@ export interface DishQueries {
 
 interface DishStoreState {
     tableData: DishQueries
+    viewMode: 'table' | 'card'
     setTableData: (updater: (prev: DishQueries) => DishQueries) => void
+    setViewMode: (mode: 'table' | 'card') => void
     resetFilter: () => void
 }
 
@@ -28,9 +30,12 @@ export const useDishStore = create<DishStoreState>((set) => ({
         status: '',
         category: [],
     },
+    viewMode: 'table',
 
     setTableData: (updater) =>
         set((state) => ({ tableData: updater(state.tableData) })),
+
+    setViewMode: (mode) => set({ viewMode: mode }),
 
     resetFilter: () =>
         set({
