@@ -1,42 +1,54 @@
-importScripts('https://www.gstatic.com/firebasejs/10.13.2/firebase-app-compat.js');
-importScripts('https://www.gstatic.com/firebasejs/10.13.2/firebase-messaging-compat.js');
+importScripts('https://www.googleapis.com/firebasejs/v10.7.0/firebase-app-compat.js')
+importScripts('https://www.googleapis.com/firebasejs/v10.7.0/firebase-messaging-compat.js')
 
-// Initialize the Firebase app in the service worker by passing in
-// your app's Firebase config object.
-// https://firebase.google.com/docs/web/setup#config-object
-const firebaseApp = firebase.initializeApp({
-    apiKey: 'AIzaSyAuJT8TNJYyVQo0BFfbhClnn1K_rseAReI',
-    authDomain: 'royal-plate-dev.firebaseapp.com',
-    projectId: 'royal-plate-dev',
-    storageBucket: 'royal-plate-dev.firebasestorage.app',
-    messagingSenderId: '174890249754',
-    appId: '1:174890249754:web:347802bf3876049d20eba3',
-    measurementId: 'G-PE7GLJCSX5',
-});
+firebase.initializeApp({
+    apiKey: 'AIzaSyDIZYYvFMhPSfhzdLaigt0v_10UgpOqLgY',
+    authDomain: 'snake-fc8a3.firebaseapp.com',
+    projectId: 'snake-fc8a3',
+    storageBucket: 'snake-fc8a3.firebasestorage.app',
+    messagingSenderId: '277463666297',
+    appId: '1:277463666297:web:8a68312676620e95644ea8',
+    measurementId: 'G-1RKBYXS35B',
+})
 
-// Retrieve an instance of Firebase Messaging so that it can handle background
-// messages.
-const messaging = firebase.messaging(firebaseApp);
+const messaging = firebase.messaging()
+
 messaging.onBackgroundMessage((payload) => {
-  console.log('[firebase-messaging-sw.js] Received background message ', payload);
-  // Customize notification here
-  const notificationTitle = payload.notification.title;
-  const notificationOptions = {
-    body: payload.notification.body,
-    icon: payload.notification.image,
-    sound: '/notification.wav',
-    vibrate: [100, 50, 100]
-  };
+    console.log('[firebase-messaging-sw.js] Received background message:', payload)
 
-  // Update OS/PWA badge if the browser supports it
-  // The backend passes data fields as strings, parse it safely
+    const notificationTitle = payload.notification?.title || 'New Notification'
+    const notificationOptions = {
+        body: payload.notification?.body || '',
+        icon: payload.notification?.image || '/favicon.png',
+        badge: '/favicon.png',
+        tag: payload.data?.type || 'default',
+        requireInteraction: payload.data?.type === 'order',
+        data: {
+            type: payload.data?.type,
+            url: payload.data?.url || '/',
+        },
+    }
 
-  const badgeCount = parseInt(payload.data?.badgeCount || '1', 10);
-  if('setAppBadge' in navigator) {
-    navigator.setAppBadge(badgeCount).catch(err => console.error("Error setting app badge: ", err))
-  }
+    self.registration.showNotification(notificationTitle, notificationOptions)
+})
 
-  self.registration.showNotification(notificationTitle,
-    notificationOptions);
-});
+self.addEventListener('notificationclick', (event) => {
+    console.log('[firebase-messaging-sw.js] Notification click:', event)
 
+    event.notification.close()
+
+    const urlToOpen = event.notification.data?.url || '/'
+
+    event.waitUntil(
+        clients.matchAll({ type: 'window', includeUncontrolled: true }).then((windowClients) => {
+            for (const client of windowClients) {
+                if (client.url.includes(urlToOpen) && 'focus' in client) {
+                    return client.focus()
+                }
+            }
+            if (clients.openWindow) {
+                return clients.openWindow(urlToOpen)
+            }
+        })
+    )
+})
