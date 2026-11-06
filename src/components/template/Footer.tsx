@@ -12,13 +12,13 @@ type FooterProps = {
 
 const FooterContent = () => {
     return (
-        <div className="flex items-center justify-between flex-auto w-full">
-            <span>
+        <div className="flex flex-col items-center justify-center gap-1 w-full sm:flex-row sm:justify-between">
+            <span className="text-xs sm:text-sm text-center">
                 Copyright &copy; {`${new Date().getFullYear()}`}{' '}
                 <span className="font-semibold">{`${APP_NAME}`}</span> All
                 rights reserved.
             </span>
-            <div className="">
+            <div className="text-xs sm:text-sm">
                 <a
                     className="text-gray"
                     href="/#"
@@ -26,7 +26,7 @@ const FooterContent = () => {
                 >
                     Term & Conditions
                 </a>
-                <span className="mx-2 text-muted"> | </span>
+                <span className="mx-1.5 text-muted hidden sm:inline"> | </span>
                 <a
                     className="text-gray"
                     href="https://royal-plate-admin-frontend-e2w1.vercel.app/privacy-policy"
@@ -46,7 +46,7 @@ export default function Footer({
     return (
         <footer
             className={classNames(
-                `footer flex flex-auto items-center h-16 ${PAGE_CONTAINER_GUTTER_X}`,
+                `footer flex flex-auto items-center h-12 sm:h-16 ${PAGE_CONTAINER_GUTTER_X}`,
                 className,
             )}
         >
