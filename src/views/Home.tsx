@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router'
+import { Navigate, useNavigate } from 'react-router'
 import type { ReactNode } from 'react'
 import dayjs from 'dayjs'
 import utc from 'dayjs/plugin/utc'
@@ -24,6 +24,7 @@ import {
     TbTable,
     TbUsers,
 } from 'react-icons/tb'
+import { OWNER } from '@/constants/roles.constant'
 
 type QuickAction = {
     title: string
@@ -51,6 +52,10 @@ const Home = () => {
     const activeRestaurantId = activeRestaurant?.id ?? ''
     const { data: restaurantResponse, isLoading: isRestaurantLoading } =
         useGetRestaurant(activeRestaurantId)
+
+    if (isOwner) {
+        return <Navigate to="/owner/dashboard" replace />
+    }
     const resolvedRestaurantName = restaurantResponse?.data?.name
     const restaurantName =
         resolvedRestaurantName && resolvedRestaurantName !== activeRestaurantId

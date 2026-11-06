@@ -19,7 +19,7 @@ import type { Mode } from '@/@types/theme'
 import { useRestaurantStore } from '@/store/restaurantStore'
 import { useMemo } from 'react'
 import cloneDeep from 'lodash/cloneDeep'
-import { ADMIN } from '@/constants/roles.constant'
+import { ADMIN, OWNER } from '@/constants/roles.constant'
 
 type SideNavProps = {
     translationSetup?: boolean
@@ -104,7 +104,11 @@ const SideNav = ({
             )}
         >
             <Link
-                to={appConfig.authenticatedEntryPath}
+                to={
+                    userAuthority && userAuthority.includes(OWNER)
+                        ? '/owner/dashboard'
+                        : appConfig.authenticatedEntryPath
+                }
                 className="side-nav-header flex flex-col justify-center"
                 style={{ height: HEADER_HEIGHT }}
             >
