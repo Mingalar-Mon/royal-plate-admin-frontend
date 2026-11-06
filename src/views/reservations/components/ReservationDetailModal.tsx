@@ -16,8 +16,6 @@ const ReservationDetailModal = ({
     reservation,
     onClose,
 }: ReservationDetailModalProps) => {
-    if (!reservation) return null
-
     return (
         <Dialog
             isOpen={Boolean(reservation)}
@@ -26,37 +24,30 @@ const ReservationDetailModal = ({
             onClose={onClose}
             onRequestClose={onClose}
         >
-            <div className="space-y-6 p-6">
-                <div className="flex flex-col lg:flex-row gap-6">
-                    <div className="flex-1 space-y-6">
-                        <ReservationInfo reservation={reservation} />
-                        <DishesList
-                            reservationItems={
-                                reservation.reservationItems || []
-                            }
-                        />
-                        <PaymentSummary
-                            tableFee={reservation.table?.tableFee || 0}
-                            subTotal={reservation.subTotal}
-                            tax={reservation.tax}
-                            total={reservation.totalPrice}
-                            commission_fee={reservation.commission_fee}
-                            commissionBase={reservation.commissionBase}
-                            commissionRate={reservation.commissionRate}
-                            netAmount={reservation.netAmount}
-                        />
-                        <ActivityTimeline
-                            createdAt={reservation.created_at}
-                            updatedAt={reservation.updated_at}
-                            status={reservation.status}
-                        />
+            {reservation && (
+                <div className="space-y-6 p-6">
+                    <ReservationInfo reservation={reservation} />
+                    <div className="flex flex-col lg:flex-row gap-6">
+                        <div className="flex-1 space-y-6">
+                            <DishesList
+                                reservationItems={
+                                    reservation.reservationItems || []
+                                }
+                            />
+                            <PaymentSummary reservation={reservation} />
+                        </div>
+                        <div className="lg:w-90 space-y-6">
+                            <UserInfo user={reservation.user} />
+                            <TableInfo table={reservation.table} />
+                        </div>
                     </div>
-                    <div className="lg:w-90 space-y-6">
-                        <UserInfo user={reservation.user} />
-                        <TableInfo table={reservation.table} />
-                    </div>
+                    <ActivityTimeline
+                        createdAt={reservation.created_at}
+                        updatedAt={reservation.updated_at}
+                        status={reservation.status}
+                    />
                 </div>
-            </div>
+            )}
         </Dialog>
     )
 }
