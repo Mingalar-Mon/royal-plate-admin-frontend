@@ -38,7 +38,10 @@ class NotificationQueue {
     }
 
     async playSound(tier: NotificationTier): Promise<void> {
+        console.log('[NotificationQueue] Playing sound for tier:', tier, 'Queue length:', this.queue.length)
+
         if (this.isPlaying) {
+            console.log('[NotificationQueue] Sound already playing, queuing...')
             this.queue.push({
                 id: Math.random().toString(36).substr(2, 9),
                 tier,
@@ -50,9 +53,11 @@ class NotificationQueue {
         this.isPlaying = true
 
         try {
+            console.log('[NotificationQueue] Creating audio element...')
             this.audio = new Audio(notificationAudioUrl)
             this.audio.volume = tier === 'critical' ? 0.8 : 0.6
             await this.audio.play()
+            console.log('[NotificationQueue] Sound started playing')
 
             if (tier === 'critical') {
                 const config = this.getTierConfig('critical')

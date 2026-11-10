@@ -52,19 +52,29 @@ function getTierDuration(tier: NotificationTier): number {
 
 function App() {
     useEffect(() => {
+        console.log('[App] Initializing notification system...')
+
+        // Register service worker for background notifications
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker
                 .register('/firebase-messaging-sw.js')
                 .then((registration) => {
-                    console.log('Service Worker registered with scope:', registration.scope)
+                    console.log('[App] Service Worker registered successfully:', registration.scope)
                 })
                 .catch((error) => {
-                    console.log('Service Worker registration failed:', error)
+                    console.error('[App] Service Worker registration failed:', error)
                 })
+        } else {
+            console.warn('[App] Service Worker not supported in this browser')
         }
 
-        onMessage(messaging, (payload) => {
-            console.log(payload)
+        // Check notification permission
+        console.log('[App] Notification permission:', Notification.permission)
+
+        // Set up Firebase foreground message handler
+        console.log('[App] Setting up Firebase onMessage listener...')
+        const unsubscribe = onMessage(messaging, (payload) => {
+            console.log('[App] Foreground message received:', payload)
             const title = payload.notification?.title ?? ''
             const body = payload.notification?.body ?? ''
             const image = payload.notification?.image
@@ -105,7 +115,13 @@ function App() {
             )
 
             notificationQueue.playSound(tier)
+            console.log('[App] Notification displayed with tier:', tier)
         })
+
+        return () => {
+            console.log('[App] Cleaning up Firebase listener')
+            unsubscribe()
+        }
     }, [])
     // useOneSignal() // Initialize OneSignal for the entire app
     return (
