@@ -1,20 +1,25 @@
-importScripts('https://www.googleapis.com/firebasejs/v10.7.0/firebase-app-compat.js')
-importScripts('https://www.googleapis.com/firebasejs/v10.7.0/firebase-messaging-compat.js')
+importScripts('https://www.gstatic.com/firebasejs/10.7.0/firebase-app-compat.js')
+importScripts('https://www.gstatic.com/firebasejs/10.7.0/firebase-messaging-compat.js')
 
-firebase.initializeApp({
-    apiKey: 'AIzaSyDIZYYvFMhPSfhzdLaigt0v_10UgpOqLgY',
-    authDomain: 'snake-fc8a3.firebaseapp.com',
-    projectId: 'snake-fc8a3',
-    storageBucket: 'snake-fc8a3.firebasestorage.app',
-    messagingSenderId: '277463666297',
-    appId: '1:277463666297:web:8a68312676620e95644ea8',
-    measurementId: 'G-1RKBYXS35B',
-})
+console.log('[SW] Service Worker starting...')
 
-const messaging = firebase.messaging()
+try {
+    firebase.initializeApp({
+        apiKey: 'AIzaSyDIZYYvFMhPSfhzdLaigt0v_10UgpOqLgY',
+        authDomain: 'snake-fc8a3.firebaseapp.com',
+        projectId: 'snake-fc8a3',
+        storageBucket: 'snake-fc8a3.firebasestorage.app',
+        messagingSenderId: '277463666297',
+        appId: '1:277463666297:web:8a68312676620e95644ea8',
+        measurementId: 'G-1RKBYXS35B',
+    })
+    console.log('[SW] Firebase initialized successfully')
 
-messaging.onBackgroundMessage((payload) => {
-    console.log('[firebase-messaging-sw.js] Received background message:', payload)
+    const messaging = firebase.messaging()
+    console.log('[SW] Firebase messaging ready')
+
+    messaging.onBackgroundMessage((payload) => {
+        console.log('[SW] Received background message:', payload)
 
     const notificationTitle = payload.notification?.title || 'New Notification'
     const notificationOptions = {
@@ -29,26 +34,32 @@ messaging.onBackgroundMessage((payload) => {
         },
     }
 
-    self.registration.showNotification(notificationTitle, notificationOptions)
-})
+        self.registration.showNotification(notificationTitle, notificationOptions)
+        console.log('[SW] Notification displayed:', notificationTitle)
+    })
 
-self.addEventListener('notificationclick', (event) => {
-    console.log('[firebase-messaging-sw.js] Notification click:', event)
+    self.addEventListener('notificationclick', (event) => {
+        console.log('[SW] Notification clicked:', event.notification.title)
 
-    event.notification.close()
+        event.notification.close()
 
-    const urlToOpen = event.notification.data?.url || '/'
+        const urlToOpen = event.notification.data?.url || '/'
 
-    event.waitUntil(
-        clients.matchAll({ type: 'window', includeUncontrolled: true }).then((windowClients) => {
-            for (const client of windowClients) {
-                if (client.url.includes(urlToOpen) && 'focus' in client) {
-                    return client.focus()
+        event.waitUntil(
+            clients.matchAll({ type: 'window', includeUncontrolled: true }).then((windowClients) => {
+                for (const client of windowClients) {
+                    if (client.url.includes(urlToOpen) && 'focus' in client) {
+                        console.log('[SW] Focusing existing window')
+                        return client.focus()
+                    }
                 }
-            }
-            if (clients.openWindow) {
-                return clients.openWindow(urlToOpen)
-            }
-        })
-    )
-})
+                if (clients.openWindow) {
+                    console.log('[SW] Opening new window:', urlToOpen)
+                    return clients.openWindow(urlToOpen)
+                }
+            })
+        )
+    })
+} catch (error) {
+    console.error('[SW] Firebase initialization failed:', error)
+}
