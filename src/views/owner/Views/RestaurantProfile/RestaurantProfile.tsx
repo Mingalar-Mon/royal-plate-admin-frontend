@@ -113,12 +113,15 @@ const RestaurantProfilePage = () => {
                 <Button
                     variant="plain"
                     icon={<TbArrowNarrowLeft />}
+                    aria-label="Back to Restaurant Dashboard"
                     onClick={handleBackToDashboard}
                     className="flex-wrap min-w-fit"
                 >
-                    Back to Restaurant
-                    <br />
-                    Dashboard
+                    <span className="hidden sm:inline">
+                        Back to Restaurant
+                        <br />
+                        Dashboard
+                    </span>
                 </Button>
                 <Button
                     variant="solid"

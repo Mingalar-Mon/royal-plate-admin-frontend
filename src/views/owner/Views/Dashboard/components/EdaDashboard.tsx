@@ -461,7 +461,9 @@ const EdaDashboard = () => {
                             aria-label="Go back to restaurant dashboard"
                             onClick={handleBack}
                         >
-                            Back to dashboard
+                            <span className="hidden sm:inline">
+                                Back to dashboard
+                            </span>
                         </Button>
                         <div className="hidden h-8 w-px bg-gray-200 sm:block dark:bg-gray-700" />
                         <div className="hidden sm:block">
