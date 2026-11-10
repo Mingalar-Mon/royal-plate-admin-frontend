@@ -67,7 +67,7 @@ const RestaurantProfilePage = () => {
 
     const handleBackToDashboard = () => {
         // setActiveRestaurant(null)
-        navigate(`/restaurants/${restaurantId}/eda-dashboard`)
+        navigate('/owner/dashboard')
     }
 
     if (isLoading) {
