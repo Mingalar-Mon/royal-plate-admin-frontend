@@ -186,7 +186,7 @@ const Dashboard = () => {
     }
 
     return (
-        <div className="w-full px-4 py-6 md:px-6 lg:px-8">
+        <div className="w-full">
             <div className="space-y-6">
                 <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                     <div>
