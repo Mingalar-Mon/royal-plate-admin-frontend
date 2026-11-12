@@ -10,7 +10,7 @@ import {
 } from 'swiper/modules'
 import Dialog from '@/components/ui/Dialog'
 import Button from '@/components/ui/Button'
-import { TbZoom, TbX, TbChevronRight, TbChevronLeft } from 'react-icons/tb'
+import { TbZoom, TbChevronRight, TbChevronLeft } from 'react-icons/tb'
 import 'swiper/css'
 import 'swiper/css/navigation'
 import 'swiper/css/pagination'
@@ -124,7 +124,7 @@ const RestaurantImageGallery = ({
                 </div>
 
                 {/* Thumbnails */}
-                <div className="flex gap-2 mt-4 overflow-x-auto overflow-scroll justify-center  pb-2">
+                <div className="flex gap-2 mt-4 overflow-x-auto justify-center pb-2 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
                     {images.slice(0, 6).map((image, index) => (
                         <div
                             key={index}
@@ -167,13 +167,6 @@ const RestaurantImageGallery = ({
                 onRequestClose={() => setLightboxOpen(false)}
             >
                 <div className="relative">
-                    <button
-                        className="absolute top-4 right-4 z-20 bg-black/50 text-white p-2 rounded-full hover:bg-black/70 transition-colors"
-                        onClick={() => setLightboxOpen(false)}
-                    >
-                        {/* <TbX size={24} /> */}
-                    </button>
-
                     <Swiper
                         modules={[Navigation, Pagination, Keyboard]}
                         navigation={true}

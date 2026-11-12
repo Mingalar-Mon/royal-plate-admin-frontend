@@ -16,7 +16,7 @@ import type {
 import type { ReactNode, Ref } from 'react'
 import type { NavigateFunction } from 'react-router'
 
-import { STAFF } from '@/constants/roles.constant'
+import { ADMIN, OWNER, STAFF } from '@/constants/roles.constant'
 import { useRestaurantStore } from '@/store/restaurantStore'
 import { getDeviceToken } from '@/notifications/firebase'
 import { apiRegisterDeviceToken } from '@/services/NotificationService'
@@ -63,17 +63,36 @@ function AuthProvider({ children }: AuthProviderProps) {
 
         console.log('Redirect Url: ', redirectUrl)
 
-        if (redirectUrl) {
-            navigatorRef.current?.navigate(redirectUrl)
-            return
-        }
-
-        console.log('user in redirect fn=', user)
-        // Logic for role-based landing pages
         const activeUser = currentUser || user
         const role = (activeUser.authority as string[])[0]
         console.log('ROlE: ', role)
 
+        // Only honor redirectUrl if it matches the signed-in user's role.
+        // Prevents an owner from being sent to /admin/sign-in (or any admin path)
+        // just because they landed on a sign-in page carrying that query param.
+        const isRedirectUrlRoleAppropriate = (url: string | null): boolean => {
+            if (!url) return false
+            // Never send to sign-in pages after successful login (prevents redirect loop)
+            if (url === '/sign-in' || url === '/admin/sign-in') return false
+            if (role === ADMIN) {
+                return url.startsWith('/admin') || url.startsWith('/owners')
+            }
+            if (role === OWNER) {
+                return url.startsWith('/owner')
+            }
+            if (role === STAFF) {
+                return url === appConfig.authenticatedEntryPath
+            }
+            return false
+        }
+
+        if (redirectUrl && isRedirectUrlRoleAppropriate(redirectUrl)) {
+            navigatorRef.current?.navigate(redirectUrl)
+            return
+        }
+
+        // Logic for role-based landing pages
+        console.log('user in redirect fn=', user)
         switch (role) {
             case 'ADMIN': // can change this to SUPER_ADMIN later
                 console.log('Navigating to admin dashboard showing owner list')
@@ -242,7 +261,13 @@ function AuthProvider({ children }: AuthProviderProps) {
             await apiSignOut()
         } finally {
             handleSignOut()
-            navigatorRef.current?.navigate('/')
+
+            const role = (user.authority as string[])[0]
+            if (role === ADMIN) {
+                window.location.href = '/admin/sign-in'
+            } else {
+                window.location.href = appConfig.unAuthenticatedEntryPath
+            }
         }
     }
     const oAuthSignIn = (
