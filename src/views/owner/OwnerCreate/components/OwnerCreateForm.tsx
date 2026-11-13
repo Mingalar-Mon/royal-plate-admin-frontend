@@ -4,6 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { Form, FormItem } from '@/components/ui/Form'
 import Input from '@/components/ui/Input'
+import PasswordInput from '@/components/shared/PasswordInput'
 import Card from '@/components/ui/Card'
 import Alert from '@/components/ui/Alert'
 import Container from '@/components/shared/Container'
@@ -24,7 +25,11 @@ interface OwnerCreateFormProps {
     children?: React.ReactNode
 }
 
-const OwnerCreateForm = ({ onFormSubmit, errorMessage, children }: OwnerCreateFormProps) => {
+const OwnerCreateForm = ({
+    onFormSubmit,
+    errorMessage,
+    children,
+}: OwnerCreateFormProps) => {
     const {
         handleSubmit,
         control,
@@ -138,9 +143,8 @@ const OwnerCreateForm = ({ onFormSubmit, errorMessage, children }: OwnerCreateFo
                                                 errors.password?.message
                                             }
                                         >
-                                            <Input
+                                            <PasswordInput
                                                 {...field}
-                                                type="password"
                                                 placeholder="******"
                                             />
                                         </FormItem>
