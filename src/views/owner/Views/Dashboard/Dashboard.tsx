@@ -20,7 +20,6 @@ import {
     TbShoppingBag,
     TbCalendarCheck,
     TbEye,
-    TbEdit,
     TbTrash,
     TbPlus,
 } from 'react-icons/tb'
@@ -551,10 +550,6 @@ const RestaurantDetailCard = ({
         }
     }
 
-    const handleEdit = () => {
-        navigate(`/restaurant/update-restaurant/${restaurant.id}`)
-    }
-
     const handleDelete = () => {
         openProfileDialog('DELETE_CONFIRM', {
             id: restaurant.id,
@@ -705,9 +700,6 @@ const RestaurantDetailCard = ({
                         onClick={handleView}
                     >
                         View
-                    </Button>
-                    <Button size="sm" icon={<TbEdit />} onClick={handleEdit}>
-                        Edit
                     </Button>
                     <Button
                         size="sm"

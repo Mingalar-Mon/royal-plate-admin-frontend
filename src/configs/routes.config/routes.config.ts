@@ -47,7 +47,7 @@ export const protectedRoutes: Routes = [
         authority: [OWNER],
     },
     {
-        key: 'restaurant.edit-profile',
+        key: 'restaurant.edit-restaurant',
         path: '/restaurant/update-restaurant/:restaurantId',
         component: lazy(
             () => import('@/views/owner/Views/Restaurants/EditRestaurantPage'),
@@ -66,8 +66,7 @@ export const protectedRoutes: Routes = [
         key: 'restaurant.edit-profile',
         path: '/restaurant/update-restaurant-profile/:restaurantId/:profileId',
         component: lazy(
-            () =>
-                import('@/views/owner/Views/RestaurantProfile/EditRestaurantProfile'),
+            () => import('@/views/owner/Views/Restaurants/EditRestaurantPage'),
         ),
         authority: [OWNER],
     },

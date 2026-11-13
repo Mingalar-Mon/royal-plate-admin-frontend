@@ -5,16 +5,16 @@ import Notification from '@/components/ui/Notification'
 import toast from '@/components/ui/toast'
 import ConfirmDialog from '@/components/shared/ConfirmDialog'
 import NoProductFound from '@/assets/svg/NoProductFound'
-import { TbTrash, TbArrowNarrowLeft, TbDeviceFloppy } from 'react-icons/tb'
+import {
+    TbTrash,
+    TbArrowNarrowLeft,
+    TbDeviceFloppy,
+    TbBuilding,
+    TbFileText,
+} from 'react-icons/tb'
 import RestaurantForm from './components/RestaurantForm'
+import RestaurantProfileForm from '../RestaurantProfile/components/RestaurantProfileForm'
 import type { RestaurantFormSchema } from './types/restaurantForm.types'
-
-// import {
-//     useDeleteRestaurant,
-//     useGetRestaurant,
-//     useUpdateRestaurant,
-// } from '../../hooks/useRestaurant'
-import { Staff } from '@/@types/restaurant'
 import {
     useGetRestaurant,
     useUpdateRestaurant,
@@ -22,14 +22,14 @@ import {
 } from '@/utils/custom-hooks/useRestaurant'
 import { RestaurantFormInput } from '@/@types/restaurant.type'
 
-// import { useSessionUser } from '@/store/authStore'
+type Tab = 'restaurant' | 'profile'
 
 const EditRestaurant = () => {
-    // const { user } = useSessionUser()
-    // console.log('user: ', user)
-
-    const { restaurantId } = useParams()
+    const { restaurantId, profileId } = useParams()
     const navigate = useNavigate()
+    const [activeTab, setActiveTab] = useState<Tab>(
+        profileId ? 'profile' : 'restaurant',
+    )
     const [deleteConfirmationOpen, setDeleteConfirmationOpen] = useState(false)
     const [isSubmitting, setIsSubmitting] = useState(false)
 
@@ -38,12 +38,6 @@ const EditRestaurant = () => {
     }
     const { data: restaurantJson, isLoading } = useGetRestaurant(restaurantId)
 
-    // const { data: restaurantJson, isLoading } = useGetRestaurant(
-    //     restaurantId as string,
-    // )
-
-    // console.log('restaurantJSON: ', restaurantJson)
-
     const { mutate: updateRestaurant } = useUpdateRestaurant()
     const { mutate: deleteRestaurant } = useDeleteRestaurant()
 
@@ -51,7 +45,9 @@ const EditRestaurant = () => {
         return (
             <div className="flex flex-col items-center justify-center min-h-[60vh]">
                 <div className="animate-spin rounded-full h-20 w-20 border-4 border-primary border-t-transparent mb-4"></div>
-                <p className="text-gray-600 dark:text-gray-300 text-lg">Loading restaurant...</p>
+                <p className="text-gray-600 dark:text-gray-300 text-lg">
+                    Loading restaurant...
+                </p>
             </div>
         )
     }
@@ -73,7 +69,6 @@ const EditRestaurant = () => {
 
     console.log('Populating form with restaurant data: ', restaurantJson.data)
 
-    // RestaurantFormSchema
     const defaultValues: RestaurantFormInput = {
         name: restaurantJson.data.name,
         address: restaurantJson.data.address,
@@ -84,7 +79,6 @@ const EditRestaurant = () => {
         longitude: restaurantJson.data.longitude,
         logoImage: restaurantJson.data.logoImage,
         images: restaurantJson.data.images || [],
-        // staffIds: restaurantJson.data.staff?.map((s: Staff) => s.id) || [],
         deletedImageKeys: [],
     }
 
@@ -92,9 +86,7 @@ const EditRestaurant = () => {
         console.log('In the form submit fn ')
         setIsSubmitting(true)
         try {
-            // 1. Create a FormData instance
             const body = new FormData()
-            // 2. Append simple fields
             body.append('name', formData.name)
             body.append('address', formData.address)
             body.append('startingPrice', String(formData.startingPrice))
@@ -103,64 +95,30 @@ const EditRestaurant = () => {
             body.append('longitude', String(formData.longitude))
             body.append('tax', String(formData.tax))
 
-            // // Append staffIds (Backend usually expects multiple appends for arrays)
-            // formData.staffIds.forEach((id) => body.append('staffIds', id))
-            // // 3. Handle Images
             const existingImages: { key: string; url: string }[] = []
             formData.images.forEach((img) => {
                 if (img instanceof File) {
-                    // New file to be uploaded
                     body.append('newImages', img)
                 } else {
-                    // Existing image to keep
                     existingImages.push(img)
                 }
             })
-            // ====== Send existing images as a JSON string
-            // body.append('existingImages', JSON.stringify(existingImages))
 
             if (formData.logoImage instanceof File) {
                 body.append('logo', formData.logoImage)
             }
 
-            console.log('Body: ', body)
-            console.log('FormData contents:', Array.from(body.entries()))
-
-            console.log('restaurantId: ', restaurantId)
-
-            // append files separately
             formData.images.forEach((img) => {
                 if (img instanceof File) body.append('newImages', img)
             })
 
-            // 4. Send to Mutation
             updateRestaurant(
-                { id: restaurantId!, data: body as any }, // Cast to any to bypass the JSON type check for now
+                { id: restaurantId!, data: body as any },
                 {
                     onSuccess: () => navigate('/owner/dashboard'),
                     onSettled: () => setIsSubmitting(false),
                 },
             )
-            // const cleanedData = {
-            //     ...formData,
-            //     startingPrice: Number(formData.startingPrice),
-            //     endingPrice: Number(formData.endingPrice),
-            //     latitude: Number(formData.latitude),
-            //     longitude: Number(formData.longitude),
-            // }
-            // console.log('Clean Data', cleanedData)
-            // updateRestaurant(
-            //     {
-            //         id: restaurantId!,
-            //         data: cleanedData,
-            //     },
-            //     {
-            //         onSuccess: () => {
-            //             console.log('Updata was succeeded')
-            //             return navigate('/owner/dashboard')
-            //         },
-            //     },
-            // )
         } catch (error: any) {
             toast.push(
                 Notification({
@@ -168,10 +126,6 @@ const EditRestaurant = () => {
                     title: 'Error updating restaurant',
                     children: error,
                 }),
-                // <Notification type="danger">
-                //     Failed to update restaurant
-                // </Notification>,
-                // { placement: 'top-center' },
             )
         }
     }
@@ -202,44 +156,87 @@ const EditRestaurant = () => {
 
     return (
         <>
-            <RestaurantForm
-                defaultValues={defaultValues}
-                isNew={false}
-                onFormSubmit={handleFormSubmit}
-            >
-                <Button
-                    type="button"
-                    variant="plain"
-                    size="xs"
-                    icon={<TbArrowNarrowLeft />}
-                    className="!px-2 flex items-center justify-center"
-                    onClick={() => navigate('/owner/dashboard')}
-                >
-                    <span className="hidden sm:inline">Back to Dashboard</span>
-                </Button>
-                <div className="flex items-center gap-2">
+            <div className="flex items-center justify-between mb-6">
+                <div>
+                    <h2 className="text-xl font-bold text-gray-900 dark:text-gray-100">
+                        {activeTab === 'restaurant'
+                            ? 'Edit Restaurant Details'
+                            : 'Edit Restaurant Profile'}
+                    </h2>
+                    <p className="text-sm text-gray-500 dark:text-gray-400">
+                        {activeTab === 'restaurant'
+                            ? 'Update basic restaurant information'
+                            : 'Update restaurant profile details'}
+                    </p>
+                </div>
+                <div className="flex gap-1">
                     <Button
                         type="button"
-                        variant="default"
-                        size="xs"
-                        icon={<TbTrash />}
-                        className="text-red-500 hover:text-red-600 !px-2 flex items-center justify-center"
-                        onClick={() => setDeleteConfirmationOpen(true)}
+                        size="sm"
+                        variant={activeTab === 'restaurant' ? 'solid' : 'plain'}
+                        icon={<TbBuilding />}
+                        onClick={() => setActiveTab('restaurant')}
                     >
-                        <span className="hidden sm:inline">Delete</span>
+                        Restaurant Details
                     </Button>
                     <Button
-                        type="submit"
-                        variant="solid"
-                        size="xs"
-                        icon={<TbDeviceFloppy />}
-                        className="!px-2 flex items-center justify-center"
-                        loading={isSubmitting}
+                        type="button"
+                        size="sm"
+                        variant={activeTab === 'profile' ? 'solid' : 'plain'}
+                        icon={<TbFileText />}
+                        onClick={() => setActiveTab('profile')}
                     >
-                        <span className="hidden sm:inline">Save Changes</span>
+                        Profile Details
                     </Button>
                 </div>
-            </RestaurantForm>
+            </div>
+
+            {activeTab === 'restaurant' ? (
+                <RestaurantForm
+                    defaultValues={defaultValues}
+                    isNew={false}
+                    onFormSubmit={handleFormSubmit}
+                >
+                    <Button
+                        type="button"
+                        variant="plain"
+                        size="xs"
+                        icon={<TbArrowNarrowLeft />}
+                        className="!px-2 flex items-center justify-center"
+                        onClick={() => navigate('/owner/dashboard')}
+                    >
+                        <span className="hidden sm:inline">
+                            Back to Dashboard
+                        </span>
+                    </Button>
+                    <div className="flex items-center gap-2">
+                        <Button
+                            type="button"
+                            variant="default"
+                            size="xs"
+                            icon={<TbTrash />}
+                            className="text-red-500 hover:text-red-600 !px-2 flex items-center justify-center"
+                            onClick={() => setDeleteConfirmationOpen(true)}
+                        >
+                            <span className="hidden sm:inline">Delete</span>
+                        </Button>
+                        <Button
+                            type="submit"
+                            variant="solid"
+                            size="xs"
+                            icon={<TbDeviceFloppy />}
+                            className="!px-2 flex items-center justify-center"
+                            loading={isSubmitting}
+                        >
+                            <span className="hidden sm:inline">
+                                Save Changes
+                            </span>
+                        </Button>
+                    </div>
+                </RestaurantForm>
+            ) : (
+                <RestaurantProfileForm isEditMode={true} />
+            )}
 
             <ConfirmDialog
                 isOpen={deleteConfirmationOpen}
