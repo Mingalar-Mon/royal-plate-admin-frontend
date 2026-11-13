@@ -71,4 +71,5 @@ export type TransactionQueries = {
     fromDate: string
     toDate: string
     restaurantId: string
+    settled: 'true' | 'false' | ''
 }

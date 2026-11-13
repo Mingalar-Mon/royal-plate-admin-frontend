@@ -87,6 +87,14 @@ const TransactionListTableTools = ({
         }))
     }
 
+    const handleSettledChange = (settled: 'true' | 'false' | '') => {
+        setTableData((prev) => ({
+            ...prev,
+            settled,
+            page: 1,
+        }))
+    }
+
     const handleExport = async () => {
         if (!restaurantId) return
 
@@ -96,6 +104,7 @@ const TransactionListTableTools = ({
                 restaurantId,
                 ...(tableData.fromDate ? { fromDate: tableData.fromDate } : {}),
                 ...(tableData.toDate ? { toDate: tableData.toDate } : {}),
+                ...(tableData.settled ? { settled: tableData.settled } : {}),
             })
             setExportData(items.map(mapTransactionToCsvRow))
         } catch {
@@ -115,7 +124,7 @@ const TransactionListTableTools = ({
     const filename = `transactions-${rangeLabel || 'all-time'}.csv`
 
     return (
-        <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+        <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between">
             <div className="flex flex-wrap items-center gap-3">
                 <span className="whitespace-nowrap text-sm font-medium text-gray-600 dark:text-gray-300">
                     Period
@@ -166,7 +175,39 @@ const TransactionListTableTools = ({
                     />
                 </div>
             </div>
-            <div className="flex items-center gap-2">
+            <div className="flex flex-wrap items-center gap-2">
+                <span className="whitespace-nowrap text-xs font-medium text-gray-500 dark:text-gray-400">
+                    Settlement
+                </span>
+                <div className="flex items-center gap-0.5">
+                    <Button
+                        size="sm"
+                        variant={tableData.settled === '' ? 'solid' : 'default'}
+                        onClick={() => handleSettledChange('')}
+                    >
+                        All
+                    </Button>
+                    <Button
+                        size="sm"
+                        variant={
+                            tableData.settled === 'true' ? 'solid' : 'default'
+                        }
+                        onClick={() => handleSettledChange('true')}
+                    >
+                        Settled
+                    </Button>
+                    <Button
+                        size="sm"
+                        variant={
+                            tableData.settled === 'false' ? 'solid' : 'default'
+                        }
+                        onClick={() => handleSettledChange('false')}
+                    >
+                        Unsettled
+                    </Button>
+                </div>
+            </div>
+            <div className="flex flex-wrap items-center gap-2">
                 <Button
                     size="sm"
                     variant="default"

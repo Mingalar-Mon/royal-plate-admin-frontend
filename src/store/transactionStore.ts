@@ -15,6 +15,7 @@ const defaultTableData: TransactionQueries = {
     fromDate: '',
     toDate: '',
     restaurantId: '',
+    settled: '',
 }
 
 export const useTransactionStore = create<TransactionStoreState>((set) => ({
