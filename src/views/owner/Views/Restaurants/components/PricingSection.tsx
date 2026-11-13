@@ -97,7 +97,6 @@ const PricingSection = ({ control, errors }: PricingSectionProps) => {
                     name="tax"
                     control={control}
                     render={({ field }) => {
-                        console.log('Field: ', field)
                         return (
                             <FormItem
                                 label="Tax (%)"
@@ -108,6 +107,7 @@ const PricingSection = ({ control, errors }: PricingSectionProps) => {
                                     {...field}
                                     type="number"
                                     min={0}
+                                    max={100}
                                     placeholder="0%"
                                     value={
                                         (field.value as
@@ -125,7 +125,10 @@ const PricingSection = ({ control, errors }: PricingSectionProps) => {
                                         field.onChange(
                                             Number.isNaN(num)
                                                 ? 0
-                                                : Math.max(0, num),
+                                                : Math.min(
+                                                      100,
+                                                      Math.max(0, num),
+                                                  ),
                                         )
                                     }}
                                 />
