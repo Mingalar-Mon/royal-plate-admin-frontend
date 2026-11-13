@@ -4,7 +4,7 @@ import { Spinner } from '@/components/ui/Spinner'
 import withHeaderItem from '@/utils/hoc/withHeaderItem'
 import { useSessionUser } from '@/store/authStore'
 import { Link } from 'react-router'
-import { PiUser, PiSignOutDuotone } from 'react-icons/pi'
+import { PiSignOutDuotone } from 'react-icons/pi'
 import { useAuth } from '@/auth'
 import { useState, type JSX } from 'react'
 
@@ -18,6 +18,11 @@ const dropdownItemList: DropdownList[] = []
 
 const _UserDropdown = () => {
     const { avatar, userName, email } = useSessionUser((state) => state.user)
+
+    const userInitial = (userName || email || 'U')
+        .trim()
+        .charAt(0)
+        .toUpperCase()
 
     const { signOut } = useAuth()
 
@@ -38,10 +43,9 @@ const _UserDropdown = () => {
             ? { src: avatar }
             : {
                   icon: (
-                      <PiUser
-                          className="text-[#8a6d14] dark:text-gold"
-                          strokeWidth={1.5}
-                      />
+                      <span className="font-bold text-[#8a6d14] dark:text-gold">
+                          {userInitial}
+                      </span>
                   ),
               }),
     }
@@ -55,11 +59,8 @@ const _UserDropdown = () => {
                     {avatar ? (
                         <Avatar size={32} src={avatar} />
                     ) : (
-                        <div className="relative flex items-center justify-center w-9 h-9 rounded-xl hover:bg-primary-subtle dark:hover:bg-primary-subtle transition-all duration-200 cursor-pointer">
-                            <PiUser
-                                className="text-2xl text-primary dark:text-primary-mild"
-                                strokeWidth={1.5}
-                            />
+                        <div className="relative flex items-center justify-center w-9 h-9 rounded-xl bg-primary-subtle dark:bg-primary-subtle text-primary dark:text-primary-mild font-bold text-lg transition-all duration-200 cursor-pointer">
+                            {userInitial}
                         </div>
                     )}
                 </div>

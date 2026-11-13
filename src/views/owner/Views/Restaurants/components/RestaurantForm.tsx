@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { forwardRef, useEffect, useImperativeHandle, useState } from 'react'
 import { Form, FormItem } from '@/components/ui/Form'
 import Container from '@/components/shared/Container'
 import { Controller, useForm } from 'react-hook-form'
@@ -21,6 +21,10 @@ import { removeItem } from 'framer-motion'
 
 import { TbUpload, TbX } from 'react-icons/tb'
 
+export interface RestaurantFormHandle {
+    submit: () => void
+}
+
 interface RestaurantFormProps {
     onFormSubmit: (values: RestaurantFormOutput) => void
     defaultValues?: RestaurantFormInput
@@ -30,7 +34,8 @@ interface RestaurantFormProps {
     children?: React.ReactNode
 }
 
-const RestaurantForm = (props: RestaurantFormProps) => {
+const RestaurantForm = forwardRef<RestaurantFormHandle, RestaurantFormProps>(
+    function RestaurantForm(props, ref) {
     const {
         onFormSubmit,
         defaultValues,
@@ -75,6 +80,12 @@ const RestaurantForm = (props: RestaurantFormProps) => {
         onFormSubmit(values)
     }
 
+    useImperativeHandle(ref, () => ({
+        submit: () => {
+            handleSubmit(onSubmit)()
+        },
+    }))
+
     // image preview helper for the ImageSection component
     const [detailQueue, setDetailQueue] = useState<
         { file: File; src: string }[]
@@ -97,9 +108,11 @@ const RestaurantForm = (props: RestaurantFormProps) => {
         >
             <Container>
                 {/* Header with buttons */}
-                <div className="flex items-center justify-between mb-6">
-                    {children}
-                </div>
+                {children && (
+                    <div className="flex items-center justify-between mb-6">
+                        {children}
+                    </div>
+                )}
 
                 {/* Two Column Layout */}
                 <fieldset
@@ -564,6 +577,7 @@ const RestaurantForm = (props: RestaurantFormProps) => {
             </Container>
         </Form>
     )
-}
+    },
+)
 
 export default RestaurantForm

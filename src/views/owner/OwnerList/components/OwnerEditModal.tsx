@@ -5,6 +5,7 @@ import { z } from 'zod'
 import Dialog from '@/components/ui/Dialog'
 import Button from '@/components/ui/Button'
 import Input from '@/components/ui/Input'
+import PasswordInput from '@/components/shared/PasswordInput'
 import { Form, FormItem } from '@/components/ui/Form'
 import Notification from '@/components/ui/Notification'
 import toast from '@/components/ui/toast'
@@ -175,13 +176,10 @@ const OwnerEditModal = ({ owner, onClose }: OwnerEditModalProps) => {
                                     <FormItem
                                         label="Force New Password"
                                         invalid={!!errors.password}
-                                        errorMessage={
-                                            errors.password?.message
-                                        }
+                                        errorMessage={errors.password?.message}
                                     >
-                                        <Input
+                                        <PasswordInput
                                             {...field}
-                                            type="password"
                                             placeholder="******"
                                         />
                                     </FormItem>
@@ -191,11 +189,7 @@ const OwnerEditModal = ({ owner, onClose }: OwnerEditModalProps) => {
                     </div>
                 </div>
                 <div className="flex shrink-0 items-center justify-end gap-2 rounded-b-2xl border-t border-gray-200 bg-gray-100 px-6 py-3 dark:border-gray-700 dark:bg-gray-700">
-                    <Button
-                        size="sm"
-                        onClick={onClose}
-                        disabled={isUpdating}
-                    >
+                    <Button size="sm" onClick={onClose} disabled={isUpdating}>
                         Cancel
                     </Button>
                     <Button

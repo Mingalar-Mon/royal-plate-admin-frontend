@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from 'react'
+import { forwardRef, useEffect, useImperativeHandle, useMemo } from 'react'
 import { useParams, useNavigate } from 'react-router'
 import { useForm, Controller } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -30,11 +30,23 @@ import { useGetCuisines } from '@/utils/custom-hooks/useCuisine'
 import { useGetPaymentMethods } from '@/utils/custom-hooks/usePayment'
 import { useCuisineStore } from '@/store/cuisineStore'
 
-interface RestaurantProfileFormProps {
-    isEditMode: boolean
+export interface RestaurantProfileFormHandle {
+    submit: () => void
 }
 
-const RestaurantProfileForm = ({ isEditMode }: RestaurantProfileFormProps) => {
+interface RestaurantProfileFormProps {
+    isEditMode: boolean
+    embedded?: boolean
+    onSubmittingChange?: (pending: boolean) => void
+}
+
+const RestaurantProfileForm = forwardRef<
+    RestaurantProfileFormHandle,
+    RestaurantProfileFormProps
+>(function RestaurantProfileForm(
+    { isEditMode, embedded = false, onSubmittingChange },
+    ref,
+) {
     const { restaurantId: urlRestaurantId, profileId } = useParams()
     const navigate = useNavigate()
     const { activeRestaurant } = useRestaurantStore()
@@ -120,8 +132,10 @@ const RestaurantProfileForm = ({ isEditMode }: RestaurantProfileFormProps) => {
         // console.log('Data to be updated: ', data)
         try {
             if (isEditMode) {
+                const effectiveProfileId =
+                    profileId || existingProfile?.data?.id
                 updateRestaurantProfile(
-                    { profileId: profileId as string, data },
+                    { profileId: effectiveProfileId as string, data },
                     {
                         onSuccess: () => {
                             // The profile view page fetches by restaurant ID
@@ -146,6 +160,19 @@ const RestaurantProfileForm = ({ isEditMode }: RestaurantProfileFormProps) => {
             console.error('Form submission error:', error)
         }
     }
+
+    useImperativeHandle(ref, () => ({
+        submit: () => {
+            handleSubmit(onSubmit)()
+        },
+    }))
+
+    const isPending =
+        isSubmitting || isUpdatingProfile || isCreatingProfile
+
+    useEffect(() => {
+        onSubmittingChange?.(isPending)
+    }, [isPending, onSubmittingChange])
 
     if (isLoadingProfile || isLoadingCuisines || isLoadingPaymentMethods) {
         return <PageLoading label="Loading restaurant profile" />
@@ -196,6 +223,7 @@ const RestaurantProfileForm = ({ isEditMode }: RestaurantProfileFormProps) => {
             <Container>
                 <div className="py-6">
                     {/* Header */}
+                    {!embedded && (
                     <div className="flex items-center justify-between mb-6">
                         <Button
                             type="button"
@@ -212,19 +240,16 @@ const RestaurantProfileForm = ({ isEditMode }: RestaurantProfileFormProps) => {
                         <Button
                             type="submit"
                             variant="solid"
-                            loading={isSubmitting || isUpdatingProfile || isCreatingProfile}
+                            loading={isPending}
                         >
                             {isEditMode ? 'Update Profile' : 'Create Profile'}
                         </Button>
                     </div>
+                    )}
 
                     {/* Form Content */}
                     <fieldset
-                        disabled={
-                            isSubmitting ||
-                            isUpdatingProfile ||
-                            isCreatingProfile
-                        }
+                        disabled={isPending}
                         className="m-0 min-w-0 rounded-none border-0 p-0"
                     >
                         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -490,6 +515,7 @@ const RestaurantProfileForm = ({ isEditMode }: RestaurantProfileFormProps) => {
             </Container>
         </form>
     )
-}
+},
+)
 
 export default RestaurantProfileForm

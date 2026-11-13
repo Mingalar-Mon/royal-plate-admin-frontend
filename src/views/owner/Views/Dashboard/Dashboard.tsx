@@ -20,7 +20,6 @@ import {
     TbShoppingBag,
     TbCalendarCheck,
     TbEye,
-    TbEdit,
     TbTrash,
     TbPlus,
 } from 'react-icons/tb'
@@ -39,6 +38,9 @@ const formatCurrency = (value: number | null | undefined) =>
 
 const Dashboard = () => {
     const navigate = useNavigate()
+    const setActiveRestaurant = useRestaurantStore(
+        (state) => state.setActiveRestaurant,
+    )
     const [fromDate, setFromDate] = useState<Date | null>(
         dayjs().startOf('month').toDate(),
     )
@@ -75,7 +77,12 @@ const Dashboard = () => {
         )
     }, [restaurants])
 
-    const columnWidth = restaurants.length <= 3 ? '12%' : restaurants.length <= 5 ? '25%' : '40%'
+    const columnWidth =
+        restaurants.length <= 3
+            ? '12%'
+            : restaurants.length <= 5
+              ? '25%'
+              : '40%'
 
     const overviewChartOptions: ApexOptions = {
         chart: { toolbar: { show: false } },
@@ -210,7 +217,10 @@ const Dashboard = () => {
                             size="sm"
                             variant="solid"
                             icon={<TbPlus />}
-                            onClick={() => navigate('/restaurant/create-restaurant')}
+                            onClick={() => {
+                                setActiveRestaurant(null)
+                                navigate('/restaurant/create-restaurant')
+                            }}
                         >
                             Add Restaurant
                         </Button>
@@ -411,8 +421,7 @@ const Dashboard = () => {
                                         name: 'Reservation Amount',
                                         data: restaurants.map(
                                             (r) =>
-                                                r.totalReservationAmount ??
-                                                0,
+                                                r.totalReservationAmount ?? 0,
                                         ),
                                     },
                                 ]}
@@ -451,9 +460,7 @@ const Dashboard = () => {
                                     {
                                         name: 'Reservation Count',
                                         data: restaurants.map(
-                                            (r) =>
-                                                r.totalReservationCount ??
-                                                0,
+                                            (r) => r.totalReservationCount ?? 0,
                                         ),
                                     },
                                 ]}
@@ -543,10 +550,6 @@ const RestaurantDetailCard = ({
         }
     }
 
-    const handleEdit = () => {
-        navigate(`/restaurant/update-restaurant/${restaurant.id}`)
-    }
-
     const handleDelete = () => {
         openProfileDialog('DELETE_CONFIRM', {
             id: restaurant.id,
@@ -559,8 +562,7 @@ const RestaurantDetailCard = ({
         restaurant.totalReservationAmount ?? 0,
         1,
     )
-    const orderBarWidth =
-        ((restaurant.totalOrderAmount ?? 0) / maxAmount) * 100
+    const orderBarWidth = ((restaurant.totalOrderAmount ?? 0) / maxAmount) * 100
     const reservationBarWidth =
         ((restaurant.totalReservationAmount ?? 0) / maxAmount) * 100
 
@@ -698,13 +700,6 @@ const RestaurantDetailCard = ({
                         onClick={handleView}
                     >
                         View
-                    </Button>
-                    <Button
-                        size="sm"
-                        icon={<TbEdit />}
-                        onClick={handleEdit}
-                    >
-                        Edit
                     </Button>
                     <Button
                         size="sm"

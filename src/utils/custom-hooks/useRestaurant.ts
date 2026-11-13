@@ -1,5 +1,4 @@
 import { Restaurant } from '@/@types/restaurant'
-import { Notification, toast } from '@/components/ui'
 import {
     apiCreateRestaurant,
     apiDeleteRestaurant,
@@ -99,6 +98,9 @@ export const useUpdateRestaurant = () => {
             queryClient.invalidateQueries({ queryKey: ['restaurants', userId] })
             queryClient.invalidateQueries({
                 queryKey: ['restaurant', variables.id],
+            })
+            queryClient.invalidateQueries({
+                queryKey: ['restaurant-profile'],
             })
         },
         onError: (error: unknown) => {
