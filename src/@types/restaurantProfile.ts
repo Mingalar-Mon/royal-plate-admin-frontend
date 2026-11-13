@@ -6,7 +6,14 @@ export type GetRestaurantProfileResponse = {
     data: RestaurantProfile & {
         cuisines: Cuisine[]
         paymentMethods: PaymentMethod[]
-        restaurant: Restaurant
+        restaurant: Restaurant & {
+            averageRating?: number | string
+            totalReviews?: number
+            logo?: { key: string; url: string }
+            dishes?: unknown[]
+            tables?: unknown[]
+            ratings?: unknown[]
+        }
     }
     message: string
 }
