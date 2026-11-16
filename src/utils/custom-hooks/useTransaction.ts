@@ -15,6 +15,7 @@ export const useGetTransactions = (
                 limit: params.limit,
                 ...(params.fromDate ? { fromDate: params.fromDate } : {}),
                 ...(params.toDate ? { toDate: params.toDate } : {}),
+                ...(params.settled ? { settled: params.settled } : {}),
             })
         },
         enabled: !!restaurantId,

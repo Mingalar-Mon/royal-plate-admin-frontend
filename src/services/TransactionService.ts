@@ -18,6 +18,7 @@ export type GetTransactionsParams = {
     toDate?: string // YYYY-MM-DD
     page?: number
     limit?: number
+    settled?: 'true' | 'false' | ''
 }
 
 export type PayoutPreviewParams = {
@@ -41,7 +42,12 @@ export async function apiGetTransactions(params: GetTransactionsParams) {
     return ApiService.fetchDataWithAxios<GetTransactionsResponse>({
         url: '/transaction',
         method: 'get',
-        params: { page: 1, limit: 10, ...params },
+        params: {
+            page: 1,
+            limit: 10,
+            ...params,
+            ...(params.settled ? { settled: params.settled } : {}),
+        },
     })
 }
 
