@@ -20,7 +20,6 @@ import {
     TbShoppingBag,
     TbCalendarCheck,
     TbEye,
-    TbTrash,
     TbPlus,
 } from 'react-icons/tb'
 import { useGetRestaurantCards } from '@/utils/custom-hooks/useRestaurant'
@@ -550,13 +549,6 @@ const RestaurantDetailCard = ({
         }
     }
 
-    const handleDelete = () => {
-        openProfileDialog('DELETE_CONFIRM', {
-            id: restaurant.id,
-            name: restaurant.name,
-        })
-    }
-
     const maxAmount = Math.max(
         restaurant.totalOrderAmount ?? 0,
         restaurant.totalReservationAmount ?? 0,
@@ -700,15 +692,6 @@ const RestaurantDetailCard = ({
                         onClick={handleView}
                     >
                         View
-                    </Button>
-                    <Button
-                        size="sm"
-                        icon={<TbTrash />}
-                        variant="plain"
-                        className="text-red-500 hover:text-red-600 border"
-                        onClick={handleDelete}
-                    >
-                        Delete
                     </Button>
                 </div>
             </div>
