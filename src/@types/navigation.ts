@@ -23,6 +23,7 @@ export interface NavigationTree {
     authority: string[]
     subMenu: NavigationTree[]
     description?: string
+    badge?: number
     meta?: {
         horizontalMenu?: HorizontalMenuMeta
         description?: {

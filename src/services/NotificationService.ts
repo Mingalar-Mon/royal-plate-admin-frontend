@@ -8,11 +8,14 @@ import type {
 
 const PREFIX = '/notification'
 
-export async function apiGetNotificationCount(restaurantId: string) {
+export async function apiGetNotificationCount(
+    restaurantId: string,
+    category?: string,
+) {
     return ApiService.fetchDataWithAxios<GetUnreadCountResponse>({
         url: `${PREFIX}/count`,
         method: 'get',
-        params: { restaurantId },
+        params: { restaurantId, ...(category ? { category } : {}) },
     })
 }
 
@@ -21,7 +24,7 @@ export async function apiGetNotificationList(
     params?: {
         page?: number
         limit?: number
-        category?: 'order' | 'reservation' | 'blog'
+        category?: 'order' | 'reservation' | 'rating' | 'blog'
         isRead?: boolean
     },
 ) {

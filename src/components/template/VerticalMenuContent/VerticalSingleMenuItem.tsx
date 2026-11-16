@@ -2,6 +2,7 @@ import Tooltip from '@/components/ui/Tooltip'
 import Menu from '@/components/ui/Menu'
 import AuthorityCheck from '@/components/shared/AuthorityCheck'
 import VerticalMenuIcon from './VerticalMenuIcon'
+import Badge from '@/components/ui/Badge'
 import { Link } from 'react-router'
 import Dropdown from '@/components/ui/Dropdown'
 import type { CommonProps } from '@/@types/common'
@@ -50,6 +51,14 @@ const CollapsedItem = ({
     t,
     currentKey,
 }: CollapsedItemProps) => {
+    const showBadge = (nav.badge ?? 0) > 0
+    const linkContent = (
+        <>
+            <span>{t(nav.translateKey, nav.title)}</span>
+            {showBadge && <Badge content={nav.badge} />}
+        </>
+    )
+
     return (
         <AuthorityCheck userAuthority={userAuthority} authority={nav.authority}>
             {renderAsIcon ? (
@@ -74,10 +83,10 @@ const CollapsedItem = ({
                                 })
                             }
                         >
-                            <span>{t(nav.translateKey, nav.title)}</span>
+                            {linkContent}
                         </Link>
                     ) : (
-                        <span>{t(nav.translateKey, nav.title)}</span>
+                        <span>{linkContent}</span>
                     )}
                 </Dropdown.Item>
             )}
@@ -96,6 +105,8 @@ const DefaultItem = (props: DefaultItemProps) => {
         t,
     } = props
 
+    const showBadge = (nav.badge ?? 0) > 0
+
     return (
         <AuthorityCheck userAuthority={userAuthority} authority={nav.authority}>
             <MenuItem key={nav.key} eventKey={nav.key} dotIndent={indent}>
@@ -112,7 +123,12 @@ const DefaultItem = (props: DefaultItemProps) => {
                     }
                 >
                     {showIcon && <VerticalMenuIcon icon={nav.icon} />}
-                    {showTitle && <span>{t(nav.translateKey, nav.title)}</span>}
+                    {showTitle && (
+                        <>
+                            <span>{t(nav.translateKey, nav.title)}</span>
+                            {showBadge && <Badge content={nav.badge} />}
+                        </>
+                    )}
                 </Link>
             </MenuItem>
         </AuthorityCheck>

@@ -2,7 +2,7 @@ export type NotificationTier = 'critical' | 'important' | 'info'
 
 export type NotificationItem = {
     id: string
-    category: 'order' | 'reservation' | 'blog'
+    category: 'order' | 'reservation' | 'blog' | 'rating'
     eventType: 'created' | 'updated' | 'cancelled' | 'confirmed' | 'completed' | string
     title: string
     body: string
@@ -17,7 +17,7 @@ export interface TieredNotification {
     title: string
     body: string
     tier: NotificationTier
-    type: 'order' | 'reservation' | 'system'
+    type: 'order' | 'reservation' | 'rating' | 'system'
     image?: string
 }
 
