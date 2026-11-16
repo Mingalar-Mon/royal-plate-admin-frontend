@@ -1,10 +1,13 @@
 import Button from '@/components/ui/Button'
+import PayoutListExportTools from './PayoutListExportTools'
 import { TbRefresh } from 'react-icons/tb'
 
 const PayoutListActionTools = ({
     onRefresh,
+    requireRestaurant,
 }: {
     onRefresh: () => void
+    requireRestaurant?: boolean
 }) => (
     <div className="flex items-center gap-2">
         <Button
@@ -15,6 +18,7 @@ const PayoutListActionTools = ({
         >
             Refresh
         </Button>
+        <PayoutListExportTools requireRestaurant={requireRestaurant} />
     </div>
 )
 
