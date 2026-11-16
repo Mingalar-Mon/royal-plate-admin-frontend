@@ -151,31 +151,10 @@ const PayoutListTable = ({ data, total, loading }: PayoutListTableProps) => {
                 ),
             },
             {
-                header: 'Total',
-                accessorKey: 'totalPrice',
-                cell: (props) => (
-                    <Money value={props.row.original.totalPrice} />
-                ),
-            },
-            {
-                header: 'Sub-total',
-                accessorKey: 'subTotal',
-                cell: (props) => <Money value={props.row.original.subTotal} />,
-            },
-            {
                 header: 'Commission fee',
                 accessorKey: 'commission_fee',
                 cell: (props) => (
                     <Money value={props.row.original.commission_fee} />
-                ),
-            },
-            {
-                header: 'Net amount',
-                accessorKey: 'netAmount',
-                cell: (props) => (
-                    <span className="font-bold text-gray-900 dark:text-gray-100">
-                        <Money value={props.row.original.netAmount} />
-                    </span>
                 ),
             },
             {
