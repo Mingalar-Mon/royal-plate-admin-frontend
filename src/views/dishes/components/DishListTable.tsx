@@ -247,7 +247,7 @@ const DishListTable = ({
                 },
             },
             {
-                header: '',
+                header: 'Action',
                 id: 'action',
                 cell: (props) => (
                     <ActionColumn

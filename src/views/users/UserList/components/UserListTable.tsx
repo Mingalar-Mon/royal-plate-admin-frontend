@@ -205,7 +205,7 @@ const UserListTable = ({ data, total, loading }: UserListTableProps) => {
                     dayjs(props.row.original.createdAt).format('DD/MM/YYYY'),
             },
             {
-                header: '',
+                header: 'Action',
                 id: 'action',
                 cell: (props) => {
                     const user = props.row.original

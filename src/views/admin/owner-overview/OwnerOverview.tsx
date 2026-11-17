@@ -139,7 +139,7 @@ const OwnerRow = ({
                 </td>
                 <td className="px-4 py-3">
                     <span className="inline-flex items-center gap-1 text-sm font-medium text-orange-600 dark:text-orange-400">
-                        <TbPercentage className="h-4 w-4" />
+                        {/* <TbPercentage className="h-4 w-4" /> */}
                         {formatCurrency(owner.commission_fee)}
                     </span>
                 </td>
