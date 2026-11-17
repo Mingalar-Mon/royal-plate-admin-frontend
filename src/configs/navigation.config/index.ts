@@ -285,6 +285,16 @@ const navigationConfig: NavigationTree[] = [
         subMenu: [],
     },
     {
+        key: 'admin.restaurants',
+        path: '/admin/restaurants',
+        title: 'Restaurants',
+        translateKey: 'nav.restaurants',
+        icon: 'restaurant',
+        type: NAV_ITEM_TYPE_ITEM,
+        authority: [SUPER_ADMIN],
+        subMenu: [],
+    },
+    {
         key: 'appVersionManagement',
         path: '/app-versions',
         title: 'App Versions',

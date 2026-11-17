@@ -6,6 +6,7 @@ import {
     DeleteRestaurantResponse,
     UpdateRestaurantResponse,
     CreateRestaurantResponse,
+    DeleteRestaurantBySuperAdminBody,
 } from '@/@types/restaurant'
 import ApiService from './ApiService'
 import { PASSWORD, USER_NAME } from '@/constants/api.constant'
@@ -37,6 +38,14 @@ export async function apiGetRestaurantList() {
             username: USER_NAME,
             password: PASSWORD,
         },
+    })
+}
+
+/** Lightweight "all restaurants" option endpoint — returns full objects. */
+export async function apiGetRestaurantOptions() {
+    return ApiService.fetchDataWithAxios<GetRestaurantListResponse>({
+        url: `restaurant/options`,
+        method: 'get',
     })
 }
 
@@ -80,5 +89,19 @@ export async function apiDeleteRestaurant(id: string) {
     return ApiService.fetchDataWithAxios<DeleteRestaurantResponse>({
         url: `restaurant/delete-restaurant/${id}`,
         method: 'delete',
+    })
+}
+
+export async function apiDeleteRestaurantBySuperAdmin({
+    id,
+    restaurantName,
+}: {
+    id: string
+    restaurantName: string
+}) {
+    return ApiService.fetchDataWithAxios<DeleteRestaurantResponse>({
+        url: `restaurant/super-admin/delete-restaurant/${id}`,
+        method: 'delete',
+        data: { restaurantName } as DeleteRestaurantBySuperAdminBody,
     })
 }

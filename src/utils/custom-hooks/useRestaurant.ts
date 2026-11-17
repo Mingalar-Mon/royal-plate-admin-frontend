@@ -7,6 +7,8 @@ import {
     apiGetRestaurantCards,
     apiUpdateRestaurant,
     apiGetRestaurantList,
+    apiDeleteRestaurantBySuperAdmin,
+    apiGetRestaurantOptions,
 } from '@/services/RestaurantService'
 import { useAuth } from '@/auth'
 import { useSessionUser } from '@/store/authStore'
@@ -44,6 +46,13 @@ export const useGetRestaurantList = () => {
     return useQuery({
         queryKey: ['restaurants'],
         queryFn: () => apiGetRestaurantList(),
+    })
+}
+
+export const useGetRestaurantOptions = () => {
+    return useQuery({
+        queryKey: ['restaurant-options'],
+        queryFn: () => apiGetRestaurantOptions(),
     })
 }
 
@@ -123,6 +132,35 @@ export const useDeleteRestaurant = () => {
         },
         onError: (error: unknown) => {
             console.log('Error creating restaurant: ', error)
+        },
+    })
+}
+
+/**
+ * Super-admin hard delete. The owner-only flow above must stay untouched.
+ *
+ * On success we invalidate (not manually mutate) every list that can contain
+ * the restaurant, so it disappears on the next refetch without polling —
+ * exactly as the endpoint doc requires.
+ */
+export const useDeleteRestaurantBySuperAdmin = () => {
+    const queryClient = useQueryClient()
+    const userId = useSessionUser((state) => state.user.userId)
+    return useMutation({
+        mutationFn: apiDeleteRestaurantBySuperAdmin,
+        onSuccess: (_response, variables) => {
+            queryClient.invalidateQueries({ queryKey: ['restaurants'] })
+            queryClient.invalidateQueries({ queryKey: ['restaurant-options'] })
+            queryClient.invalidateQueries({ queryKey: ['restaurants', userId] })
+            queryClient.invalidateQueries({
+                queryKey: ['restaurant', variables.id],
+            })
+            queryClient.invalidateQueries({
+                queryKey: ['dashboard-owner-overview'],
+            })
+        },
+        onError: (error: unknown) => {
+            console.log('Error hard-deleting restaurant: ', error)
         },
     })
 }
