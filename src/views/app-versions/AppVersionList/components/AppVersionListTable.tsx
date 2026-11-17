@@ -102,7 +102,7 @@ const AppVersionListTable = ({
                     dayjs(props.row.original.createdAt).format('DD/MM/YYYY'),
             },
             {
-                header: '',
+                header: 'Action',
                 id: 'action',
                 cell: (props) => (
                     <ActionColumn

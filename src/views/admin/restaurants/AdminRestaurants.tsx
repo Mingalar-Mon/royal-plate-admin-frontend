@@ -155,7 +155,7 @@ const AdminRestaurants = () => {
                 },
             },
             {
-                header: '',
+                header: 'Action',
                 id: 'action',
                 cell: (props) => {
                     const restaurant = props.row.original

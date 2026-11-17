@@ -826,7 +826,7 @@ const EdaDashboard = () => {
                             Know who keeps coming back
                         </h2>
                     </div>
-                    <TbUsers className="hidden text-3xl text-gray-300 sm:block dark:text-gray-600" />
+                    {/* <TbUsers className="hidden text-3xl text-gray-300 sm:block dark:text-gray-600" /> */}
                 </div>
 
                 <div className="grid grid-cols-1 gap-6 xl:grid-cols-2">

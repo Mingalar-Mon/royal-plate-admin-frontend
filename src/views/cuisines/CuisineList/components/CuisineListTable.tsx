@@ -90,7 +90,7 @@ const CuisineListTable = ({
                     dayjs(props.row.original.created_at).format('DD/MM/YYYY'),
             },
             {
-                header: '',
+                header: 'Action',
                 id: 'action',
                 cell: (props) => {
                     const cuisine = props.row.original
