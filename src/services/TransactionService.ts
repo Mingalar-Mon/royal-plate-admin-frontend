@@ -100,6 +100,36 @@ export async function apiGetPayouts(params: {
     })
 }
 
+/**
+ * Walks every page (limit capped at 100) for a given restaurantId to
+ * collect the full filtered dataset (no date filtering on this endpoint)
+ * for the CSV export.
+ */
+export async function apiGetAllPayouts(params: {
+    restaurantId: string
+}) {
+    const queryParams = {
+        limit: 100,
+        ...(params.restaurantId ? { restaurantId: params.restaurantId } : {}),
+    }
+
+    const items = []
+    const firstPage = await apiGetPayouts(queryParams)
+
+    items.push(...firstPage.data)
+
+    const totalPages = firstPage.paginator.totalPages
+    for (let page = 2; page <= totalPages; page++) {
+        const response = await apiGetPayouts({
+            ...queryParams,
+            page,
+        })
+        items.push(...response.data)
+    }
+
+    return items
+}
+
 export async function apiPostPayout(data: PostPayoutParams) {
     return ApiService.fetchDataWithAxios<PostPayoutResponse>({
         url: '/transaction/payout',

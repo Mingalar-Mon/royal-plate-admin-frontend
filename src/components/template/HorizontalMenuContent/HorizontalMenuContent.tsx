@@ -5,6 +5,7 @@ import AuthorityCheck from '@/components/shared/AuthorityCheck'
 import useTranslation from '@/utils/hooks/useTranslation'
 import useMenuActive from '@/utils/hooks/useMenuActive'
 import { TbChevronDown } from 'react-icons/tb'
+import Badge from '@/components/ui/Badge'
 import { Direction } from '@/@types/theme'
 import type { NavigationTree } from '@/@types/navigation'
 import type { TraslationFn } from '@/@types/common_type'
@@ -51,6 +52,9 @@ const HorizontalMenuContent = (props: HorizontalMenuContentProps) => {
                                         <span>
                                             {t(nav.translateKey, nav.title)}
                                         </span>
+                                        {(nav.badge ?? 0) > 0 && (
+                                            <Badge content={nav.badge} />
+                                        )}
                                         <TbChevronDown />
                                     </div>
                                 </HorizontalMenuDropdownTrigger>
@@ -78,6 +82,9 @@ const HorizontalMenuContent = (props: HorizontalMenuContentProps) => {
                         >
                             <div className="flex items-center gap-1">
                                 <span>{t(nav.translateKey, nav.title)}</span>
+                                {(nav.badge ?? 0) > 0 && (
+                                    <Badge content={nav.badge} />
+                                )}
                             </div>
                         </HorizontalMenuDropdownTrigger>
                     )}

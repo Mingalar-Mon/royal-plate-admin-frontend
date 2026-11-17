@@ -5,19 +5,19 @@ import { AuthProvider } from '@/auth'
 import Views from '@/views'
 
 import { QueryClientProvider, QueryClient } from '@tanstack/react-query'
-import { useOneSignal } from './utils/custom-hooks/useOneSignal'
 import { useEffect } from 'react'
 import { messaging } from './notifications/firebase'
 import { onMessage } from 'firebase/messaging'
 import toast from './components/ui/toast/toast'
 import { Notification } from './components/ui'
 import { notificationQueue } from './utils/notificationQueue'
+import { useNotificationStore } from './store/notificationStore'
 import type { NotificationTier } from './@types/notification'
 
 const queryClient = new QueryClient({
     defaultOptions: {
         queries: {
-            staleTime: 5 * 60 * 1000, // 5 minutes
+            staleTime: 5 * 60 * 1000,
             retry: 1,
             refetchOnWindowFocus: false,
             retryOnMount: false,
@@ -51,10 +51,11 @@ function getTierDuration(tier: NotificationTier): number {
 }
 
 function App() {
+    const { incrementUnreadReviewCount } = useNotificationStore()
+
     useEffect(() => {
         console.log('[App] Initializing notification system...')
 
-        // Register service worker for background notifications
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker
                 .register('/firebase-messaging-sw.js')
@@ -68,10 +69,8 @@ function App() {
             console.warn('[App] Service Worker not supported in this browser')
         }
 
-        // Check notification permission
         console.log('[App] Notification permission:', Notification.permission)
 
-        // Set up Firebase foreground message handler
         console.log('[App] Setting up Firebase onMessage listener...')
         const unsubscribe = onMessage(messaging, (payload) => {
             console.log('[App] Foreground message received:', payload)
@@ -84,6 +83,14 @@ function App() {
                 queryClient.invalidateQueries({ queryKey: ['orders'] })
             } else if (type === 'reservation') {
                 queryClient.invalidateQueries({ queryKey: ['reservations'] })
+            } else if (type === 'rating') {
+                queryClient.invalidateQueries({ queryKey: ['ratings'] })
+                incrementUnreadReviewCount()
+            }
+
+            if (type === 'rating') {
+                console.log('[App] Review notification - skipping sound')
+                return
             }
 
             const tier = classifyNotificationTier(type, title, body)
@@ -122,8 +129,8 @@ function App() {
             console.log('[App] Cleaning up Firebase listener')
             unsubscribe()
         }
-    }, [])
-    // useOneSignal() // Initialize OneSignal for the entire app
+    }, [incrementUnreadReviewCount])
+
     return (
         <QueryClientProvider client={queryClient}>
             <Theme>

@@ -93,6 +93,10 @@ export type DeleteRestaurantResponse = {
 
 export type UpdateRestaurantResponse = DeleteRestaurantResponse
 
+export type DeleteRestaurantBySuperAdminBody = {
+    restaurantName: string
+}
+
 export type GetDishListResponse = {
     success: boolean
     data: Dish[]

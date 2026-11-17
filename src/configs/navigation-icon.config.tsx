@@ -19,6 +19,7 @@ import {
     PiReceiptDuotone, // Perfect for Transactions / Statements
     PiSlidersHorizontalDuotone, // Perfect for App Settings / Config management
 } from 'react-icons/pi'
+import { TbBuildingStore } from 'react-icons/tb'
 import type { JSX } from 'react'
 
 export type NavigationIcons = Record<string, JSX.Element>
@@ -46,6 +47,7 @@ const navigationIcon: NavigationIcons = {
     appSettings: <PiSlidersHorizontalDuotone />,
     commission: <PiBagSimpleDuotone />,
     transaction: <PiReceiptDuotone />,
+    restaurant: <TbBuildingStore />,
 }
 
 export default navigationIcon
