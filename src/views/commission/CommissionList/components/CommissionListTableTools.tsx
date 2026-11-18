@@ -91,7 +91,7 @@ const CommissionListTableTools = () => {
                     className="min-w-32.5"
                     onChange={(option) => handleStatusChange(option?.value)}
                 />
-                <DatePicker.DatePickerRange
+                {/* <DatePicker.DatePickerRange
                     value={[
                         tableData.fromDate || null,
                         tableData.toDate || null,
@@ -100,7 +100,7 @@ const CommissionListTableTools = () => {
                     placeholder="Select date range"
                     size="sm"
                     onChange={handleDateRangeChange}
-                />
+                /> */}
             </div>
         </div>
     )

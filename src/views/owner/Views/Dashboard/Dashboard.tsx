@@ -16,6 +16,7 @@ import {
     TbDatabaseOff,
     TbMapPin,
     TbRefresh,
+    TbArrowRight,
     TbStar,
     TbShoppingBag,
     TbCalendarCheck,
@@ -106,8 +107,8 @@ const Dashboard = () => {
             },
         },
         legend: {
-            position: 'top',
-            horizontalAlign: 'right',
+            position: 'bottom',
+            horizontalAlign: 'center',
         },
         tooltip: {
             y: { formatter: (val) => formatCurrency(val) },
@@ -141,8 +142,8 @@ const Dashboard = () => {
             },
         },
         legend: {
-            position: 'top',
-            horizontalAlign: 'right',
+            position: 'bottom',
+            horizontalAlign: 'center',
         },
         tooltip: {
             y: { formatter: (val) => `${formatNumber(val)} items` },
@@ -230,8 +231,8 @@ const Dashboard = () => {
                     className="border-none bg-gradient-to-br from-primary/10 via-primary/5 to-transparent"
                     bodyClass="p-5"
                 >
-                    <div className="flex flex-col gap-4">
-                        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:gap-6">
+                    <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+                        <div className="flex flex-col gap-2">
                             <div className="flex items-center gap-2 text-sm font-semibold text-gray-700 dark:text-gray-200">
                                 <TbCalendar className="text-lg text-primary" />
                                 <span>Date Range</span>
@@ -683,15 +684,16 @@ const RestaurantDetailCard = ({
                         )}
                     </span>
                 </div>
-
-                <div className="mt-4 flex gap-2">
+                <div className="mt-4 flex gap-2 justify-end">
                     <Button
+                        className="px-15"
                         size="sm"
                         variant="solid"
-                        icon={<TbEye />}
+                        // icon={<TbArrowRight/>}
                         onClick={handleView}
                     >
-                        View
+                        Go To Restaurant
+                        <TbArrowRight className="ml-2 text-lg" />
                     </Button>
                 </div>
             </div>
