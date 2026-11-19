@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useParams } from 'react-router'
 import dayjs from 'dayjs'
 import {
@@ -16,6 +16,7 @@ import Button from '@/components/ui/Button'
 import Dialog from '@/components/ui/Dialog'
 import Input from '@/components/ui/Input'
 import Pagination from '@/components/ui/Pagination'
+import { useNotificationStore } from '@/store/notificationStore'
 import { useRatingStore } from '@/store/ratingStore'
 import type { Rating, } from '@/services/RatingService'
 import {
@@ -80,6 +81,9 @@ const Reviewer = ({ rating }: { rating: Rating }) => (
 
 const RatingList = () => {
     const { restaurantId } = useParams()
+    const markUnreadReviewsRead = useNotificationStore(
+        (state) => state.markUnreadReviewsRead,
+    )
     const tableData = useRatingStore((state) => state.tableData)
     const setTableData = useRatingStore((state) => state.setTableData)
     const { ratings, total, isLoading, isFetching, refetch } = useRatings({
@@ -91,6 +95,11 @@ const RatingList = () => {
     const [editingRating, setEditingRating] = useState<Rating | null>(null)
     const [responseText, setResponseText] = useState('')
     const [deleteTarget, setDeleteTarget] = useState<Rating | null>(null)
+
+    useEffect(() => {
+        if (!restaurantId) return
+        void markUnreadReviewsRead(restaurantId)
+    }, [restaurantId, markUnreadReviewsRead])
 
     const visibleRatings = useMemo(() => {
         if (tableData.response === 'pending') {

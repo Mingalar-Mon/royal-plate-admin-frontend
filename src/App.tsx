@@ -78,6 +78,7 @@ function App() {
             const body = payload.notification?.body ?? ''
             const image = payload.notification?.image
             const type = payload.data?.type
+            const eventType = payload.data?.eventType
 
             if (type === 'order') {
                 queryClient.invalidateQueries({ queryKey: ['orders'] })
@@ -85,7 +86,9 @@ function App() {
                 queryClient.invalidateQueries({ queryKey: ['reservations'] })
             } else if (type === 'rating') {
                 queryClient.invalidateQueries({ queryKey: ['ratings'] })
-                incrementUnreadReviewCount()
+                if (eventType === 'created') {
+                    incrementUnreadReviewCount()
+                }
             }
 
             if (type === 'rating') {

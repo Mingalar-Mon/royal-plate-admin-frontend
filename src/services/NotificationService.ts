@@ -42,11 +42,14 @@ export async function apiMarkNotificationRead(id: string) {
     })
 }
 
-export async function apiMarkAllNotificationsRead(restaurantId: string) {
+export async function apiMarkAllNotificationsRead(
+    restaurantId: string,
+    category?: 'order' | 'reservation' | 'rating' | 'blog',
+) {
     return ApiService.fetchDataWithAxios<MarkReadResponse>({
         url: `${PREFIX}/read-all`,
         method: 'patch',
-        data: { restaurantId },
+        data: { restaurantId, ...(category ? { category } : {}) },
     })
 }
 

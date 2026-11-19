@@ -93,6 +93,8 @@ const _Notification = ({ className }: { className?: string }) => {
             navigate(`${basePath}/reservations/detail/${item.referenceId}`)
         } else if (item.category === 'blog') {
             navigate(`${basePath}/blogs/${item.referenceId}`)
+        } else if (item.category === 'rating') {
+            navigate(`${basePath}/ratings`)
         }
 
         notificationDropdownRef.current?.handleDropdownClose()

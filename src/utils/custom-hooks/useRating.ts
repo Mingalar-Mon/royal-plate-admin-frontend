@@ -7,6 +7,8 @@ import {
     apiSaveRatingOwnerResponse,
     normalizeRating,
 } from '@/services/RatingService'
+import { useNotificationStore } from '@/store/notificationStore'
+import { useRestaurantStore } from '@/store/restaurantStore'
 import type { RatingQueries } from '@/store/ratingStore'
 
 export const useRatings = ({
@@ -53,10 +55,19 @@ const showRatingNotification = (
 
 export const useSaveRatingOwnerResponse = () => {
     const queryClient = useQueryClient()
+    const restaurantId = useRestaurantStore(
+        (state) => state.activeRestaurant?.id,
+    )
+    const fetchUnreadReviewCount = useNotificationStore(
+        (state) => state.fetchUnreadReviewCount,
+    )
     return useMutation({
         mutationFn: apiSaveRatingOwnerResponse,
         onSuccess: (response) => {
             queryClient.invalidateQueries({ queryKey: ['ratings'] })
+            if (restaurantId) {
+                void fetchUnreadReviewCount(restaurantId)
+            }
             showRatingNotification(
                 'success',
                 'Reply published',
