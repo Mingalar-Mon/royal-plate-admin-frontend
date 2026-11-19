@@ -33,7 +33,10 @@ function classifyNotificationTier(
     const titleLower = title.toLowerCase()
     const bodyLower = body.toLowerCase()
 
-    if (type === 'order' && (titleLower.includes('new') || bodyLower.includes('new'))) {
+    if (
+        (type === 'order' || type === 'reservation') &&
+        (titleLower.includes('new') || bodyLower.includes('new'))
+    ) {
         return 'critical'
     }
     if (titleLower.includes('cancel') || bodyLower.includes('cancel')) {

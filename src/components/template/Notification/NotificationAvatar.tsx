@@ -6,6 +6,8 @@ import {
     HiOutlineClipboardCheck,
     HiOutlineBan,
     HiOutlineShoppingBag,
+    HiOutlineDocumentText,
+    HiOutlineStar,
 } from 'react-icons/hi'
 import type { NotificationItem } from '@/@types/notification'
 
@@ -27,13 +29,7 @@ const NotificationAvatar = (props: {
     const { category, eventType, actorName, actorImage } = props
 
     if (actorImage) {
-        return (
-            <Avatar
-                shape="circle"
-                src={actorImage}
-                alt={actorName ?? ''}
-            />
-        )
+        return <Avatar shape="circle" src={actorImage} alt={actorName ?? ''} />
     }
 
     if (actorName) {
@@ -83,6 +79,26 @@ const NotificationAvatar = (props: {
                 shape="circle"
                 className="bg-amber-200 text-gray-900"
                 icon={<HiOutlineCalendar />}
+            />
+        )
+    }
+
+    if (category === 'blog') {
+        return (
+            <Avatar
+                shape="circle"
+                className="bg-indigo-200 text-gray-900"
+                icon={<HiOutlineDocumentText />}
+            />
+        )
+    }
+
+    if (category === 'rating') {
+        return (
+            <Avatar
+                shape="circle"
+                className="bg-amber-200 text-gray-900"
+                icon={<HiOutlineStar />}
             />
         )
     }

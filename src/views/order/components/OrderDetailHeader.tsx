@@ -1,6 +1,4 @@
 import Card from '@/components/ui/Card'
-import Notification from '@/components/ui/Notification'
-import toast from '@/components/ui/toast'
 import { TbCalendar, TbClock } from 'react-icons/tb'
 import { Order, OrderStatus } from '@/@types/order'
 import { useUpdateOrderStatus } from '@/utils/custom-hooks/useOrder'
@@ -12,29 +10,16 @@ interface OrderDetailHeaderProps {
     onStatusUpdated?: () => void
 }
 
-const OrderDetailHeader = ({ order, onStatusUpdated }: OrderDetailHeaderProps) => {
+const OrderDetailHeader = ({
+    order,
+    onStatusUpdated,
+}: OrderDetailHeaderProps) => {
     const { mutate: updateStatus, isPending } = useUpdateOrderStatus()
 
     const handleStatusChange = (newStatus: string) => {
         updateStatus(
             { orderId: order.id, status: newStatus as OrderStatus },
-            {
-                onSuccess: () => {
-                    toast.push(
-                        <Notification type="success" title="Status updated">
-                            Order status has been updated successfully.
-                        </Notification>,
-                    )
-                    onStatusUpdated?.()
-                },
-                onError: () => {
-                    toast.push(
-                        <Notification type="danger" title="Update failed">
-                            Could not update order status. Please try again.
-                        </Notification>,
-                    )
-                },
-            },
+            { onSuccess: () => onStatusUpdated?.() },
         )
     }
 
