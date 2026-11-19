@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect } from 'react'
 import { useNavigate } from 'react-router'
 import type { ApexOptions } from 'apexcharts'
 import dayjs from 'dayjs'
@@ -41,6 +41,11 @@ const Dashboard = () => {
     const setActiveRestaurant = useRestaurantStore(
         (state) => state.setActiveRestaurant,
     )
+
+    useEffect(() => {
+        setActiveRestaurant(null)
+    }, [setActiveRestaurant])
+
     const [fromDate, setFromDate] = useState<Date | null>(
         dayjs().startOf('month').toDate(),
     )
