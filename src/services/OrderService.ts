@@ -67,7 +67,7 @@ export async function apiUpdateOrderStatus({
     orderId: string
     status: OrderStatus
 }) {
-    return ApiService.fetchDataWithAxios({
+    return ApiService.fetchDataWithAxios<GetOrderResponse>({
         url: `/order/update-status/${orderId}`,
         method: `patch`,
         data: { status },

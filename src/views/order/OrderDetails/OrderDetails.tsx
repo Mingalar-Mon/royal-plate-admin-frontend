@@ -11,12 +11,15 @@ import OrderDetailsActivities from '../components/OrderDetailsActivity'
 import { useGetOrder } from '@/utils/custom-hooks/useOrder'
 import { Container } from '@/components/shared'
 import { Button } from '@/components/ui'
-import { TbArrowNarrowLeft, TbCalendarEvent, TbClock, TbHash } from 'react-icons/tb'
+import {
+    TbArrowNarrowLeft,
+    TbCalendarEvent,
+    TbClock,
+    TbHash,
+} from 'react-icons/tb'
 import OrderStatusBadge from '../components/OrderStatusBadge'
 import { useUpdateOrderStatus } from '@/utils/custom-hooks/useOrder'
 import { OrderStatus } from '@/@types/order'
-import Notification from '@/components/ui/Notification'
-import toast from '@/components/ui/toast'
 import { toRestaurantTime } from '@/utils/orderDate'
 import dayjs from 'dayjs'
 
@@ -29,23 +32,7 @@ const OrderDetails = () => {
     const handleStatusChange = (newStatus: string) => {
         updateStatus(
             { orderId: order!.id, status: newStatus as OrderStatus },
-            {
-                onSuccess: () => {
-                    toast.push(
-                        <Notification type="success" title="Status updated">
-                            Order status has been updated successfully.
-                        </Notification>,
-                    )
-                    refetch()
-                },
-                onError: () => {
-                    toast.push(
-                        <Notification type="danger" title="Update failed">
-                            Could not update order status. Please try again.
-                        </Notification>,
-                    )
-                },
-            },
+            { onSuccess: () => refetch() },
         )
     }
 
@@ -80,13 +67,18 @@ const OrderDetails = () => {
                                 No order found
                             </p>
                             <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">
-                                This order may have been removed or the link is invalid.
+                                This order may have been removed or the link is
+                                invalid.
                             </p>
                             <Button
                                 className="mt-4"
                                 variant="solid"
                                 icon={<TbArrowNarrowLeft />}
-                                onClick={() => navigate(`/restaurants/${restaurantId}/orders`)}
+                                onClick={() =>
+                                    navigate(
+                                        `/restaurants/${restaurantId}/orders`,
+                                    )
+                                }
                             >
                                 Back to Orders
                             </Button>
@@ -151,12 +143,17 @@ const OrderDetails = () => {
                             <div className="flex flex-wrap items-center gap-4 text-sm text-gray-600 dark:text-gray-400">
                                 <span className="flex items-center gap-1.5">
                                     <TbClock className="text-base" />
-                                    {toRestaurantTime(order.created_at)?.format('DD/MM/YYYY HH:mm')}
+                                    {toRestaurantTime(order.created_at)?.format(
+                                        'DD/MM/YYYY HH:mm',
+                                    )}
                                 </span>
                                 {order.scheduledDate && (
                                     <span className="flex items-center gap-1.5">
                                         <TbHash className="text-base" />
-                                        Pickup: {toRestaurantTime(order.scheduledDate)?.format('DD/MM/YYYY HH:mm')}
+                                        Pickup:{' '}
+                                        {toRestaurantTime(
+                                            order.scheduledDate,
+                                        )?.format('DD/MM/YYYY HH:mm')}
                                     </span>
                                 )}
                             </div>

@@ -22,12 +22,17 @@ try {
         console.log('[SW] Received background message:', payload)
 
     const notificationTitle = payload.notification?.title || 'New Notification'
+    const notificationBody = payload.notification?.body || ''
+    const type = payload.data?.type
+    const isNew =
+        payload.data?.eventType === 'created' ||
+        /new/i.test(`${notificationTitle} ${notificationBody}`)
     const notificationOptions = {
-        body: payload.notification?.body || '',
+        body: notificationBody,
         icon: payload.notification?.image || '/favicon.png',
         badge: '/favicon.png',
-        tag: payload.data?.type || 'default',
-        requireInteraction: payload.data?.type === 'order',
+        tag: type || 'default',
+        requireInteraction: type === 'order' || (type === 'reservation' && isNew),
         data: {
             type: payload.data?.type,
             url: payload.data?.url || '/',

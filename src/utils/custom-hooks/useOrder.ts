@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react'
-import { normalizeOrderStatus } from '@/@types/order'
+import { useState, useEffect, createElement } from 'react'
+import { normalizeOrderStatus, OrderStatus } from '@/@types/order'
 import { OrderQueries, useOrderStore } from '@/store/orderStore'
 import { Notification, toast } from '@/components/ui'
 import { Order, OrderFormSchema } from '@/views/order/types/order.type'
@@ -218,6 +218,16 @@ export const useOrderList = () => {
     }
 }
 
+const orderStatusLabels: Record<OrderStatus, string> = {
+    [OrderStatus.PENDING]: 'Pending',
+    [OrderStatus.CONFIRMED]: 'Confirmed',
+    [OrderStatus.PREPARING]: 'Preparing',
+    [OrderStatus.READY]: 'Ready',
+    [OrderStatus.COMPLETED]: 'Completed',
+    [OrderStatus.REJECTED]: 'Rejected',
+    [OrderStatus.CANCELED]: 'Canceled',
+}
+
 // ================  =====================
 export const useUpdateOrderStatus = () => {
     const queryClient = useQueryClient()
@@ -228,11 +238,15 @@ export const useUpdateOrderStatus = () => {
             queryClient.invalidateQueries({
                 queryKey: ['order', variables.orderId],
             })
+            const orderNumber =
+                response?.data?.orderNumber ?? variables.orderId.slice(0, 8)
             toast.push(
                 createElement(
                     Notification,
-                    { type: 'success', title: 'Order updated' },
-                    response?.message || 'Order status updated successfully.',
+                    { type: 'success', title: 'Status updated' },
+                    `Order #${orderNumber} status changed to ${
+                        orderStatusLabels[variables.status] ?? variables.status
+                    }.`,
                 ),
                 { placement: 'top-center' },
             )

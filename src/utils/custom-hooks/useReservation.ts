@@ -7,6 +7,7 @@ import {
     apiUpdateReservationStatus,
 } from '@/services/ReservationService'
 import type { ReservationQueries } from '@/store/reservationStore'
+import { ReservationStatusColor } from '@/utils/Status/reservationStatus'
 
 // ================ GET RESERVATION (Direct API call, no TanStack) =====================
 export const useReservation = (id: string) => {
@@ -49,12 +50,18 @@ export const useUpdateReservationStatus = () => {
             queryClient.invalidateQueries({
                 queryKey: ['reservation', variables.reservationId],
             })
+            const statusLabel =
+                ReservationStatusColor[
+                    variables.status as keyof typeof ReservationStatusColor
+                ]?.label ?? variables.status
+            const reservationNumber =
+                response?.data?.reservationNumber ??
+                variables.reservationId.slice(0, 8)
             toast.push(
                 createElement(
                     Notification,
-                    { type: 'success', title: 'Reservation updated' },
-                    response.message ||
-                        'Reservation status updated successfully.',
+                    { type: 'success', title: 'Status updated' },
+                    `Reservation #${reservationNumber} status changed to ${statusLabel}.`,
                 ),
                 { placement: 'top-center' },
             )
