@@ -1,9 +1,7 @@
 import { useState, useMemo } from 'react'
 import { useParams } from 'react-router'
 import { ColumnDef } from '@tanstack/react-table'
-import DataTable, {
-    OnSortParam,
-} from '@/components/shared/DataTable'
+import DataTable, { OnSortParam } from '@/components/shared/DataTable'
 import ConfirmDialog from '@/components/shared/ConfirmDialog'
 import { NumericFormat } from 'react-number-format'
 import {
@@ -13,7 +11,7 @@ import {
     TbEdit,
     TbPhotoOff,
 } from 'react-icons/tb'
-import { useDeleteDish, useUpdateDish, useUpdateDishBasic } from '@/utils/custom-hooks/useDish'
+import { useDeleteDish, useUpdateDish } from '@/utils/custom-hooks/useDish'
 import { useGetCuisinesByRestaurant } from '@/utils/custom-hooks/useCuisine'
 import DishColumn from './DishColumn'
 import ActionColumn from './ActionColumn'
@@ -25,10 +23,7 @@ import DishAvailableStatusBadge from './DishAvailableStatusBadge'
 import Dialog from '@/components/ui/Dialog'
 import Card from '@/components/ui/Card'
 import Button from '@/components/ui/Button'
-import Notification from '@/components/ui/Notification'
-import toast from '@/components/ui/toast'
-import DishForm from './DishForm'
-import type { DishFormOutput, DishFormInput } from '../types/dish.type'
+import DishEditDialog from './DishEditDialog'
 import { LightboxModal } from './LightboxModal'
 
 type DishStatus = 'available' | 'unavailable'
@@ -59,8 +54,6 @@ const DishListTable = ({
 
     const { mutate: deleteDish } = useDeleteDish()
     const { mutate: updateDish } = useUpdateDish()
-    const { mutate: updateDishBasic, isPending: isUpdatingDish } =
-        useUpdateDishBasic()
 
     const { data: cuisinesData } = useGetCuisinesByRestaurant(
         restaurantId ?? '',
@@ -72,92 +65,9 @@ const DishListTable = ({
             label: c.name,
         })) || []
 
-    const editingDefaultValues: DishFormInput | undefined = editingDish
-        ? {
-              name: editingDish.name,
-              price: editingDish.price,
-              description: editingDish.description || '',
-              category: editingDish.cuisine?.id || '',
-              coverImage: editingDish.coverImage as any,
-              detailImages: (editingDish.detailImages as any) || [],
-              available: editingDish.availableForOrder,
-              preparationTime: editingDish.preparationTime || 0,
-              deletedImageKeys: [],
-          }
-        : undefined
-
     const openEditDialog = (dish: DishRow) => {
         setViewingDish(null)
         setEditingDish(dish)
-    }
-
-    const handleUpdateDishBasic = (data: DishFormOutput) => {
-        if (!editingDish) return
-
-        const formData = new FormData()
-        // Scalars - send only when present (at least one required by .min(1))
-        // Always send core fields to ensure update, but trimmed/validated
-        if (data.name?.trim()) formData.append('name', data.name.trim())
-        if (data.price != null) formData.append('price', String(data.price))
-        if (data.description !== undefined) {
-            // allow empty to clear description (nullable)
-            formData.append('description', data.description ?? '')
-        }
-        if (data.preparationTime != null) {
-            formData.append(
-                'preparationTime',
-                String(data.preparationTime ?? 0),
-            )
-        }
-        // boolean coerced to string for multipart (true/false)
-        formData.append('availableForOrder', String(data.available))
-        if (data.category) formData.append('cuisineId', data.category)
-
-        if (data.coverImage instanceof File) {
-            formData.append('coverImage', data.coverImage)
-        }
-
-        if (data.detailImages && data.detailImages.length > 0) {
-            data.detailImages.forEach((img: any) => {
-                if (img instanceof File) {
-                    formData.append('detailImages[]', img)
-                }
-            })
-        }
-
-        if (
-            (data as any).deletedImageKeys &&
-            (data as any).deletedImageKeys.length > 0
-        ) {
-            ;(data as any).deletedImageKeys.forEach((key: string) => {
-                // spec says `deletedImageKeys` (string array); also support `deletedImageKeys[]` for compatibility
-                formData.append('deletedImageKeys', key)
-                formData.append('deletedImageKeys[]', key)
-            })
-        }
-
-        updateDishBasic(
-            { dishId: editingDish.id, data: formData },
-            {
-                onSuccess: () => {
-                    toast.push(
-                        <Notification type="success">
-                            Dish updated successfully
-                        </Notification>,
-                        { placement: 'top-center' },
-                    )
-                    setEditingDish(null)
-                },
-                onError: (error: any) => {
-                    toast.push(
-                        <Notification type="danger">
-                            {error?.response?.data?.message ||
-                                'Failed to update dish'}
-                        </Notification>,
-                    )
-                },
-            },
-        )
     }
 
     const confirmDelete = () => {
@@ -381,7 +291,9 @@ const DishListTable = ({
                         </Card>
 
                         <Card className="mt-5 sm:mt-6">
-                            <h4 className="mb-4 font-semibold">Detail Images</h4>
+                            <h4 className="mb-4 font-semibold">
+                                Detail Images
+                            </h4>
                             {viewingDish.detailImages.length > 0 ? (
                                 <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
                                     {viewingDish.detailImages
@@ -389,11 +301,11 @@ const DishListTable = ({
                                         .map((img, index) => {
                                             const isLastSlot = index === 5
                                             const hasMoreImages =
-                                                viewingDish.detailImages.length >
-                                                6
+                                                viewingDish.detailImages
+                                                    .length > 6
                                             const extraCount =
-                                                viewingDish.detailImages.length -
-                                                5
+                                                viewingDish.detailImages
+                                                    .length - 5
 
                                             return (
                                                 <div
@@ -417,7 +329,8 @@ const DishListTable = ({
                                                     {isLastSlot &&
                                                         hasMoreImages && (
                                                             <div className="absolute inset-0 flex h-full w-full items-center justify-center bg-black/60 text-lg font-semibold text-white transition-colors hover:bg-black/50 sm:text-xl">
-                                                                +{extraCount} more
+                                                                +{extraCount}{' '}
+                                                                more
                                                             </div>
                                                         )}
                                                 </div>
@@ -443,42 +356,11 @@ const DishListTable = ({
                 )}
             </Dialog>
 
-            <Dialog
-                isOpen={Boolean(editingDish)}
-                closable={true}
-                width={900}
-                contentClassName="flex max-h-[92vh] flex-col overflow-y-auto"
+            <DishEditDialog
+                dish={editingDish}
+                categories={cuisineOptions}
                 onClose={() => setEditingDish(null)}
-                onRequestClose={() => setEditingDish(null)}
-            >
-                {editingDish && editingDefaultValues && (
-                    <DishForm
-                        key={editingDish.id}
-                        isNew={false}
-                        categories={cuisineOptions}
-                        defaultValues={editingDefaultValues}
-                        disabled={isUpdatingDish}
-                        onFormSubmit={handleUpdateDishBasic}
-                    >
-                        <div className="flex flex-col-reverse gap-2 sm:flex-row sm:items-center sm:justify-between">
-                            <Button
-                                type="button"
-                                variant="plain"
-                                onClick={() => setEditingDish(null)}
-                            >
-                                Cancel
-                            </Button>
-                            <Button
-                                type="submit"
-                                variant="solid"
-                                loading={isUpdatingDish}
-                            >
-                                Save Changes
-                            </Button>
-                        </div>
-                    </DishForm>
-                )}
-            </Dialog>
+            />
         </>
     )
 }
