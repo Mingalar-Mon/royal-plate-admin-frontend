@@ -72,7 +72,7 @@ const ReservationTableFilter = () => {
         <>
             <Button
                 size="sm"
-                className="relative px-2 sm:px-3"
+                className="relative self-end px-2 sm:px-3 md:self-auto"
                 icon={<TbFilter className="text-lg" />}
                 onClick={() => setIsOpen(true)}
             >

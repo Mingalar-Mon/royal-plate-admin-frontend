@@ -63,7 +63,7 @@ const OrderListTableFilter = () => {
         <>
             <Button
                 size="sm"
-                className="relative px-2 sm:px-3"
+                className="relative self-end px-2 sm:px-3 lg:self-auto"
                 icon={<TbFilter className="text-lg" />}
                 onClick={() => setIsOpen(true)}
             >
