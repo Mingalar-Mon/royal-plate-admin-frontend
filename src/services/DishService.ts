@@ -22,7 +22,7 @@ export async function apiGetDishes({
     console.log('Params: ', params)
     const { pageIndex, pageSize, query } = params
     return ApiService.fetchDataWithAxios<GetDishListResponse>({
-        url: `dish/${restaurantId}/get-dishes`,
+        url: `v2/dishes/${restaurantId}`,
         method: `get`,
         params: {
             page: pageIndex,
