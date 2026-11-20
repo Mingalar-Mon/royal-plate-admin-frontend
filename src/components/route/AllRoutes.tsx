@@ -77,7 +77,9 @@ const AllRoutes = (props: AllRoutesProps) => {
                 <Route path="*" element={<Navigate replace to="/" />} />
             </Route>
 
-            <Route path="/owner/login" element={<Login />} />
+            <Route path="/owner/login" element={<PublicRoute />}>
+                <Route index element={<Login />} />
+            </Route>
         </Routes>
     )
 }

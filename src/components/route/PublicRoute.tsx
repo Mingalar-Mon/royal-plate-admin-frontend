@@ -1,11 +1,14 @@
 import { Navigate, Outlet, useLocation } from 'react-router'
 import appConfig from '@/configs/app.config'
 import { useAuth } from '@/auth'
+import { ADMIN, OWNER } from '@/constants/roles.constant'
 
 const { authenticatedEntryPath, unAuthenticatedEntryPath } = appConfig
 
+const signInPaths = ['/sign-in', '/admin/sign-in', '/owner/login']
+
 const PublicRoute = () => {
-    const { authenticated } = useAuth()
+    const { authenticated, user } = useAuth()
     const location = useLocation()
 
     // Public landing page and privacy policy are available to everyone
@@ -13,12 +16,19 @@ const PublicRoute = () => {
         return <Outlet />
     }
 
-    // Allow direct access to sign-in pages
-    if (
-        location.pathname === '/sign-in' ||
-        location.pathname === '/admin/sign-in'
-    ) {
-        return <Outlet />
+    if (signInPaths.includes(location.pathname)) {
+        if (!authenticated) {
+            return <Outlet />
+        }
+
+        const role = user.authority?.[0]
+        if (role === ADMIN) {
+            return <Navigate replace to="/owners" />
+        }
+        if (role === OWNER) {
+            return <Navigate replace to="/owner/dashboard" />
+        }
+        return <Navigate replace to={authenticatedEntryPath} />
     }
 
     // Any other public path redirects to the public entry page
