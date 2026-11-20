@@ -1,6 +1,6 @@
 @layer components {
   .menu-title {
-    @apply uppercase font-semibold px-3 mt-4 mb-2;
+    @apply mt-4 mb-1 border-t border-gray-200 px-3 pt-3 text-[10px] font-bold uppercase tracking-widest text-gray-400 dark:border-gray-700 dark:text-gray-500;
   
     &.menu-title-light {
       @apply text-gray-500;

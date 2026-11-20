@@ -1,6 +1,10 @@
 {
     "nav": {
         "home": "Home",
+        "administration": "Administration",
+        "financial": "Financial",
+        "contentManagement": "Content Management",
+        "system": "System",
         "singleMenuItem": "Single menu item",
         "collapseMenu": {
             "collapseMenu": "Collapse menu item",
