@@ -105,7 +105,12 @@ const BasePicker = (props: BasePickerProps) => {
             <CloseButton className="text-base" onClick={onClear} />
         )
     ) : inputSuffix ? (
-        <>{inputSuffix}</>
+        <div
+            role="presentation"
+            onClick={disabled ? undefined : handleInputClick}
+        >
+            {inputSuffix}
+        </div>
     ) : null
 
     const toggleDropdown = (open: boolean) => {

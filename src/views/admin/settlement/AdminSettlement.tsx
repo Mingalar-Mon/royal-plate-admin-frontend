@@ -163,7 +163,7 @@ const AdminSettlement = () => {
                                                 ? dayjs(toDate).toDate()
                                                 : yesterday
                                         }
-                                        inputFormat="YYYY-MM-DD"
+                                        inputFormat="DD/MM/YYYY"
                                         className="w-52"
                                         onChange={(date) => setFromDate(date)}
                                     />
@@ -180,7 +180,7 @@ const AdminSettlement = () => {
                                                 ? dayjs(fromDate).toDate()
                                                 : undefined
                                         }
-                                        inputFormat="YYYY-MM-DD"
+                                        inputFormat="DD/MM/YYYY"
                                         className="w-52"
                                         onChange={(date) => setToDate(date)}
                                     />
