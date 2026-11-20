@@ -155,9 +155,10 @@ const RatingList = () => {
                             size="sm"
                             icon={<TbRefresh />}
                             loading={isFetching}
+                            className="self-end md:self-auto"
                             onClick={() => refetch()}
                         >
-                            Refresh
+                            <span className="hidden sm:inline">Refresh</span>
                         </Button>
                     </div>
 
