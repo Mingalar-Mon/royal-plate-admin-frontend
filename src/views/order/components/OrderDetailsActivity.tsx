@@ -92,7 +92,7 @@ const OrderDetailsActivities = ({ order }: OrderDetailsActivitiesProps) => {
                             <Badge
                                 className={classNames(
                                     act.isCurrent &&
-                                        'ring-2 ring-offset-2 ring-primary-500 dark:ring-offset-gray-800',
+                                    'ring-2 ring-offset-2 ring-primary-500 dark:ring-offset-gray-800',
                                 )}
                                 innerClass={
                                     act.completed
@@ -110,8 +110,8 @@ const OrderDetailsActivities = ({ order }: OrderDetailsActivitiesProps) => {
                                 act.isCurrent
                                     ? 'font-bold text-gray-900 dark:text-gray-100'
                                     : act.completed
-                                      ? 'font-semibold text-gray-800 dark:text-gray-200'
-                                      : 'font-medium text-gray-500 dark:text-gray-400',
+                                        ? 'font-semibold text-gray-800 dark:text-gray-200'
+                                        : 'font-medium text-gray-500 dark:text-gray-400',
                             )}
                         >
                             {act.name}
@@ -127,7 +127,7 @@ const OrderDetailsActivities = ({ order }: OrderDetailsActivitiesProps) => {
                             </div>
                         ) : (
                             <div className="text-xs text-gray-400 dark:text-gray-500 mt-0.5">
-                                {act.completed ? '—' : 'Pending'}
+                                {act.completed ? '—' : '-'}
                             </div>
                         )}
                     </Timeline.Item>
@@ -139,15 +139,14 @@ const OrderDetailsActivities = ({ order }: OrderDetailsActivitiesProps) => {
                     <span className="font-medium text-gray-500 dark:text-gray-400 uppercase">
                         Current Status:
                     </span>
-                    <span className={`font-semibold capitalize px-2 py-0.5 rounded-full ${
-                        status === 'completed'
-                            ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400'
-                            : status === 'canceled' || status === 'rejected'
+                    <span className={`font-semibold capitalize px-2 py-0.5 rounded-full ${status === 'completed'
+                        ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400'
+                        : status === 'canceled' || status === 'rejected'
                             ? 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400'
                             : status === 'pending'
-                            ? 'bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400'
-                            : 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400'
-                    }`}>
+                                ? 'bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400'
+                                : 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400'
+                        }`}>
                         {status}
                     </span>
                 </div>

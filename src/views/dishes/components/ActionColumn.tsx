@@ -11,7 +11,7 @@ const ActionColumn = ({
     onDelete?: () => void
 }) => {
     return (
-        <div className="flex items-center justify-end gap-1.5">
+        <div className="flex items-center justify-start gap-1.5">
             <Tooltip title="View Details">
                 <div
                     className="flex h-9 w-9 cursor-pointer items-center justify-center rounded-lg text-xl text-primary hover:bg-primary-subtle hover:text-primary-deep"

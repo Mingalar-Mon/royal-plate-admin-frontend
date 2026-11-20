@@ -122,9 +122,11 @@ const DishList = () => {
                     disabled={isCreatingDish}
                     onFormSubmit={handleCreateDish}
                 >
-                    <div className="flex flex-col-reverse gap-2 sm:flex-row sm:items-center sm:justify-end">
+                    <div className="flex flex-row items-center justify-end gap-2">
                         <Button
                             type="button"
+                            size="sm"
+                            className="order-2 sm:order-1"
                             onClick={() => setIsCreateDialogOpen(false)}
                         >
                             Cancel
@@ -132,6 +134,8 @@ const DishList = () => {
                         <Button
                             type="submit"
                             variant="solid"
+                            size="sm"
+                            className="order-1 sm:order-2"
                             loading={isCreatingDish}
                         >
                             Create Dish
