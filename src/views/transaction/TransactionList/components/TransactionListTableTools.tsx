@@ -146,7 +146,7 @@ const TransactionListTableTools = ({
                                 ? dayjs(tableData.toDate).toDate()
                                 : dayjs().subtract(1, 'day').toDate()
                         }
-                        inputFormat="YYYY-MM-DD"
+                        inputFormat="DD/MM/YYYY"
                         clearable
                         className="w-40"
                     />
@@ -169,7 +169,7 @@ const TransactionListTableTools = ({
                                 : undefined
                         }
                         maxDate={dayjs().subtract(1, 'day').toDate()}
-                        inputFormat="YYYY-MM-DD"
+                        inputFormat="DD/MM/YYYY"
                         clearable
                         className="w-40"
                     />
