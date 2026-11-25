@@ -49,6 +49,16 @@ const adminNavigation: NavigationTree[] = [
         subMenu: [],
     },
     {
+        key: 'admin.admins',
+        path: '/admin/admins',
+        title: 'Administrators',
+        translateKey: 'nav.admins',
+        icon: 'users',
+        type: NAV_ITEM_TYPE_ITEM,
+        authority: [SUPER_ADMIN],
+        subMenu: [],
+    },
+    {
         key: 'contentManagement',
         path: '',
         title: 'Content Management',

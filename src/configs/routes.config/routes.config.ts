@@ -252,6 +252,24 @@ export const protectedRoutes: Routes = [
         component: lazy(() => import('@/views/admin/restaurants')),
         authority: [SUPER_ADMIN],
     },
+    {
+        key: 'admin.admins',
+        path: '/admin/admins',
+        component: lazy(() => import('@/views/admin/admins')),
+        authority: [SUPER_ADMIN],
+    },
+    {
+        key: 'admin.admins.create',
+        path: '/admin/admins/create',
+        component: lazy(() => import('@/views/admin/admins/AdminCreate')),
+        authority: [SUPER_ADMIN],
+    },
+    {
+        key: 'admin.admins.edit',
+        path: '/admin/admins/edit/:id',
+        component: lazy(() => import('@/views/admin/admins/AdminEdit')),
+        authority: [SUPER_ADMIN],
+    },
 
     // cuisine
     {
